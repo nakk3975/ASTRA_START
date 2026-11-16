@@ -140,6 +140,9 @@ const transport = new WebSocketTransport({
 const server = new Server({
   transport,
   greet: false,
+  // Our handler owns the entire persistence -> pool -> local DB shutdown.
+  // Colyseus' default signal handler would call process.exit concurrently.
+  gracefullyShutdown: false,
   express: async (app) => {
     app.use(express.json({ limit: R.limits.client_message_bytes }));
     app.use((req, res, next) => {

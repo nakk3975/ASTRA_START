@@ -21,7 +21,8 @@
     "verify:design": "cd design && python3 verify_design.py",
     "test:full": "node --import tsx tests/full-run.ts",
     "format": "prettier --write apps packages scripts tests",
-    "check": "npm run verify:design && npm test && npm run build"
+    "check": "npm run verify:design && npm test && npm run build",
+    "test:shutdown": "node --import tsx tests/shutdown-probe.ts"
   },
   "dependencies": {
     "@colyseus/core": "0.18.28",

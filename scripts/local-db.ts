@@ -17,9 +17,19 @@ export async function localDatabase() {
   });
   if (!existsSync(databaseDir + "/PG_VERSION")) await db.initialise();
   await db.start();
+  // createDatabase() leaks its client when CREATE fails for an existing DB.
+  // Own this short-lived connection and always close it, including errors.
+  const admin = db.getPgClient("postgres", "127.0.0.1");
   try {
-    await db.createDatabase("orbit");
-  } catch {}
+    await admin.connect();
+    const existing = await admin.query(
+      "SELECT 1 FROM pg_database WHERE datname = $1",
+      ["orbit"],
+    );
+    if (!existing.rowCount) await admin.query('CREATE DATABASE "orbit"');
+  } finally {
+    await admin.end();
+  }
   // embedded-postgres registers its own exit hook. Both that hook and our
   // signal handler must await room persistence before stopping PostgreSQL.
   const stopPostgres = db.stop.bind(db);

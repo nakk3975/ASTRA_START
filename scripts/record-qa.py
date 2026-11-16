@@ -10,6 +10,10 @@ assert live['status']=='PASS'
 executed={t['id'] for t in live['tests'] if t['status']=='PASS'}
 full=json.loads((root/'docs/qa/evidence/core-full-runs.json').read_text())
 assert {r['planned'] for r in full['results']}=={1,6}
+network=json.loads((root/'docs/qa/evidence/network-full-runs.json').read_text())
+assert network['status']=='PASS'
+assert {r['planned'] for r in network['results']}=={1,6}
+assert all(r['status']=='PASS' and r['allClientsReceivedLaunch'] and r['durableReloadHashMatches'] and not r['resourceInjection'] and not r['teleportation'] for r in network['results'])
 complete={
 'UX09':('browser-m1.json','실제 브라우저 채집: 고철 12 → 20+4 → 20+6. 기존 스택 우선 채움과 새 슬롯 분배, 수량 합계 확인.'),
 'T01':('live-integration.json#T01-final-item-six-concurrent','실제 6개 WS 동시 요청. 명시적 재고 fixture: 1명 획득, 5명 거절, 총량 1.'),
@@ -28,7 +32,7 @@ complete={
 'R21':('unit-tests.txt','고철80/창고200/입력20/출력주괴20 포화 fixture에서 현장 임시 보관→작업대 입출력 회수→제조법 교체, 총량 보존.'),
 }
 partial={
-'UX01':'코어 1인 자동화 포함 발사 성공. 실제 브라우저 정상 시간 전체 완주는 미실행.',
+'UX01':'1인 실제 HTTP/WS/DB 발사 완주 성공(가속 논리 시계). 정상 시간 브라우저 M1 완료. 브라우저 전체 발사 완주는 미실행.',
 'UX02':'6개 독립 게스트 소켓 입장/준비/시작과 7번째 거부 확인. 6개 브라우저 시각 확인은 미실행.',
 'UX06':'코어 6채널 동시 제작 및 실제 WS private StateView 격리 확인. 6인 UI 전체 시나리오는 미실행.',
 'UX35':'코어 3점검 순차 수행/발사 확인. 실제 게임 화면 최종 단계 시험 미실행.',

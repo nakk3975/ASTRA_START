@@ -1,0 +1,9 @@
+{
+  "executedAt": "2026-11-16T07:24:38.752Z",
+  "status": "PASS",
+  "exitCode": 0,
+  "postgresPidFileRemoved": true,
+  "shutdownMilliseconds": 59.6638669999993,
+  "trigger": "SIGTERM sent to the running Node application, real local PostgreSQL",
+  "limits": "Graceful termination only; not forced crash, partition or lost COMMIT response"
+}

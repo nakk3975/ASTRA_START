@@ -1,0 +1,35 @@
+{
+  "executedAt": "2026-11-16T07:22:06.802798+00:00",
+  "mode": "GRACEFUL_LOCAL_DEV_STOP_AND_RESTART",
+  "status": "PASS",
+  "normalClockIntegrationRerun": "live-integration.json",
+  "browserRestartObserved": {
+    "phase": "RUNNING",
+    "stage": "M2 조립 갠트리",
+    "completedStage": "M1",
+    "bag": {
+      "ingot": 1
+    },
+    "connected": true,
+    "observedVia": "CUA tab 20 at 2026-11-16T07:21Z"
+  },
+  "limits": "Graceful restart and shutdown only; not a forced process crash, COMMIT-response-loss or partition test.",
+  "initialAttempt": {
+    "status": "FAIL",
+    "command": "sites-preview stop",
+    "postgresPidFileRemoved": false,
+    "observationSeconds": 8.055,
+    "cause": "Colyseus default signal handler called process.exit before application pool and local PostgreSQL shutdown completed."
+  },
+  "fixedShutdownEvidence": "graceful-shutdown.json",
+  "fixes": [
+    "Disable Colyseus own process-exit signal handler and keep application ordered shutdown",
+    "Close local PostgreSQL bootstrap client in finally, including existing database startup"
+  ],
+  "completedAt": "2026-11-16T07:26:04.597524+00:00",
+  "previewStopRetest": {
+    "executedAt": "2026-11-16T07:26:04.597524+00:00",
+    "postgresPidFileRemoved": true,
+    "observationSeconds": 0.0
+  }
+}

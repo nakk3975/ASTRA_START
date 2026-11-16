@@ -1,0 +1,25 @@
+2026-11-16T07:24:25.696Z log 2026-11-16 16:24:25.696 KST [44] LOG:  starting PostgreSQL 18.6 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0, 64-bit
+
+2026-11-16T07:24:25.698Z log 2026-11-16 16:24:25.696 KST [44] LOG:  listening on IPv4 address "127.0.0.1", port 55432
+
+2026-11-16T07:24:25.706Z log 2026-11-16 16:24:25.704 KST [50] LOG:  database system was shut down at 2026-11-16 16:23:35 KST
+
+2026-11-16T07:24:25.708Z log 2026-11-16 16:24:25.708 KST [44] LOG:  database system is ready to accept connections
+
+2026-11-16T07:24:26.691Z log Scrap to Orbit server ready on 4173
+2026-11-16T07:24:26.692Z log SHUTDOWN_PROBE_READY
+2026-11-16T07:24:38.692Z log SHUTDOWN_PROBE_SIGTERM
+2026-11-16T07:24:38.722Z log 2026-11-16 16:24:38.721 KST [44] LOG:  received fast shutdown request
+
+2026-11-16T07:24:38.723Z log 2026-11-16 16:24:38.723 KST [44] LOG:  aborting any active transactions
+
+2026-11-16T07:24:38.729Z log 2026-11-16 16:24:38.727 KST [44] LOG:  background worker "logical replication launcher" (PID 53) exited with exit code 1
+
+2026-11-16T07:24:38.730Z log 2026-11-16 16:24:38.730 KST [48] LOG:  shutting down
+
+2026-11-16T07:24:38.731Z log 2026-11-16 16:24:38.730 KST [48] LOG:  checkpoint starting: shutdown immediate
+
+2026-11-16T07:24:38.742Z log 2026-11-16 16:24:38.741 KST [48] LOG:  checkpoint complete: wrote 42 buffers (0.3%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.008 s, total=0.012 s; sync files=13, longest=0.003 s, average=0.001 s; distance=253 kB, estimate=253 kB; lsn=0/3AC785D0, redo lsn=0/3AC785D0
+
+2026-11-16T07:24:38.751Z log 2026-11-16 16:24:38.751 KST [44] LOG:  database system is shut down
+

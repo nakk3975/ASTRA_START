@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-11-16T06:17:31.042Z",
+  "executedAt": "2026-11-16T07:25:06.964Z",
   "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_NORMAL_CLOCK",
   "tests": [
     {
@@ -69,7 +69,7 @@
     {
       "id": "durable-ack-and-idempotency",
       "status": "PASS",
-      "durableVersion": "378",
+      "durableVersion": "379",
       "retrySameReceipt": true,
       "reusedPayloadRejected": true
     },
@@ -100,8 +100,8 @@
     {
       "id": "postgres-save-offline-freeze",
       "status": "PASS",
-      "tick": "424",
-      "roundTripHash": "a0b842becee73fc11e8dee6c52ca1967eef21b792b06c6501017df9abbe14716"
+      "tick": "397",
+      "roundTripHash": "598532238adc5c77a6a67b8588ecd88567ac373706f9c11ef99025aa77db4ce1"
     },
     {
       "id": "session-rejoin",
@@ -122,9 +122,9 @@
       "status": "PASS",
       "secondWriterDenied": true,
       "staleEpochDenied": true,
-      "olderSnapshotReplayHash": "69d76aa428213cbac1a5d1fd124fcb73449f8dfc38e080bf9eb76817137c529c"
+      "olderSnapshotReplayHash": "b3cfdc6ee69802f0e65b5b2f1e53d43e452707b2324b123221a0f88b31f77ddc"
     }
   ],
-  "completedAt": "2026-11-16T06:17:55.755Z",
+  "completedAt": "2026-11-16T07:25:30.481Z",
   "status": "PASS"
 }
