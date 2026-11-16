@@ -1,0 +1,20 @@
+name: Validate game
+on: [push, pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run verify:design
+      - run: npm test
+      - run: npm run build
+      - run: npm run test:full
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core-economy-evidence
+          path: docs/qa/evidence/core-full-runs.json

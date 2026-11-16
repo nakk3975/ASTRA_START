@@ -1,0 +1,98 @@
+{
+  "ASTRA_START_PROMPT.md": {
+    "sha256": "cfe7913e70086960349f501a8c1cb3694e48a30f14ea3d850d84a965c694d048",
+    "matchesOriginalZip": true
+  },
+  "BALANCE_REPORT.md": {
+    "sha256": "c2b745b57468aa411c805a2539741f357de846ade60738c8b7e4bd1ee2ee3a1e",
+    "matchesOriginalZip": true
+  },
+  "PACKAGE_MANIFEST.json": {
+    "sha256": "b49258e48517e580783baf1ce2189a45bb77b4798804a78fd10bae91a821abff",
+    "matchesOriginalZip": true
+  },
+  "README_FIRST.md": {
+    "sha256": "555a220d8573a8955135bacda20b0fb3c3793802021bde3747d2687598fdadf3",
+    "matchesOriginalZip": true
+  },
+  "Scrap_to_Orbit_ASTRA_Design_v1.0.pdf": {
+    "sha256": "a55fbddad923565d4f2ed11de6cf1939090c5762dafc1664da8e4a6ce1165191",
+    "matchesOriginalZip": true
+  },
+  "Scrap_to_Orbit_Complete_Spec_v1.0.md": {
+    "sha256": "74865044cb8195b677b88585dccec1f61b192a8750b439322a559269e72c381e",
+    "matchesOriginalZip": true
+  },
+  "acceptance_tests.csv": {
+    "sha256": "a128c98f32352d79c3e0bd5f1e2f07ea622a31c30f391e4b2cbbd34d949bb2a3",
+    "matchesOriginalZip": true
+  },
+  "analyze_automation.py": {
+    "sha256": "485576e4c8260cc337483548f3a89247edccfb067a06d35b75066cca0635693b",
+    "matchesOriginalZip": true
+  },
+  "analyze_balance.py": {
+    "sha256": "45ccfe2e13a94aa2c71eeceb308b14b32a62eaa45088640b907d26ec7e6eb69d",
+    "matchesOriginalZip": true
+  },
+  "balance_analysis.json": {
+    "sha256": "1c513a8873513ad3ff76a08575acaf1bbbaa334d1923384dbb1a120225d387ad",
+    "matchesOriginalZip": true
+  },
+  "balance_v1.json": {
+    "sha256": "59020d53919b436f5598d8a8286775e2b659bb28c155a6cb3c0e7670367ad520",
+    "matchesOriginalZip": true
+  },
+  "extractor_mk2_analysis.json": {
+    "sha256": "9b1e4de9a271fe718ed501563181ced4306244f33a11f5ba50081984eb853f39",
+    "matchesOriginalZip": true
+  },
+  "factory_schedule_analysis.json": {
+    "sha256": "516af65643a94dbad8065fe3b3796d7615b28f29d7f5f9d7135c2b30fffd185d",
+    "matchesOriginalZip": true
+  },
+  "map_overview.png": {
+    "sha256": "742c2aa77a9d4305bea186d9e935654a38bb9e31ecbcbb56a2cdbefdc7484af1",
+    "matchesOriginalZip": true
+  },
+  "map_overview.svg": {
+    "sha256": "ebae0329e7d90540602a089ba0e4af17f9dd9efc2389dcec03350259ee3a482d",
+    "matchesOriginalZip": true
+  },
+  "map_v1.json": {
+    "sha256": "61229f9ed539c16839f33ed69bd59e37dc942ac990a506e65d4d913aefceb556",
+    "matchesOriginalZip": true
+  },
+  "map_validation.json": {
+    "sha256": "ce87a708cd3e3d33ccd449d0186b607d77aaa6870839feb0b087fe88c3721b03",
+    "matchesOriginalZip": true
+  },
+  "map_validation.md": {
+    "sha256": "1a40d51358604054a3d234b7710812a4bcec2fdc7e3b0c18db0257b8ff60b347",
+    "matchesOriginalZip": true
+  },
+  "runtime_v1.json": {
+    "sha256": "3cd4fdf2d97c3f63e8e1acf0f960e713109af54690f86582ed3cb483f370bf8c",
+    "matchesOriginalZip": true
+  },
+  "simulate_factory_schedule.py": {
+    "sha256": "ec889f75a0ca6206eb8413363cd19eb089eb7ec666ab9dbb708ac200ce3fc809",
+    "matchesOriginalZip": true
+  },
+  "validate_balance.py": {
+    "sha256": "cd6d4d1373329f8f69d01753b21bd23eaf64a022dc02c3f67a2279f47044ac37",
+    "matchesOriginalZip": true
+  },
+  "validate_map_v1.py": {
+    "sha256": "8d5576aac12f78862918931cc014efd1a1cfc5c6ecfeac4a67170c4ee103a954",
+    "matchesOriginalZip": true
+  },
+  "validation_results.json": {
+    "sha256": "bb98d11dec7803ea3008f3c68b4b2eae747fe96892029e851489c9f006490b11",
+    "matchesOriginalZip": true
+  },
+  "verify_design.py": {
+    "sha256": "8bd4739ec76cb2d1a5395384a06a80af5ae4561177b95b759adc527c8cf56013",
+    "matchesOriginalZip": true
+  }
+}

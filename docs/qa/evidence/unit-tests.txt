@@ -1,0 +1,37 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ P0 content contracts and milestone rounding (1.364503ms)
+✔ P0 new world has no example factory or free inventory (0.335965ms)
+✔ gather requires service range, full capacity waits without creating output (19.637581ms)
+✔ six channels craft concurrently, output stays private and input escrow is conserved (54.730978ms)
+✔ last rocket units clamp, assembly is required and planned costs stay fixed (2.845877ms)
+✔ full bag, warehouse and bench recover through local overflow stash (1.137698ms)
+✔ WIP cancel full input rejects atomically; stopped work preserves job (2.973946ms)
+✔ service distance is separate from delivery center (1.10548ms)
+✔ offline clock is frozen and runtime input expiry stops gather (0.562659ms)
+✔ source cursor alternates scarce cargo and destination reservations conserve stock (21.897024ms)
+✔ inbound reservation excludes the final capacity and cargo is not instantly delivered (20.707324ms)
+✔ automatic extractor generates raw material at configured cycle, output pauses at cap (366.022363ms)
+✔ T01 six actors compete for final shared item: one gain, five rejections (9.388982ms)
+✔ T02 simultaneous footprint claims pay once and rollback losing costs (4.972804ms)
+✔ R04 R05 extractor MK2 has 2x work/power, ordinary MK2 1.5x, duplicate denied (81.673493ms)
+✔ R07 actual inspections forbidden until M6 assembly and launch requires all three (6.492214ms)
+✔ R08 R17 vote/cancel/countdown never consumes more fuel and launched freezes (13.133529ms)
+✔ R15 R19 owner consent and deletion rights are distinct from leader (0.998954ms)
+✔ R16 manual pause survives last disconnect and rejoin (1.243935ms)
+✔ T24 reserved seat rejects newcomer but permits same guest; expired inventory recovers once (2.043584ms)
+✔ T15 work channel reclaim returns WIP to local bench crate once (1.065912ms)
+✔ R20 costs must come from carrier inventory; protected routes and crates block construction (1.827255ms)
+✔ T25 stale controller and future durable version rejected before economic changes (0.410937ms)
+✔ T29 strict input rejects role forgery, negative/nonfinite/fraction quantity and prototype keys (2.907047ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 751.737324
