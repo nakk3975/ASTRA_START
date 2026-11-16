@@ -1,2 +1,2 @@
 import {defineConfig} from 'vite';import {fileURLToPath} from 'node:url';
-export default defineConfig({root:fileURLToPath(new URL('.',import.meta.url)),build:{outDir:'../../dist/web',emptyOutDir:true},server:{host:'0.0.0.0',allowedHosts:true,proxy:{'/api':{target:'http://127.0.0.1:2567'},'/health':{target:'http://127.0.0.1:2567'},'/matchmake':{target:'http://127.0.0.1:2567'},'/ws':{target:'ws://127.0.0.1:2567',ws:true,rewrite:p=>p.replace(/^\/ws/,'')}}}});
+export default defineConfig({root:fileURLToPath(new URL('.',import.meta.url)),build:{outDir:'../../dist/web',emptyOutDir:true},server:{host:'0.0.0.0',allowedHosts:true}});

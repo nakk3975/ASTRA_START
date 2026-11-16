@@ -1,3 +1,4 @@
+import {appendFileSync} from 'node:fs';
 import {randomBytes,randomUUID} from 'node:crypto';import {performance} from 'node:perf_hooks';
 import {B,R,canonical} from '../../../packages/content/src/index.ts';
 import {command,tick,recover,maintenance,type World,type Runtime} from '../../../packages/game-core/src/index.ts';
@@ -35,7 +36,7 @@ export class Actor{
   if(canonical(before)!==canonical(after)||receipts.length){after.version=(BigInt(before.version)+1n).toString();const t=performance.now();await this.repo.commit(before,after,this.epoch,receipts,{recoveryHash});this.metrics.commits.push(performance.now()-t);if(this.metrics.commits.length>2000)this.metrics.commits.shift();this.world=after;this.onPublish(after);}
   for(const {task,value}of responses)task.resolve(value);
   if(performance.now()-this.lastSnapshot>=R.timers_ms.snapshot_interval){await this.repo.snapshot(this.world);await this.repo.compact(this.id);this.lastSnapshot=performance.now();}
- }catch(e){this.failed=(e as Error).message;this.nextTick=performance.now();this.onPending(this.failed);for(const t of tasks)t.reject(Error(this.failed==='WRITER_FENCED'?'WRITER_FENCED':'COMMAND_PENDING'));if(this.failed==='WRITER_FENCED'){clearInterval(this.timer);}}
+ }catch(e){console.error('ACTOR_FAILURE',this.id,e);if(process.env.NODE_ENV!=='production')appendFileSync('.local/diagnostics.log',String((e as Error)?.stack??e)+'\n');this.failed=(e as Error).message;this.nextTick=performance.now();this.onPending(this.failed);for(const t of tasks)t.reject(Error(this.failed==='WRITER_FENCED'?'WRITER_FENCED':'COMMAND_PENDING'));if(this.failed==='WRITER_FENCED'){clearInterval(this.timer);}}
  finally{this.busy=false;}
  }
  async close(){clearInterval(this.timer);while(this.busy)await new Promise(r=>setTimeout(r,10));if(this.queue.length)await this.pump();await this.repo.snapshot(this.world);await this.repo.release(this.id,this.epoch);}

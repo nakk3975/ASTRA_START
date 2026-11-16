@@ -1,8 +1,8 @@
-import {Schema,MapSchema,defineTypes,view,StateView} from '@colyseus/schema';import type {World} from '../../../packages/game-core/src/index.ts';
+import {schema,t,type SchemaType,StateView} from '@colyseus/schema';import type {World} from '../../../packages/game-core/src/index.ts';
 import {canonical} from '../../../packages/content/src/index.ts';
-export class Personal extends Schema{memberId='';data='{}';}defineTypes(Personal,{memberId:'string',data:'string'});
-export class GameState extends Schema{version='0';epoch='0';publicData=new MapSchema<string>();privateData=new MapSchema<Personal>();}
-defineTypes(GameState,{version:'string',epoch:'string',publicData:{map:'string'},privateData:{map:Personal}});view()(GameState.prototype,'privateData');
+export const Personal=schema({memberId:t.string(),data:t.string()},'Personal');
+export const GameState=schema({version:t.string(),epoch:t.string(),publicData:t.map('string'),privateData:t.map(Personal).view()},'GameState');
+export type GameState=SchemaType<typeof GameState>;
 export function publishSchema(s:GameState,w:World,epoch:string){
  s.version=w.version;s.epoch=epoch;const pub=structuredClone(w);const chunks:Record<string,string>={};
  for(const m of Object.values(pub.members)){m.guestId='';let p=s.privateData.get(m.id);if(!p){p=new Personal();p.memberId=m.id;s.privateData.set(m.id,p);}p.data=canonical({inventories:Object.fromEntries(Object.entries(w.inventories).filter(([,i])=>i.owner===m.id)),machines:Object.fromEntries(Object.entries(w.machines).filter(([,x])=>x.owner===m.id))});}
