@@ -11,6 +11,7 @@ steps = [
     'simulate_factory_schedule.py',
     'analyze_automation.py',
     'validate_map_v1.py',
+    'validate_presentation.py',
 ]
 for step in steps:
     print('\nRUN ' + step, flush=True)

@@ -1,6 +1,6 @@
 {
-  "runtime_version": "1.0.0-design",
-  "protocol_version": 1,
+  "runtime_version": "1.1.0-design",
+  "protocol_version": 2,
   "content_version": "1.0.0-design",
   "world": {
     "max_players": 6,
@@ -82,11 +82,10 @@
     "do_not_replay_ephemeral_inputs": true
   },
   "rendering": {
-    "desktop_dpr_cap": 1.5,
-    "low_quality_dpr_cap": 1.0,
     "touch_target_css_px": 44,
-    "desktop_target_fps": 60,
-    "low_quality_target_fps": 30
+    "presentation_config": "presentation_v1_1.json",
+    "asset_catalog": "asset_catalog_v1_1.json",
+    "quality_settings_source": "presentation_v1_1.json.quality"
   },
   "scope": {
     "registered_accounts": false,
@@ -95,6 +94,11 @@
     "owner_snapshot_export": false,
     "public_matchmaking": false,
     "offline_production": false,
-    "launch_requires_unanimous_connected_players": true
-  }
+    "launch_requires_unanimous_connected_players": true,
+    "runtime_ai_asset_generation": false
+  },
+  "presentation_version": "1.1.0-design",
+  "asset_catalog_version": "1.1.0-design",
+  "renderer_compatibility_version": 1,
+  "appearance_set_version": "1.1.0-design"
 }

@@ -1,0 +1,1101 @@
+{
+  "validation_kind": "static_presentation_design_accounting_not_runtime_or_asset_tests",
+  "passed": true,
+  "check_group_count": 22,
+  "checks": [
+    {
+      "id": "P01_ECONOMY_PRESERVED",
+      "passed": true,
+      "detail": "Economy canonical SHA-256 remains the accepted 1.0 design; presentation does not alter recipes or prices."
+    },
+    {
+      "id": "P02_VERSION_LINKS",
+      "passed": true,
+      "detail": "Protocol 2 and presentation/catalog references agree while economic content and map retain their versions."
+    },
+    {
+      "id": "P03_SINGLE_RENDERING_SOURCE",
+      "passed": true,
+      "detail": "Runtime names the presentation/catalog files and does not duplicate their DPR/FPS settings."
+    },
+    {
+      "id": "P04_FIXED_ORTHOGRAPHIC_CAMERA",
+      "passed": true,
+      "detail": "Orthographic orientation is fixed; CSS dimensions own framing, independent of DPR and panels."
+    },
+    {
+      "id": "P05_FRAMING_AND_CHARACTER_SIZE",
+      "passed": true,
+      "detail": "Three CSS reference viewports preserve at least 24px worker vertical height at the widest normal-play zoom."
+    },
+    {
+      "id": "P06_OVERVIEW_IS_EXPLICIT",
+      "passed": true,
+      "detail": "Full-map projection is intentionally too small for default interaction and is an explicit read-only view."
+    },
+    {
+      "id": "P07_SCREEN_MOVEMENT_BASIS",
+      "passed": true,
+      "detail": "Eight input directions retain their screen axes and never increase normalized movement speed."
+    },
+    {
+      "id": "P08_CANONICAL_FRONT_AND_QUARTER_TURNS",
+      "passed": true,
+      "detail": "Canonical -Z front with negative Y yaw matches north/east/south/west quarter turns."
+    },
+    {
+      "id": "P09_NEAR_FAR_WORLD_ENVELOPE",
+      "passed": true,
+      "detail": "Ground/world-height corners at permitted camera targets fit strictly inside the near/far planes."
+    },
+    {
+      "id": "P10_FOLLOW_AND_REDUCED_MOTION",
+      "passed": true,
+      "detail": "15/30/60fps visible-frame time is fully integrated in bounded substeps; manual mode and explicit launch view are present. Comfort remains untested."
+    },
+    {
+      "id": "P11_EFFECTS_AND_OCCLUSION_SCOPE",
+      "passed": true,
+      "detail": "Camera/post effects are disabled and instance-local occlusion cannot change gameplay collision or interaction proxies."
+    },
+    {
+      "id": "P12_ASSET_IDENTITIES",
+      "passed": true,
+      "detail": "All 26 asset families have unique IDs and the pilot/model counts resolve."
+    },
+    {
+      "id": "P13_MODEL_BINDINGS",
+      "passed": true,
+      "detail": "Every machine/starter kind and source item resolves to a model with a compatible unlock."
+    },
+    {
+      "id": "P14_REQUIRED_CHARACTER_CLIPS",
+      "passed": true,
+      "detail": "Five semantic clips and required node aliases are specified; actual clip files and rig quality remain untested."
+    },
+    {
+      "id": "P15_NO_FABRICATED_GENERATION_OR_MEASUREMENTS",
+      "passed": true,
+      "detail": "All model tasks, release URLs, charges and measured fields remain absent; no asset or performance PASS is fabricated."
+    },
+    {
+      "id": "P16_LOD_MATERIAL_AND_TEXTURE_CAPS",
+      "passed": true,
+      "detail": "Triangle LOD targets, material slot caps and texture dimensions are explicit; actual GLB compliance is NOT_RUN."
+    },
+    {
+      "id": "P17_VISUAL_BOUNDS_AND_FLAT_SOURCES",
+      "passed": true,
+      "detail": "Model bounds agree across catalog and camera; shallow sources retain the existing walkable map policy."
+    },
+    {
+      "id": "P18_ROCKET_STAGE_REUSE",
+      "passed": true,
+      "detail": "Rocket reveal is cumulative: four fins/eight panels, with ground and flight roots separated."
+    },
+    {
+      "id": "P19_CONSERVATIVE_GEOMETRY_BOUND",
+      "passed": true,
+      "detail": "Independent cap arithmetic includes 192 airborne plus 6 carried pods: 339520 standard / 132248 low triangles. These are conditional bounds, not measured scenes."
+    },
+    {
+      "id": "P20_QUALITY_BUDGET_LINKS",
+      "passed": true,
+      "detail": "Catalog and presentation quality caps agree; draw calls/FPS/download/texture memory are targets, not measured results."
+    },
+    {
+      "id": "P21_DPR_PIXEL_CAP",
+      "passed": true,
+      "detail": "DPR cap formula bounds every reference viewport; 4K renders internally at 2560x1440 standard or 1365x768 low without changing CSS framing."
+    },
+    {
+      "id": "P22_SOURCE_TRAY_PLACEMENT",
+      "passed": true,
+      "detail": "All 24 declared shallow trays sit on exact manual anchors, stay within their service cells, and overlap no extractor pad; no new solid decoration is introduced."
+    }
+  ],
+  "calculated": {
+    "canonical_economy_sha256": "c019a2ce37b4b1025395452972d0beb936a25d4570bcc9a25b39666a424d81b6",
+    "input_canonical_sha256": {
+      "presentation": "71d6961e7e82c3e46c567ca064d6990d114dddb1e0994b8cace27ceb74c38875",
+      "catalog": "3de55863777cf8525e70ef4478a96b5ae93312d3b9fab2c788dd1463ef15d38e",
+      "runtime": "0484f1c1332816ab46bd483bc1801f9db192d05f093640e0c56f3e107c8c57bf",
+      "balance": "c019a2ce37b4b1025395452972d0beb936a25d4570bcc9a25b39666a424d81b6",
+      "map": "cc375613ba8c8627243afe1641952e2c67b0e04cf976884a1cfe74f5bfdcee67"
+    },
+    "framing": [
+      {
+        "css_width": 1366,
+        "css_height": 768,
+        "profile": "desktop",
+        "worker_vertical_css_px": {
+          "near": 44.05067031176034,
+          "default": 36.041457527803914,
+          "wide": 28.318288057560217
+        },
+        "default_span_width": 39.130208333333336
+      },
+      {
+        "css_width": 3840,
+        "css_height": 2160,
+        "profile": "desktop",
+        "worker_vertical_css_px": {
+          "near": 123.89251025182597,
+          "default": 101.36659929694852,
+          "wide": 79.64518516188812
+        },
+        "default_span_width": 39.111111111111114
+      },
+      {
+        "css_width": 800,
+        "css_height": 360,
+        "profile": "small_landscape",
+        "worker_vertical_css_px": {
+          "near": 37.16775307554779,
+          "default": 30.973127562956492,
+          "wide": 24.778502050365194
+        },
+        "default_span_width": 26.666666666666668
+      }
+    ],
+    "map_projection": {
+      "ground_projected_width": 56.568542494923804,
+      "ground_projected_height": 46.338237227165536,
+      "overview": [
+        {
+          "css_width": 1366,
+          "css_height": 768,
+          "span_height": 51.898825694425405,
+          "worker_vertical_css_px": 15.278034811043035
+        },
+        {
+          "css_width": 3840,
+          "css_height": 2160,
+          "span_height": 51.898825694425405,
+          "worker_vertical_css_px": 42.96947290605855
+        },
+        {
+          "css_width": 800,
+          "css_height": 360,
+          "span_height": 51.898825694425405,
+          "worker_vertical_css_px": 7.161578817676424
+        }
+      ]
+    },
+    "movement_directions": [
+      {
+        "input": [
+          1,
+          0
+        ],
+        "world_direction": [
+          0.7071067811865475,
+          -0.7071067811865476
+        ],
+        "magnitude": 1.0,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          0,
+          1
+        ],
+        "world_direction": [
+          -0.7071067811865476,
+          -0.7071067811865475
+        ],
+        "magnitude": 1.0,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          -1,
+          0
+        ],
+        "world_direction": [
+          -0.7071067811865475,
+          0.7071067811865476
+        ],
+        "magnitude": 1.0,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          0,
+          -1
+        ],
+        "world_direction": [
+          0.7071067811865476,
+          0.7071067811865475
+        ],
+        "magnitude": 1.0,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          1,
+          1
+        ],
+        "world_direction": [
+          -1.1102230246251565e-16,
+          -0.9999999999999999
+        ],
+        "magnitude": 0.9999999999999999,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          -1,
+          1
+        ],
+        "world_direction": [
+          -0.9999999999999999,
+          1.1102230246251565e-16
+        ],
+        "magnitude": 0.9999999999999999,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          1,
+          -1
+        ],
+        "world_direction": [
+          0.9999999999999999,
+          -1.1102230246251565e-16
+        ],
+        "magnitude": 0.9999999999999999,
+        "matches_screen_axes": true
+      },
+      {
+        "input": [
+          -1,
+          -1
+        ],
+        "world_direction": [
+          1.1102230246251565e-16,
+          0.9999999999999999
+        ],
+        "magnitude": 0.9999999999999999,
+        "matches_screen_axes": true
+      }
+    ],
+    "quarter_turn_fronts": [
+      {
+        "quarter_turns": 0,
+        "yaw_radians": 0.0,
+        "world_front_xz": [
+          -0.0,
+          -1.0
+        ],
+        "matches_clockwise_map_front": true
+      },
+      {
+        "quarter_turns": 1,
+        "yaw_radians": -1.5707963267948966,
+        "world_front_xz": [
+          1.0,
+          -6.123233995736766e-17
+        ],
+        "matches_clockwise_map_front": true
+      },
+      {
+        "quarter_turns": 2,
+        "yaw_radians": -3.141592653589793,
+        "world_front_xz": [
+          1.2246467991473532e-16,
+          1.0
+        ],
+        "matches_clockwise_map_front": true
+      },
+      {
+        "quarter_turns": 3,
+        "yaw_radians": -4.71238898038469,
+        "world_front_xz": [
+          -1.0,
+          1.8369701987210297e-16
+        ],
+        "matches_clockwise_map_front": true
+      }
+    ],
+    "camera_depth_range": {
+      "minimum": 37.75576233049584,
+      "maximum": 115.69102131519222,
+      "near": 0.1,
+      "far": 200
+    },
+    "camera_time_integration": [
+      {
+        "fps": 15,
+        "frame_dt_seconds": 0.06666666666666667,
+        "substeps_per_frame": 2,
+        "substep_dt_seconds": 0.03333333333333333,
+        "integrated_seconds_over_one_second": 1.0,
+        "distance_at_camera_speed_cap": 5.5,
+        "old_clamped_dt_distance_for_comparison": 4.125,
+        "within_continuous_visible_frame_threshold": true
+      },
+      {
+        "fps": 30,
+        "frame_dt_seconds": 0.03333333333333333,
+        "substeps_per_frame": 1,
+        "substep_dt_seconds": 0.03333333333333333,
+        "integrated_seconds_over_one_second": 1.0,
+        "distance_at_camera_speed_cap": 5.5,
+        "old_clamped_dt_distance_for_comparison": 5.5,
+        "within_continuous_visible_frame_threshold": true
+      },
+      {
+        "fps": 60,
+        "frame_dt_seconds": 0.016666666666666666,
+        "substeps_per_frame": 1,
+        "substep_dt_seconds": 0.016666666666666666,
+        "integrated_seconds_over_one_second": 1.0,
+        "distance_at_camera_speed_cap": 5.5,
+        "old_clamped_dt_distance_for_comparison": 5.5,
+        "within_continuous_visible_frame_threshold": true
+      }
+    ],
+    "assembled_rocket_counts": {
+      "rocket_pad": 1,
+      "rocket_gantry": 1,
+      "rocket_lower_hull": 1,
+      "rocket_upper_hull": 1,
+      "rocket_engine": 1,
+      "rocket_fin": 4,
+      "rocket_nose": 1,
+      "rocket_panel": 8
+    },
+    "assembled_rocket_sum_of_asset_caps": {
+      "standard": 23100,
+      "low": 11900
+    },
+    "conservative_triangle_bounds": {
+      "standard": {
+        "terms": {
+          "built_machines": 192000,
+          "players": 36000,
+          "starters": 12000,
+          "source_trays": 19200,
+          "assembled_rocket_envelope": 32000,
+          "cargo_in_flight_and_carried": 35640,
+          "crates": 7680,
+          "ground_and_markers": 5000
+        },
+        "total": 339520,
+        "rocket_asset_caps": 23100
+      },
+      "low": {
+        "terms": {
+          "built_machines": 57600,
+          "players": 18000,
+          "starters": 3600,
+          "source_trays": 7200,
+          "assembled_rocket_envelope": 18000,
+          "cargo_in_flight_and_carried": 19008,
+          "crates": 3840,
+          "ground_and_markers": 5000
+        },
+        "total": 132248,
+        "rocket_asset_caps": 11900
+      }
+    },
+    "dpr_pixel_cap_examples": [
+      {
+        "quality": "standard",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 1,
+        "drawing_buffer_size": [
+          1366,
+          768
+        ],
+        "drawing_buffer_pixels": 1049088,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 1.5,
+        "drawing_buffer_size": [
+          2049,
+          1152
+        ],
+        "drawing_buffer_pixels": 2360448,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 1.5,
+        "drawing_buffer_size": [
+          2049,
+          1152
+        ],
+        "drawing_buffer_pixels": 2360448,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 0.6666666666666666,
+        "drawing_buffer_size": [
+          2560,
+          1440
+        ],
+        "drawing_buffer_pixels": 3686400,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 0.6666666666666666,
+        "drawing_buffer_size": [
+          2560,
+          1440
+        ],
+        "drawing_buffer_pixels": 3686400,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 0.6666666666666666,
+        "drawing_buffer_size": [
+          2560,
+          1440
+        ],
+        "drawing_buffer_pixels": 3686400,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 1,
+        "drawing_buffer_size": [
+          800,
+          360
+        ],
+        "drawing_buffer_pixels": 288000,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 1.5,
+        "drawing_buffer_size": [
+          1200,
+          540
+        ],
+        "drawing_buffer_pixels": 648000,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "standard",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 1.5,
+        "drawing_buffer_size": [
+          1200,
+          540
+        ],
+        "drawing_buffer_pixels": 648000,
+        "pixel_cap": 3686400
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 0.9997559487456029,
+        "drawing_buffer_size": [
+          1365,
+          767
+        ],
+        "drawing_buffer_pixels": 1046955,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 0.9997559487456029,
+        "drawing_buffer_size": [
+          1365,
+          767
+        ],
+        "drawing_buffer_pixels": 1046955,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          1366,
+          768
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 0.9997559487456029,
+        "drawing_buffer_size": [
+          1365,
+          767
+        ],
+        "drawing_buffer_pixels": 1046955,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 0.35555555555555557,
+        "drawing_buffer_size": [
+          1365,
+          768
+        ],
+        "drawing_buffer_pixels": 1048320,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 0.35555555555555557,
+        "drawing_buffer_size": [
+          1365,
+          768
+        ],
+        "drawing_buffer_pixels": 1048320,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          3840,
+          2160
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 0.35555555555555557,
+        "drawing_buffer_size": [
+          1365,
+          768
+        ],
+        "drawing_buffer_pixels": 1048320,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 1,
+        "effective_dpr": 1,
+        "drawing_buffer_size": [
+          800,
+          360
+        ],
+        "drawing_buffer_pixels": 288000,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 1.5,
+        "effective_dpr": 1.0,
+        "drawing_buffer_size": [
+          800,
+          360
+        ],
+        "drawing_buffer_pixels": 288000,
+        "pixel_cap": 1048576
+      },
+      {
+        "quality": "low",
+        "css_size": [
+          800,
+          360
+        ],
+        "device_dpr": 2,
+        "effective_dpr": 1.0,
+        "drawing_buffer_size": [
+          800,
+          360
+        ],
+        "drawing_buffer_pixels": 288000,
+        "pixel_cap": 1048576
+      }
+    ],
+    "source_tray_placements": [
+      {
+        "source": "metal_scrap",
+        "slot": 1,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          4.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          4.15,
+          9.85,
+          4.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "metal_scrap",
+        "slot": 2,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          6.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          6.15,
+          9.85,
+          6.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "metal_scrap",
+        "slot": 3,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          8.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          8.15,
+          9.85,
+          8.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "metal_scrap",
+        "slot": 4,
+        "root_xyz": [
+          3.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          3.15,
+          11.15,
+          3.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "metal_scrap",
+        "slot": 5,
+        "root_xyz": [
+          5.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          5.15,
+          11.15,
+          5.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "metal_scrap",
+        "slot": 6,
+        "root_xyz": [
+          7.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          7.15,
+          11.15,
+          7.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 1,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          4.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          4.15,
+          38.85,
+          4.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 2,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          6.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          6.15,
+          38.85,
+          6.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 3,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          8.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          8.15,
+          38.85,
+          8.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 4,
+        "root_xyz": [
+          40.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          40.15,
+          11.15,
+          40.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 5,
+        "root_xyz": [
+          42.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          42.15,
+          11.15,
+          42.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "cable_scrap",
+        "slot": 6,
+        "root_xyz": [
+          44.5,
+          -0.12,
+          11.5
+        ],
+        "declared_xz_bounds": [
+          44.15,
+          11.15,
+          44.85,
+          11.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 1,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          25.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          25.15,
+          9.85,
+          25.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 2,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          27.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          27.15,
+          9.85,
+          27.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 3,
+        "root_xyz": [
+          9.5,
+          -0.12,
+          29.5
+        ],
+        "declared_xz_bounds": [
+          9.15,
+          29.15,
+          9.85,
+          29.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 4,
+        "root_xyz": [
+          3.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          3.15,
+          24.15,
+          3.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 5,
+        "root_xyz": [
+          5.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          5.15,
+          24.15,
+          5.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "plastic_scrap",
+        "slot": 6,
+        "root_xyz": [
+          7.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          7.15,
+          24.15,
+          7.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 1,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          25.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          25.15,
+          38.85,
+          25.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 2,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          27.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          27.15,
+          38.85,
+          27.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 3,
+        "root_xyz": [
+          38.5,
+          -0.12,
+          29.5
+        ],
+        "declared_xz_bounds": [
+          38.15,
+          29.15,
+          38.85,
+          29.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 4,
+        "root_xyz": [
+          40.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          40.15,
+          24.15,
+          40.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 5,
+        "root_xyz": [
+          42.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          42.15,
+          24.15,
+          42.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      },
+      {
+        "source": "energy_shard",
+        "slot": 6,
+        "root_xyz": [
+          44.5,
+          -0.12,
+          24.5
+        ],
+        "declared_xz_bounds": [
+          44.15,
+          24.15,
+          44.85,
+          24.85
+        ],
+        "inside_service_cell": true,
+        "overlapping_extractor_pad_ids": []
+      }
+    ]
+  },
+  "not_run": {
+    "meshy_generation": "NOT_RUN",
+    "glb_topology_materials_textures_and_rig": "NOT_RUN",
+    "rendered_frame_performance": "NOT_RUN",
+    "motion_comfort_playtest": "NOT_RUN",
+    "browser_interaction": "NOT_RUN",
+    "multiplayer_game_acceptance": "NOT_RUN"
+  },
+  "limitations": [
+    "Projection values are geometry calculations using CSS viewport sizes, not browser screenshots.",
+    "Triangle totals assume every future GLB meets its LOD cap and the scene meets instance caps.",
+    "A triangle or pixel cap does not prove a draw-call count, texture residency, FPS, or comfort outcome.",
+    "Model task IDs, release URLs, licenses and measured fields remain unverified until generation and inspection.",
+    "No real game, model asset, browser, network session, or user has been tested by this script."
+  ]
+}

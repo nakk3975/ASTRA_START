@@ -140,7 +140,8 @@ export class Repository {
           state.contentVersion !== R.content_version ||
           state.balanceHash !== balanceHash ||
           state.mapVersion !== M.map_version ||
-          state.runtimeVersion !== R.runtime_version
+          ![R.runtime_version, "1.0.0-design"].includes(state.runtimeVersion) ||
+          state.schemaVersion !== B.schema_version
         )
           throw Error("CONTENT_VERSION_MISMATCH");
         assertInvariants(state);

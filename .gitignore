@@ -6,3 +6,6 @@ dist/
 .local/
 *.log
 .openai/
+# Raw downloads contain expiring provider URLs; ship sanitized provenance and archive only.
+assets/source/**
+!assets/source/pilot-source.zip

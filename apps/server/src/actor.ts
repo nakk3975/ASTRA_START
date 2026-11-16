@@ -58,6 +58,8 @@ export class Actor {
     const before = this.world,
       after = structuredClone(before);
     recover(after, Date.now());
+    // Presentation-only migration is journalled after verifying the original hash chain.
+    after.runtimeVersion = R.runtime_version;
     if (canonical(before) !== canonical(after)) {
       after.version = (BigInt(before.version) + 1n).toString();
       await this.repo.commit(before, after, this.epoch, []);

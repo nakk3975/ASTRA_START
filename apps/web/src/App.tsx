@@ -1,3 +1,4 @@
+import { screenMovement, viewControl } from './visuals/camera';
 import React, { useEffect, useRef, useState } from "react";
 import {
   B,
@@ -328,7 +329,9 @@ export default function App() {
     keys.current.clear();
     stick.current = { dx: 0, dz: 0 };
     net.stopInputs();
+    viewControl.panel=!!panel;
   }, [panel]);
+  useEffect(() => { viewControl.overview=overview; net.stopInputs(); }, [overview]);
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => setError(""), 6000);
@@ -484,7 +487,7 @@ export default function App() {
       }
       if (e.key.toLowerCase() === "r")
         setGhost((g) => (g ? { ...g, rotation: (g.rotation + 1) % 4 } : g));
-      if (e.key.toLowerCase() === "f") setOverview(false);
+      if (e.key.toLowerCase() === "f") {setOverview(false);viewControl.recenter++;viewControl.launchView=false;}
       if (["1", "2", "3", "4"].includes(e.key))
         setSelectedSlot(Number(e.key) - 1);
     };
@@ -513,12 +516,9 @@ export default function App() {
           ((k.has("s") || k.has("ArrowDown") ? 1 : 0) -
             (k.has("w") || k.has("ArrowUp") ? 1 : 0)) *
             1000;
-      if (dx || dz)
-        net.move(
-          Math.max(-1000, Math.min(1000, dx)),
-          Math.max(-1000, Math.min(1000, dz)),
-        );
-      else net.move(0, 0);
+      const movement=screenMovement(dx/1000,dz/1000);
+      if (dx || dz) {viewControl.resync=false;net.move(movement.x*1000,movement.z*1000);}
+      else net.move(0,0);
       net.holding();
     }, 100);
     return () => {
@@ -1084,7 +1084,7 @@ export default function App() {
                 </button>
                 <button onClick={() => setOverview(!overview)}>
                   <Symbol name="map" />
-                  <span>{overview ? "따라가기" : "둘러보기"}</span>
+                  <span>{overview ? "돌아가기" : "둘러보기"}</span>
                   <kbd>F</kbd>
                 </button>
                 <button onClick={() => setPanel("help")}>
@@ -2065,6 +2065,9 @@ export default function App() {
                       onChange={(e) => setLow(e.target.checked)}
                     />
                   </label>
+                  <label className="switch"><span>내 작업자 자동 따라가기</span><input type="checkbox" defaultChecked={viewControl.follow} onChange={e=>{viewControl.follow=e.target.checked;localStorage.setItem('orbit:follow',String(e.target.checked));}} /></label>
+                  <label className="switch"><span>움직임 줄이기</span><input type="checkbox" defaultChecked={viewControl.reduced} onChange={e=>{viewControl.reduced=e.target.checked;localStorage.setItem('orbit:reduced',String(e.target.checked));}} /></label>
+                  <div className="button-row"><button onClick={()=>viewControl.zoom--}>화면 확대</button><button onClick={()=>viewControl.zoom++}>화면 축소</button><button onClick={()=>{viewControl.recenter++;setOverview(false);setPanel(null);}}>내 작업자 · F</button><button onClick={()=>{viewControl.launchView=!viewControl.launchView;setPanel(null);}}>발사대 고정 시점</button></div>
                   <label className="switch">
                     <span>효과음 켜기</span>
                     <input

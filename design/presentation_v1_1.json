@@ -1,0 +1,165 @@
+{
+  "camera_config_version": "1.1.0-design",
+  "projection": {
+    "type": "OrthographicCamera",
+    "elevation_from_ground_degrees": 55,
+    "azimuth_degrees_from_positive_x_toward_positive_z": 45,
+    "roll_degrees": 0,
+    "distance_tiles": 80,
+    "near": 0.1,
+    "far": 200,
+    "camera_zoom": 1
+  },
+  "canvas": {
+    "extent": "full game CSS viewport with HUD and panels overlayed",
+    "profile_small_if_css_height_below": 600,
+    "profile_small_if_primary_pointer_coarse": true,
+    "dpr_affects_frustum": false,
+    "panel_resizes_canvas": false
+  },
+  "span_height_profiles": {
+    "desktop": {
+      "near": 18,
+      "default": 22,
+      "wide": 28
+    },
+    "small_landscape": {
+      "near": 10,
+      "default": 12,
+      "wide": 15
+    }
+  },
+  "input": {
+    "movement_basis": "screen right=(1,0,-1)/sqrt(2); screen up ground=(-1,0,-1)/sqrt(2)",
+    "free_camera_rotation": false,
+    "pinch_zoom": false,
+    "wheel_world_only": true,
+    "ctrl_wheel_browser_owned": true,
+    "zoom_step_min_interval_ms": 150,
+    "zoom_animation_ms": 0,
+    "recenter_animation_ms": 0
+  },
+  "follow": {
+    "default_mode": "FOLLOW_DEADZONE",
+    "target": "local predicted rendered ground anchor; never visual bones",
+    "deadzone_ndc01": {
+      "left": 0.35,
+      "right": 0.65,
+      "top": 0.36,
+      "bottom": 0.64
+    },
+    "error_to_velocity_per_second": 10,
+    "max_speed_tiles_per_second": 5.5,
+    "max_velocity_change_tiles_per_second_squared": 12,
+    "reset_velocity_on_hidden_resume": true,
+    "camera_target_bounds_xz": {
+      "x_min": -4,
+      "x_max": 52,
+      "z_min": -4,
+      "z_max": 36
+    },
+    "max_integration_step_seconds": 0.05,
+    "max_continuous_visible_frame_dt_seconds": 0.25,
+    "visible_frame_dt_policy": "consume full visible dt with ceil(dt/max_integration_step_seconds) equal substeps",
+    "long_frame_recovery": "hold camera, show resynchronization overlay, restore current snapshot behind overlay, reset movement input, await new input"
+  },
+  "manual": {
+    "mode": "STATIC_MANUAL",
+    "offscreen_player_indicator": true,
+    "recenter_preserves_follow_preference": true,
+    "manual_pan_auto_return": false,
+    "pan_inertia": false,
+    "edge_scroll": false
+  },
+  "panels": {
+    "zero_movement_input_on_open": true,
+    "hold_camera_on_open": true,
+    "resume_follow_on_new_movement_after_close": true,
+    "automatic_world_production_continues": true,
+    "manual_workbench_work_follows_existing_server_rules": true
+  },
+  "occlusion": {
+    "local_player_outline_immediate": true,
+    "fade_opacity": 0.22,
+    "enter_hold_ms": 100,
+    "release_hold_ms": 300,
+    "fade_ms": 150,
+    "reduced_motion_fade_ms": 0,
+    "material_state_per_instance": true,
+    "affects_server_collision": false,
+    "affects_interaction_proxy": false
+  },
+  "overview": {
+    "explicit_user_action_only": true,
+    "bounds_margin_factor": 1.12,
+    "read_only": true,
+    "world_simulation_continues": true,
+    "store_and_restore_camera_state": true
+  },
+  "launch": {
+    "default_camera": "keep_current",
+    "fixed_launch_view_explicit_opt_in": true,
+    "fixed_view_target_xyz": [
+      24.5,
+      4,
+      26
+    ],
+    "fixed_view_span_height": 16,
+    "track_rocket": false,
+    "orbit": false,
+    "zoom_animation": false,
+    "camera_shake": false
+  },
+  "effects": {
+    "camera_shake": false,
+    "head_bob": false,
+    "roll": false,
+    "motion_blur": false,
+    "depth_of_field": false,
+    "chromatic_aberration": false,
+    "full_screen_lens_distortion": false,
+    "automatic_exposure": false,
+    "full_screen_flash": false,
+    "speed_lines": false
+  },
+  "reduced_motion": {
+    "read_os_preference": true,
+    "apply_os_only_without_explicit_game_preference": true,
+    "initial_mode_when_os_reduce": "STATIC_MANUAL",
+    "reduce_nonessential_world_animations": true
+  },
+  "expected_asset_bounds_for_validation": {
+    "worker_height": 1.8,
+    "machine_max_xz": [
+      1.8,
+      1.8
+    ],
+    "machine_max_height": 2.4,
+    "source_ground_layer_max_height": 0.15,
+    "rocket_max_xz": [
+      4.6,
+      5.6
+    ],
+    "rocket_max_height": 8.0
+  },
+  "presentation_version": "1.1.0-design",
+  "quality": {
+    "standard": {
+      "dpr_cap": 1.5,
+      "max_render_pixels": 3686400,
+      "visible_triangle_cap": 350000,
+      "frame_draw_call_cap": 180,
+      "target_fps": 60
+    },
+    "low": {
+      "dpr_cap": 1.0,
+      "max_render_pixels": 1048576,
+      "visible_triangle_cap": 150000,
+      "frame_draw_call_cap": 100,
+      "target_fps": 30
+    }
+  },
+  "render_resolution_formula": "min(devicePixelRatio, quality.dpr_cap, sqrt(quality.max_render_pixels/(cssWidth*cssHeight))); floor drawing buffer dimensions and recheck pixel area",
+  "quality_status": "TARGET_NOT_MEASURED",
+  "actual_motion_comfort_status": "NOT_RUN"
+}

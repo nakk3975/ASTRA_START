@@ -1,0 +1,1499 @@
+{
+  "schema_version": 1,
+  "asset_catalog_version": "1.1.0-design",
+  "purpose": "implementation design, no generated assets included",
+  "economy_balance_version_reference": "1.0.0-design",
+  "map_version_reference": "1.0.0",
+  "model_families": 26,
+  "mesh_generation_by_model": {
+    "meshy-t2": 17,
+    "meshy-t2.5": 9
+  },
+  "scene_total_built_machine_instances_cap": 64,
+  "pilot_order": [
+    "worker",
+    "processor",
+    "rocket_lower_hull"
+  ],
+  "coordinates": {
+    "units": "one visual unit is one game tile; no historical or physical real-world scale claim",
+    "world_axes": {
+      "x": "east",
+      "y": "up",
+      "z": "south"
+    },
+    "canonical_forward": "-Z",
+    "quarter_turn_y_rotation_radians": "-quarterTurns*pi/2",
+    "rigging_input_forward_required_by_meshy": "+Z",
+    "rigged_asset_post_rig_adapter": "rotate entire rig root by pi around Y once, then validate all clips",
+    "server_footprints_and_service_anchors_authoritative": true
+  },
+  "visual_size_contract": {
+    "worker_height_tiles": 1.8,
+    "worker_animation_bounds_max_xyz": [
+      1.6,
+      2.2,
+      1.2
+    ],
+    "worker_camera_anchor_uses_animation_bounds": false,
+    "ordinary_machine_max_xyz": [
+      1.8,
+      2.4,
+      1.8
+    ],
+    "rocket_max_xyz": [
+      4.6,
+      8.0,
+      5.6
+    ],
+    "source_tray_max_xyz": [
+      0.7,
+      0.15,
+      0.7
+    ],
+    "source_tray_visual_root_y_offset": -0.12,
+    "source_tray_top_above_ground_max": 0.03
+  },
+  "budget_targets": {
+    "desktop_visible_triangles": 350000,
+    "low_visible_triangles": 150000,
+    "desktop_total_frame_draw_calls": 180,
+    "low_total_frame_draw_calls": 100,
+    "initial_download_mib_desktop": 12,
+    "initial_download_mib_low": 8,
+    "full_visual_payload_mib_desktop": 24,
+    "full_visual_payload_mib_low": 16,
+    "resident_texture_upper_estimate_mib": 64,
+    "maximum_detailed_recovery_crates": 32,
+    "rendered_cargo_full_limit": 192,
+    "performance_status": "TARGET_NOT_MEASURED",
+    "carried_cargo_pod_limit": 6,
+    "total_cargo_pod_visual_limit": 198
+  },
+  "worst_case_triangle_bound": {
+    "desktop_terms": {
+      "built_machines_64_times_3000": 192000,
+      "players_6_times_6000": 36000,
+      "starter_4_times_3000": 12000,
+      "source_trays_24_times_800": 19200,
+      "assembled_rocket": 32000,
+      "crates_32_times_240": 7680,
+      "ground_and_markers": 5000,
+      "cargo_198_times_180": 35640
+    },
+    "low_terms": {
+      "built_machines_64_times_900": 57600,
+      "players_6_times_3000": 18000,
+      "starter_4_times_900": 3600,
+      "source_trays_24_times_300": 7200,
+      "assembled_rocket": 18000,
+      "crates_32_times_120": 3840,
+      "ground_and_markers": 5000,
+      "cargo_198_times_96": 19008
+    },
+    "desktop_total": 339520,
+    "low_total": 132248
+  },
+  "reuse_rules": {
+    "players": "one rig and base texture, six per-instance team material tints and numbered ground markers",
+    "extractors": "one geometry, four source icon/material variants",
+    "mk2": "same geometry, static upgrade badge and restrained material accent",
+    "items": "14 distinct UI icons; common cargo pod geometry carries icon and quantity, no 14 separate Meshy models",
+    "ground_roads_markers_ui": "procedural geometry and vector UI; not Meshy-generated",
+    "sources": "six shallow tray instances per source zone, no new solid footprint",
+    "carried_pod": "one pod per nonempty player inventory; active selected nonempty slot icon, else lowest numbered nonempty slot; logical inventory remains up to four slots"
+  },
+  "machine_bindings": {
+    "manual_workbench": "workbench",
+    "processor": "processor",
+    "fabricator": "fabricator",
+    "refinery": "refinery",
+    "assembler": "assembler",
+    "extractor": "extractor",
+    "solar_array": "solar_array",
+    "logistics_hub": "logistics_hub",
+    "shared_warehouse": "warehouse",
+    "recovery_vault": "recovery_vault",
+    "starter_generator": "starter_generator"
+  },
+  "source_bindings": {
+    "metal_scrap": "source_metal",
+    "cable_scrap": "source_cable",
+    "plastic_scrap": "source_plastic",
+    "energy_shard": "source_energy"
+  },
+  "rocket_stages": {
+    "START": {
+      "new_meshes": [],
+      "note": "procedural workzone only; fixed server footprint exists"
+    },
+    "M1": {
+      "new_meshes": [
+        "rocket_pad"
+      ],
+      "note": "ground platform stays during launch"
+    },
+    "M2": {
+      "new_meshes": [
+        "rocket_gantry"
+      ],
+      "note": "gantry stays on ground during launch"
+    },
+    "M3": {
+      "new_meshes": [
+        "rocket_lower_hull",
+        "rocket_upper_hull"
+      ],
+      "note": "modules mounted in existing gantry"
+    },
+    "M4": {
+      "new_meshes": [
+        "rocket_engine",
+        "rocket_fin"
+      ],
+      "instance_counts": {
+        "rocket_fin": 4
+      }
+    },
+    "M5": {
+      "new_meshes": [
+        "rocket_nose",
+        "rocket_panel"
+      ],
+      "instance_counts": {
+        "rocket_panel": 1
+      }
+    },
+    "M6": {
+      "new_meshes": [
+        "rocket_panel"
+      ],
+      "instance_counts": {
+        "rocket_panel": 7
+      },
+      "note": "seven additional panels, total eight; fuel badge state changes without extra fuel debit"
+    }
+  },
+  "rocket_assembly_contract": {
+    "world_center_xz": [
+      24.5,
+      26.0
+    ],
+    "flight_root_children": [
+      "rocket_lower_hull",
+      "rocket_upper_hull",
+      "rocket_engine",
+      "rocket_nose",
+      "rocket_fin",
+      "rocket_panel"
+    ],
+    "ground_root_children": [
+      "rocket_pad",
+      "rocket_gantry"
+    ],
+    "module_y_ranges": {
+      "rocket_pad": [
+        0,
+        0.25
+      ],
+      "rocket_engine": [
+        0.25,
+        1.25
+      ],
+      "rocket_lower_hull": [
+        1.2,
+        4.2
+      ],
+      "rocket_upper_hull": [
+        4.2,
+        6.2
+      ],
+      "rocket_nose": [
+        6.2,
+        7.8
+      ]
+    },
+    "join_policy": "offline alignment and attachment verification; bounds and join faces are not guaranteed by generation prompts",
+    "partial_build": "server assembly progress reveals a fixed ordered list of existing submeshes, never rescale the entire rocket",
+    "launch": "ground roots remain; flight root moves only after durable launch result; camera contract owns framing"
+  },
+  "assets": [
+    {
+      "id": "worker",
+      "name_ko": "작업자",
+      "category": "character",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "lod0_triangle_cap": 6000,
+      "lod1_triangle_cap": 3000,
+      "final_basecolor_max_px": 1024,
+      "material_slot_cap": 2,
+      "bounds_max_tiles": {
+        "x": 1.4,
+        "y": 1.8,
+        "z": 0.9
+      },
+      "bounds_measurement_pose": "neutral A-pose; animation culling bounds measured separately",
+      "max_instances_for_this_asset": 6,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [
+        "idle",
+        "locomotion",
+        "work_loop",
+        "carry_locomotion",
+        "celebrate"
+      ],
+      "required_node_aliases": [
+        "root",
+        "hips",
+        "hand_left",
+        "hand_right"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One friendly adult human workshop builder, slightly oversized helmet, compact work overalls, separate arms and legs, simple gloves and boots. Symmetric relaxed A-pose, empty hands, no backpack obscuring arms. One neutral uniform color for later team tinting. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/worker/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "workbench",
+      "name_ko": "수동 작업대",
+      "category": "starter",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "lod0_triangle_cap": 3000,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.2,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One low square manual workbench with a broad tabletop, a chunky vise, two recessed component trays, open leg space. Clear readable front edge, short solid legs. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/workbench/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "warehouse",
+      "name_ko": "공용 보관함",
+      "category": "starter",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2000,
+      "lod0_triangle_cap": 2000,
+      "lod1_triangle_cap": 700,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One square storage cabinet with three wide open cubbies, sturdy rounded side panels, a broad access tray at the front. Compact industrial workshop furniture. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/warehouse/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "recovery_vault",
+      "name_ko": "비상 회수함",
+      "category": "starter",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 1200,
+      "lod0_triangle_cap": 1200,
+      "lod1_triangle_cap": 500,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.3,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One squat secure recovery cabinet with a broad closed door, a large simple latch and a small orange inset status panel. No symbols or lettering. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/recovery_vault/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "starter_generator",
+      "name_ko": "시작 발전기",
+      "category": "starter",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 1600,
+      "lod0_triangle_cap": 1600,
+      "lod1_triangle_cap": 600,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.4,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact rounded workshop generator, broad insulated housing, two thick cooling fins, recessed socket and a small quiet status lamp. No exposed fire or exhaust. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/starter_generator/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "processor",
+      "name_ko": "재료 가공기",
+      "category": "machine",
+      "unlock": "M1",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2600,
+      "lod0_triangle_cap": 2600,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.8,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 64,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact scrap material processor on a square base, large intake funnel, rounded processing drum, broad front output tray, thick stable feet. Intake and output are visually distinct. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/processor/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "fabricator",
+      "name_ko": "부품 제작기",
+      "category": "machine",
+      "unlock": "M1",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2600,
+      "lod0_triangle_cap": 2600,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 64,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact component press on a square base, short overhead press housing, open central work tray, sturdy side supports, a broad finished-part drawer. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/fabricator/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "refinery",
+      "name_ko": "추진 팩 합성기",
+      "category": "machine",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2600,
+      "lod0_triangle_cap": 2600,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 2.0,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 64,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One fictional energy-pack synthesizer, two short rounded canisters inside a square frame, thick connecting tubes and a sealed front output tray. Toy-like science-fiction machinery, no realistic chemical equipment markings. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/refinery/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "assembler",
+      "name_ko": "모듈 조립기",
+      "category": "machine",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "lod0_triangle_cap": 3000,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.9,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 64,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact module assembly station, broad circular work platform inside a squat square housing and two short separated tool arms. Arms are thick and clearly separated from the housing. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/assembler/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "extractor",
+      "name_ko": "자동 수거기",
+      "category": "machine",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2200,
+      "lod0_triangle_cap": 2200,
+      "lod1_triangle_cap": 800,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 2.4,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 12,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact automatic salvage collector, stout square base, short jointed grabber, a wide receiving basket and a clear front access panel. No long thin cables or wheels beyond the base. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/extractor/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "solar_array",
+      "name_ko": "태양광 어레이",
+      "category": "machine",
+      "unlock": "M1",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 900,
+      "lod0_triangle_cap": 900,
+      "lod1_triangle_cap": 450,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 0.8,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 12,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One squat solar panel array, a single broad tilted dark blue panel held by two short sturdy braces on a square base. Few large panel divisions, no tiny grid lines. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/solar_array/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "logistics_hub",
+      "name_ko": "배송 허브",
+      "category": "machine",
+      "unlock": "M2",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 1800,
+      "lod0_triangle_cap": 1800,
+      "lod1_triangle_cap": 650,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact cargo dispatch hub, a broad square base, recessed docking tray, short central beacon mast and two thick docking rails. Solid simple silhouettes. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/logistics_hub/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "cargo_pod",
+      "name_ko": "공용 운반 포드",
+      "category": "utility",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 180,
+      "lod0_triangle_cap": 180,
+      "lod1_triangle_cap": 96,
+      "final_basecolor_max_px": 256,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.32,
+        "y": 0.24,
+        "z": 0.42
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 198,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One tiny rounded rectangular cargo capsule, a single broad colored side panel reserved for a game icon, two small thick skids, no propeller, no antenna, no tiny bolts. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/cargo_pod/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "recovery_crate",
+      "name_ko": "현장 회수상자",
+      "category": "utility",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 240,
+      "lod0_triangle_cap": 240,
+      "lod1_triangle_cap": 120,
+      "final_basecolor_max_px": 256,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.55,
+        "y": 0.4,
+        "z": 0.55
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 32,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One small open square salvage crate, thick rounded rim, shallow interior, four short corner blocks. Broad blank side panel for a game icon. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/recovery_crate/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "source_metal",
+      "name_ko": "금속 수집 트레이",
+      "category": "source",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 800,
+      "lod0_triangle_cap": 800,
+      "lod1_triangle_cap": 300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 6,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One very shallow square collection tray filled with a few broad flat metal offcuts and short thick scrap pieces. All pieces remain close to the ground; total height is less than one quarter of the width. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/source_metal/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "source_cable",
+      "name_ko": "폐전선 수집 트레이",
+      "category": "source",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 600,
+      "lod0_triangle_cap": 600,
+      "lod1_triangle_cap": 300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 6,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One very shallow square collection tray holding two thick flattened cable coils and a broad connector. Low ground-level silhouette, simple large shapes. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/source_cable/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "source_plastic",
+      "name_ko": "플라스틱 수집 트레이",
+      "category": "source",
+      "unlock": "START",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 800,
+      "lod0_triangle_cap": 800,
+      "lod1_triangle_cap": 300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 6,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One very shallow square collection tray filled with a few flat colored plastic offcuts and one short flattened container. Low ground-level silhouette, broad simple shapes. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/source_plastic/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "source_energy",
+      "name_ko": "동력석 수집 트레이",
+      "category": "source",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 800,
+      "lod0_triangle_cap": 800,
+      "lod1_triangle_cap": 300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 6,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One very shallow square collection tray containing three broad flat teal energy-stone fragments. Soft matte color without bright emission, no spikes, low ground-level silhouette. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/source_energy/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_pad",
+      "name_ko": "로켓 발사대",
+      "category": "rocket",
+      "unlock": "M1",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2000,
+      "lod0_triangle_cap": 2000,
+      "lod1_triangle_cap": 1000,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 4.6,
+        "y": 0.25,
+        "z": 5.6
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One low rectangular miniature rocket launch platform, central circular mounting ring, two broad service channels, thick rounded corners. Empty platform without a rocket or tower. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_pad/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_gantry",
+      "name_ko": "로켓 조립 갠트리",
+      "category": "rocket",
+      "unlock": "M2",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 4000,
+      "lod0_triangle_cap": 4000,
+      "lod1_triangle_cap": 2000,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 4.2,
+        "y": 6.0,
+        "z": 3.6
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "ground_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact inverted-U rocket assembly gantry, two thick vertical supports and one broad top crossbar, a few large braces. Open middle for a separate rocket. No rocket or platform included. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_gantry/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_lower_hull",
+      "name_ko": "로켓 하부 선체",
+      "category": "rocket",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 4000,
+      "lod0_triangle_cap": 4000,
+      "lod1_triangle_cap": 2200,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 2.0,
+        "y": 3.0,
+        "z": 2.0
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One lower cylindrical body module of a friendly salvage-built rocket, diameter two thirds of its height, broad ivory panels, teal structural rings, flat clean top and bottom connection faces. No nose, engine, fins, gantry or stand. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_lower_hull/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_upper_hull",
+      "name_ko": "로켓 상부 선체",
+      "category": "rocket",
+      "unlock": "M3",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "lod0_triangle_cap": 3000,
+      "lod1_triangle_cap": 1700,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 2.0
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One upper cylindrical body module of the same friendly salvage-built rocket, width equals height, broad ivory panels and teal structural rings, flat clean circular top and bottom connection faces. No nose, engine, fins or stand. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_upper_hull/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_engine",
+      "name_ko": "로켓 엔진 모듈",
+      "category": "rocket",
+      "unlock": "M4",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2500,
+      "lod0_triangle_cap": 2500,
+      "lod1_triangle_cap": 1300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 1.8,
+        "y": 1.0,
+        "z": 1.8
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One compact fictional rocket engine cluster module, three broad short bell nozzles under one flat circular mounting plate. Muted dark metal and restrained orange fittings. No flames, rocket body or platform. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_engine/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_nose",
+      "name_ko": "로켓 상부 캡",
+      "category": "rocket",
+      "unlock": "M5",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 2000,
+      "lod0_triangle_cap": 2000,
+      "lod1_triangle_cap": 900,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 2.0,
+        "y": 1.6,
+        "z": 2.0
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 1,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One rounded conical nose cap for a friendly miniature rocket, broad ivory surface, one teal ring at the flat circular bottom connection face. Rounded tip, no antenna, body or stand. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_nose/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_fin",
+      "name_ko": "로켓 안정판",
+      "category": "rocket",
+      "unlock": "M4",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 600,
+      "lod0_triangle_cap": 600,
+      "lod1_triangle_cap": 300,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.7,
+        "y": 1.2,
+        "z": 0.18
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 4,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One thick rounded triangular stabilizing fin for a friendly miniature rocket. Broad teal painted surface, ivory attachment strip along one straight vertical edge. A single fin only, no rocket body. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_fin/model.glb",
+      "qa_status": "NOT_RUN"
+    },
+    {
+      "id": "rocket_panel",
+      "name_ko": "로켓 외장 패널",
+      "category": "rocket",
+      "unlock": "M5",
+      "status": "NOT_GENERATED",
+      "source_task_id": null,
+      "source_image_task_id": null,
+      "license_status": "UNVERIFIED",
+      "source_credit_cost": null,
+      "geometry_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "texture_model": "meshy-n1",
+      "topology": "triangle",
+      "target_polycount": 400,
+      "lod0_triangle_cap": 400,
+      "lod1_triangle_cap": 200,
+      "final_basecolor_max_px": 512,
+      "material_slot_cap": 1,
+      "bounds_max_tiles": {
+        "x": 0.55,
+        "y": 0.65,
+        "z": 0.12
+      },
+      "bounds_measurement_pose": "normalized static model",
+      "max_instances_for_this_asset": 8,
+      "origin": "bottom_attachment_center",
+      "canonical_forward": "-Z",
+      "up": "+Y",
+      "root_scale": [
+        1,
+        1,
+        1
+      ],
+      "required_clips": [],
+      "required_node_aliases": [
+        "visual_root"
+      ],
+      "source_prompt": "A cohesive stylized miniature workshop game asset. Chunky rounded forms, broad readable surfaces, matte painted metal, warm ivory and muted teal with restrained orange accents. One broad slightly curved rectangular rocket service panel, ivory shell, thick teal edge and one small recessed orange indicator. No text, no screen contents, no attached rocket body. Isolated single complete object, no ground slab beyond its own base, no scenery, no text, no logo, no micro-detail, no smoke. Three-quarter reference view, soft neutral studio light, plain light gray background.",
+      "reference_status": "NOT_CREATED",
+      "shipping_glb_url": null,
+      "shipping_sha256": null,
+      "measured_lod0_triangles": null,
+      "measured_lod1_triangles": null,
+      "measured_file_bytes": null,
+      "expected_release_path": "assets/visuals/1.1.0/rocket_panel/model.glb",
+      "qa_status": "NOT_RUN"
+    }
+  ],
+  "generation_price_policy": {
+    "status": "NOT_QUOTED",
+    "query_exact_route_cost_before_submission": true,
+    "do_not_mix_web_app_and_api_prices": true,
+    "unknown_submission_reuses_request_id": true,
+    "additional_paid_variants_require_existing_budget_authorization": true
+  },
+  "quality_budget_authority": "presentation_v1_1.json; budget_targets triangle and draw-call values are cross-validated mirrors for planning",
+  "source_visual_placement": {
+    "count": 24,
+    "xz": "exact manual_service_point.interaction_anchor in map_v1.json",
+    "visual_root_y": -0.12,
+    "yaw_radians": 0,
+    "marker_overlay_above_tray": true,
+    "collision": "none; preserve original service anchor and extractor pads",
+    "offset_xz": [
+      0,
+      0
+    ]
+  }
+}

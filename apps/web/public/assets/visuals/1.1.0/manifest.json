@@ -1,0 +1,108 @@
+{
+  "version": "1.1.0",
+  "status": "PILOT_IN_PROGRESS",
+  "assets": [
+    {
+      "id": "processor",
+      "sourceTaskId": "01a1e4f3-5f0f-7449-8820-adbd7112b595",
+      "sourceImageTaskId": "01a1e4f1-b081-774a-99f5-af1aec19f808",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "PENDING_PROVIDER_CONFIRMATION",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.8,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/processor-lod0.c3aee11913bf.glb",
+          "sha256": "c3aee11913bfe7f7e4e9d81fcae54a7fa4813f33183e4f22c821494a2b0d0a1d",
+          "bytes": 168700,
+          "triangles": 2443,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/processor-lod1.f864401142df.glb",
+          "sha256": "f864401142df7f1904d2af15cce54788d7e87bc6dab0ddbb7dc5ec2c5177cd9e",
+          "bytes": 111960,
+          "triangles": 846,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rocket_lower_hull",
+      "sourceTaskId": "01a1e4f8-c269-7401-9923-1a75281c96c5",
+      "sourceImageTaskId": "01a1e4f7-8b34-7618-8a54-39c8a5380708",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "PENDING_PROVIDER_CONFIRMATION",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 2,
+        "y": 3,
+        "z": 2
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_lower_hull-lod0.b09dbb6338b0.glb",
+          "sha256": "b09dbb6338b050fa38bb64ba61ec09f92c77e033430fb2410d65f8653cadf65d",
+          "bytes": 205668,
+          "triangles": 3760,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_lower_hull-lod1.e67b13c61417.glb",
+          "sha256": "e67b13c61417ea38897f3416f43b31d0bf4f529bccf7d1945bd354d4b0955145",
+          "bytes": 158256,
+          "triangles": 2067,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

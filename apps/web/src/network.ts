@@ -1,3 +1,5 @@
+import { preloadAssets } from './visuals/assets';
+import { viewControl } from './visuals/camera';
 import { Client, type Room } from "@colyseus/sdk";
 import { R } from "../../../packages/content/src/index.ts";
 import type { World } from "../../../packages/game-core/src/index.ts";
@@ -30,13 +32,15 @@ export class Connection {
   hold: string | null = null;
   reconnecting = false;
   writerEpoch = "0";
+  waitingAcks: Ack[] = [];
+  welcomed = false;
   persist() {
     try {
       sessionStorage.setItem(
         "orbit:outbox",
         JSON.stringify(
           [...this.pending.values()]
-            .filter((t) => !t.command.type.startsWith("WORK_"))
+            .filter((t) => !["WORK_START","WORK_STOP","CAST_VOTE","PROPOSE_LAUNCH","READY_SET"].includes(t.command.type))
             .map((t) => t.command)
             .slice(-32),
         ),
@@ -91,8 +95,13 @@ export class Connection {
   }
   async connect(roomId: string, code = "") {
     this.closed = false;
+    this.connected = false;
+    this.welcomed = false;
+    this.world = null;
     this.roomId = roomId;
     this.code = code;
+    this.onStatus("3D 모델을 불러오는 중");
+    await preloadAssets();
     this.onStatus("작업장에 연결 중");
     const ticket = await this.api(`/api/rooms/${roomId}/join-ticket`, {
       roomCode: code,
@@ -105,6 +114,10 @@ export class Connection {
     });
     this.room = room;
     room.onMessage("WELCOME", (p: any) => {
+      if(p.protocolVersion!==R.protocol_version || p.contentVersion!==R.content_version || p.rendererCompatibilityVersion!==R.renderer_compatibility_version){
+        this.closed=true;void room.leave();this.onError('클라이언트 버전이 다릅니다. 새로고침해 주세요.');return;
+      }
+      this.welcomed=true;
       this.member = p.memberId;
       this.epoch = p.controllerEpoch;
       this.writerEpoch = p.writerEpoch;
@@ -113,7 +126,7 @@ export class Connection {
       room.send("REQUEST_FULL_STATE", {});
     });
     room.onMessage("FULL_STATE", (p: any) => {
-      if (BigInt(p.writerEpoch) < BigInt(this.writerEpoch)) return;
+      if (!this.welcomed || BigInt(p.writerEpoch) < BigInt(this.writerEpoch)) return;
       this.setWorld(p.world);
       room.send("STATE_READY", {});
       this.connected = true;
@@ -203,8 +216,12 @@ export class Connection {
     this.world = w;
     if (this.hold && !w.members[this.member]?.work) this.hold = null;
     this.onWorld(w);
+    const pending=this.waitingAcks.splice(0);for(const a of pending)this.ack(a);
   }
   ack(ack: Ack) {
+    if(ack.status !== 'REJECTED' && (!this.world || BigInt(this.world.version)<BigInt(ack.durableVersion))){
+      if(!this.waitingAcks.some(a=>a.commandId===ack.commandId))this.waitingAcks.push(ack);return;
+    }
     const task = this.pending.get(ack.commandId);
     if (!task) return;
     this.pending.delete(ack.commandId);
@@ -216,6 +233,7 @@ export class Connection {
     } else task.resolve(ack);
   }
   command(type: string, payload: unknown): Promise<Ack> {
+    if (viewControl.overview && !['WORK_STOP','CAST_VOTE','CANCEL_LAUNCH','SAVE_BARRIER','SET_ROOM_PAUSE'].includes(type)) return Promise.reject(Error('둘러보기에서는 작업할 수 없습니다. F로 돌아오세요.'));
     if (this.pending.size >= 32) return Promise.reject(Error("SERVER_BUSY"));
     if (!this.room || !this.connected || !this.world)
       return Promise.reject(Error("STATE_NOT_READY"));
@@ -241,6 +259,8 @@ export class Connection {
     });
   }
   move(dx: number, dz: number) {
+    if(viewControl.overview || viewControl.panel || viewControl.resync){ dx=0; dz=0; }
+    viewControl.input={x:dx/1000,z:dz/1000}; viewControl.inputAt=performance.now();
     if (this.connected)
       this.room?.send("MOVE_INPUT", {
         dx: Math.round(dx),
@@ -250,7 +270,7 @@ export class Connection {
       });
   }
   holding() {
-    if (this.hold && this.connected)
+    if (this.hold && this.connected && !viewControl.overview)
       this.room?.send("WORK_HOLD", {
         workId: this.hold,
         controllerEpoch: this.epoch,

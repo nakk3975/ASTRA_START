@@ -1,131 +1,181 @@
 {
-  "package": "Scrap to Orbit ASTRA design",
-  "design_version": "1.0.0",
-  "design_date": "2026-11-16",
-  "players": "1-6",
-  "pdf_pages": 58,
-  "canonical_balance_sha256": "c019a2ce37b4b1025395452972d0beb936a25d4570bcc9a25b39666a424d81b6",
+  "design_version": "1.1.0",
+  "title": "고철로 우주까지 — Meshy 3D / Scrap to Orbit",
+  "date": "2026-11-16",
+  "players": "1–6",
+  "deliverable_type": "design and static calculations; not a runnable game or generated asset pack",
+  "pdf_pages": 83,
   "validation": {
-    "balance_static_groups": 21,
-    "manufacturing_experiments": 18,
+    "acceptance_case_count": 160,
+    "chapters": 15,
+    "markdown_characters": 176015,
+    "markdown_bytes": 322909,
+    "static_balance_check_groups": 21,
     "map_checks": 446,
-    "runtime_acceptance_tests_not_run": 99
+    "manufacturing_experiments": 18,
+    "presentation_check_groups": 22,
+    "planned_meshy_assets": 26,
+    "actual_generated_assets": 0,
+    "actual_game_acceptance_status": "NOT_RUN"
   },
+  "economic_and_map_bytes_unchanged": true,
+  "meshy_generation_status": "NOT_GENERATED",
+  "actual_game_test_status": "NOT_RUN",
   "files": [
     {
-      "name": "ASTRA_START_PROMPT.md",
-      "bytes": 5182,
-      "sha256": "cfe7913e70086960349f501a8c1cb3694e48a30f14ea3d850d84a965c694d048"
+      "file": "ASSET_REVIEW_CHECKLIST.csv",
+      "bytes": 1938,
+      "sha256": "478dda73309f8092c1b86121f9725a360ccf592ca9bc56c7c9e485a5d066d519"
     },
     {
-      "name": "BALANCE_REPORT.md",
+      "file": "ASTRA_START_PROMPT.md",
+      "bytes": 8007,
+      "sha256": "33189c6a168df74884c7eb658f85105a5c4ef7619c3a6e4626404f8749a7067c"
+    },
+    {
+      "file": "BALANCE_REPORT.md",
       "bytes": 8474,
       "sha256": "c2b745b57468aa411c805a2539741f357de846ade60738c8b7e4bd1ee2ee3a1e"
     },
     {
-      "name": "README_FIRST.md",
-      "bytes": 10721,
-      "sha256": "555a220d8573a8955135bacda20b0fb3c3793802021bde3747d2687598fdadf3"
+      "file": "CHANGELOG.md",
+      "bytes": 2186,
+      "sha256": "0d986069fcca140df85e8aa3043bcc197185964f7930bc2e5083c17334039feb"
     },
     {
-      "name": "Scrap_to_Orbit_ASTRA_Design_v1.0.pdf",
-      "bytes": 734306,
-      "sha256": "a55fbddad923565d4f2ed11de6cf1939090c5762dafc1664da8e4a6ce1165191"
+      "file": "PRESENTATION_REPORT.md",
+      "bytes": 2633,
+      "sha256": "521b55991a670f16099dbe15f4ebca7d92983f405e0aff76e2a379146e8165dc"
     },
     {
-      "name": "Scrap_to_Orbit_Complete_Spec_v1.0.md",
-      "bytes": 223044,
-      "sha256": "74865044cb8195b677b88585dccec1f61b192a8750b439322a559269e72c381e"
+      "file": "README_FIRST.md",
+      "bytes": 8847,
+      "sha256": "4acbd91b62e381bebc8d3ee8e41050894e308f507c7dd5f754077535e56eda3f"
     },
     {
-      "name": "acceptance_tests.csv",
-      "bytes": 19962,
-      "sha256": "a128c98f32352d79c3e0bd5f1e2f07ea622a31c30f391e4b2cbbd34d949bb2a3"
+      "file": "Scrap_to_Orbit_Complete_Spec_v1.1.md",
+      "bytes": 322909,
+      "sha256": "e6e4a2637c6114dab353b3c29df35cb9e5e171b5af91577b04bbe612423623fc"
     },
     {
-      "name": "analyze_automation.py",
+      "file": "Scrap_to_Orbit_Meshy_3D_Design_v1.1.pdf",
+      "bytes": 871284,
+      "sha256": "2f0da184839c3016d973f2e46b6549f59172954f1e4d3be8e7c234dd82aa27bc"
+    },
+    {
+      "file": "acceptance_tests.csv",
+      "bytes": 31449,
+      "sha256": "fe34a364a282674a6c495674a13810a6e8a6a54f6959bb7c38825ccddf6a69b5"
+    },
+    {
+      "file": "analyze_automation.py",
       "bytes": 6355,
       "sha256": "485576e4c8260cc337483548f3a89247edccfb067a06d35b75066cca0635693b"
     },
     {
-      "name": "analyze_balance.py",
+      "file": "analyze_balance.py",
       "bytes": 7182,
       "sha256": "45ccfe2e13a94aa2c71eeceb308b14b32a62eaa45088640b907d26ec7e6eb69d"
     },
     {
-      "name": "balance_analysis.json",
+      "file": "asset_catalog_v1_1.json",
+      "bytes": 58292,
+      "sha256": "49887ae3c76c2e8371ab2794a2f8fd45bf4ea241d73eba2e5c138314b793de27"
+    },
+    {
+      "file": "balance_analysis.json",
       "bytes": 27165,
       "sha256": "1c513a8873513ad3ff76a08575acaf1bbbaa334d1923384dbb1a120225d387ad"
     },
     {
-      "name": "balance_v1.json",
+      "file": "balance_v1.json",
       "bytes": 25841,
       "sha256": "59020d53919b436f5598d8a8286775e2b659bb28c155a6cb3c0e7670367ad520"
     },
     {
-      "name": "extractor_mk2_analysis.json",
+      "file": "extractor_mk2_analysis.json",
       "bytes": 12206,
       "sha256": "9b1e4de9a271fe718ed501563181ced4306244f33a11f5ba50081984eb853f39"
     },
     {
-      "name": "factory_schedule_analysis.json",
+      "file": "factory_schedule_analysis.json",
       "bytes": 29210,
       "sha256": "516af65643a94dbad8065fe3b3796d7615b28f29d7f5f9d7135c2b30fffd185d"
     },
     {
-      "name": "map_overview.png",
+      "file": "map_overview.png",
       "bytes": 299063,
       "sha256": "742c2aa77a9d4305bea186d9e935654a38bb9e31ecbcbb56a2cdbefdc7484af1"
     },
     {
-      "name": "map_overview.svg",
+      "file": "map_overview.svg",
       "bytes": 208641,
       "sha256": "ebae0329e7d90540602a089ba0e4af17f9dd9efc2389dcec03350259ee3a482d"
     },
     {
-      "name": "map_v1.json",
+      "file": "map_v1.json",
       "bytes": 70793,
       "sha256": "61229f9ed539c16839f33ed69bd59e37dc942ac990a506e65d4d913aefceb556"
     },
     {
-      "name": "map_validation.json",
+      "file": "map_validation.json",
       "bytes": 57680,
       "sha256": "ce87a708cd3e3d33ccd449d0186b607d77aaa6870839feb0b087fe88c3721b03"
     },
     {
-      "name": "map_validation.md",
+      "file": "map_validation.md",
       "bytes": 2633,
       "sha256": "1a40d51358604054a3d234b7710812a4bcec2fdc7e3b0c18db0257b8ff60b347"
     },
     {
-      "name": "runtime_v1.json",
-      "bytes": 2839,
-      "sha256": "3cd4fdf2d97c3f63e8e1acf0f960e713109af54690f86582ed3cb483f370bf8c"
+      "file": "meshy_prompts.csv",
+      "bytes": 17303,
+      "sha256": "5b22aaf9799c83cf38bb013c3a7287a60c99ed148c874f4016386bd33b32821f"
     },
     {
-      "name": "simulate_factory_schedule.py",
+      "file": "presentation_v1_1.json",
+      "bytes": 4813,
+      "sha256": "0377753263d7a987a95e2479870e6b6d5a80773cc3efc21ff7043220135cdc0c"
+    },
+    {
+      "file": "presentation_validation.json",
+      "bytes": 27074,
+      "sha256": "a18224616878ee84a9129b489ca325b27775f4ae2ab39bd92f7614d2fcfe8427"
+    },
+    {
+      "file": "runtime_v1.json",
+      "bytes": 3091,
+      "sha256": "e0b51b738e1479d1cff1b86706c3bc0e136dddcfbe845e5656f8571ddf24a70c"
+    },
+    {
+      "file": "simulate_factory_schedule.py",
       "bytes": 7718,
       "sha256": "ec889f75a0ca6206eb8413363cd19eb089eb7ec666ab9dbb708ac200ce3fc809"
     },
     {
-      "name": "validate_balance.py",
+      "file": "validate_balance.py",
       "bytes": 17505,
       "sha256": "cd6d4d1373329f8f69d01753b21bd23eaf64a022dc02c3f67a2279f47044ac37"
     },
     {
-      "name": "validate_map_v1.py",
+      "file": "validate_map_v1.py",
       "bytes": 14872,
       "sha256": "8d5576aac12f78862918931cc014efd1a1cfc5c6ecfeac4a67170c4ee103a954"
     },
     {
-      "name": "validation_results.json",
+      "file": "validate_presentation.py",
+      "bytes": 29878,
+      "sha256": "ff223360c01e33f8d08eb4855b707a27f227928f294bed02273de8a8e994ad29"
+    },
+    {
+      "file": "validation_results.json",
       "bytes": 18466,
       "sha256": "bb98d11dec7803ea3008f3c68b4b2eae747fe96892029e851489c9f006490b11"
     },
     {
-      "name": "verify_design.py",
-      "bytes": 652,
-      "sha256": "8bd4739ec76cb2d1a5395384a06a80af5ae4561177b95b759adc527c8cf56013"
+      "file": "verify_design.py",
+      "bytes": 684,
+      "sha256": "a0333238c6224666ec4d3dd3673b8150d7cd0dbf924ef240e833ee75264a3393"
     }
   ]
 }
