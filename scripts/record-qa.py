@@ -62,5 +62,5 @@ for r in rows:
  else:
   r.update(status='NOT_RUN',evidence='',notes=partial.get(r['id'],'전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.'))
 with (root/'docs/qa/acceptance_tests.csv').open('w',encoding='utf-8-sig',newline='') as f:
- writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(rows)
+ writer=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");writer.writeheader();writer.writerows(rows)
 print(json.dumps({'total':len(rows),'PASS':len(complete),'NOT_RUN':len(rows)-len(complete),'liveCases':len(live['tests'])}))
