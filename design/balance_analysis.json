@@ -1,0 +1,1040 @@
+{
+  "version": "1.0.0-design",
+  "checks": {
+    "recipe_DAG_acyclic": true,
+    "unique_item_producer": true,
+    "all_milestones_manual_reachable": true,
+    "all_machine_costs_reachable_at_unlock": true,
+    "all_reference_peak_power_sufficient": true,
+    "all_source_pad_caps_valid": true,
+    "all_six_scalings_positive_integer": true,
+    "all_recipe_ticks_integer_and_manual_ratio_exact": true
+  },
+  "reachability": [
+    {
+      "milestone": "M1",
+      "available_before_completion": [
+        "cable_scrap",
+        "gear",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    },
+    {
+      "milestone": "M2",
+      "available_before_completion": [
+        "cable_scrap",
+        "gear",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    },
+    {
+      "milestone": "M3",
+      "available_before_completion": [
+        "cable_scrap",
+        "circuit",
+        "gear",
+        "hull_panel",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    },
+    {
+      "milestone": "M4",
+      "available_before_completion": [
+        "cable_scrap",
+        "circuit",
+        "energy_shard",
+        "engine_part",
+        "fuel_cell",
+        "gear",
+        "hull_panel",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    },
+    {
+      "milestone": "M5",
+      "available_before_completion": [
+        "cable_scrap",
+        "circuit",
+        "control_part",
+        "energy_shard",
+        "engine_part",
+        "fuel_cell",
+        "gear",
+        "hull_panel",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    },
+    {
+      "milestone": "M6",
+      "available_before_completion": [
+        "cable_scrap",
+        "circuit",
+        "control_part",
+        "energy_shard",
+        "engine_part",
+        "fuel_cell",
+        "gear",
+        "hull_panel",
+        "ingot",
+        "metal_scrap",
+        "plastic_scrap",
+        "plate",
+        "polymer",
+        "wire"
+      ],
+      "mandatory_targets_reachable": true
+    }
+  ],
+  "bootstrap_solo": {
+    "raw": {
+      "metal_scrap": 48,
+      "cable_scrap": 4,
+      "plastic_scrap": 0,
+      "energy_shard": 0
+    },
+    "manual_craft_seconds": 354.0,
+    "baseline_gather_seconds_including_haul": 108.5,
+    "construct_and_transfer_allowance_seconds": 60,
+    "total_illustrative_seconds": 522.5
+  },
+  "scenarios": [
+    {
+      "planned_players": 1,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 6,
+          "gear": 4,
+          "wire": 4
+        },
+        "M2": {
+          "plate": 16,
+          "gear": 12,
+          "wire": 12
+        },
+        "M3": {
+          "hull_panel": 24,
+          "circuit": 12,
+          "gear": 12
+        },
+        "M4": {
+          "engine_part": 12,
+          "hull_panel": 16
+        },
+        "M5": {
+          "control_part": 8,
+          "hull_panel": 16,
+          "circuit": 12
+        },
+        "M6": {
+          "fuel_cell": 100,
+          "hull_panel": 24,
+          "wire": 20
+        }
+      },
+      "direct_goals": {
+        "plate": 22,
+        "gear": 28,
+        "wire": 36,
+        "hull_panel": 80,
+        "circuit": 24,
+        "engine_part": 12,
+        "control_part": 8,
+        "fuel_cell": 100
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 980,
+          "cable_scrap": 106,
+          "plastic_scrap": 520,
+          "energy_shard": 200
+        },
+        "recipe_batches": {
+          "assemble_control": 8,
+          "assemble_engine": 12,
+          "assemble_hull": 80,
+          "blend_fuel": 100,
+          "assemble_circuit": 80,
+          "cut_gear": 38,
+          "press_plate": 226,
+          "recycle_polymer": 260,
+          "draw_wire": 106,
+          "smelt_ingot": 490
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 226,
+          "gear": 76,
+          "wire": 212,
+          "hull_panel": 80,
+          "circuit": 80,
+          "engine_part": 12,
+          "control_part": 8,
+          "fuel_cell": 100,
+          "polymer": 260,
+          "energy_shard": 200,
+          "ingot": 490,
+          "plastic_scrap": 520,
+          "cable_scrap": 106,
+          "metal_scrap": 980
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 1600,
+          "cable_scrap": 189,
+          "plastic_scrap": 544,
+          "energy_shard": 200
+        },
+        "recipe_batches": {
+          "assemble_control": 8,
+          "assemble_engine": 12,
+          "assemble_hull": 80,
+          "blend_fuel": 100,
+          "assemble_circuit": 92,
+          "cut_gear": 68,
+          "press_plate": 366,
+          "recycle_polymer": 272,
+          "draw_wire": 189,
+          "smelt_ingot": 800
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 366,
+          "gear": 136,
+          "wire": 378,
+          "hull_panel": 80,
+          "circuit": 92,
+          "engine_part": 12,
+          "control_part": 8,
+          "fuel_cell": 100,
+          "polymer": 272,
+          "energy_shard": 200,
+          "ingot": 800,
+          "plastic_scrap": 544,
+          "cable_scrap": 189,
+          "metal_scrap": 1600
+        }
+      },
+      "reference_counts": {
+        "processor": 4,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 5,
+        "solar_array": 4,
+        "logistics_hub": 1,
+        "delivery_link": 20
+      },
+      "peak_supply_power": 38.0,
+      "peak_demand_power": 37.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 40.0,
+        "wire": 12.6,
+        "polymer": 27.2
+      },
+      "production_capacity_lower_bound_minutes": 40.0,
+      "adverse_production_capacity_lower_bound_minutes": 66.66666666666666,
+      "all_manual_acquisition_worker_minutes_baseline": 80.06666666666666,
+      "all_manual_acquisition_worker_minutes_adverse": 95.53333333333333,
+      "all_manual_acquisition_team_minutes_baseline": 80.06666666666666,
+      "all_manual_acquisition_team_minutes_adverse": 95.53333333333333,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 66.66666666666667,
+        "cable_scrap": 25.2,
+        "plastic_scrap": 45.333333333333336,
+        "energy_shard": 26.666666666666668
+      }
+    },
+    {
+      "planned_players": 2,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 9,
+          "gear": 6,
+          "wire": 6
+        },
+        "M2": {
+          "plate": 24,
+          "gear": 18,
+          "wire": 18
+        },
+        "M3": {
+          "hull_panel": 35,
+          "circuit": 18,
+          "gear": 18
+        },
+        "M4": {
+          "engine_part": 18,
+          "hull_panel": 24
+        },
+        "M5": {
+          "control_part": 12,
+          "hull_panel": 24,
+          "circuit": 18
+        },
+        "M6": {
+          "fuel_cell": 145,
+          "hull_panel": 35,
+          "wire": 29
+        }
+      },
+      "direct_goals": {
+        "plate": 33,
+        "gear": 42,
+        "wire": 53,
+        "hull_panel": 118,
+        "circuit": 36,
+        "engine_part": 18,
+        "control_part": 12,
+        "fuel_cell": 145
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 1454,
+          "cable_scrap": 159,
+          "plastic_scrap": 766,
+          "energy_shard": 290
+        },
+        "recipe_batches": {
+          "assemble_control": 12,
+          "assemble_engine": 18,
+          "assemble_hull": 118,
+          "blend_fuel": 145,
+          "assemble_circuit": 120,
+          "cut_gear": 57,
+          "press_plate": 335,
+          "recycle_polymer": 383,
+          "draw_wire": 159,
+          "smelt_ingot": 727
+        },
+        "surplus": {
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 335,
+          "gear": 114,
+          "wire": 317,
+          "hull_panel": 118,
+          "circuit": 120,
+          "engine_part": 18,
+          "control_part": 12,
+          "fuel_cell": 145,
+          "polymer": 383,
+          "energy_shard": 290,
+          "ingot": 727,
+          "plastic_scrap": 766,
+          "cable_scrap": 159,
+          "metal_scrap": 1454
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 2170,
+          "cable_scrap": 254,
+          "plastic_scrap": 790,
+          "energy_shard": 290
+        },
+        "recipe_batches": {
+          "assemble_control": 12,
+          "assemble_engine": 18,
+          "assemble_hull": 118,
+          "blend_fuel": 145,
+          "assemble_circuit": 132,
+          "cut_gear": 91,
+          "press_plate": 497,
+          "recycle_polymer": 395,
+          "draw_wire": 254,
+          "smelt_ingot": 1085
+        },
+        "surplus": {
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 497,
+          "gear": 182,
+          "wire": 507,
+          "hull_panel": 118,
+          "circuit": 132,
+          "engine_part": 18,
+          "control_part": 12,
+          "fuel_cell": 145,
+          "polymer": 395,
+          "energy_shard": 290,
+          "ingot": 1085,
+          "plastic_scrap": 790,
+          "cable_scrap": 254,
+          "metal_scrap": 2170
+        }
+      },
+      "reference_counts": {
+        "processor": 5,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 6,
+        "solar_array": 5,
+        "logistics_hub": 1,
+        "delivery_link": 24
+      },
+      "peak_supply_power": 46.0,
+      "peak_demand_power": 41.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 36.166666666666664,
+        "wire": 16.933333333333334,
+        "polymer": 39.5
+      },
+      "production_capacity_lower_bound_minutes": 39.5,
+      "adverse_production_capacity_lower_bound_minutes": 65.83333333333333,
+      "all_manual_acquisition_worker_minutes_baseline": 111.21666666666667,
+      "all_manual_acquisition_worker_minutes_adverse": 132.36666666666667,
+      "all_manual_acquisition_team_minutes_baseline": 55.608333333333334,
+      "all_manual_acquisition_team_minutes_adverse": 66.18333333333334,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 90.41666666666667,
+        "cable_scrap": 33.86666666666667,
+        "plastic_scrap": 32.916666666666664,
+        "energy_shard": 38.666666666666664
+      }
+    },
+    {
+      "planned_players": 3,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 11,
+          "gear": 8,
+          "wire": 8
+        },
+        "M2": {
+          "plate": 29,
+          "gear": 22,
+          "wire": 22
+        },
+        "M3": {
+          "hull_panel": 44,
+          "circuit": 22,
+          "gear": 22
+        },
+        "M4": {
+          "engine_part": 22,
+          "hull_panel": 29
+        },
+        "M5": {
+          "control_part": 15,
+          "hull_panel": 29,
+          "circuit": 22
+        },
+        "M6": {
+          "fuel_cell": 180,
+          "hull_panel": 44,
+          "wire": 36
+        }
+      },
+      "direct_goals": {
+        "plate": 40,
+        "gear": 52,
+        "wire": 66,
+        "hull_panel": 146,
+        "circuit": 44,
+        "engine_part": 22,
+        "control_part": 15,
+        "fuel_cell": 180
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 1792,
+          "cable_scrap": 196,
+          "plastic_scrap": 948,
+          "energy_shard": 360
+        },
+        "recipe_batches": {
+          "assemble_control": 15,
+          "assemble_engine": 22,
+          "assemble_hull": 146,
+          "blend_fuel": 180,
+          "assemble_circuit": 148,
+          "cut_gear": 70,
+          "press_plate": 413,
+          "recycle_polymer": 474,
+          "draw_wire": 196,
+          "smelt_ingot": 896
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 413,
+          "gear": 140,
+          "wire": 392,
+          "hull_panel": 146,
+          "circuit": 148,
+          "engine_part": 22,
+          "control_part": 15,
+          "fuel_cell": 180,
+          "polymer": 474,
+          "energy_shard": 360,
+          "ingot": 896,
+          "plastic_scrap": 948,
+          "cable_scrap": 196,
+          "metal_scrap": 1792
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 2624,
+          "cable_scrap": 304,
+          "plastic_scrap": 972,
+          "energy_shard": 360
+        },
+        "recipe_batches": {
+          "assemble_control": 15,
+          "assemble_engine": 22,
+          "assemble_hull": 146,
+          "blend_fuel": 180,
+          "assemble_circuit": 160,
+          "cut_gear": 110,
+          "press_plate": 601,
+          "recycle_polymer": 486,
+          "draw_wire": 304,
+          "smelt_ingot": 1312
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 601,
+          "gear": 220,
+          "wire": 608,
+          "hull_panel": 146,
+          "circuit": 160,
+          "engine_part": 22,
+          "control_part": 15,
+          "fuel_cell": 180,
+          "polymer": 486,
+          "energy_shard": 360,
+          "ingot": 1312,
+          "plastic_scrap": 972,
+          "cable_scrap": 304,
+          "metal_scrap": 2624
+        }
+      },
+      "reference_counts": {
+        "processor": 6,
+        "fabricator": 4,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 7,
+        "solar_array": 6,
+        "logistics_hub": 1,
+        "delivery_link": 26
+      },
+      "peak_supply_power": 54.0,
+      "peak_demand_power": 48.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 43.73333333333333,
+        "wire": 20.266666666666666,
+        "polymer": 24.3
+      },
+      "production_capacity_lower_bound_minutes": 43.73333333333333,
+      "adverse_production_capacity_lower_bound_minutes": 72.88888888888887,
+      "all_manual_acquisition_worker_minutes_baseline": 135.13333333333333,
+      "all_manual_acquisition_worker_minutes_adverse": 161.03333333333333,
+      "all_manual_acquisition_team_minutes_baseline": 45.044444444444444,
+      "all_manual_acquisition_team_minutes_adverse": 53.67777777777778,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 72.88888888888889,
+        "cable_scrap": 40.53333333333333,
+        "plastic_scrap": 40.5,
+        "energy_shard": 48.0
+      }
+    },
+    {
+      "planned_players": 4,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 13,
+          "gear": 9,
+          "wire": 9
+        },
+        "M2": {
+          "plate": 34,
+          "gear": 26,
+          "wire": 26
+        },
+        "M3": {
+          "hull_panel": 51,
+          "circuit": 26,
+          "gear": 26
+        },
+        "M4": {
+          "engine_part": 26,
+          "hull_panel": 34
+        },
+        "M5": {
+          "control_part": 17,
+          "hull_panel": 34,
+          "circuit": 26
+        },
+        "M6": {
+          "fuel_cell": 210,
+          "hull_panel": 51,
+          "wire": 42
+        }
+      },
+      "direct_goals": {
+        "plate": 47,
+        "gear": 61,
+        "wire": 77,
+        "hull_panel": 170,
+        "circuit": 52,
+        "engine_part": 26,
+        "control_part": 17,
+        "fuel_cell": 210
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 2094,
+          "cable_scrap": 228,
+          "plastic_scrap": 1104,
+          "energy_shard": 420
+        },
+        "recipe_batches": {
+          "assemble_control": 17,
+          "assemble_engine": 26,
+          "assemble_hull": 170,
+          "blend_fuel": 210,
+          "assemble_circuit": 172,
+          "cut_gear": 83,
+          "press_plate": 482,
+          "recycle_polymer": 552,
+          "draw_wire": 228,
+          "smelt_ingot": 1047
+        },
+        "surplus": {
+          "gear": 1,
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 482,
+          "gear": 165,
+          "wire": 455,
+          "hull_panel": 170,
+          "circuit": 172,
+          "engine_part": 26,
+          "control_part": 17,
+          "fuel_cell": 210,
+          "polymer": 552,
+          "energy_shard": 420,
+          "ingot": 1047,
+          "plastic_scrap": 1104,
+          "cable_scrap": 228,
+          "metal_scrap": 2094
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 3046,
+          "cable_scrap": 354,
+          "plastic_scrap": 1136,
+          "energy_shard": 420
+        },
+        "recipe_batches": {
+          "assemble_control": 17,
+          "assemble_engine": 26,
+          "assemble_hull": 170,
+          "blend_fuel": 210,
+          "assemble_circuit": 188,
+          "cut_gear": 127,
+          "press_plate": 698,
+          "recycle_polymer": 568,
+          "draw_wire": 354,
+          "smelt_ingot": 1523
+        },
+        "surplus": {
+          "gear": 1,
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 698,
+          "gear": 253,
+          "wire": 707,
+          "hull_panel": 170,
+          "circuit": 188,
+          "engine_part": 26,
+          "control_part": 17,
+          "fuel_cell": 210,
+          "polymer": 568,
+          "energy_shard": 420,
+          "ingot": 1523,
+          "plastic_scrap": 1136,
+          "cable_scrap": 354,
+          "metal_scrap": 3046
+        }
+      },
+      "reference_counts": {
+        "processor": 7,
+        "fabricator": 4,
+        "refinery": 2,
+        "assembler": 1,
+        "extractor": 8,
+        "solar_array": 7,
+        "logistics_hub": 1,
+        "delivery_link": 28
+      },
+      "peak_supply_power": 62.0,
+      "peak_demand_power": 56.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 38.075,
+        "wire": 23.6,
+        "polymer": 28.4
+      },
+      "production_capacity_lower_bound_minutes": 38.075,
+      "adverse_production_capacity_lower_bound_minutes": 63.45833333333333,
+      "all_manual_acquisition_worker_minutes_baseline": 157.3,
+      "all_manual_acquisition_worker_minutes_adverse": 187.15,
+      "all_manual_acquisition_team_minutes_baseline": 39.325,
+      "all_manual_acquisition_team_minutes_adverse": 46.7875,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 84.61111111111111,
+        "cable_scrap": 47.2,
+        "plastic_scrap": 47.333333333333336,
+        "energy_shard": 28.0
+      }
+    },
+    {
+      "planned_players": 5,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 15,
+          "gear": 10,
+          "wire": 10
+        },
+        "M2": {
+          "plate": 38,
+          "gear": 29,
+          "wire": 29
+        },
+        "M3": {
+          "hull_panel": 57,
+          "circuit": 29,
+          "gear": 29
+        },
+        "M4": {
+          "engine_part": 29,
+          "hull_panel": 38
+        },
+        "M5": {
+          "control_part": 19,
+          "hull_panel": 38,
+          "circuit": 29
+        },
+        "M6": {
+          "fuel_cell": 235,
+          "hull_panel": 57,
+          "wire": 47
+        }
+      },
+      "direct_goals": {
+        "plate": 53,
+        "gear": 68,
+        "wire": 86,
+        "hull_panel": 190,
+        "circuit": 58,
+        "engine_part": 29,
+        "control_part": 19,
+        "fuel_cell": 235
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 2340,
+          "cable_scrap": 254,
+          "plastic_scrap": 1234,
+          "energy_shard": 470
+        },
+        "recipe_batches": {
+          "assemble_control": 19,
+          "assemble_engine": 29,
+          "assemble_hull": 190,
+          "blend_fuel": 235,
+          "assemble_circuit": 192,
+          "cut_gear": 92,
+          "press_plate": 539,
+          "recycle_polymer": 617,
+          "draw_wire": 254,
+          "smelt_ingot": 1170
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 539,
+          "gear": 184,
+          "wire": 508,
+          "hull_panel": 190,
+          "circuit": 192,
+          "engine_part": 29,
+          "control_part": 19,
+          "fuel_cell": 235,
+          "polymer": 617,
+          "energy_shard": 470,
+          "ingot": 1170,
+          "plastic_scrap": 1234,
+          "cable_scrap": 254,
+          "metal_scrap": 2340
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 3436,
+          "cable_scrap": 397,
+          "plastic_scrap": 1278,
+          "energy_shard": 470
+        },
+        "recipe_batches": {
+          "assemble_control": 19,
+          "assemble_engine": 29,
+          "assemble_hull": 190,
+          "blend_fuel": 235,
+          "assemble_circuit": 214,
+          "cut_gear": 144,
+          "press_plate": 787,
+          "recycle_polymer": 639,
+          "draw_wire": 397,
+          "smelt_ingot": 1718
+        },
+        "surplus": {},
+        "expanded_requirements": {
+          "plate": 787,
+          "gear": 288,
+          "wire": 794,
+          "hull_panel": 190,
+          "circuit": 214,
+          "engine_part": 29,
+          "control_part": 19,
+          "fuel_cell": 235,
+          "polymer": 639,
+          "energy_shard": 470,
+          "ingot": 1718,
+          "plastic_scrap": 1278,
+          "cable_scrap": 397,
+          "metal_scrap": 3436
+        }
+      },
+      "reference_counts": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 30
+      },
+      "peak_supply_power": 70.0,
+      "peak_demand_power": 65.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 42.95,
+        "wire": 26.466666666666665,
+        "polymer": 31.95
+      },
+      "production_capacity_lower_bound_minutes": 42.95,
+      "adverse_production_capacity_lower_bound_minutes": 71.58333333333333,
+      "all_manual_acquisition_worker_minutes_baseline": 176.78333333333333,
+      "all_manual_acquisition_worker_minutes_adverse": 210.61666666666667,
+      "all_manual_acquisition_team_minutes_baseline": 35.35666666666667,
+      "all_manual_acquisition_team_minutes_adverse": 42.123333333333335,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 95.44444444444444,
+        "cable_scrap": 52.93333333333333,
+        "plastic_scrap": 35.5,
+        "energy_shard": 31.333333333333332
+      }
+    },
+    {
+      "planned_players": 6,
+      "scaled_milestones": {
+        "M1": {
+          "plate": 16,
+          "gear": 11,
+          "wire": 11
+        },
+        "M2": {
+          "plate": 42,
+          "gear": 32,
+          "wire": 32
+        },
+        "M3": {
+          "hull_panel": 63,
+          "circuit": 32,
+          "gear": 32
+        },
+        "M4": {
+          "engine_part": 32,
+          "hull_panel": 42
+        },
+        "M5": {
+          "control_part": 21,
+          "hull_panel": 42,
+          "circuit": 32
+        },
+        "M6": {
+          "fuel_cell": 260,
+          "hull_panel": 63,
+          "wire": 52
+        }
+      },
+      "direct_goals": {
+        "plate": 58,
+        "gear": 75,
+        "wire": 95,
+        "hull_panel": 210,
+        "circuit": 64,
+        "engine_part": 32,
+        "control_part": 21,
+        "fuel_cell": 260
+      },
+      "rocket_only": {
+        "raw": {
+          "metal_scrap": 2584,
+          "cable_scrap": 281,
+          "plastic_scrap": 1364,
+          "energy_shard": 520
+        },
+        "recipe_batches": {
+          "assemble_control": 21,
+          "assemble_engine": 32,
+          "assemble_hull": 210,
+          "blend_fuel": 260,
+          "assemble_circuit": 212,
+          "cut_gear": 102,
+          "press_plate": 595,
+          "recycle_polymer": 682,
+          "draw_wire": 281,
+          "smelt_ingot": 1292
+        },
+        "surplus": {
+          "gear": 1,
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 595,
+          "gear": 203,
+          "wire": 561,
+          "hull_panel": 210,
+          "circuit": 212,
+          "engine_part": 32,
+          "control_part": 21,
+          "fuel_cell": 260,
+          "polymer": 682,
+          "energy_shard": 520,
+          "ingot": 1292,
+          "plastic_scrap": 1364,
+          "cable_scrap": 281,
+          "metal_scrap": 2584
+        }
+      },
+      "reference_factory": {
+        "raw": {
+          "metal_scrap": 3688,
+          "cable_scrap": 426,
+          "plastic_scrap": 1408,
+          "energy_shard": 520
+        },
+        "recipe_batches": {
+          "assemble_control": 21,
+          "assemble_engine": 32,
+          "assemble_hull": 210,
+          "blend_fuel": 260,
+          "assemble_circuit": 234,
+          "cut_gear": 154,
+          "press_plate": 845,
+          "recycle_polymer": 704,
+          "draw_wire": 426,
+          "smelt_ingot": 1844
+        },
+        "surplus": {
+          "gear": 1,
+          "wire": 1
+        },
+        "expanded_requirements": {
+          "plate": 845,
+          "gear": 307,
+          "wire": 851,
+          "hull_panel": 210,
+          "circuit": 234,
+          "engine_part": 32,
+          "control_part": 21,
+          "fuel_cell": 260,
+          "polymer": 704,
+          "energy_shard": 520,
+          "ingot": 1844,
+          "plastic_scrap": 1408,
+          "cable_scrap": 426,
+          "metal_scrap": 3688
+        }
+      },
+      "reference_counts": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 32
+      },
+      "peak_supply_power": 70.0,
+      "peak_demand_power": 65.0,
+      "processor_work_minutes_per_assigned_machine": {
+        "ingot": 46.1,
+        "wire": 28.4,
+        "polymer": 35.2
+      },
+      "production_capacity_lower_bound_minutes": 46.1,
+      "adverse_production_capacity_lower_bound_minutes": 76.83333333333333,
+      "all_manual_acquisition_worker_minutes_baseline": 191.825,
+      "all_manual_acquisition_worker_minutes_adverse": 228.4,
+      "all_manual_acquisition_team_minutes_baseline": 31.97083333333333,
+      "all_manual_acquisition_team_minutes_adverse": 38.06666666666667,
+      "hypothetical_all_extractors_from_start_raw_capacity_minutes": {
+        "metal_scrap": 102.44444444444444,
+        "cable_scrap": 56.8,
+        "plastic_scrap": 39.111111111111114,
+        "energy_shard": 34.666666666666664
+      }
+    }
+  ],
+  "limitations": [
+    "unlock ordering",
+    "walking",
+    "construction work",
+    "machine switches",
+    "delivery route topology",
+    "learning",
+    "UI operation",
+    "machine idle while waiting for input"
+  ]
+}

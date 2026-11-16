@@ -1,0 +1,925 @@
+{
+  "simulation_scope": "Discrete-event manufacturing schedule with all raw materials, recipes and listed machines available at t=0, no walking, unlock sequencing, purchases, network, delivery transit, player work, construction or investment timing. Direct final bill is reserved first, and intermediate jobs are fair round-robin by machine category. Not an optimized schedule or complete gameplay simulation.",
+  "versions": {
+    "balance": "1.0.0-design"
+  },
+  "buffer_scope": "capacity200 applies only to shared intermediate inventory and its pending output reservations; no per-machine buffers or network routes are simulated. Final-bill deliveries have a separate sink.",
+  "source_scope": "Peak topup is instantaneous simultaneous full-factory demand, not session-long average; players can prebuffer, stagger, add extractors, accept slower production, or alter lines. Automatic source clocks are not part of the manufacturing experiment.",
+  "results": [
+    {
+      "planned_players": 1,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 1,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 48440,
+        "elapsed_minutes": 40.36666666666667,
+        "job_count": 1987,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 48,
+          "ingot": 2,
+          "polymer": 47,
+          "plate": 3,
+          "fuel_cell": 0,
+          "gear": 48,
+          "circuit": 56,
+          "control_part": 0,
+          "hull_panel": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9909,
+          "ingot_1": 0.9909,
+          "wire_0": 0.3121,
+          "polymer_0": 0.6738,
+          "fabricator_0": 0.8555,
+          "refinery_0": 0.4129,
+          "fabricator_1": 0.6012,
+          "fabricator_2": 0.1965,
+          "assembler_0": 0.1321
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 1,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 48440,
+        "elapsed_minutes": 40.36666666666667,
+        "job_count": 1987,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 48,
+          "ingot": 2,
+          "polymer": 47,
+          "plate": 3,
+          "fuel_cell": 0,
+          "gear": 48,
+          "circuit": 56,
+          "control_part": 0,
+          "hull_panel": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9909,
+          "ingot_1": 0.9909,
+          "wire_0": 0.3121,
+          "polymer_0": 0.6738,
+          "fabricator_0": 0.8555,
+          "refinery_0": 0.4129,
+          "fabricator_1": 0.6012,
+          "fabricator_2": 0.1965,
+          "assembler_0": 0.1321
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 1,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 48440,
+        "elapsed_minutes": 40.36666666666667,
+        "job_count": 1987,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 20,
+          "ingot": 4,
+          "polymer": 20,
+          "plate": 3,
+          "fuel_cell": 0,
+          "gear": 20,
+          "circuit": 20,
+          "control_part": 0,
+          "hull_panel": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9909,
+          "ingot_1": 0.9909,
+          "wire_0": 0.3121,
+          "polymer_0": 0.6738,
+          "fabricator_0": 0.9075,
+          "refinery_0": 0.4129,
+          "fabricator_1": 0.5673,
+          "fabricator_2": 0.1784,
+          "assembler_0": 0.1321
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 40.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 20.0,
+        "energy_shard": 12.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 24.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 12.0,
+        "energy_shard": 7.5
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 16.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 8.0,
+        "energy_shard": 4.5
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 0.4633333333333334,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.2316666666666667,
+        "energy_shard": 0.24281250000000001
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 0.5599999999999999,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.27999999999999997,
+        "energy_shard": 0.26999999999999996
+      },
+      "total_continuous_player_equivalents_baseline": 1.2175,
+      "total_continuous_player_equivalents_adverse_haul": 1.4349999999999998
+    },
+    {
+      "planned_players": 2,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 2,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 48640,
+        "elapsed_minutes": 40.53333333333333,
+        "job_count": 2747,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 111,
+          "ingot": 11,
+          "polymer": 30,
+          "gear": 72,
+          "plate": 49,
+          "fuel_cell": 0,
+          "circuit": 33,
+          "control_part": 0,
+          "engine_part": 0,
+          "hull_panel": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.8931,
+          "ingot_1": 0.8931,
+          "ingot_2": 0.8906,
+          "wire_0": 0.4178,
+          "polymer_0": 0.9745,
+          "fabricator_0": 0.9309,
+          "fabricator_1": 0.727,
+          "refinery_0": 0.5962,
+          "fabricator_2": 0.6373,
+          "assembler_0": 0.1974
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 2,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 48640,
+        "elapsed_minutes": 40.53333333333333,
+        "job_count": 2747,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 111,
+          "ingot": 11,
+          "polymer": 30,
+          "gear": 72,
+          "plate": 49,
+          "fuel_cell": 0,
+          "circuit": 33,
+          "control_part": 0,
+          "engine_part": 0,
+          "hull_panel": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.8931,
+          "ingot_1": 0.8931,
+          "ingot_2": 0.8906,
+          "wire_0": 0.4178,
+          "polymer_0": 0.9745,
+          "fabricator_0": 0.9309,
+          "fabricator_1": 0.727,
+          "refinery_0": 0.5962,
+          "fabricator_2": 0.6373,
+          "assembler_0": 0.1974
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 2,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 49320,
+        "elapsed_minutes": 41.1,
+        "job_count": 2747,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 19,
+          "ingot": 20,
+          "polymer": 20,
+          "gear": 20,
+          "plate": 20,
+          "fuel_cell": 0,
+          "circuit": 9,
+          "control_part": 0,
+          "engine_part": 0,
+          "hull_panel": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.91,
+          "ingot_1": 0.8662,
+          "ingot_2": 0.8637,
+          "wire_0": 0.412,
+          "polymer_0": 0.9611,
+          "fabricator_0": 0.9027,
+          "fabricator_1": 0.781,
+          "refinery_0": 0.588,
+          "fabricator_2": 0.5799,
+          "assembler_0": 0.1946
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 60.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 20.0,
+        "energy_shard": 12.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 24.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 7.5
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 0,
+        "energy_shard": 4.5
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 1.0425,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.0,
+        "energy_shard": 0.24281250000000001
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 1.26,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.0,
+        "energy_shard": 0.26999999999999996
+      },
+      "total_continuous_player_equivalents_baseline": 1.565,
+      "total_continuous_player_equivalents_adverse_haul": 1.855
+    },
+    {
+      "planned_players": 3,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 3,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 54680,
+        "elapsed_minutes": 45.56666666666667,
+        "job_count": 3336,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 24,
+          "ingot": 4,
+          "polymer": 149,
+          "gear": 88,
+          "plate": 19,
+          "fuel_cell": 0,
+          "circuit": 103,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9612,
+          "ingot_1": 0.959,
+          "ingot_2": 0.959,
+          "wire_0": 0.4448,
+          "polymer_0": 0.5333,
+          "polymer_1": 0.5333,
+          "fabricator_0": 0.8866,
+          "fabricator_1": 0.8186,
+          "refinery_0": 0.6584,
+          "fabricator_2": 0.5435,
+          "fabricator_3": 0.2334,
+          "assembler_0": 0.2165
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 3,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 54680,
+        "elapsed_minutes": 45.56666666666667,
+        "job_count": 3336,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 24,
+          "ingot": 4,
+          "polymer": 149,
+          "gear": 88,
+          "plate": 19,
+          "fuel_cell": 0,
+          "circuit": 103,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9612,
+          "ingot_1": 0.959,
+          "ingot_2": 0.959,
+          "wire_0": 0.4448,
+          "polymer_0": 0.5333,
+          "polymer_1": 0.5333,
+          "fabricator_0": 0.8866,
+          "fabricator_1": 0.8186,
+          "refinery_0": 0.6584,
+          "fabricator_2": 0.5435,
+          "fabricator_3": 0.2334,
+          "assembler_0": 0.2165
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 3,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 53320,
+        "elapsed_minutes": 44.43333333333333,
+        "job_count": 3336,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 20,
+          "ingot": 13,
+          "polymer": 20,
+          "gear": 20,
+          "plate": 6,
+          "fuel_cell": 0,
+          "circuit": 20,
+          "control_part": 0,
+          "hull_panel": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9857,
+          "ingot_1": 0.9835,
+          "ingot_2": 0.9835,
+          "wire_0": 0.4561,
+          "polymer_0": 0.6594,
+          "polymer_1": 0.4344,
+          "fabricator_0": 0.9182,
+          "fabricator_1": 0.7967,
+          "refinery_0": 0.6752,
+          "fabricator_2": 0.5484,
+          "fabricator_3": 0.2821,
+          "assembler_0": 0.2221
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 60.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 40.0,
+        "energy_shard": 12.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 7.5
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 24.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 16.0,
+        "energy_shard": 4.5
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 0.6950000000000001,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.4633333333333334,
+        "energy_shard": 0.24281250000000001
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 0.84,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.5599999999999999,
+        "energy_shard": 0.26999999999999996
+      },
+      "total_continuous_player_equivalents_baseline": 1.6808333333333334,
+      "total_continuous_player_equivalents_adverse_haul": 1.9949999999999999
+    },
+    {
+      "planned_players": 4,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 4,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 51080,
+        "elapsed_minutes": 42.56666666666667,
+        "job_count": 3881,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 9,
+          "ingot": 91,
+          "polymer": 80,
+          "gear": 105,
+          "plate": 48,
+          "fuel_cell": 0,
+          "circuit": 52,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.8951,
+          "ingot_1": 0.8951,
+          "ingot_2": 0.8951,
+          "ingot_3": 0.8927,
+          "wire_0": 0.5544,
+          "polymer_0": 0.6672,
+          "polymer_1": 0.6672,
+          "fabricator_0": 0.8935,
+          "fabricator_1": 0.8434,
+          "fabricator_2": 0.7291,
+          "refinery_0": 0.4111,
+          "refinery_1": 0.4111,
+          "fabricator_3": 0.6273,
+          "assembler_0": 0.2694
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 4,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 51080,
+        "elapsed_minutes": 42.56666666666667,
+        "job_count": 3881,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 9,
+          "ingot": 91,
+          "polymer": 80,
+          "gear": 105,
+          "plate": 48,
+          "fuel_cell": 0,
+          "circuit": 52,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.8951,
+          "ingot_1": 0.8951,
+          "ingot_2": 0.8951,
+          "ingot_3": 0.8927,
+          "wire_0": 0.5544,
+          "polymer_0": 0.6672,
+          "polymer_1": 0.6672,
+          "fabricator_0": 0.8935,
+          "fabricator_1": 0.8434,
+          "fabricator_2": 0.7291,
+          "refinery_0": 0.4111,
+          "refinery_1": 0.4111,
+          "fabricator_3": 0.6273,
+          "assembler_0": 0.2694
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 4,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 49880,
+        "elapsed_minutes": 41.56666666666667,
+        "job_count": 3881,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 19,
+          "ingot": 18,
+          "polymer": 20,
+          "gear": 19,
+          "plate": 18,
+          "fuel_cell": 0,
+          "circuit": 20,
+          "engine_part": 0,
+          "hull_panel": 0,
+          "control_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9383,
+          "ingot_1": 0.9383,
+          "ingot_2": 0.8949,
+          "ingot_3": 0.8925,
+          "wire_0": 0.5678,
+          "polymer_0": 0.7939,
+          "polymer_1": 0.5726,
+          "fabricator_0": 0.9575,
+          "fabricator_1": 0.8861,
+          "fabricator_2": 0.6913,
+          "refinery_0": 0.421,
+          "refinery_1": 0.421,
+          "fabricator_3": 0.6327,
+          "assembler_0": 0.2759
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 80.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 40.0,
+        "energy_shard": 24.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 44.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 16.0,
+        "energy_shard": 9.0
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 1.2741666666666667,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.4633333333333334,
+        "energy_shard": 0.48562500000000003
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 1.5399999999999998,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.5599999999999999,
+        "energy_shard": 0.5399999999999999
+      },
+      "total_continuous_player_equivalents_baseline": 2.5028125,
+      "total_continuous_player_equivalents_adverse_haul": 2.965
+    },
+    {
+      "planned_players": 5,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 5,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 52040,
+        "elapsed_minutes": 43.36666666666667,
+        "job_count": 4372,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 18,
+          "ingot": 48,
+          "polymer": 88,
+          "gear": 116,
+          "plate": 4,
+          "fuel_cell": 0,
+          "circuit": 133,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9915,
+          "ingot_1": 0.9915,
+          "ingot_2": 0.9892,
+          "ingot_3": 0.9892,
+          "wire_0": 0.6103,
+          "polymer_0": 0.7379,
+          "polymer_1": 0.7356,
+          "fabricator_0": 0.947,
+          "fabricator_1": 0.8901,
+          "fabricator_2": 0.7517,
+          "refinery_0": 0.4535,
+          "refinery_1": 0.4497,
+          "fabricator_3": 0.6357,
+          "fabricator_4": 0.1998,
+          "assembler_0": 0.1537,
+          "assembler_1": 0.1414
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 5,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 52040,
+        "elapsed_minutes": 43.36666666666667,
+        "job_count": 4372,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 18,
+          "ingot": 48,
+          "polymer": 88,
+          "gear": 116,
+          "plate": 4,
+          "fuel_cell": 0,
+          "circuit": 133,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9915,
+          "ingot_1": 0.9915,
+          "ingot_2": 0.9892,
+          "ingot_3": 0.9892,
+          "wire_0": 0.6103,
+          "polymer_0": 0.7379,
+          "polymer_1": 0.7356,
+          "fabricator_0": 0.947,
+          "fabricator_1": 0.8901,
+          "fabricator_2": 0.7517,
+          "refinery_0": 0.4535,
+          "refinery_1": 0.4497,
+          "fabricator_3": 0.6357,
+          "fabricator_4": 0.1998,
+          "assembler_0": 0.1537,
+          "assembler_1": 0.1414
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 5,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 52040,
+        "elapsed_minutes": 43.36666666666667,
+        "job_count": 4372,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {},
+        "maximum_stored_intermediate_per_item": {
+          "wire": 20,
+          "ingot": 4,
+          "polymer": 20,
+          "gear": 20,
+          "plate": 4,
+          "fuel_cell": 0,
+          "circuit": 18,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9915,
+          "ingot_1": 0.9915,
+          "ingot_2": 0.9892,
+          "ingot_3": 0.9892,
+          "wire_0": 0.6103,
+          "polymer_0": 0.837,
+          "polymer_1": 0.6364,
+          "fabricator_0": 0.9062,
+          "fabricator_1": 0.8324,
+          "fabricator_2": 0.7302,
+          "refinery_0": 0.5342,
+          "refinery_1": 0.3689,
+          "fabricator_3": 0.6218,
+          "fabricator_4": 0.3336,
+          "assembler_0": 0.1722,
+          "assembler_1": 0.123
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 80.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 40.0,
+        "energy_shard": 24.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 36.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 44.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 4.0,
+        "energy_shard": 9.0
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 1.2741666666666667,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.11583333333333334,
+        "energy_shard": 0.48562500000000003
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 1.5399999999999998,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.13999999999999999,
+        "energy_shard": 0.5399999999999999
+      },
+      "total_continuous_player_equivalents_baseline": 2.1553125,
+      "total_continuous_player_equivalents_adverse_haul": 2.545
+    },
+    {
+      "planned_players": 6,
+      "unlimited_shared_storage_schedule": {
+        "planned_players": 6,
+        "shared_intermediate_item_capacity": null,
+        "elapsed_ticks": 55760,
+        "elapsed_minutes": 46.46666666666667,
+        "job_count": 4730,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 49,
+          "ingot": 18,
+          "polymer": 92,
+          "gear": 129,
+          "plate": 12,
+          "fuel_cell": 0,
+          "circuit": 116,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9921,
+          "ingot_1": 0.9921,
+          "ingot_2": 0.9921,
+          "ingot_3": 0.9921,
+          "wire_0": 0.6112,
+          "polymer_0": 0.7575,
+          "polymer_1": 0.7575,
+          "fabricator_0": 0.9519,
+          "fabricator_1": 0.8974,
+          "fabricator_2": 0.7504,
+          "refinery_0": 0.4663,
+          "refinery_1": 0.4663,
+          "fabricator_3": 0.6349,
+          "fabricator_4": 0.2296,
+          "assembler_0": 0.1607,
+          "assembler_1": 0.1435
+        }
+      },
+      "shared_capacity_200_schedule": {
+        "planned_players": 6,
+        "shared_intermediate_item_capacity": 200,
+        "elapsed_ticks": 55760,
+        "elapsed_minutes": 46.46666666666667,
+        "job_count": 4730,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 49,
+          "ingot": 18,
+          "polymer": 92,
+          "gear": 129,
+          "plate": 12,
+          "fuel_cell": 0,
+          "circuit": 116,
+          "hull_panel": 0,
+          "control_part": 0,
+          "engine_part": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9921,
+          "ingot_1": 0.9921,
+          "ingot_2": 0.9921,
+          "ingot_3": 0.9921,
+          "wire_0": 0.6112,
+          "polymer_0": 0.7575,
+          "polymer_1": 0.7575,
+          "fabricator_0": 0.9519,
+          "fabricator_1": 0.8974,
+          "fabricator_2": 0.7504,
+          "refinery_0": 0.4663,
+          "refinery_1": 0.4663,
+          "fabricator_3": 0.6349,
+          "fabricator_4": 0.2296,
+          "assembler_0": 0.1607,
+          "assembler_1": 0.1435
+        }
+      },
+      "shared_capacity_20_stress_schedule": {
+        "planned_players": 6,
+        "shared_intermediate_item_capacity": 20,
+        "elapsed_ticks": 55640,
+        "elapsed_minutes": 46.36666666666667,
+        "job_count": 4730,
+        "final_bill_satisfied": true,
+        "recipe_dependency_and_nonnegative_inventory_passed": true,
+        "raw_consumption_equals_BOM": true,
+        "leftover_products": {
+          "wire": 1,
+          "gear": 1
+        },
+        "maximum_stored_intermediate_per_item": {
+          "wire": 19,
+          "ingot": 5,
+          "polymer": 20,
+          "gear": 19,
+          "plate": 19,
+          "fuel_cell": 0,
+          "circuit": 12,
+          "control_part": 0,
+          "engine_part": 0,
+          "hull_panel": 0
+        },
+        "machine_utilization": {
+          "ingot_0": 0.9942,
+          "ingot_1": 0.9942,
+          "ingot_2": 0.9942,
+          "ingot_3": 0.9942,
+          "wire_0": 0.6125,
+          "polymer_0": 0.8778,
+          "polymer_1": 0.6405,
+          "fabricator_0": 0.9432,
+          "fabricator_1": 0.9094,
+          "fabricator_2": 0.7239,
+          "refinery_0": 0.5428,
+          "refinery_1": 0.3918,
+          "fabricator_3": 0.642,
+          "fabricator_4": 0.2531,
+          "assembler_0": 0.2013,
+          "assembler_1": 0.1035
+        }
+      },
+      "peak_raw_demand_per_minute": {
+        "metal_scrap": 80.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 40.0,
+        "energy_shard": 24.0
+      },
+      "auto_raw_supply_per_minute": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 36.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_per_minute_to_sustain_peak": {
+        "metal_scrap": 44.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 4.0,
+        "energy_shard": 9.0
+      },
+      "continuous_player_equivalents_baseline": {
+        "metal_scrap": 1.2741666666666667,
+        "cable_scrap": 0.2796875,
+        "plastic_scrap": 0.11583333333333334,
+        "energy_shard": 0.48562500000000003
+      },
+      "continuous_player_equivalents_adverse_haul": {
+        "metal_scrap": 1.5399999999999998,
+        "cable_scrap": 0.325,
+        "plastic_scrap": 0.13999999999999999,
+        "energy_shard": 0.5399999999999999
+      },
+      "total_continuous_player_equivalents_baseline": 2.1553125,
+      "total_continuous_player_equivalents_adverse_haul": 2.545
+    }
+  ]
+}

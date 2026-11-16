@@ -1,0 +1,3437 @@
+{
+  "map_version": "1.0.0",
+  "balance_version_reference": "1.0.0-design",
+  "status": "geometry verified; runtime and complete production topology not yet tested",
+  "dimensions": {
+    "width": 48,
+    "depth": 32
+  },
+  "coordinate_convention": {
+    "axes": "x east, z south, renderer y up",
+    "tile_unit": 1,
+    "cell_center": "(x+0.5, 0, z+0.5)",
+    "rectangle_bounds": "inclusive cell indices",
+    "rotation": "0 north, 90 east, 180 south, 270 west",
+    "boundary": "x=0 or x=47 or z=0 or z=31 is unwalkable",
+    "interaction_distance": "actor world position to service interaction_anchor, not entity center",
+    "delivery_distance": "source entity delivery_distance_anchor to destination entity delivery_distance_anchor"
+  },
+  "protected_walkways": [
+    {
+      "id": "road_main",
+      "x_min": 1,
+      "x_max": 46,
+      "z_min": 14,
+      "z_max": 17
+    },
+    {
+      "id": "road_north",
+      "x_min": 22,
+      "x_max": 25,
+      "z_min": 1,
+      "z_max": 19
+    },
+    {
+      "id": "rocket_access",
+      "x_min": 18,
+      "x_max": 30,
+      "z_min": 18,
+      "z_max": 20
+    }
+  ],
+  "factory_regions": [
+    {
+      "id": "factory_a",
+      "x_min": 11,
+      "x_max": 21,
+      "z_min": 2,
+      "z_max": 12
+    },
+    {
+      "id": "factory_b",
+      "x_min": 26,
+      "x_max": 36,
+      "z_min": 2,
+      "z_max": 12
+    }
+  ],
+  "fixed_regions": [
+    {
+      "id": "home",
+      "x_min": 2,
+      "x_max": 12,
+      "z_min": 18,
+      "z_max": 23
+    },
+    {
+      "id": "rocket_pad",
+      "x_min": 18,
+      "x_max": 30,
+      "z_min": 20,
+      "z_max": 29
+    }
+  ],
+  "spawn_points": [
+    {
+      "x": 12,
+      "z": 19
+    },
+    {
+      "x": 14,
+      "z": 19
+    },
+    {
+      "x": 12,
+      "z": 21
+    },
+    {
+      "x": 14,
+      "z": 21
+    },
+    {
+      "x": 12,
+      "z": 23
+    },
+    {
+      "x": 14,
+      "z": 23
+    }
+  ],
+  "source_zones": [
+    {
+      "id": "source_metal_scrap",
+      "x_min": 2,
+      "x_max": 8,
+      "z_min": 3,
+      "z_max": 10,
+      "item_id": "metal_scrap",
+      "name_ko": "금속 고철",
+      "manual_service_points": [
+        {
+          "slot": 1,
+          "cell": {
+            "x": 9,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 4.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 2,
+          "cell": {
+            "x": 9,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 6.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 3,
+          "cell": {
+            "x": 9,
+            "z": 8
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 8.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 4,
+          "cell": {
+            "x": 3,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 3.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 5,
+          "cell": {
+            "x": 5,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 5.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 6,
+          "cell": {
+            "x": 7,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 7.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        }
+      ],
+      "extractor_pads": [
+        {
+          "id": "pad_metal_scrap_1",
+          "kind": "extractor_pad",
+          "label": "X1",
+          "top_left": {
+            "x": 2,
+            "z": 3
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 90,
+          "service_points": [
+            {
+              "cell": {
+                "x": 4,
+                "z": 3
+              },
+              "interaction_anchor": {
+                "x": 4,
+                "z": 3.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 3,
+            "z": 4
+          },
+          "solid": false,
+          "item_id": "metal_scrap"
+        },
+        {
+          "id": "pad_metal_scrap_2",
+          "kind": "extractor_pad",
+          "label": "X2",
+          "top_left": {
+            "x": 5,
+            "z": 3
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 180,
+          "service_points": [
+            {
+              "cell": {
+                "x": 6,
+                "z": 5
+              },
+              "interaction_anchor": {
+                "x": 6.5,
+                "z": 5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 6,
+            "z": 4
+          },
+          "solid": false,
+          "item_id": "metal_scrap"
+        },
+        {
+          "id": "pad_metal_scrap_3",
+          "kind": "extractor_pad",
+          "label": "X3",
+          "top_left": {
+            "x": 2,
+            "z": 6
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 90,
+          "service_points": [
+            {
+              "cell": {
+                "x": 4,
+                "z": 6
+              },
+              "interaction_anchor": {
+                "x": 4,
+                "z": 6.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 3,
+            "z": 7
+          },
+          "solid": false,
+          "item_id": "metal_scrap"
+        }
+      ],
+      "decorative_solid_footprints": []
+    },
+    {
+      "id": "source_cable_scrap",
+      "x_min": 39,
+      "x_max": 45,
+      "z_min": 3,
+      "z_max": 10,
+      "item_id": "cable_scrap",
+      "name_ko": "폐전선",
+      "manual_service_points": [
+        {
+          "slot": 1,
+          "cell": {
+            "x": 38,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 4.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 2,
+          "cell": {
+            "x": 38,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 6.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 3,
+          "cell": {
+            "x": 38,
+            "z": 8
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 8.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 4,
+          "cell": {
+            "x": 40,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 40.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 5,
+          "cell": {
+            "x": 42,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 42.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 6,
+          "cell": {
+            "x": 44,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 44.5,
+            "z": 11.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        }
+      ],
+      "extractor_pads": [
+        {
+          "id": "pad_cable_scrap_1",
+          "kind": "extractor_pad",
+          "label": "X1",
+          "top_left": {
+            "x": 44,
+            "z": 3
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 270,
+          "service_points": [
+            {
+              "cell": {
+                "x": 43,
+                "z": 4
+              },
+              "interaction_anchor": {
+                "x": 44,
+                "z": 4.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 45,
+            "z": 4
+          },
+          "solid": false,
+          "item_id": "cable_scrap"
+        },
+        {
+          "id": "pad_cable_scrap_2",
+          "kind": "extractor_pad",
+          "label": "X2",
+          "top_left": {
+            "x": 41,
+            "z": 3
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 180,
+          "service_points": [
+            {
+              "cell": {
+                "x": 42,
+                "z": 5
+              },
+              "interaction_anchor": {
+                "x": 42.5,
+                "z": 5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 42,
+            "z": 4
+          },
+          "solid": false,
+          "item_id": "cable_scrap"
+        },
+        {
+          "id": "pad_cable_scrap_3",
+          "kind": "extractor_pad",
+          "label": "X3",
+          "top_left": {
+            "x": 44,
+            "z": 6
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 270,
+          "service_points": [
+            {
+              "cell": {
+                "x": 43,
+                "z": 7
+              },
+              "interaction_anchor": {
+                "x": 44,
+                "z": 7.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 45,
+            "z": 7
+          },
+          "solid": false,
+          "item_id": "cable_scrap"
+        }
+      ],
+      "decorative_solid_footprints": []
+    },
+    {
+      "id": "source_plastic_scrap",
+      "x_min": 2,
+      "x_max": 8,
+      "z_min": 25,
+      "z_max": 29,
+      "item_id": "plastic_scrap",
+      "name_ko": "폐플라스틱",
+      "manual_service_points": [
+        {
+          "slot": 1,
+          "cell": {
+            "x": 9,
+            "z": 25
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 25.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 2,
+          "cell": {
+            "x": 9,
+            "z": 27
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 27.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 3,
+          "cell": {
+            "x": 9,
+            "z": 29
+          },
+          "interaction_anchor": {
+            "x": 9.5,
+            "z": 29.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 4,
+          "cell": {
+            "x": 3,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 3.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 5,
+          "cell": {
+            "x": 5,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 5.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 6,
+          "cell": {
+            "x": 7,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 7.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        }
+      ],
+      "extractor_pads": [
+        {
+          "id": "pad_plastic_scrap_1",
+          "kind": "extractor_pad",
+          "label": "X1",
+          "top_left": {
+            "x": 2,
+            "z": 25
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 90,
+          "service_points": [
+            {
+              "cell": {
+                "x": 4,
+                "z": 25
+              },
+              "interaction_anchor": {
+                "x": 4,
+                "z": 25.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 3,
+            "z": 26
+          },
+          "solid": false,
+          "item_id": "plastic_scrap"
+        },
+        {
+          "id": "pad_plastic_scrap_2",
+          "kind": "extractor_pad",
+          "label": "X2",
+          "top_left": {
+            "x": 5,
+            "z": 25
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 90,
+          "service_points": [
+            {
+              "cell": {
+                "x": 7,
+                "z": 25
+              },
+              "interaction_anchor": {
+                "x": 7,
+                "z": 25.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 6,
+            "z": 26
+          },
+          "solid": false,
+          "item_id": "plastic_scrap"
+        },
+        {
+          "id": "pad_plastic_scrap_3",
+          "kind": "extractor_pad",
+          "label": "X3",
+          "top_left": {
+            "x": 2,
+            "z": 28
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 90,
+          "service_points": [
+            {
+              "cell": {
+                "x": 4,
+                "z": 28
+              },
+              "interaction_anchor": {
+                "x": 4,
+                "z": 28.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 3,
+            "z": 29
+          },
+          "solid": false,
+          "item_id": "plastic_scrap"
+        }
+      ],
+      "decorative_solid_footprints": []
+    },
+    {
+      "id": "source_energy_shard",
+      "x_min": 39,
+      "x_max": 45,
+      "z_min": 25,
+      "z_max": 29,
+      "item_id": "energy_shard",
+      "name_ko": "동력석",
+      "manual_service_points": [
+        {
+          "slot": 1,
+          "cell": {
+            "x": 38,
+            "z": 25
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 25.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 2,
+          "cell": {
+            "x": 38,
+            "z": 27
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 27.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 3,
+          "cell": {
+            "x": 38,
+            "z": 29
+          },
+          "interaction_anchor": {
+            "x": 38.5,
+            "z": 29.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 4,
+          "cell": {
+            "x": 40,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 40.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 5,
+          "cell": {
+            "x": 42,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 42.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        },
+        {
+          "slot": 6,
+          "cell": {
+            "x": 44,
+            "z": 24
+          },
+          "interaction_anchor": {
+            "x": 44.5,
+            "z": 24.5
+          },
+          "anchor_rule": "dedicated non-solid collection marker, not the decorative heap center"
+        }
+      ],
+      "extractor_pads": [
+        {
+          "id": "pad_energy_shard_1",
+          "kind": "extractor_pad",
+          "label": "X1",
+          "top_left": {
+            "x": 44,
+            "z": 25
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 270,
+          "service_points": [
+            {
+              "cell": {
+                "x": 43,
+                "z": 26
+              },
+              "interaction_anchor": {
+                "x": 44,
+                "z": 26.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 45,
+            "z": 26
+          },
+          "solid": false,
+          "item_id": "energy_shard"
+        },
+        {
+          "id": "pad_energy_shard_2",
+          "kind": "extractor_pad",
+          "label": "X2",
+          "top_left": {
+            "x": 41,
+            "z": 25
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 180,
+          "service_points": [
+            {
+              "cell": {
+                "x": 42,
+                "z": 27
+              },
+              "interaction_anchor": {
+                "x": 42.5,
+                "z": 27
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 42,
+            "z": 26
+          },
+          "solid": false,
+          "item_id": "energy_shard"
+        },
+        {
+          "id": "pad_energy_shard_3",
+          "kind": "extractor_pad",
+          "label": "X3",
+          "top_left": {
+            "x": 44,
+            "z": 28
+          },
+          "footprint": {
+            "width": 2,
+            "depth": 2
+          },
+          "rotation_degrees": 270,
+          "service_points": [
+            {
+              "cell": {
+                "x": 43,
+                "z": 29
+              },
+              "interaction_anchor": {
+                "x": 44,
+                "z": 29.5
+              }
+            }
+          ],
+          "delivery_distance_anchor": {
+            "x": 45,
+            "z": 29
+          },
+          "solid": false,
+          "item_id": "energy_shard"
+        }
+      ],
+      "decorative_solid_footprints": []
+    }
+  ],
+  "starter_entities": [
+    {
+      "id": "starter_workbench",
+      "kind": "manual_workbench",
+      "label": "WB",
+      "top_left": {
+        "x": 2,
+        "z": 21
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 2,
+            "z": 20
+          },
+          "interaction_anchor": {
+            "x": 2.5,
+            "z": 21
+          },
+          "player_channel": 1
+        },
+        {
+          "cell": {
+            "x": 3,
+            "z": 20
+          },
+          "interaction_anchor": {
+            "x": 3.5,
+            "z": 21
+          },
+          "player_channel": 2
+        },
+        {
+          "cell": {
+            "x": 2,
+            "z": 23
+          },
+          "interaction_anchor": {
+            "x": 2.5,
+            "z": 23
+          },
+          "player_channel": 3
+        },
+        {
+          "cell": {
+            "x": 3,
+            "z": 23
+          },
+          "interaction_anchor": {
+            "x": 3.5,
+            "z": 23
+          },
+          "player_channel": 4
+        },
+        {
+          "cell": {
+            "x": 1,
+            "z": 21
+          },
+          "interaction_anchor": {
+            "x": 2,
+            "z": 21.5
+          },
+          "player_channel": 5
+        },
+        {
+          "cell": {
+            "x": 4,
+            "z": 22
+          },
+          "interaction_anchor": {
+            "x": 4,
+            "z": 22.5
+          },
+          "player_channel": 6
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 22
+      },
+      "solid": true,
+      "indestructible": true,
+      "delivery_allowed": false
+    },
+    {
+      "id": "shared_warehouse",
+      "kind": "shared_warehouse",
+      "label": "WH",
+      "top_left": {
+        "x": 6,
+        "z": 20
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 6,
+            "z": 19
+          },
+          "interaction_anchor": {
+            "x": 6.5,
+            "z": 20
+          }
+        },
+        {
+          "cell": {
+            "x": 7,
+            "z": 22
+          },
+          "interaction_anchor": {
+            "x": 7.5,
+            "z": 22
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 7,
+        "z": 21
+      },
+      "solid": true,
+      "indestructible": true,
+      "delivery_input": true,
+      "delivery_output": true
+    },
+    {
+      "id": "recovery_vault",
+      "kind": "recovery_vault",
+      "label": "RV",
+      "top_left": {
+        "x": 9,
+        "z": 20
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 10,
+            "z": 22
+          },
+          "interaction_anchor": {
+            "x": 10.5,
+            "z": 22
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 10,
+        "z": 21
+      },
+      "solid": true,
+      "indestructible": true,
+      "delivery_allowed": false,
+      "note": "abnormal administrative recovery only; no normal demolition refund or regular cargo teleport"
+    },
+    {
+      "id": "starter_generator",
+      "kind": "starter_generator",
+      "label": "GEN",
+      "top_left": {
+        "x": 2,
+        "z": 18
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 0,
+      "service_points": [
+        {
+          "cell": {
+            "x": 2,
+            "z": 17
+          },
+          "interaction_anchor": {
+            "x": 2.5,
+            "z": 18
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 19
+      },
+      "solid": true,
+      "indestructible": true,
+      "delivery_allowed": false
+    }
+  ],
+  "factory_slot_template": [
+    {
+      "id": "A01",
+      "kind": "factory_slot",
+      "label": "A01",
+      "top_left": {
+        "x": 11,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A02",
+      "kind": "factory_slot",
+      "label": "A02",
+      "top_left": {
+        "x": 14,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 2
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 2.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A03",
+      "kind": "factory_slot",
+      "label": "A03",
+      "top_left": {
+        "x": 17,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A04",
+      "kind": "factory_slot",
+      "label": "A04",
+      "top_left": {
+        "x": 20,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 3
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 3.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A05",
+      "kind": "factory_slot",
+      "label": "A05",
+      "top_left": {
+        "x": 11,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A06",
+      "kind": "factory_slot",
+      "label": "A06",
+      "top_left": {
+        "x": 14,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 5
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 5.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A07",
+      "kind": "factory_slot",
+      "label": "A07",
+      "top_left": {
+        "x": 17,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A08",
+      "kind": "factory_slot",
+      "label": "A08",
+      "top_left": {
+        "x": 20,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 6.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A09",
+      "kind": "factory_slot",
+      "label": "A09",
+      "top_left": {
+        "x": 11,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A10",
+      "kind": "factory_slot",
+      "label": "A10",
+      "top_left": {
+        "x": 14,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 8
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 8.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A11",
+      "kind": "factory_slot",
+      "label": "A11",
+      "top_left": {
+        "x": 17,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A12",
+      "kind": "factory_slot",
+      "label": "A12",
+      "top_left": {
+        "x": 20,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 9
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 9.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A13",
+      "kind": "factory_slot",
+      "label": "A13",
+      "top_left": {
+        "x": 11,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A14",
+      "kind": "factory_slot",
+      "label": "A14",
+      "top_left": {
+        "x": 14,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 11.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A15",
+      "kind": "factory_slot",
+      "label": "A15",
+      "top_left": {
+        "x": 17,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "A16",
+      "kind": "factory_slot",
+      "label": "A16",
+      "top_left": {
+        "x": 20,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 12
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 12.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_a"
+    },
+    {
+      "id": "B01",
+      "kind": "factory_slot",
+      "label": "B01",
+      "top_left": {
+        "x": 26,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B02",
+      "kind": "factory_slot",
+      "label": "B02",
+      "top_left": {
+        "x": 29,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 2
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 2.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B03",
+      "kind": "factory_slot",
+      "label": "B03",
+      "top_left": {
+        "x": 32,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B04",
+      "kind": "factory_slot",
+      "label": "B04",
+      "top_left": {
+        "x": 35,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 3
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 3.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 3
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B05",
+      "kind": "factory_slot",
+      "label": "B05",
+      "top_left": {
+        "x": 26,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B06",
+      "kind": "factory_slot",
+      "label": "B06",
+      "top_left": {
+        "x": 29,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 5
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 5.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B07",
+      "kind": "factory_slot",
+      "label": "B07",
+      "top_left": {
+        "x": 32,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B08",
+      "kind": "factory_slot",
+      "label": "B08",
+      "top_left": {
+        "x": 35,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 6.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 6
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B09",
+      "kind": "factory_slot",
+      "label": "B09",
+      "top_left": {
+        "x": 26,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B10",
+      "kind": "factory_slot",
+      "label": "B10",
+      "top_left": {
+        "x": 29,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 8
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 8.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B11",
+      "kind": "factory_slot",
+      "label": "B11",
+      "top_left": {
+        "x": 32,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B12",
+      "kind": "factory_slot",
+      "label": "B12",
+      "top_left": {
+        "x": 35,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 9
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 9.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 9
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B13",
+      "kind": "factory_slot",
+      "label": "B13",
+      "top_left": {
+        "x": 26,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B14",
+      "kind": "factory_slot",
+      "label": "B14",
+      "top_left": {
+        "x": 29,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 11.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B15",
+      "kind": "factory_slot",
+      "label": "B15",
+      "top_left": {
+        "x": 32,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    },
+    {
+      "id": "B16",
+      "kind": "factory_slot",
+      "label": "B16",
+      "top_left": {
+        "x": 35,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 12
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 12.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 12
+      },
+      "solid": false,
+      "factory_region": "factory_b"
+    }
+  ],
+  "reference_six_player_entities": [
+    {
+      "id": "solar_1",
+      "kind": "solar_array",
+      "label": "S1",
+      "top_left": {
+        "x": 11,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A01",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_2",
+      "kind": "solar_array",
+      "label": "S2",
+      "top_left": {
+        "x": 14,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 2
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 2.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A02",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_3",
+      "kind": "solar_array",
+      "label": "S3",
+      "top_left": {
+        "x": 17,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A03",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_4",
+      "kind": "solar_array",
+      "label": "S4",
+      "top_left": {
+        "x": 20,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 3
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 3.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A04",
+      "delivery_allowed": false
+    },
+    {
+      "id": "processor_ingot_1",
+      "kind": "processor",
+      "label": "P1",
+      "top_left": {
+        "x": 11,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 6
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A05",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "smelt_ingot"
+      ]
+    },
+    {
+      "id": "processor_ingot_2",
+      "kind": "processor",
+      "label": "P2",
+      "top_left": {
+        "x": 14,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 5
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 5.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 6
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A06",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "smelt_ingot"
+      ]
+    },
+    {
+      "id": "processor_ingot_3",
+      "kind": "processor",
+      "label": "P3",
+      "top_left": {
+        "x": 17,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 7
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 7
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 6
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A07",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "smelt_ingot"
+      ]
+    },
+    {
+      "id": "processor_ingot_4",
+      "kind": "processor",
+      "label": "P4",
+      "top_left": {
+        "x": 20,
+        "z": 5
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 6.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 6
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A08",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "smelt_ingot"
+      ]
+    },
+    {
+      "id": "fabricator_plate_1",
+      "kind": "fabricator",
+      "label": "F1",
+      "top_left": {
+        "x": 11,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 9
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A09",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "press_plate"
+      ]
+    },
+    {
+      "id": "fabricator_plate_hull",
+      "kind": "fabricator",
+      "label": "F2",
+      "top_left": {
+        "x": 14,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 8
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 8.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 9
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A10",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "press_plate",
+        "assemble_hull"
+      ],
+      "recipe_schedule_note": "Sequential recipe change is required. These outputs are not produced simultaneously."
+    },
+    {
+      "id": "fabricator_gear",
+      "kind": "fabricator",
+      "label": "F3",
+      "top_left": {
+        "x": 17,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 9
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A11",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "cut_gear"
+      ]
+    },
+    {
+      "id": "assembler_engine",
+      "kind": "assembler",
+      "label": "A1",
+      "top_left": {
+        "x": 20,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 9
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 9.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 9
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A12",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "assemble_engine"
+      ]
+    },
+    {
+      "id": "processor_polymer_1",
+      "kind": "processor",
+      "label": "P5",
+      "top_left": {
+        "x": 11,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 12,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 12.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 12,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A13",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "recycle_polymer"
+      ]
+    },
+    {
+      "id": "processor_polymer_2",
+      "kind": "processor",
+      "label": "P6",
+      "top_left": {
+        "x": 14,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 16,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 16,
+            "z": 11.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 15,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A14",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "recycle_polymer"
+      ]
+    },
+    {
+      "id": "fabricator_circuit_1",
+      "kind": "fabricator",
+      "label": "F4",
+      "top_left": {
+        "x": 17,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 18,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 18.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 18,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A15",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "assemble_circuit"
+      ]
+    },
+    {
+      "id": "logistics_hub",
+      "kind": "logistics_hub",
+      "label": "HUB",
+      "top_left": {
+        "x": 20,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 19,
+            "z": 12
+          },
+          "interaction_anchor": {
+            "x": 20,
+            "z": 12.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 21,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_a",
+      "slot_id": "A16",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_5",
+      "kind": "solar_array",
+      "label": "S5",
+      "top_left": {
+        "x": 26,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B01",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_6",
+      "kind": "solar_array",
+      "label": "S6",
+      "top_left": {
+        "x": 29,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 2
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 2.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B02",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_7",
+      "kind": "solar_array",
+      "label": "S7",
+      "top_left": {
+        "x": 32,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 4
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B03",
+      "delivery_allowed": false
+    },
+    {
+      "id": "solar_8",
+      "kind": "solar_array",
+      "label": "S8",
+      "top_left": {
+        "x": 35,
+        "z": 2
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 3
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 3.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 3
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B04",
+      "delivery_allowed": false
+    },
+    {
+      "id": "assembler_control",
+      "kind": "assembler",
+      "label": "A2",
+      "top_left": {
+        "x": 26,
+        "z": 8
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 10
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 10
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 9
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B09",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "assemble_control"
+      ]
+    },
+    {
+      "id": "processor_wire",
+      "kind": "processor",
+      "label": "P7",
+      "top_left": {
+        "x": 26,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 27,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 27.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 27,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B13",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "draw_wire"
+      ]
+    },
+    {
+      "id": "fabricator_circuit_2",
+      "kind": "fabricator",
+      "label": "F5",
+      "top_left": {
+        "x": 29,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 31,
+            "z": 11
+          },
+          "interaction_anchor": {
+            "x": 31,
+            "z": 11.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 30,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B14",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "assemble_circuit"
+      ]
+    },
+    {
+      "id": "refinery_1",
+      "kind": "refinery",
+      "label": "R1",
+      "top_left": {
+        "x": 32,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 33,
+            "z": 13
+          },
+          "interaction_anchor": {
+            "x": 33.5,
+            "z": 13
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 33,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B15",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "blend_fuel"
+      ]
+    },
+    {
+      "id": "refinery_2",
+      "kind": "refinery",
+      "label": "R2",
+      "top_left": {
+        "x": 35,
+        "z": 11
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 34,
+            "z": 12
+          },
+          "interaction_anchor": {
+            "x": 35,
+            "z": 12.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 36,
+        "z": 12
+      },
+      "solid": true,
+      "factory_region": "factory_b",
+      "slot_id": "B16",
+      "delivery_allowed": true,
+      "recipe_ids_example": [
+        "blend_fuel"
+      ]
+    },
+    {
+      "id": "extractor_metal_scrap_1",
+      "kind": "extractor",
+      "label": "X1",
+      "top_left": {
+        "x": 2,
+        "z": 3
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 4,
+            "z": 3
+          },
+          "interaction_anchor": {
+            "x": 4,
+            "z": 3.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 4
+      },
+      "solid": true,
+      "item_id": "metal_scrap",
+      "source_pad_id": "pad_metal_scrap_1",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_metal_scrap_2",
+      "kind": "extractor",
+      "label": "X2",
+      "top_left": {
+        "x": 5,
+        "z": 3
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 6,
+            "z": 5
+          },
+          "interaction_anchor": {
+            "x": 6.5,
+            "z": 5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 6,
+        "z": 4
+      },
+      "solid": true,
+      "item_id": "metal_scrap",
+      "source_pad_id": "pad_metal_scrap_2",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_metal_scrap_3",
+      "kind": "extractor",
+      "label": "X3",
+      "top_left": {
+        "x": 2,
+        "z": 6
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 4,
+            "z": 6
+          },
+          "interaction_anchor": {
+            "x": 4,
+            "z": 6.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 7
+      },
+      "solid": true,
+      "item_id": "metal_scrap",
+      "source_pad_id": "pad_metal_scrap_3",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_cable_scrap_1",
+      "kind": "extractor",
+      "label": "X4",
+      "top_left": {
+        "x": 44,
+        "z": 3
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 43,
+            "z": 4
+          },
+          "interaction_anchor": {
+            "x": 44,
+            "z": 4.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 45,
+        "z": 4
+      },
+      "solid": true,
+      "item_id": "cable_scrap",
+      "source_pad_id": "pad_cable_scrap_1",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_plastic_scrap_1",
+      "kind": "extractor",
+      "label": "X5",
+      "top_left": {
+        "x": 2,
+        "z": 25
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 4,
+            "z": 25
+          },
+          "interaction_anchor": {
+            "x": 4,
+            "z": 25.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 26
+      },
+      "solid": true,
+      "item_id": "plastic_scrap",
+      "source_pad_id": "pad_plastic_scrap_1",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_plastic_scrap_2",
+      "kind": "extractor",
+      "label": "X6",
+      "top_left": {
+        "x": 5,
+        "z": 25
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 7,
+            "z": 25
+          },
+          "interaction_anchor": {
+            "x": 7,
+            "z": 25.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 6,
+        "z": 26
+      },
+      "solid": true,
+      "item_id": "plastic_scrap",
+      "source_pad_id": "pad_plastic_scrap_2",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_plastic_scrap_3",
+      "kind": "extractor",
+      "label": "X7",
+      "top_left": {
+        "x": 2,
+        "z": 28
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 90,
+      "service_points": [
+        {
+          "cell": {
+            "x": 4,
+            "z": 28
+          },
+          "interaction_anchor": {
+            "x": 4,
+            "z": 28.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 3,
+        "z": 29
+      },
+      "solid": true,
+      "item_id": "plastic_scrap",
+      "source_pad_id": "pad_plastic_scrap_3",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_energy_shard_1",
+      "kind": "extractor",
+      "label": "X8",
+      "top_left": {
+        "x": 44,
+        "z": 25
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 270,
+      "service_points": [
+        {
+          "cell": {
+            "x": 43,
+            "z": 26
+          },
+          "interaction_anchor": {
+            "x": 44,
+            "z": 26.5
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 45,
+        "z": 26
+      },
+      "solid": true,
+      "item_id": "energy_shard",
+      "source_pad_id": "pad_energy_shard_1",
+      "delivery_allowed": true
+    },
+    {
+      "id": "extractor_energy_shard_2",
+      "kind": "extractor",
+      "label": "X9",
+      "top_left": {
+        "x": 41,
+        "z": 25
+      },
+      "footprint": {
+        "width": 2,
+        "depth": 2
+      },
+      "rotation_degrees": 180,
+      "service_points": [
+        {
+          "cell": {
+            "x": 42,
+            "z": 27
+          },
+          "interaction_anchor": {
+            "x": 42.5,
+            "z": 27
+          }
+        }
+      ],
+      "delivery_distance_anchor": {
+        "x": 42,
+        "z": 26
+      },
+      "solid": true,
+      "item_id": "energy_shard",
+      "source_pad_id": "pad_energy_shard_2",
+      "delivery_allowed": true
+    }
+  ],
+  "notes": [
+    "Only starter_entities and rocket_envelope are solid in the initial world.",
+    "reference_six_player_entities are a late-game placement example and MUST NOT be spawned at new-game start.",
+    "Source decorations are non-solid; only installed extractor footprints collide.",
+    "Source unlocks change interaction permission, not walkability.",
+    "The 32 factory slots demonstrate one accessible layout, not the maximum possible free placement count.",
+    "The 24-tile limit applies to delivery endpoint pairs; the hub has no 24-tile coverage radius.",
+    "A logistics hub activates the whole delivery network according to balance_v1.json.",
+    "The 32 reference delivery links are an economic costing assumption, not a complete route-topology proof.",
+    "A processing machine is not a generic relay. It only accepts inputs for its selected recipe and produces that recipe's outputs.",
+    "Normal demolition refunds go into a local non-solid recovery box at the demolition site. The fixed recovery_vault is for abnormal administrative recovery only."
+  ],
+  "rocket_envelope": {
+    "id": "rocket",
+    "kind": "rocket",
+    "label": "ROCKET",
+    "top_left": {
+      "x": 22,
+      "z": 23
+    },
+    "footprint": {
+      "width": 5,
+      "depth": 6
+    },
+    "rotation_degrees": 0,
+    "solid": true,
+    "service_points": [
+      {
+        "cell": {
+          "x": 22,
+          "z": 22
+        },
+        "interaction_anchor": {
+          "x": 22.5,
+          "z": 23
+        }
+      },
+      {
+        "cell": {
+          "x": 23,
+          "z": 22
+        },
+        "interaction_anchor": {
+          "x": 23.5,
+          "z": 23
+        }
+      },
+      {
+        "cell": {
+          "x": 24,
+          "z": 22
+        },
+        "interaction_anchor": {
+          "x": 24.5,
+          "z": 23
+        }
+      },
+      {
+        "cell": {
+          "x": 25,
+          "z": 22
+        },
+        "interaction_anchor": {
+          "x": 25.5,
+          "z": 23
+        }
+      },
+      {
+        "cell": {
+          "x": 26,
+          "z": 22
+        },
+        "interaction_anchor": {
+          "x": 26.5,
+          "z": 23
+        }
+      },
+      {
+        "cell": {
+          "x": 21,
+          "z": 23
+        },
+        "interaction_anchor": {
+          "x": 22,
+          "z": 23.5
+        }
+      }
+    ],
+    "delivery_distance_anchor": {
+      "x": 24.5,
+      "z": 26
+    },
+    "delivery_input": true,
+    "delivery_output": false,
+    "note": "Fixed construction envelope is visible as a marked work zone from the start; later models do not grow its ground collision."
+  },
+  "distance_probe_pairs": [
+    {
+      "from": "extractor_metal_scrap_1",
+      "to": "processor_ingot_1",
+      "item_filter": "metal_scrap",
+      "reason": "metal source to nearby west processor"
+    },
+    {
+      "from": "extractor_metal_scrap_3",
+      "to": "processor_ingot_4",
+      "item_filter": "metal_scrap",
+      "reason": "metal source to farthest assigned ingot processor"
+    },
+    {
+      "from": "extractor_plastic_scrap_3",
+      "to": "processor_polymer_1",
+      "item_filter": "plastic_scrap",
+      "reason": "southwest source to west factory"
+    },
+    {
+      "from": "extractor_cable_scrap_1",
+      "to": "processor_wire",
+      "item_filter": "cable_scrap",
+      "reason": "northeast source to east factory"
+    },
+    {
+      "from": "extractor_energy_shard_1",
+      "to": "refinery_1",
+      "item_filter": "energy_shard",
+      "reason": "southeast source to east refinery"
+    },
+    {
+      "from": "processor_polymer_2",
+      "to": "refinery_2",
+      "item_filter": "polymer",
+      "reason": "west to east material feed"
+    },
+    {
+      "from": "processor_wire",
+      "to": "fabricator_circuit_1",
+      "item_filter": "wire",
+      "reason": "east to west material feed"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "processor_wire",
+      "item_filter": "cable_scrap",
+      "reason": "central storage with cable scrap to reachable wire processor"
+    },
+    {
+      "from": "assembler_engine",
+      "to": "rocket",
+      "item_filter": "engine_part",
+      "reason": "engine module delivery to an active accepting rocket milestone"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "extractor_cable_scrap_1",
+      "reason": "distance only; expected too long and not a valid extractor input"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "refinery_2",
+      "reason": "expected too long for direct storage link"
+    }
+  ],
+  "illustration_link_pairs": [
+    0,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8
+  ]
+}

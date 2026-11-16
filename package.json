@@ -1,0 +1,47 @@
+{
+  "name": "scrap-to-orbit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node --import tsx scripts/dev.ts",
+    "start": "node --import tsx apps/server/src/main.ts",
+    "build": "tsc --noEmit && vite build --config apps/web/vite.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "db:migrate": "node --import tsx scripts/migrate.ts",
+    "db:local": "node --import tsx scripts/local-db.ts",
+    "verify:design": "cd design && python3 verify_design.py"
+  },
+  "dependencies": {
+    "@colyseus/core": "0.18.28",
+    "@colyseus/ws-transport": "0.18.5",
+    "@colyseus/sdk": "0.18.10",
+    "@colyseus/schema": "5.0.48",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.187.0",
+    "express": "5.1.0",
+    "pg": "8.16.3",
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "tsx": "4.20.6",
+    "vite": "8.3.8",
+    "@types/node": "24.10.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@types/three": "0.183.1",
+    "@types/express": "5.0.5",
+    "@types/pg": "8.15.6",
+    "embedded-postgres": "18.1.0-beta.16"
+  }
+}

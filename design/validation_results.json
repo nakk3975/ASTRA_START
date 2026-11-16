@@ -1,0 +1,702 @@
+{
+  "balance_version": "1.0.0-design",
+  "canonical_balance_sha256": "c019a2ce37b4b1025395452972d0beb936a25d4570bcc9a25b39666a424d81b6",
+  "validation_kind": "design_static_accounting_not_runtime_game_tests",
+  "passed": true,
+  "check_group_count": 21,
+  "checks": [
+    {
+      "id": "C01_COUNTS",
+      "passed": true,
+      "detail": "14 items, 10 recipes, 6 sequential milestones"
+    },
+    {
+      "id": "C02_PARTY",
+      "passed": true,
+      "detail": "All party limits and manual concurrency support 1 through 6"
+    },
+    {
+      "id": "C03_SCALING_SCOPE",
+      "passed": true,
+      "detail": "Only construction targets scale and the selected scale locks at game start"
+    },
+    {
+      "id": "C04_PRODUCERS",
+      "passed": true,
+      "detail": "Every manufactured item has one producer and every other item has a source"
+    },
+    {
+      "id": "C05_RECIPE_SCHEMA",
+      "passed": true,
+      "detail": "Valid recipe IDs, positive integer quantities and times: []"
+    },
+    {
+      "id": "C06_ACYCLIC",
+      "passed": true,
+      "detail": "The full item graph is a DAG: []"
+    },
+    {
+      "id": "C07_MILESTONE_REACHABLE",
+      "passed": true,
+      "detail": "Every milestone is manually reachable before its own unlock"
+    },
+    {
+      "id": "C08_INVESTMENT_REACHABLE",
+      "passed": true,
+      "detail": "All machine and upgrade costs are reachable at unlock: []"
+    },
+    {
+      "id": "C09_BOOTSTRAP",
+      "passed": true,
+      "detail": "Free protected manual workbench, initial power and unlimited deterministic raw sources"
+    },
+    {
+      "id": "C10_RECIPE_RATES",
+      "passed": true,
+      "detail": "All displayed full-power output rates recompute exactly"
+    },
+    {
+      "id": "C11_BATCH_CAPACITY",
+      "passed": true,
+      "detail": "Every recipe input and result batch fits the declared per-item buffers"
+    },
+    {
+      "id": "C12_TRANSPORT_CAPACITY",
+      "passed": true,
+      "detail": "Max route takes 120 ticks; at least 3 flight slots needed, 4 provided"
+    },
+    {
+      "id": "C13_INDEPENDENT_BOM",
+      "passed": true,
+      "detail": "Integer batch expansion matches independently recorded six-player-count BOM and rational lower costs"
+    },
+    {
+      "id": "C14_MONOTONIC_COST",
+      "passed": true,
+      "detail": "Increasing planned player count never reduces a construction target total"
+    },
+    {
+      "id": "C15_REFERENCE_POWER",
+      "passed": true,
+      "detail": "Each reference layout has enough supply for every eligible MK1 machine"
+    },
+    {
+      "id": "C16_REFERENCE_SOURCE_PADS",
+      "passed": true,
+      "detail": "Reference source pads and processor assignments match machine counts"
+    },
+    {
+      "id": "C17_REFERENCE_ENTITY_CAPS",
+      "passed": true,
+      "detail": "All reference layouts fit entity, solar and delivery link count caps"
+    },
+    {
+      "id": "C18_ASSEMBLY",
+      "passed": true,
+      "detail": "Assembly duration and participant multipliers cover all six stages and counts"
+    },
+    {
+      "id": "C19_FIXED_POINT",
+      "passed": true,
+      "detail": "20 Hz integer work accumulation covers zero demand and partial-power boundaries"
+    },
+    {
+      "id": "C20_REFUND_POLICY",
+      "passed": true,
+      "detail": "Empty-only exact-cost refund, local manual overflow enabled, no automated recovery logistics"
+    },
+    {
+      "id": "C21_ROUNDING_REGRESSION",
+      "passed": true,
+      "detail": "6-player direct wire goals round per milestone: 11+32+52=95, not ceil(36*2.6)=94"
+    }
+  ],
+  "scenarios": [
+    {
+      "planned_players": 1,
+      "scale": "1/1",
+      "stages": {
+        "M1": {
+          "plate": 6,
+          "gear": 4,
+          "wire": 4
+        },
+        "M2": {
+          "plate": 16,
+          "gear": 12,
+          "wire": 12
+        },
+        "M3": {
+          "hull_panel": 24,
+          "circuit": 12,
+          "gear": 12
+        },
+        "M4": {
+          "engine_part": 12,
+          "hull_panel": 16
+        },
+        "M5": {
+          "control_part": 8,
+          "hull_panel": 16,
+          "circuit": 12
+        },
+        "M6": {
+          "fuel_cell": 100,
+          "hull_panel": 24,
+          "wire": 20
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 980,
+        "cable_scrap": 106,
+        "plastic_scrap": 520,
+        "energy_shard": 200
+      },
+      "rocket_only_batches": {
+        "assemble_control": 8,
+        "assemble_engine": 12,
+        "assemble_hull": 80,
+        "blend_fuel": 100,
+        "assemble_circuit": 80,
+        "cut_gear": 38,
+        "press_plate": 226,
+        "recycle_polymer": 260,
+        "draw_wire": 106,
+        "smelt_ingot": 490
+      },
+      "rocket_only_surplus": {},
+      "factory_included_raw": {
+        "metal_scrap": 1600,
+        "cable_scrap": 189,
+        "plastic_scrap": 544,
+        "energy_shard": 200
+      },
+      "factory_included_batches": {
+        "assemble_control": 8,
+        "assemble_engine": 12,
+        "assemble_hull": 80,
+        "blend_fuel": 100,
+        "assemble_circuit": 92,
+        "cut_gear": 68,
+        "press_plate": 366,
+        "recycle_polymer": 272,
+        "draw_wire": 189,
+        "smelt_ingot": 800
+      },
+      "factory_included_surplus": {},
+      "reference_layout": {
+        "processor": 4,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 5,
+        "solar_array": 4,
+        "logistics_hub": 1,
+        "delivery_link": 20
+      },
+      "power_supply": 38.0,
+      "power_peak_demand": 37.0,
+      "ideal_processing_capacity_lower_bound_min": 40.0,
+      "adverse_processing_capacity_lower_bound_min": 66.667,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 66.667,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 24.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 12.0,
+        "energy_shard": 7.5
+      }
+    },
+    {
+      "planned_players": 2,
+      "scale": "29/20",
+      "stages": {
+        "M1": {
+          "plate": 9,
+          "gear": 6,
+          "wire": 6
+        },
+        "M2": {
+          "plate": 24,
+          "gear": 18,
+          "wire": 18
+        },
+        "M3": {
+          "hull_panel": 35,
+          "circuit": 18,
+          "gear": 18
+        },
+        "M4": {
+          "engine_part": 18,
+          "hull_panel": 24
+        },
+        "M5": {
+          "control_part": 12,
+          "hull_panel": 24,
+          "circuit": 18
+        },
+        "M6": {
+          "fuel_cell": 145,
+          "hull_panel": 35,
+          "wire": 29
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 1454,
+        "cable_scrap": 159,
+        "plastic_scrap": 766,
+        "energy_shard": 290
+      },
+      "rocket_only_batches": {
+        "assemble_control": 12,
+        "assemble_engine": 18,
+        "assemble_hull": 118,
+        "blend_fuel": 145,
+        "assemble_circuit": 120,
+        "cut_gear": 57,
+        "press_plate": 335,
+        "recycle_polymer": 383,
+        "draw_wire": 159,
+        "smelt_ingot": 727
+      },
+      "rocket_only_surplus": {
+        "wire": 1
+      },
+      "factory_included_raw": {
+        "metal_scrap": 2170,
+        "cable_scrap": 254,
+        "plastic_scrap": 790,
+        "energy_shard": 290
+      },
+      "factory_included_batches": {
+        "assemble_control": 12,
+        "assemble_engine": 18,
+        "assemble_hull": 118,
+        "blend_fuel": 145,
+        "assemble_circuit": 132,
+        "cut_gear": 91,
+        "press_plate": 497,
+        "recycle_polymer": 395,
+        "draw_wire": 254,
+        "smelt_ingot": 1085
+      },
+      "factory_included_surplus": {
+        "wire": 1
+      },
+      "reference_layout": {
+        "processor": 5,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 6,
+        "solar_array": 5,
+        "logistics_hub": 1,
+        "delivery_link": 24
+      },
+      "power_supply": 46.0,
+      "power_peak_demand": 41.0,
+      "ideal_processing_capacity_lower_bound_min": 39.5,
+      "adverse_processing_capacity_lower_bound_min": 65.833,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 90.417,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 24.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 7.5
+      }
+    },
+    {
+      "planned_players": 3,
+      "scale": "9/5",
+      "stages": {
+        "M1": {
+          "plate": 11,
+          "gear": 8,
+          "wire": 8
+        },
+        "M2": {
+          "plate": 29,
+          "gear": 22,
+          "wire": 22
+        },
+        "M3": {
+          "hull_panel": 44,
+          "circuit": 22,
+          "gear": 22
+        },
+        "M4": {
+          "engine_part": 22,
+          "hull_panel": 29
+        },
+        "M5": {
+          "control_part": 15,
+          "hull_panel": 29,
+          "circuit": 22
+        },
+        "M6": {
+          "fuel_cell": 180,
+          "hull_panel": 44,
+          "wire": 36
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 1792,
+        "cable_scrap": 196,
+        "plastic_scrap": 948,
+        "energy_shard": 360
+      },
+      "rocket_only_batches": {
+        "assemble_control": 15,
+        "assemble_engine": 22,
+        "assemble_hull": 146,
+        "blend_fuel": 180,
+        "assemble_circuit": 148,
+        "cut_gear": 70,
+        "press_plate": 413,
+        "recycle_polymer": 474,
+        "draw_wire": 196,
+        "smelt_ingot": 896
+      },
+      "rocket_only_surplus": {},
+      "factory_included_raw": {
+        "metal_scrap": 2624,
+        "cable_scrap": 304,
+        "plastic_scrap": 972,
+        "energy_shard": 360
+      },
+      "factory_included_batches": {
+        "assemble_control": 15,
+        "assemble_engine": 22,
+        "assemble_hull": 146,
+        "blend_fuel": 180,
+        "assemble_circuit": 160,
+        "cut_gear": 110,
+        "press_plate": 601,
+        "recycle_polymer": 486,
+        "draw_wire": 304,
+        "smelt_ingot": 1312
+      },
+      "factory_included_surplus": {},
+      "reference_layout": {
+        "processor": 6,
+        "fabricator": 4,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 7,
+        "solar_array": 6,
+        "logistics_hub": 1,
+        "delivery_link": 26
+      },
+      "power_supply": 54.0,
+      "power_peak_demand": 48.0,
+      "ideal_processing_capacity_lower_bound_min": 43.733,
+      "adverse_processing_capacity_lower_bound_min": 72.889,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 72.889,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 7.5
+      }
+    },
+    {
+      "planned_players": 4,
+      "scale": "21/10",
+      "stages": {
+        "M1": {
+          "plate": 13,
+          "gear": 9,
+          "wire": 9
+        },
+        "M2": {
+          "plate": 34,
+          "gear": 26,
+          "wire": 26
+        },
+        "M3": {
+          "hull_panel": 51,
+          "circuit": 26,
+          "gear": 26
+        },
+        "M4": {
+          "engine_part": 26,
+          "hull_panel": 34
+        },
+        "M5": {
+          "control_part": 17,
+          "hull_panel": 34,
+          "circuit": 26
+        },
+        "M6": {
+          "fuel_cell": 210,
+          "hull_panel": 51,
+          "wire": 42
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 2094,
+        "cable_scrap": 228,
+        "plastic_scrap": 1104,
+        "energy_shard": 420
+      },
+      "rocket_only_batches": {
+        "assemble_control": 17,
+        "assemble_engine": 26,
+        "assemble_hull": 170,
+        "blend_fuel": 210,
+        "assemble_circuit": 172,
+        "cut_gear": 83,
+        "press_plate": 482,
+        "recycle_polymer": 552,
+        "draw_wire": 228,
+        "smelt_ingot": 1047
+      },
+      "rocket_only_surplus": {
+        "gear": 1,
+        "wire": 1
+      },
+      "factory_included_raw": {
+        "metal_scrap": 3046,
+        "cable_scrap": 354,
+        "plastic_scrap": 1136,
+        "energy_shard": 420
+      },
+      "factory_included_batches": {
+        "assemble_control": 17,
+        "assemble_engine": 26,
+        "assemble_hull": 170,
+        "blend_fuel": 210,
+        "assemble_circuit": 188,
+        "cut_gear": 127,
+        "press_plate": 698,
+        "recycle_polymer": 568,
+        "draw_wire": 354,
+        "smelt_ingot": 1523
+      },
+      "factory_included_surplus": {
+        "gear": 1,
+        "wire": 1
+      },
+      "reference_layout": {
+        "processor": 7,
+        "fabricator": 4,
+        "refinery": 2,
+        "assembler": 1,
+        "extractor": 8,
+        "solar_array": 7,
+        "logistics_hub": 1,
+        "delivery_link": 28
+      },
+      "power_supply": 62.0,
+      "power_peak_demand": 56.0,
+      "ideal_processing_capacity_lower_bound_min": 38.075,
+      "adverse_processing_capacity_lower_bound_min": 63.458,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 84.611,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 24.0,
+        "energy_shard": 15.0
+      }
+    },
+    {
+      "planned_players": 5,
+      "scale": "47/20",
+      "stages": {
+        "M1": {
+          "plate": 15,
+          "gear": 10,
+          "wire": 10
+        },
+        "M2": {
+          "plate": 38,
+          "gear": 29,
+          "wire": 29
+        },
+        "M3": {
+          "hull_panel": 57,
+          "circuit": 29,
+          "gear": 29
+        },
+        "M4": {
+          "engine_part": 29,
+          "hull_panel": 38
+        },
+        "M5": {
+          "control_part": 19,
+          "hull_panel": 38,
+          "circuit": 29
+        },
+        "M6": {
+          "fuel_cell": 235,
+          "hull_panel": 57,
+          "wire": 47
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 2340,
+        "cable_scrap": 254,
+        "plastic_scrap": 1234,
+        "energy_shard": 470
+      },
+      "rocket_only_batches": {
+        "assemble_control": 19,
+        "assemble_engine": 29,
+        "assemble_hull": 190,
+        "blend_fuel": 235,
+        "assemble_circuit": 192,
+        "cut_gear": 92,
+        "press_plate": 539,
+        "recycle_polymer": 617,
+        "draw_wire": 254,
+        "smelt_ingot": 1170
+      },
+      "rocket_only_surplus": {},
+      "factory_included_raw": {
+        "metal_scrap": 3436,
+        "cable_scrap": 397,
+        "plastic_scrap": 1278,
+        "energy_shard": 470
+      },
+      "factory_included_batches": {
+        "assemble_control": 19,
+        "assemble_engine": 29,
+        "assemble_hull": 190,
+        "blend_fuel": 235,
+        "assemble_circuit": 214,
+        "cut_gear": 144,
+        "press_plate": 787,
+        "recycle_polymer": 639,
+        "draw_wire": 397,
+        "smelt_ingot": 1718
+      },
+      "factory_included_surplus": {},
+      "reference_layout": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 30
+      },
+      "power_supply": 70.0,
+      "power_peak_demand": 65.0,
+      "ideal_processing_capacity_lower_bound_min": 42.95,
+      "adverse_processing_capacity_lower_bound_min": 71.583,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 95.444,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 36.0,
+        "energy_shard": 15.0
+      }
+    },
+    {
+      "planned_players": 6,
+      "scale": "13/5",
+      "stages": {
+        "M1": {
+          "plate": 16,
+          "gear": 11,
+          "wire": 11
+        },
+        "M2": {
+          "plate": 42,
+          "gear": 32,
+          "wire": 32
+        },
+        "M3": {
+          "hull_panel": 63,
+          "circuit": 32,
+          "gear": 32
+        },
+        "M4": {
+          "engine_part": 32,
+          "hull_panel": 42
+        },
+        "M5": {
+          "control_part": 21,
+          "hull_panel": 42,
+          "circuit": 32
+        },
+        "M6": {
+          "fuel_cell": 260,
+          "hull_panel": 63,
+          "wire": 52
+        }
+      },
+      "rocket_only_raw": {
+        "metal_scrap": 2584,
+        "cable_scrap": 281,
+        "plastic_scrap": 1364,
+        "energy_shard": 520
+      },
+      "rocket_only_batches": {
+        "assemble_control": 21,
+        "assemble_engine": 32,
+        "assemble_hull": 210,
+        "blend_fuel": 260,
+        "assemble_circuit": 212,
+        "cut_gear": 102,
+        "press_plate": 595,
+        "recycle_polymer": 682,
+        "draw_wire": 281,
+        "smelt_ingot": 1292
+      },
+      "rocket_only_surplus": {
+        "gear": 1,
+        "wire": 1
+      },
+      "factory_included_raw": {
+        "metal_scrap": 3688,
+        "cable_scrap": 426,
+        "plastic_scrap": 1408,
+        "energy_shard": 520
+      },
+      "factory_included_batches": {
+        "assemble_control": 21,
+        "assemble_engine": 32,
+        "assemble_hull": 210,
+        "blend_fuel": 260,
+        "assemble_circuit": 234,
+        "cut_gear": 154,
+        "press_plate": 845,
+        "recycle_polymer": 704,
+        "draw_wire": 426,
+        "smelt_ingot": 1844
+      },
+      "factory_included_surplus": {
+        "gear": 1,
+        "wire": 1
+      },
+      "reference_layout": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 32
+      },
+      "power_supply": 70.0,
+      "power_peak_demand": 65.0,
+      "ideal_processing_capacity_lower_bound_min": 46.1,
+      "adverse_processing_capacity_lower_bound_min": 76.833,
+      "hypothetical_all_extractors_available_from_start_lower_bound_min": 102.444,
+      "automatic_raw_supply_per_min": {
+        "metal_scrap": 36.0,
+        "cable_scrap": 7.5,
+        "plastic_scrap": 36.0,
+        "energy_shard": 15.0
+      }
+    }
+  ],
+  "limitations": [
+    "No actual browser game has been tested.",
+    "Capacity lower bounds omit unlock order, investment timing, travel, UI, finite buffers and route topology.",
+    "Automatic-source bound assumes all listed extractors exist from time zero; this is deliberately optimistic.",
+    "A complete playthrough can only be validated after implementation."
+  ]
+}

@@ -1,0 +1,1958 @@
+{
+  "passed": true,
+  "check_count": 446,
+  "failed_check_count": 0,
+  "errors": [],
+  "scenarios": [
+    {
+      "scenario": "starting_world",
+      "solid_entities": 5,
+      "solid_cells": 46,
+      "walkable_cells": 1334,
+      "reachable_cells": 1334,
+      "required_service_targets": 46,
+      "unreachable_targets": []
+    },
+    {
+      "scenario": "six_player_reference",
+      "solid_entities": 39,
+      "solid_cells": 182,
+      "walkable_cells": 1198,
+      "reachable_cells": 1198,
+      "required_service_targets": 80,
+      "unreachable_targets": []
+    },
+    {
+      "scenario": "all_32_slots_and_all_12_extractors_geometry",
+      "solid_entities": 49,
+      "solid_cells": 222,
+      "walkable_cells": 1158,
+      "reachable_cells": 1158,
+      "required_service_targets": 90,
+      "unreachable_targets": []
+    }
+  ],
+  "reference_regular_machines": 25,
+  "reference_extractors": 9,
+  "unused_regular_template_slots": 7,
+  "closest_west_east_reference_centers": {
+    "distance_tiles": 6.0,
+    "from": "assembler_engine",
+    "to": "assembler_control",
+    "note": "Hub and solar entities are excluded. Geometric closeness alone does not make an item-compatible route."
+  },
+  "distance_probes": [
+    {
+      "from": "extractor_metal_scrap_1",
+      "to": "processor_ingot_1",
+      "item_filter": "metal_scrap",
+      "reason": "metal source to nearby west processor",
+      "distance_tiles": 9.219544,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 47,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "extractor_metal_scrap_3",
+      "to": "processor_ingot_4",
+      "item_filter": "metal_scrap",
+      "reason": "metal source to farthest assigned ingot processor",
+      "distance_tiles": 18.027756,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 91,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "extractor_plastic_scrap_3",
+      "to": "processor_polymer_1",
+      "item_filter": "plastic_scrap",
+      "reason": "southwest source to west factory",
+      "distance_tiles": 19.235384,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 97,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "extractor_cable_scrap_1",
+      "to": "processor_wire",
+      "item_filter": "cable_scrap",
+      "reason": "northeast source to east factory",
+      "distance_tiles": 19.697716,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 99,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "extractor_energy_shard_1",
+      "to": "refinery_1",
+      "item_filter": "energy_shard",
+      "reason": "southeast source to east refinery",
+      "distance_tiles": 18.439089,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 93,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "processor_polymer_2",
+      "to": "refinery_2",
+      "item_filter": "polymer",
+      "reason": "west to east material feed",
+      "distance_tiles": 21.0,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 105,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "processor_wire",
+      "to": "fabricator_circuit_1",
+      "item_filter": "wire",
+      "reason": "east to west material feed",
+      "distance_tiles": 9.0,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 45,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "processor_wire",
+      "item_filter": "cable_scrap",
+      "reason": "central storage with cable scrap to reachable wire processor",
+      "distance_tiles": 21.931712,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 110,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "assembler_engine",
+      "to": "rocket",
+      "item_filter": "engine_part",
+      "reason": "engine module delivery to an active accepting rocket milestone",
+      "distance_tiles": 17.356555,
+      "within_24_tile_limit": true,
+      "item_filter_compatible": true,
+      "travel_ticks_if_allowed": 87,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "extractor_cable_scrap_1",
+      "reason": "distance only; expected too long and not a valid extractor input",
+      "distance_tiles": 41.629317,
+      "within_24_tile_limit": false,
+      "item_filter_compatible": null,
+      "travel_ticks_if_allowed": null,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    },
+    {
+      "from": "shared_warehouse",
+      "to": "refinery_2",
+      "reason": "expected too long for direct storage link",
+      "distance_tiles": 30.364453,
+      "within_24_tile_limit": false,
+      "item_filter_compatible": null,
+      "travel_ticks_if_allowed": null,
+      "interpretation": "distance and named-filter compatibility only; milestone timing, complete topology and delivery capacity are not proven here"
+    }
+  ],
+  "limits": [
+    "No completed delivery-route topology or 32-link sufficiency proof.",
+    "No production throughput, unlock-order or human playthrough timing proof.",
+    "No browser collision implementation, rendering performance or 6-client session test.",
+    "BFS uses 4-neighbor tile centers with point connectivity; runtime actor-radius collision still needs implementation tests.",
+    "Reference factory_slot service directions cover 0/90/180/270 in templates and source pads."
+  ],
+  "checks": [
+    {
+      "check": "map dimensions 48x32",
+      "passed": true
+    },
+    {
+      "check": "six spawn points",
+      "passed": true
+    },
+    {
+      "check": "32 reference factory slots",
+      "passed": true
+    },
+    {
+      "check": "protected walkways stay inside boundary",
+      "passed": true
+    },
+    {
+      "check": "balance version matches",
+      "passed": true
+    },
+    {
+      "check": "source items match balance sources",
+      "passed": true
+    },
+    {
+      "check": "metal_scrap: manual channel count",
+      "passed": true
+    },
+    {
+      "check": "metal_scrap: extractor pad count",
+      "passed": true
+    },
+    {
+      "check": "pad_metal_scrap_1: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_metal_scrap_2: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_metal_scrap_3: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "cable_scrap: manual channel count",
+      "passed": true
+    },
+    {
+      "check": "cable_scrap: extractor pad count",
+      "passed": true
+    },
+    {
+      "check": "pad_cable_scrap_1: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_cable_scrap_2: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_cable_scrap_3: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "plastic_scrap: manual channel count",
+      "passed": true
+    },
+    {
+      "check": "plastic_scrap: extractor pad count",
+      "passed": true
+    },
+    {
+      "check": "pad_plastic_scrap_1: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_plastic_scrap_2: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_plastic_scrap_3: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "energy_shard: manual channel count",
+      "passed": true
+    },
+    {
+      "check": "energy_shard: extractor pad count",
+      "passed": true
+    },
+    {
+      "check": "pad_energy_shard_1: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_energy_shard_2: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "pad_energy_shard_3: footprint inside source region",
+      "passed": true
+    },
+    {
+      "check": "reference fleet processor count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet fabricator count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet refinery count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet assembler count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet extractor count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet solar_array count",
+      "passed": true
+    },
+    {
+      "check": "reference fleet logistics_hub count",
+      "passed": true
+    },
+    {
+      "check": "solar_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_2: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_3: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_4: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_1: recipe exists smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_1: machine type matches recipe smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_2: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_2: recipe exists smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_2: machine type matches recipe smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_3: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_3: recipe exists smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_3: machine type matches recipe smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_4: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_4: recipe exists smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "processor_ingot_4: machine type matches recipe smelt_ingot",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_1: recipe exists press_plate",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_1: machine type matches recipe press_plate",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_hull: in factory region",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_hull: recipe exists press_plate",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_hull: machine type matches recipe press_plate",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_hull: recipe exists assemble_hull",
+      "passed": true
+    },
+    {
+      "check": "fabricator_plate_hull: machine type matches recipe assemble_hull",
+      "passed": true
+    },
+    {
+      "check": "fabricator_gear: in factory region",
+      "passed": true
+    },
+    {
+      "check": "fabricator_gear: recipe exists cut_gear",
+      "passed": true
+    },
+    {
+      "check": "fabricator_gear: machine type matches recipe cut_gear",
+      "passed": true
+    },
+    {
+      "check": "assembler_engine: in factory region",
+      "passed": true
+    },
+    {
+      "check": "assembler_engine: recipe exists assemble_engine",
+      "passed": true
+    },
+    {
+      "check": "assembler_engine: machine type matches recipe assemble_engine",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_1: recipe exists recycle_polymer",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_1: machine type matches recipe recycle_polymer",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_2: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_2: recipe exists recycle_polymer",
+      "passed": true
+    },
+    {
+      "check": "processor_polymer_2: machine type matches recipe recycle_polymer",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_1: recipe exists assemble_circuit",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_1: machine type matches recipe assemble_circuit",
+      "passed": true
+    },
+    {
+      "check": "logistics_hub: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_5: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_6: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_7: in factory region",
+      "passed": true
+    },
+    {
+      "check": "solar_8: in factory region",
+      "passed": true
+    },
+    {
+      "check": "assembler_control: in factory region",
+      "passed": true
+    },
+    {
+      "check": "assembler_control: recipe exists assemble_control",
+      "passed": true
+    },
+    {
+      "check": "assembler_control: machine type matches recipe assemble_control",
+      "passed": true
+    },
+    {
+      "check": "processor_wire: in factory region",
+      "passed": true
+    },
+    {
+      "check": "processor_wire: recipe exists draw_wire",
+      "passed": true
+    },
+    {
+      "check": "processor_wire: machine type matches recipe draw_wire",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_2: in factory region",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_2: recipe exists assemble_circuit",
+      "passed": true
+    },
+    {
+      "check": "fabricator_circuit_2: machine type matches recipe assemble_circuit",
+      "passed": true
+    },
+    {
+      "check": "refinery_1: in factory region",
+      "passed": true
+    },
+    {
+      "check": "refinery_1: recipe exists blend_fuel",
+      "passed": true
+    },
+    {
+      "check": "refinery_1: machine type matches recipe blend_fuel",
+      "passed": true
+    },
+    {
+      "check": "refinery_2: in factory region",
+      "passed": true
+    },
+    {
+      "check": "refinery_2: recipe exists blend_fuel",
+      "passed": true
+    },
+    {
+      "check": "refinery_2: machine type matches recipe blend_fuel",
+      "passed": true
+    },
+    {
+      "check": "extractor distribution matches balance",
+      "passed": true
+    },
+    {
+      "check": "reference machine count within entity cap",
+      "passed": true
+    },
+    {
+      "check": "solar count within cap",
+      "passed": true
+    },
+    {
+      "check": "starting_world: unique entity ids",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: inside map",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world shared_warehouse: inside map",
+      "passed": true
+    },
+    {
+      "check": "starting_world shared_warehouse: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world recovery_vault: inside map",
+      "passed": true
+    },
+    {
+      "check": "starting_world recovery_vault: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_generator: inside map",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_generator: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: inside map",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world: no solid overlap",
+      "passed": true
+    },
+    {
+      "check": "starting_world: BFS seed walkable",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_workbench: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world shared_warehouse: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world shared_warehouse: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world recovery_vault: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world starter_generator: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world rocket: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "starting_world: all required service points reachable",
+      "passed": true
+    },
+    {
+      "check": "starting_world: all protected walkways connected",
+      "passed": true
+    },
+    {
+      "check": "starting_world: no isolated walkable cell",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: unique entity ids",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference shared_warehouse: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference shared_warehouse: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference recovery_vault: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference recovery_vault: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_generator: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_generator: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_4: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_4: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_4: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_4: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_hull: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_hull: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_gear: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_gear: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_engine: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_engine: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference logistics_hub: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference logistics_hub: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_5: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_5: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_6: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_6: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_7: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_7: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_8: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_8: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_control: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_control: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_wire: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_wire: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_cable_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_cable_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: no solid overlap",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: BFS seed walkable",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_workbench: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference shared_warehouse: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference shared_warehouse: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference recovery_vault: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference starter_generator: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference rocket: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_4: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_ingot_4: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_plate_hull: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_gear: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_engine: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_polymer_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference logistics_hub: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_5: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_6: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_7: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference solar_8: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference assembler_control: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference processor_wire: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference fabricator_circuit_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference refinery_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_metal_scrap_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_cable_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_plastic_scrap_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference extractor_energy_shard_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: all required service points reachable",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: all protected walkways connected",
+      "passed": true
+    },
+    {
+      "check": "six_player_reference: no isolated walkable cell",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: unique entity ids",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry shared_warehouse: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry shared_warehouse: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry recovery_vault: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry recovery_vault: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_generator: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_generator: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A01: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A01: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A02: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A02: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A03: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A03: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A04: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A04: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A05: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A05: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A06: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A06: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A07: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A07: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A08: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A08: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A09: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A09: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A10: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A10: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A11: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A11: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A12: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A12: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A13: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A13: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A14: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A14: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A15: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A15: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A16: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A16: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B01: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B01: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B02: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B02: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B03: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B03: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B04: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B04: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B05: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B05: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B06: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B06: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B07: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B07: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B08: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B08: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B09: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B09: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B10: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B10: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B11: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B11: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B12: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B12: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B13: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B13: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B14: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B14: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B15: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B15: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B16: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B16: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_1: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_1: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_2: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_2: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_3: inside map",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_3: no protected-road overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: no solid overlap",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: BFS seed walkable",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_workbench: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry shared_warehouse: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry shared_warehouse: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry recovery_vault: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry starter_generator: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service2 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service3 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service4 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service5 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry rocket: service6 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A01: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A02: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A03: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A04: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A05: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A06: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A07: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A08: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A09: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A10: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A11: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A12: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A13: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A14: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A15: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry A16: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B01: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B02: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B03: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B04: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B05: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B06: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B07: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B08: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B09: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B10: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B11: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B12: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B13: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B14: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B15: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry B16: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_metal_scrap_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_cable_scrap_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_plastic_scrap_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_1: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_2: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry pad_energy_shard_3: service1 in interaction range",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: all required service points reachable",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: all protected walkways connected",
+      "passed": true
+    },
+    {
+      "check": "all_32_slots_and_all_12_extractors_geometry: no isolated walkable cell",
+      "passed": true
+    },
+    {
+      "check": "probe extractor_metal_scrap_1 -> processor_ingot_1: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe extractor_metal_scrap_3 -> processor_ingot_4: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe extractor_plastic_scrap_3 -> processor_polymer_1: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe extractor_cable_scrap_1 -> processor_wire: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe extractor_energy_shard_1 -> refinery_1: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe processor_polymer_2 -> refinery_2: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe processor_wire -> fabricator_circuit_1: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe shared_warehouse -> processor_wire: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "probe assembler_engine -> rocket: compatible item filter",
+      "passed": true
+    },
+    {
+      "check": "distance probe 1: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 2: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 3: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 4: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 5: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 6: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 7: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 8: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 9: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 10: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "distance probe 11: expected boundary result",
+      "passed": true
+    },
+    {
+      "check": "at least one west-east port pair within delivery limit",
+      "passed": true
+    }
+  ]
+}

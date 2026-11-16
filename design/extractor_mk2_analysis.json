@@ -1,0 +1,361 @@
+{
+  "proposal_only": false,
+  "upgrade_defined_in_balance_config": true,
+  "upgrade_id": "extractor_mk2",
+  "unlock": "M4",
+  "cost": {
+    "plate": 6,
+    "gear": 8,
+    "circuit": 2
+  },
+  "work_rate_multiplier": {
+    "numerator": 2,
+    "denominator": 1
+  },
+  "power_multiplier": {
+    "numerator": 2,
+    "denominator": 1
+  },
+  "eligibility": "extractor tier1 only, once per instance",
+  "refund": "exact paid upgrade ledger, root empty-idle field crate policy",
+  "no_cycle": true,
+  "source_link_fits_30_per_minute": true,
+  "analysis_limitations": [
+    "payback is value in avoided manual gathering/hauling under simultaneous sustained maximum demand, not a financial ROI or measured elapsed gameplay benefit",
+    "manufacturing lower bound excludes recipe unlock and input shortage, walking, builds and delivery",
+    "late unlock means inspect remaining demand; upgrading everything can be slower than finishing the rocket",
+    "reference factory from base file is unchanged"
+  ],
+  "results": [
+    {
+      "planned_players": 1,
+      "extractors_upgraded": 5,
+      "all_upgraded_power_demand": 47.0,
+      "minimum_extra_solar": 2,
+      "total_solar_after_minimum_addition": 6,
+      "power_supply_after_minimum_addition": 54.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 224,
+        "cable_scrap": 18,
+        "plastic_scrap": 20,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 5.6,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 7.966666666666667,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 48.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 24.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.0,
+      "manual_player_equivalents_saved_at_continuous_peak": 1.2175,
+      "manual_work_equivalence_payback_elapsed_minutes": 6.543463381245722,
+      "selective_upgrades": {
+        "metal_scrap": 2,
+        "cable_scrap": 1,
+        "plastic_scrap": 1,
+        "energy_shard": 1
+      },
+      "selective_upgrade_count": 5,
+      "selective_minimum_extra_solar": 2,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 224,
+        "cable_scrap": 18,
+        "plastic_scrap": 20,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 352,
+        "cable_scrap": 62,
+        "plastic_scrap": 368,
+        "energy_shard": 200
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.6363636363636364
+    },
+    {
+      "planned_players": 2,
+      "extractors_upgraded": 6,
+      "all_upgraded_power_demand": 53.0,
+      "minimum_extra_solar": 1,
+      "total_solar_after_minimum_addition": 6,
+      "power_supply_after_minimum_addition": 54.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 224,
+        "cable_scrap": 16,
+        "plastic_scrap": 24,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 3.733333333333333,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 8.0,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 48.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 48.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 12.0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.34750000000000003,
+      "manual_player_equivalents_saved_at_continuous_peak": 1.2174999999999998,
+      "manual_work_equivalence_payback_elapsed_minutes": 6.570841889117045,
+      "selective_upgrades": {
+        "metal_scrap": 2,
+        "cable_scrap": 1,
+        "plastic_scrap": 0,
+        "energy_shard": 1
+      },
+      "selective_upgrade_count": 4,
+      "selective_minimum_extra_solar": 1,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 160,
+        "cable_scrap": 12,
+        "plastic_scrap": 16,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 520,
+        "cable_scrap": 93,
+        "plastic_scrap": 540,
+        "energy_shard": 290
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.4307692307692308
+    },
+    {
+      "planned_players": 3,
+      "extractors_upgraded": 7,
+      "all_upgraded_power_demand": 62.0,
+      "minimum_extra_solar": 1,
+      "total_solar_after_minimum_addition": 7,
+      "power_supply_after_minimum_addition": 62.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 256,
+        "cable_scrap": 18,
+        "plastic_scrap": 28,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 4.266666666666667,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 9.125,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 72.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 48.0,
+        "energy_shard": 15.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.0,
+      "manual_player_equivalents_saved_at_continuous_peak": 1.6808333333333334,
+      "manual_work_equivalence_payback_elapsed_minutes": 5.4288547347545855,
+      "selective_upgrades": {
+        "metal_scrap": 2,
+        "cable_scrap": 1,
+        "plastic_scrap": 2,
+        "energy_shard": 1
+      },
+      "selective_upgrade_count": 6,
+      "selective_minimum_extra_solar": 1,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 224,
+        "cable_scrap": 16,
+        "plastic_scrap": 24,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 644,
+        "cable_scrap": 115,
+        "plastic_scrap": 670,
+        "energy_shard": 360
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.39751552795031053
+    },
+    {
+      "planned_players": 4,
+      "extractors_upgraded": 8,
+      "all_upgraded_power_demand": 72.0,
+      "minimum_extra_solar": 2,
+      "total_solar_after_minimum_addition": 9,
+      "power_supply_after_minimum_addition": 78.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 320,
+        "cable_scrap": 24,
+        "plastic_scrap": 32,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 4.0,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 11.183333333333334,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 72.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 48.0,
+        "energy_shard": 30.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 8.0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.2316666666666667,
+      "manual_player_equivalents_saved_at_continuous_peak": 2.2711458333333336,
+      "manual_work_equivalence_payback_elapsed_minutes": 4.924093014722744,
+      "selective_upgrades": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 2,
+        "energy_shard": 2
+      },
+      "selective_upgrade_count": 8,
+      "selective_minimum_extra_solar": 2,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 320,
+        "cable_scrap": 24,
+        "plastic_scrap": 32,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 748,
+        "cable_scrap": 132,
+        "plastic_scrap": 778,
+        "energy_shard": 420
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.42780748663101603
+    },
+    {
+      "planned_players": 5,
+      "extractors_upgraded": 9,
+      "all_upgraded_power_demand": 83.0,
+      "minimum_extra_solar": 2,
+      "total_solar_after_minimum_addition": 10,
+      "power_supply_after_minimum_addition": 86.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 352,
+        "cable_scrap": 26,
+        "plastic_scrap": 36,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 4.4,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 12.308333333333334,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 72.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 72.0,
+        "energy_shard": 30.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 8.0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.2316666666666667,
+      "manual_player_equivalents_saved_at_continuous_peak": 1.9236458333333333,
+      "manual_work_equivalence_payback_elapsed_minutes": 6.3984404613635135,
+      "selective_upgrades": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 1,
+        "energy_shard": 2
+      },
+      "selective_upgrade_count": 7,
+      "selective_minimum_extra_solar": 2,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 288,
+        "cable_scrap": 22,
+        "plastic_scrap": 28,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 836,
+        "cable_scrap": 148,
+        "plastic_scrap": 870,
+        "energy_shard": 470
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.42105263157894735
+    },
+    {
+      "planned_players": 6,
+      "extractors_upgraded": 9,
+      "all_upgraded_power_demand": 83.0,
+      "minimum_extra_solar": 2,
+      "total_solar_after_minimum_addition": 10,
+      "power_supply_after_minimum_addition": 86.0,
+      "additional_raw_cost_all_upgrade_and_minimum_solar": {
+        "metal_scrap": 352,
+        "cable_scrap": 26,
+        "plastic_scrap": 36,
+        "energy_shard": 0
+      },
+      "additional_crafting_capacity_lower_bound_minutes": 4.4,
+      "baseline_manual_work_equivalent_of_additional_cost_minutes": 12.308333333333334,
+      "automatic_supply_after_upgrade_per_minute": {
+        "metal_scrap": 72.0,
+        "cable_scrap": 15.0,
+        "plastic_scrap": 72.0,
+        "energy_shard": 30.0
+      },
+      "manual_topup_after_upgrade_per_minute": {
+        "metal_scrap": 8.0,
+        "cable_scrap": 0,
+        "plastic_scrap": 0,
+        "energy_shard": 0
+      },
+      "manual_player_equivalents_after_upgrade": 0.2316666666666667,
+      "manual_player_equivalents_saved_at_continuous_peak": 1.9236458333333333,
+      "manual_work_equivalence_payback_elapsed_minutes": 6.3984404613635135,
+      "selective_upgrades": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 1,
+        "energy_shard": 2
+      },
+      "selective_upgrade_count": 7,
+      "selective_minimum_extra_solar": 2,
+      "selective_additional_raw_cost": {
+        "metal_scrap": 288,
+        "cable_scrap": 22,
+        "plastic_scrap": 28,
+        "energy_shard": 0
+      },
+      "remaining_rocket_raw_after_M4": {
+        "metal_scrap": 924,
+        "cable_scrap": 163,
+        "plastic_scrap": 962,
+        "energy_shard": 520
+      },
+      "all_upgrade_metal_cost_divided_by_remaining_rocket_metal": 0.38095238095238093
+    }
+  ],
+  "six_player_three_extra_solar_case": {
+    "total_solar": 11,
+    "supply_power": 94,
+    "demand_power": 83,
+    "spare_power": 11,
+    "additional_raw_cost": {
+      "metal_scrap": 384,
+      "cable_scrap": 30,
+      "plastic_scrap": 36,
+      "energy_shard": 0
+    }
+  },
+  "six_player_all_processing_and_all_extractors_MK2": {
+    "power_demand": 105.5,
+    "max_solar_12_plus_starter_supply": 102,
+    "power_ratio": 0.966824644549763,
+    "interpretation": "cannot claim simultaneous 100 percent speed for every upgraded machine at the solar cap"
+  }
+}

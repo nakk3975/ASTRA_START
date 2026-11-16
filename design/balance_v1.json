@@ -1,0 +1,1110 @@
+{
+  "balance_version": "1.0.0-design",
+  "status": "implementation_baseline_requires_playtest",
+  "tick_ms": 50,
+  "planned_players": {
+    "minimum": 1,
+    "maximum": 6,
+    "goal_scaling_rounding": "ceil(base_quantity * numerator / denominator) once per milestone item",
+    "scales": {
+      "1": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "2": {
+        "numerator": 29,
+        "denominator": 20
+      },
+      "3": {
+        "numerator": 9,
+        "denominator": 5
+      },
+      "4": {
+        "numerator": 21,
+        "denominator": 10
+      },
+      "5": {
+        "numerator": 47,
+        "denominator": 20
+      },
+      "6": {
+        "numerator": 13,
+        "denominator": 5
+      }
+    },
+    "scale_applies_to": [
+      "milestone.base_targets"
+    ],
+    "scale_excludes": [
+      "recipes",
+      "machine_costs",
+      "upgrade_costs",
+      "source_rates",
+      "power",
+      "delivery_link_costs"
+    ],
+    "locked_at_game_start": true,
+    "lobby_changes_allowed": true
+  },
+  "items": {
+    "metal_scrap": {
+      "name_ko": "금속 고철",
+      "category": "raw",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "cable_scrap": {
+      "name_ko": "폐전선",
+      "category": "raw",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "plastic_scrap": {
+      "name_ko": "폐플라스틱",
+      "category": "raw",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "energy_shard": {
+      "name_ko": "동력석",
+      "category": "raw",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "ingot": {
+      "name_ko": "금속 주괴",
+      "category": "basic",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "wire": {
+      "name_ko": "전선",
+      "category": "basic",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "polymer": {
+      "name_ko": "수지",
+      "category": "basic",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "plate": {
+      "name_ko": "금속판",
+      "category": "intermediate",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "gear": {
+      "name_ko": "기어",
+      "category": "intermediate",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "circuit": {
+      "name_ko": "회로",
+      "category": "intermediate",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "fuel_cell": {
+      "name_ko": "추진 팩",
+      "category": "advanced",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "hull_panel": {
+      "name_ko": "선체 패널",
+      "category": "advanced",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "engine_part": {
+      "name_ko": "엔진 부품",
+      "category": "advanced",
+      "stack_size": 20,
+      "discardable": false
+    },
+    "control_part": {
+      "name_ko": "항법 부품",
+      "category": "advanced",
+      "stack_size": 20,
+      "discardable": false
+    }
+  },
+  "player": {
+    "inventory_slots": 4,
+    "base_stack_size": 20,
+    "base_move_tiles_per_second": 4,
+    "base_interaction_range_tiles": 1.5,
+    "manual_craft_requires_player_hold": true,
+    "gather_overflow_policy": "pause completion until full output fits; no partial output",
+    "placement_center_range_tiles": 3,
+    "interaction_distance_origin": "service_points.interaction_anchor",
+    "single_active_work_kind": true
+  },
+  "sources": {
+    "metal_scrap": {
+      "unlock": "START",
+      "manual_action_ticks": 60,
+      "manual_yield": 2,
+      "manual_slots": 6,
+      "extractor_cycle_ticks": 200,
+      "extractor_yield": 2,
+      "extractor_pads": 3,
+      "finite": false
+    },
+    "cable_scrap": {
+      "unlock": "START",
+      "manual_action_ticks": 80,
+      "manual_yield": 2,
+      "manual_slots": 6,
+      "extractor_cycle_ticks": 160,
+      "extractor_yield": 1,
+      "extractor_pads": 3,
+      "finite": false
+    },
+    "plastic_scrap": {
+      "unlock": "START",
+      "manual_action_ticks": 60,
+      "manual_yield": 2,
+      "manual_slots": 6,
+      "extractor_cycle_ticks": 200,
+      "extractor_yield": 2,
+      "extractor_pads": 3,
+      "finite": false
+    },
+    "energy_shard": {
+      "unlock": "M3",
+      "manual_action_ticks": 60,
+      "manual_yield": 1,
+      "manual_slots": 6,
+      "extractor_cycle_ticks": 160,
+      "extractor_yield": 1,
+      "extractor_pads": 3,
+      "finite": false
+    }
+  },
+  "recipes": {
+    "smelt_ingot": {
+      "machine": "processor",
+      "input": {
+        "metal_scrap": 2
+      },
+      "output": {
+        "ingot": 1
+      },
+      "duration_ticks": 120,
+      "unlock": "START",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "ingot": 10.0
+      }
+    },
+    "draw_wire": {
+      "machine": "processor",
+      "input": {
+        "cable_scrap": 1
+      },
+      "output": {
+        "wire": 2
+      },
+      "duration_ticks": 80,
+      "unlock": "START",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "wire": 30.0
+      }
+    },
+    "recycle_polymer": {
+      "machine": "processor",
+      "input": {
+        "plastic_scrap": 2
+      },
+      "output": {
+        "polymer": 1
+      },
+      "duration_ticks": 120,
+      "unlock": "START",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "polymer": 10.0
+      }
+    },
+    "press_plate": {
+      "machine": "fabricator",
+      "input": {
+        "ingot": 2
+      },
+      "output": {
+        "plate": 1
+      },
+      "duration_ticks": 120,
+      "unlock": "START",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "plate": 10.0
+      }
+    },
+    "cut_gear": {
+      "machine": "fabricator",
+      "input": {
+        "ingot": 1
+      },
+      "output": {
+        "gear": 2
+      },
+      "duration_ticks": 80,
+      "unlock": "START",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "gear": 30.0
+      }
+    },
+    "assemble_circuit": {
+      "machine": "fabricator",
+      "input": {
+        "wire": 2,
+        "polymer": 1
+      },
+      "output": {
+        "circuit": 1
+      },
+      "duration_ticks": 160,
+      "unlock": "M2",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "circuit": 7.5
+      }
+    },
+    "blend_fuel": {
+      "machine": "refinery",
+      "input": {
+        "energy_shard": 2,
+        "polymer": 1
+      },
+      "output": {
+        "fuel_cell": 1
+      },
+      "duration_ticks": 200,
+      "unlock": "M3",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "fuel_cell": 6.0
+      }
+    },
+    "assemble_hull": {
+      "machine": "fabricator",
+      "input": {
+        "plate": 2,
+        "polymer": 1
+      },
+      "output": {
+        "hull_panel": 1
+      },
+      "duration_ticks": 200,
+      "unlock": "M2",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "hull_panel": 6.0
+      }
+    },
+    "assemble_engine": {
+      "machine": "assembler",
+      "input": {
+        "plate": 3,
+        "gear": 4,
+        "circuit": 2
+      },
+      "output": {
+        "engine_part": 1
+      },
+      "duration_ticks": 320,
+      "unlock": "M3",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "engine_part": 3.75
+      }
+    },
+    "assemble_control": {
+      "machine": "assembler",
+      "input": {
+        "circuit": 4,
+        "wire": 2,
+        "plate": 1
+      },
+      "output": {
+        "control_part": 1
+      },
+      "duration_ticks": 320,
+      "unlock": "M4",
+      "manual_allowed": true,
+      "minimum_machine_tier": 1,
+      "output_per_minute_at_full_power": {
+        "control_part": 3.75
+      }
+    }
+  },
+  "machines": {
+    "manual_workbench": {
+      "name_ko": "수동 작업대",
+      "unlock": "START",
+      "paid_cost": {},
+      "power_deci_units": 0,
+      "starter_count": 1,
+      "indestructible": true,
+      "player_slots": 6,
+      "manual_duration_multiplier": {
+        "numerator": 3,
+        "denominator": 2
+      }
+    },
+    "processor": {
+      "name_ko": "재료 가공기",
+      "unlock": "M1",
+      "paid_cost": {
+        "plate": 4,
+        "gear": 4,
+        "wire": 4
+      },
+      "power_deci_units": 20
+    },
+    "fabricator": {
+      "name_ko": "부품 제작기",
+      "unlock": "M1",
+      "paid_cost": {
+        "plate": 6,
+        "gear": 4,
+        "wire": 6
+      },
+      "power_deci_units": 30
+    },
+    "refinery": {
+      "name_ko": "추진 팩 합성기",
+      "unlock": "M3",
+      "paid_cost": {
+        "plate": 8,
+        "circuit": 4,
+        "wire": 8
+      },
+      "power_deci_units": 40
+    },
+    "assembler": {
+      "name_ko": "모듈 조립기",
+      "unlock": "M3",
+      "paid_cost": {
+        "plate": 10,
+        "gear": 8,
+        "circuit": 6
+      },
+      "power_deci_units": 40
+    },
+    "extractor": {
+      "name_ko": "자동 수거기",
+      "unlock": "M3",
+      "paid_cost": {
+        "plate": 6,
+        "gear": 4,
+        "wire": 4
+      },
+      "power_deci_units": 20,
+      "requires_designated_source_pad": true
+    },
+    "solar_array": {
+      "name_ko": "태양광 어레이",
+      "unlock": "M1",
+      "paid_cost": {
+        "plate": 8,
+        "wire": 8
+      },
+      "power_deci_units": 0,
+      "supply_deci_units": 80
+    },
+    "logistics_hub": {
+      "name_ko": "배송 허브",
+      "unlock": "M2",
+      "paid_cost": {
+        "plate": 6,
+        "gear": 4,
+        "wire": 8,
+        "circuit": 2
+      },
+      "power_deci_units": 20,
+      "max_count": 1
+    }
+  },
+  "power": {
+    "deci_units_per_display_unit": 10,
+    "starter_supply_deci_units": 60,
+    "starter_generator_indestructible": true,
+    "no_fuel_or_day_cycle": true,
+    "ratio": "min(1, supply / sum(eligible active machine demand)); ratio=1 when demand=0",
+    "manual_crafting_affected": false,
+    "machine_progress_affected": true,
+    "delivery_dispatch_affected": true,
+    "already_dispatched_transit_affected": false,
+    "fractional_progress_policy": "ratioFp=min(10000,floor(supplyDeci*10000/demandDeci)); zero eligible demand means ratioFp=10000; work increments floor(tierRateFp*ratioFp/10000)",
+    "progress_fixed_point_scale": 10000
+  },
+  "storage": {
+    "starting_shared_storage_capacity_per_item": 200,
+    "machine_input_capacity_per_accepted_item": 20,
+    "machine_output_capacity_per_produced_item": 20,
+    "capacity_includes_incoming_reservations": true,
+    "full_output_pauses_without_consuming_new_inputs": true,
+    "recovery_vault_capacity_per_item": 2147483647,
+    "recovery_vault_has_automatic_ports": false,
+    "manual_channel_input_capacity_per_item": 20,
+    "manual_channel_output_capacity_per_item": 20,
+    "on_site_recovery_crate_has_automatic_ports": false,
+    "on_site_recovery_crate_max_per_map_cell": 1,
+    "warehouse_manual_overflow_stash_enabled": true,
+    "warehouse_overflow_stash_target": "nearest eligible shared_warehouse service point cell; tie by map index; merge on-site recovery crate; no automatic ports",
+    "warehouse_overflow_stash_requires_full_warehouse": false,
+    "warehouse_overflow_stash_is_public": true
+  },
+  "delivery": {
+    "unlock": "M2",
+    "requires_hub": true,
+    "max_links": 48,
+    "max_distance_tiles": 24,
+    "distance_metric": "Euclidean center-to-center",
+    "base_dispatch_interval_ticks": 40,
+    "payload_units": 1,
+    "travel_speed_tiles_per_second": 4,
+    "min_travel_ticks": 1,
+    "travel_ticks_rounding": "ceil(distance / speed / tickSeconds)",
+    "paid_cost_per_link": {
+      "plate": 1,
+      "wire": 2
+    },
+    "hub_consumption_included_once": true,
+    "per_link_power_deci_units": 0,
+    "spatial_crossings_allowed": true,
+    "select_one_item_filter": true,
+    "in_transit_is_authoritative_inventory": true,
+    "reserve_destination_before_dispatch": true,
+    "dispatch_arbitration": "two-phase proposals per source-item group then capacity grants per destination-item group; persisted cursors; max 48 rounds per tick, each link at most one dispatch per tick",
+    "max_in_transit_per_link": 4,
+    "duplicate_same_source_destination_item_forbidden": true,
+    "dispatch_credit_cap_intervals": 1,
+    "travel_distance_unit": "integer millitile; ceil integer square root",
+    "port_position_rule": "entity center xz; input and output are separate logical ports at the same spatial center",
+    "hub_eligible_demand_ignores_credit": true,
+    "edit_interaction_origin": "source entity service anchor, 1.5 tiles"
+  },
+  "upgrades": {
+    "carry_tier_1": {
+      "unlock": "M1",
+      "scope": "per_player_per_run",
+      "cost": {
+        "plate": 4,
+        "gear": 4
+      },
+      "requires": [],
+      "result_stack_size": 30
+    },
+    "move_tier_1": {
+      "unlock": "M2",
+      "scope": "per_player_per_run",
+      "cost": {
+        "plate": 4,
+        "wire": 4,
+        "polymer": 4
+      },
+      "requires": [],
+      "result_move_tiles_per_second": 4.5
+    },
+    "carry_tier_2": {
+      "unlock": "M3",
+      "scope": "per_player_per_run",
+      "cost": {
+        "plate": 8,
+        "gear": 4
+      },
+      "requires": [
+        "carry_tier_1"
+      ],
+      "result_stack_size": 40
+    },
+    "machine_mk2": {
+      "unlock": "M4",
+      "scope": "per_machine",
+      "cost": {
+        "plate": 8,
+        "circuit": 4
+      },
+      "eligible_machine_types": [
+        "processor",
+        "fabricator",
+        "refinery",
+        "assembler"
+      ],
+      "requires_tier": 1,
+      "result_tier": 2,
+      "work_rate_multiplier": {
+        "numerator": 3,
+        "denominator": 2
+      },
+      "power_multiplier": {
+        "numerator": 3,
+        "denominator": 2
+      }
+    },
+    "extractor_mk2": {
+      "unlock": "M4",
+      "scope": "per_machine",
+      "cost": {
+        "plate": 6,
+        "gear": 8,
+        "circuit": 2
+      },
+      "eligible_machine_types": [
+        "extractor"
+      ],
+      "requires_tier": 1,
+      "result_tier": 2,
+      "work_rate_multiplier": {
+        "numerator": 2,
+        "denominator": 1
+      },
+      "power_multiplier": {
+        "numerator": 2,
+        "denominator": 1
+      }
+    }
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "name_ko": "기초 발사대",
+      "requires_completed": [],
+      "base_targets": {
+        "plate": 6,
+        "gear": 4,
+        "wire": 4
+      },
+      "unlocks": [
+        "processor",
+        "fabricator",
+        "solar_array",
+        "carry_tier_1"
+      ]
+    },
+    {
+      "id": "M2",
+      "name_ko": "조립 갠트리",
+      "requires_completed": [
+        "M1"
+      ],
+      "base_targets": {
+        "plate": 16,
+        "gear": 12,
+        "wire": 12
+      },
+      "unlocks": [
+        "assemble_circuit",
+        "assemble_hull",
+        "logistics_hub",
+        "delivery_link",
+        "move_tier_1"
+      ]
+    },
+    {
+      "id": "M3",
+      "name_ko": "연료 탱크와 선체",
+      "requires_completed": [
+        "M2"
+      ],
+      "base_targets": {
+        "hull_panel": 24,
+        "circuit": 12,
+        "gear": 12
+      },
+      "unlocks": [
+        "energy_shard_source",
+        "blend_fuel",
+        "assemble_engine",
+        "refinery",
+        "assembler",
+        "extractor",
+        "carry_tier_2"
+      ]
+    },
+    {
+      "id": "M4",
+      "name_ko": "추진부",
+      "requires_completed": [
+        "M3"
+      ],
+      "base_targets": {
+        "engine_part": 12,
+        "hull_panel": 16
+      },
+      "unlocks": [
+        "assemble_control",
+        "machine_mk2",
+        "extractor_mk2"
+      ]
+    },
+    {
+      "id": "M5",
+      "name_ko": "항법과 상부",
+      "requires_completed": [
+        "M4"
+      ],
+      "base_targets": {
+        "control_part": 8,
+        "hull_panel": 16,
+        "circuit": 12
+      },
+      "unlocks": [
+        "launch_checklist"
+      ]
+    },
+    {
+      "id": "M6",
+      "name_ko": "연료 충전과 외장",
+      "requires_completed": [
+        "M5"
+      ],
+      "base_targets": {
+        "fuel_cell": 100,
+        "hull_panel": 24,
+        "wire": 20
+      },
+      "unlocks": [
+        "launch_inspections"
+      ]
+    }
+  ],
+  "refunds": {
+    "machine_and_link_demolition": "EMPTY_IDLE only; original paidCostLedger exactly once to an on-site recovery crate; held contents must be zero; no teleport of normal inventory or construction cost",
+    "upgrade_demolition": "machine upgrade entries included in machine paidCostLedger",
+    "player_upgrades": "permanent for this run; no refund or resale",
+    "milestone_deposits": "irreversible construction sink; reject deposits beyond remaining quota; zero resource deletion",
+    "machine_move": "free EMPTY_IDLE reposition only; retain paidCostLedger and entityId; drain and explicitly remove affected links before move",
+    "manual_and_machine_job_cancel": "cancel WIP only if original inputs fit destination input buffer; return full original input ledger and clear output reservation atomically; progress becomes zero"
+  },
+  "caps": {
+    "total_placed_machine_entities_excluding_starter": 64,
+    "solar_arrays": 12,
+    "extractors_per_source": 3,
+    "delivery_links": 48,
+    "world_dropped_items": 0
+  },
+  "target_session_minutes": {
+    "1": [
+      80,
+      120
+    ],
+    "2": [
+      70,
+      105
+    ],
+    "3": [
+      60,
+      95
+    ],
+    "4": [
+      60,
+      95
+    ],
+    "5": [
+      60,
+      90
+    ],
+    "6": [
+      60,
+      90
+    ]
+  },
+  "target_first_automation_minutes": {
+    "1": [
+      8,
+      12
+    ],
+    "2": [
+      5,
+      9
+    ],
+    "3": [
+      4,
+      8
+    ],
+    "4": [
+      4,
+      7
+    ],
+    "5": [
+      3,
+      7
+    ],
+    "6": [
+      3,
+      6
+    ]
+  },
+  "analysis_assumptions": {
+    "reference_layouts": {
+      "1": {
+        "processor": 4,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 5,
+        "solar_array": 4,
+        "logistics_hub": 1,
+        "delivery_link": 20
+      },
+      "2": {
+        "processor": 5,
+        "fabricator": 3,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 6,
+        "solar_array": 5,
+        "logistics_hub": 1,
+        "delivery_link": 24
+      },
+      "3": {
+        "processor": 6,
+        "fabricator": 4,
+        "refinery": 1,
+        "assembler": 1,
+        "extractor": 7,
+        "solar_array": 6,
+        "logistics_hub": 1,
+        "delivery_link": 26
+      },
+      "4": {
+        "processor": 7,
+        "fabricator": 4,
+        "refinery": 2,
+        "assembler": 1,
+        "extractor": 8,
+        "solar_array": 7,
+        "logistics_hub": 1,
+        "delivery_link": 28
+      },
+      "5": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 30
+      },
+      "6": {
+        "processor": 7,
+        "fabricator": 5,
+        "refinery": 2,
+        "assembler": 2,
+        "extractor": 9,
+        "solar_array": 8,
+        "logistics_hub": 1,
+        "delivery_link": 32
+      }
+    },
+    "processor_assignments": {
+      "1": {
+        "ingot": 2,
+        "wire": 1,
+        "polymer": 1
+      },
+      "2": {
+        "ingot": 3,
+        "wire": 1,
+        "polymer": 1
+      },
+      "3": {
+        "ingot": 3,
+        "wire": 1,
+        "polymer": 2
+      },
+      "4": {
+        "ingot": 4,
+        "wire": 1,
+        "polymer": 2
+      },
+      "5": {
+        "ingot": 4,
+        "wire": 1,
+        "polymer": 2
+      },
+      "6": {
+        "ingot": 4,
+        "wire": 1,
+        "polymer": 2
+      }
+    },
+    "extractor_assignments": {
+      "1": {
+        "metal_scrap": 2,
+        "cable_scrap": 1,
+        "plastic_scrap": 1,
+        "energy_shard": 1
+      },
+      "2": {
+        "metal_scrap": 2,
+        "cable_scrap": 1,
+        "plastic_scrap": 2,
+        "energy_shard": 1
+      },
+      "3": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 2,
+        "energy_shard": 1
+      },
+      "4": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 2,
+        "energy_shard": 2
+      },
+      "5": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 3,
+        "energy_shard": 2
+      },
+      "6": {
+        "metal_scrap": 3,
+        "cable_scrap": 1,
+        "plastic_scrap": 3,
+        "energy_shard": 2
+      }
+    },
+    "baseline_haul": {
+      "batch_units": 40,
+      "one_way_distance_tiles": 15,
+      "speed_tiles_per_second": 4,
+      "total_transfer_seconds_per_round_trip": 2
+    },
+    "adverse_haul": {
+      "batch_units": 20,
+      "one_way_distance_tiles": 18,
+      "speed_tiles_per_second": 4,
+      "total_transfer_seconds_per_round_trip": 3
+    },
+    "adverse_production": {
+      "power_ratio": 0.8,
+      "input_utilization": 0.75
+    },
+    "factory_reference_includes": [
+      "one entire rocket",
+      "listed factories",
+      "listed power",
+      "listed delivery links"
+    ],
+    "factory_reference_excludes": [
+      "player upgrades",
+      "machine MK2 upgrades",
+      "storage expansions",
+      "temporary machine relocation refund",
+      "preexisting inventory"
+    ],
+    "production_lower_bound_excludes": [
+      "unlock ordering",
+      "walking",
+      "construction work",
+      "machine switches",
+      "delivery route topology",
+      "learning",
+      "UI operation",
+      "machine idle while waiting for input"
+    ],
+    "status": "analysis is resource accounting and optimistic capacity lower bound, not a complete playthrough simulation"
+  },
+  "schema_version": 1,
+  "construction": {
+    "goal_cost_source": "player inventory or reserved incoming delivery; no remote warehouse withdrawal",
+    "assembly_requires_all_targets_deposited": true,
+    "assembly_base_ticks": {
+      "M1": 400,
+      "M2": 600,
+      "M3": 900,
+      "M4": 900,
+      "M5": 600,
+      "M6": 400
+    },
+    "assembly_rate_by_contributors": {
+      "1": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "2": {
+        "numerator": 3,
+        "denominator": 2
+      },
+      "3": {
+        "numerator": 7,
+        "denominator": 4
+      },
+      "4": {
+        "numerator": 2,
+        "denominator": 1
+      },
+      "5": {
+        "numerator": 9,
+        "denominator": 4
+      },
+      "6": {
+        "numerator": 5,
+        "denominator": 2
+      }
+    },
+    "assembly_affected_by_power": false,
+    "assembly_progress_persists_after_interrupt": true,
+    "assembly_scaled_by_planned_players": false,
+    "visual_progress_threshold_percent": [
+      25,
+      50,
+      75,
+      100
+    ],
+    "inspection_ticks_per_check": 40,
+    "inspection_ids": [
+      "structure",
+      "propulsion",
+      "navigation"
+    ],
+    "launch_additional_resource_cost": {},
+    "move_requires_source_service_range_and_destination_center_range": true
+  },
+  "limits": {
+    "integer_quantity_max": 2147483647,
+    "player_command_quantity_max": 1000,
+    "placement_rotation_quarter_turns": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "normal_machine_footprint_tiles": [
+      2,
+      2
+    ]
+  },
+  "timing": {
+    "tick_ms": 50,
+    "state_patch_interval_ticks": 2,
+    "commit_batch_ticks": 5,
+    "snapshot_interval_seconds": 30,
+    "movement_input_expiry_ms": 250
+  },
+  "unlock_registry": {
+    "processor": {
+      "kind": "machine",
+      "id": "processor"
+    },
+    "fabricator": {
+      "kind": "machine",
+      "id": "fabricator"
+    },
+    "solar_array": {
+      "kind": "machine",
+      "id": "solar_array"
+    },
+    "carry_tier_1": {
+      "kind": "upgrade",
+      "id": "carry_tier_1"
+    },
+    "assemble_circuit": {
+      "kind": "recipe",
+      "id": "assemble_circuit"
+    },
+    "assemble_hull": {
+      "kind": "recipe",
+      "id": "assemble_hull"
+    },
+    "logistics_hub": {
+      "kind": "machine",
+      "id": "logistics_hub"
+    },
+    "delivery_link": {
+      "kind": "feature",
+      "id": "delivery_link"
+    },
+    "move_tier_1": {
+      "kind": "upgrade",
+      "id": "move_tier_1"
+    },
+    "energy_shard_source": {
+      "kind": "source",
+      "id": "energy_shard"
+    },
+    "blend_fuel": {
+      "kind": "recipe",
+      "id": "blend_fuel"
+    },
+    "assemble_engine": {
+      "kind": "recipe",
+      "id": "assemble_engine"
+    },
+    "refinery": {
+      "kind": "machine",
+      "id": "refinery"
+    },
+    "assembler": {
+      "kind": "machine",
+      "id": "assembler"
+    },
+    "extractor": {
+      "kind": "machine",
+      "id": "extractor"
+    },
+    "carry_tier_2": {
+      "kind": "upgrade",
+      "id": "carry_tier_2"
+    },
+    "assemble_control": {
+      "kind": "recipe",
+      "id": "assemble_control"
+    },
+    "machine_mk2": {
+      "kind": "upgrade",
+      "id": "machine_mk2"
+    },
+    "extractor_mk2": {
+      "kind": "upgrade",
+      "id": "extractor_mk2"
+    },
+    "launch_checklist": {
+      "kind": "feature",
+      "id": "launch_checklist"
+    },
+    "launch_inspections": {
+      "kind": "feature",
+      "id": "launch_inspections"
+    }
+  },
+  "launch": {
+    "vote_timeout_wall_seconds": 30,
+    "countdown_ticks": 100,
+    "automatic_economy_phases": [
+      "RUNNING",
+      "LAUNCH_VOTE",
+      "COUNTDOWN"
+    ],
+    "manual_actions_phases": [
+      "RUNNING",
+      "LAUNCH_VOTE"
+    ],
+    "cancel_countdown_allowed_for": "any currently connected member before durable LAUNCHED",
+    "post_launch_economy_paused": true,
+    "recovery_cancels_uncommitted_vote_and_countdown": true
+  }
+}

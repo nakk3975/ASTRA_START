@@ -1,0 +1,100 @@
+{
+  "runtime_version": "1.0.0-design",
+  "protocol_version": 1,
+  "content_version": "1.0.0-design",
+  "world": {
+    "max_players": 6,
+    "default_planned_players": 2,
+    "max_active_rooms_initial": 3,
+    "millitiles_per_tile": 1000,
+    "player_radius_millitiles": 300,
+    "collision_policy": "server circle versus static footprint AABBs; players do not collide with players",
+    "interaction_requires_clear_segment_to_service_anchor": true
+  },
+  "timers_ms": {
+    "simulation_tick": 50,
+    "pose_patch_interval": 100,
+    "economic_commit_batch_max": 250,
+    "snapshot_interval": 30000,
+    "movement_input_expiry": 250,
+    "manual_work_hold_expiry": 500,
+    "heartbeat_ping_interval": 10000,
+    "heartbeat_response_timeout": 30000,
+    "disconnected_seat_reservation": 30000,
+    "manual_channel_retention_max": 120000,
+    "launch_vote_timeout": 30000,
+    "writer_lease": 20000,
+    "writer_renew_interval": 5000,
+    "connect_ui_timeout": 90000,
+    "join_ticket_ttl": 60000,
+    "backpressure_persistent_limit": 5000
+  },
+  "limits": {
+    "client_message_bytes": 8192,
+    "client_json_max_depth": 8,
+    "client_array_max_length": 100,
+    "client_string_max_length": 256,
+    "command_queue_per_member": 32,
+    "command_queue_per_room": 128,
+    "command_status_query_ids": 100,
+    "outbound_soft_limit_bytes": 262144,
+    "outbound_hard_limit_bytes": 1048576,
+    "rendered_recovery_crates_detailed": 32
+  },
+  "rate_limits": {
+    "movement_and_hold": {
+      "per_second": 30,
+      "burst": 60
+    },
+    "economic_commands": {
+      "per_second": 8,
+      "burst": 16
+    },
+    "status_queries": {
+      "per_second": 2,
+      "burst": 4
+    },
+    "room_code_lookup_per_guest_per_minute": 10,
+    "room_code_lookup_per_ip_per_minute": 60,
+    "owner_recovery_failures_per_guest_per_15min": 5,
+    "owner_recovery_failures_per_ip_per_15min": 30
+  },
+  "identity": {
+    "room_code_length": 8,
+    "room_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789",
+    "guest_secret_bytes": 32,
+    "recovery_secret_bytes": 32,
+    "join_ticket_nonce_bytes": 32,
+    "nickname_min_graphemes": 2,
+    "nickname_max_graphemes": 16,
+    "nickname_normalization": "NFC"
+  },
+  "retry": {
+    "base_delays_ms": [
+      1000,
+      2000,
+      4000,
+      8000,
+      16000,
+      30000
+    ],
+    "jitter_fraction": 0.2,
+    "do_not_replay_ephemeral_inputs": true
+  },
+  "rendering": {
+    "desktop_dpr_cap": 1.5,
+    "low_quality_dpr_cap": 1.0,
+    "touch_target_css_px": 44,
+    "desktop_target_fps": 60,
+    "low_quality_target_fps": 30
+  },
+  "scope": {
+    "registered_accounts": false,
+    "independent_spectator_role": false,
+    "save_import": false,
+    "owner_snapshot_export": false,
+    "public_matchmaking": false,
+    "offline_production": false,
+    "launch_requires_unanimous_connected_players": true
+  }
+}
