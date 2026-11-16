@@ -1,71 +1,751 @@
-import {canvasWorld} from './CanvasWorld';
-import React,{useEffect,useRef} from 'react';import * as T from 'three';
-import {B,M,R,UNIT,type Item} from '../../../packages/content/src/index.ts';import {fixedGeometry,geometry,placement,machineGeometry,type World,type Geometry,type Point} from '../../../packages/game-core/src/index.ts';
-export const colors=['#ed8050','#50a6c0','#9d82c6','#82ab64','#d0a048','#e27898'];
-export type Ghost={type:string;x:number;z:number;rotation:number;moveId?:string};
-type Props={world:World|null;member:string;selected:string|null;ghost:Ghost|null;low:boolean;overview:boolean;onSelect:(id:string)=>void;onGround:(p:Point)=>void;onError:(s:string)=>void};
-export function WorldView(props:Props){const host=useRef<HTMLDivElement>(null),latest=useRef(props);latest.current=props;
- useEffect(()=>{
-  const element=host.current!;let renderer:T.WebGLRenderer;try{renderer=new T.WebGLRenderer({antialias:!props.low,alpha:false});}catch{return canvasWorld(element,latest);}
-  renderer.setPixelRatio(Math.min(devicePixelRatio,props.low?R.rendering.low_quality_dpr_cap:R.rendering.desktop_dpr_cap));renderer.shadowMap.enabled=!props.low;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setClearColor('#d7dfd4');renderer.outputColorSpace=T.SRGBColorSpace;renderer.domElement.setAttribute('aria-label','작업장 3D 월드');element.appendChild(renderer.domElement);
-  const scene=new T.Scene();scene.fog=new T.Fog('#d7dfd4',70,130);const cam=new T.OrthographicCamera(-30,30,22,-22,.1,200);const sun=new T.DirectionalLight('#fff0ce',3);sun.position.set(-15,40,10);sun.castShadow=!props.low;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-40;sun.shadow.camera.right=40;sun.shadow.camera.top=40;sun.shadow.camera.bottom=-40;scene.add(sun,new T.HemisphereLight('#ecf6f5','#7b8c73',2.5));
-  const clickable:T.Object3D[]=[];const dynamic=new T.Group();scene.add(dynamic);const playerNodes=new Map<string,T.Group>();const machineNodes=new Map<string,{node:T.Group;key:string}>();const cargoNodes=new Map<string,T.Mesh>();const lineNodes=new Map<string,T.Line>();
-  const materials=new Map<string,T.MeshStandardMaterial>();const mat=(color:string)=>{if(!materials.has(color))materials.set(color,new T.MeshStandardMaterial({color,roughness:.86}));return materials.get(color)!;};
-  function box(parent:T.Object3D,x:number,y:number,z:number,sx:number,sy:number,sz:number,color:string){const mesh=new T.Mesh(new T.BoxGeometry(sx,sy,sz),mat(color));mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function cylinder(parent:T.Object3D,x:number,y:number,z:number,r1:number,r2:number,h:number,color:string,n=12){const mesh=new T.Mesh(new T.CylinderGeometry(r1,r2,h,n),mat(color));mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function label(parent:T.Object3D,text:string,x:number,y:number,z:number,color='#254247',scale=2.6){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=96;const ctx=canvas.getContext('2d')!;ctx.fillStyle='rgba(250,248,236,.92)';ctx.roundRect(2,4,508,88,20);ctx.fill();ctx.fillStyle=color;ctx.font='600 38px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,256,50,480);const texture=new T.CanvasTexture(canvas);const sprite=new T.Sprite(new T.SpriteMaterial({map:texture,depthTest:false}));sprite.position.set(x,y,z);sprite.scale.set(scale,scale*96/512,1);parent.add(sprite);return sprite;}
-  const ground=box(scene,24,-.2,16,66,.4,50,'#a3ae90');box(scene,24,-.03,16,48,.18,32,'#c7c7aa');
-  for(const road of M.protected_walkways){const width=road.x_max-road.x_min+1,depth=road.z_max-road.z_min+1;box(scene,road.x_min+width/2,.075,road.z_min+depth/2,width,.06,depth,'#dedcc6');}
-  for(let x=2;x<46;x+=3)box(scene,x,.12,16,.95,.01,.09,'#b2b39e');
-  for(const reg of M.factory_regions){const width=reg.x_max-reg.x_min+1,depth=reg.z_max-reg.z_min+1;box(scene,reg.x_min+width/2,.065,reg.z_min+depth/2,width,.025,depth,'#b3bbad');label(scene,reg.id==='factory_a'?'A · 생산 구역':'B · 생산 구역',reg.x_min+5,0.3,reg.z_min+1,'#6b7e70',3.2);}
-  const grid=new T.GridHelper(48,48,'#adb29a','#bec2aa');grid.scale.z=32/48;grid.position.set(24,.08,16);scene.add(grid);
-  for(let x=0;x<=48;x+=3){box(scene,x,.55,.3,.13,1,.13,'#718876');box(scene,x,.55,31.7,.13,1,.13,'#718876');}for(let z=0;z<=32;z+=3){box(scene,.3,.55,z,.13,1,.13,'#718876');box(scene,47.7,.55,z,.13,1,.13,'#718876');}box(scene,24,.65,.3,48,.1,.08,'#899b84');box(scene,24,.65,31.7,48,.1,.08,'#899b84');
-  for(const src of M.source_zones){const group=new T.Group();group.userData.id=src.id;scene.add(group);clickable.push(group);const cx=(src.x_min+src.x_max+1)/2,cz=(src.z_min+src.z_max+1)/2;const color=src.item_id==='metal_scrap'?'#a58d79':src.item_id==='cable_scrap'?'#c59c5d':src.item_id==='plastic_scrap'?'#82a9a2':'#9a8ec2';box(group,cx,.14,cz,src.x_max-src.x_min+1,.15,src.z_max-src.z_min+1,color);
-   for(let i=0;i<15;i++){const x=src.x_min+.6+((i*17)%55)/10,z=src.z_min+.5+((i*23)%Math.max(10,(src.z_max-src.z_min)*10))/10;if(src.item_id==='energy_shard'){const crystal=new T.Mesh(new T.OctahedronGeometry(.45+(i%3)*.15),mat(i%2?'#c1acdf':'#9581ba'));crystal.position.set(x,.7,z);group.add(crystal);}else{const scrap=box(group,x,.25+(i%3)*.17,z,.5+(i%3)*.2,.4,.7,color);scrap.rotation.y=i*.7;}}
-   label(group,src.name_ko,cx,2,cz, '#304e4d',3.5);for(const point of src.manual_service_points){const ring=new T.Mesh(new T.RingGeometry(.2,.3,16),new T.MeshBasicMaterial({color:'#fff4d0',side:T.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.set(point.cell.x+.5,.14,point.cell.z+.5);group.add(ring);}
-   for(const pad of src.extractor_pads){box(scene,pad.top_left.x+1,.19,pad.top_left.z+1,1.7,.03,1.7,'#d4caa8');}
-  }
-  function facility(g:Geometry,type:string,tier=1){const group=new T.Group();group.userData.id=g.id;group.position.set(g.delivery_distance_anchor.x,0,g.delivery_distance_anchor.z);const w=g.footprint.width,d=g.footprint.depth;box(group,0,.16,0,w*.94,.3,d*.94,'#768c83');
-   if(type==='manual_workbench'){box(group,0,.85,0,1.85,.22,1.25,'#b78755');for(const x of [-.7,.7])box(group,x,.45,0,.15,.8,.85,'#536b69');box(group,-.4,1.12,0,.5,.35,.4,'#778f8b');box(group,.5,1.04,.1,.45,.2,.3,'#d8b06c');}
-   else if(type==='shared_warehouse'){box(group,0,.7,0,1.7,1.2,1.6,'#d4b46d');for(let i=-3;i<=3;i++)box(group,i*.22,.8,-.82,.035,1.1,.02,'#b58d46');box(group,0,1.42,0,1.9,.2,1.8,'#eee4c0');}
-   else if(type==='starter_generator'||type==='logistics_hub'){box(group,0,.7,0,1.4,1.05,1.4,type==='logistics_hub'?'#73b5b3':'#677e6b');cylinder(group,0,1.35,0,.45,.45,.4,'#e9c76a');box(group,.6,2,0,.06,1.3,.06,'#3e6263');cylinder(group,.6,2.7,0,.15,.15,.12,'#e9a766');}
-   else if(type==='solar_array'){for(const x of [-.55,.55])box(group,x,.7,0,.12,1,.12,'#839788');const solar=box(group,0,1.15,0,1.8,.1,1.5,'#346981');solar.rotation.x=-.2;for(let i=-2;i<=2;i++)box(group,i*.32,1.22,0,.025,.03,1.4,'#77a7b1');}
-   else if(type==='recovery_vault'){box(group,0,.65,0,1.5,1,1.4,'#95a49a');box(group,0,1.21,0,1.65,.16,1.5,'#d7e0cd');}
-   else {const color=type==='extractor'?'#cf9b65':type==='refinery'?'#aca4c1':type==='assembler'?'#779e8e':'#7ca4b1';box(group,0,.8,0,1.55,1.2,1.55,color);box(group,0,1.45,0,1.7,.2,1.7,'#e9e2cc');cylinder(group,-.45,1.9,.35,.22,.3,.8,'#536d70');box(group,0,1,-.8,.8,.45,.06,'#2f5057');cylinder(group,0,1.1,-.85,.12,.12,.05,'#f5bc68');if(tier===2)box(group,.7,1.65,-.6,.22,.3,.2,'#e4b955');}
-   for(const s of g.service_points){const x=s.interaction_anchor.x-g.delivery_distance_anchor.x,z=s.interaction_anchor.z-g.delivery_distance_anchor.z;const marker=cylinder(group,x,.22,z,.16,.16,.08,'#f1db99');}
-   return group;
-  }
-  for(const g of M.starter_entities){const node=facility(g,g.kind);scene.add(node);clickable.push(node);label(node,({manual_workbench:'수동 작업대',shared_warehouse:'공용 창고',starter_generator:'기본 발전기',recovery_vault:'비상 회수함'}as any)[g.kind],0,2,0,'#354e48',3.1);}
-  const rocket=new T.Group();rocket.userData.id='rocket';rocket.position.set(M.rocket_envelope.delivery_distance_anchor.x,0,M.rocket_envelope.delivery_distance_anchor.z);scene.add(rocket);clickable.push(rocket);let stageKey='';
-  const selection=new T.Mesh(new T.RingGeometry(1,1.08,40),new T.MeshBasicMaterial({color:'#f2a65c',side:T.DoubleSide,depthTest:false}));selection.rotation.x=-Math.PI/2;selection.visible=false;scene.add(selection);
-  let ghostNode:T.Group|null=null,ghostKey='';let zoom=props.world?23:28;const target=new T.Vector3(21,0,17);let frame=0,prevTime=performance.now(),disposed=false;
-  function resize(){const width=element.clientWidth,height=element.clientHeight;renderer.setSize(width,height);cam.left=-zoom*width/height;cam.right=zoom*width/height;cam.top=zoom;cam.bottom=-zoom;cam.updateProjectionMatrix();}const observer=new ResizeObserver(resize);observer.observe(element);resize();
-  const raycaster=new T.Raycaster(),pointer=new T.Vector2();let down:{x:number;y:number}|null=null;
-  function pointerdown(e:PointerEvent){down={x:e.clientX,y:e.clientY};}
-  function click(e:PointerEvent){if(!down||Math.hypot(e.clientX-down.x,e.clientY-down.y)>10)return;down=null;const r=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,cam);
-   if(latest.current.ghost){const p=new T.Vector3();raycaster.ray.intersectPlane(new T.Plane(new T.Vector3(0,1,0),0),p);latest.current.onGround({x:Math.floor(p.x),z:Math.floor(p.z)});return;}
-   const hit=raycaster.intersectObjects(clickable,true)[0];if(hit){let node:T.Object3D|null=hit.object;while(node&&!node.userData.id)node=node.parent;if(node?.userData.id)latest.current.onSelect(node.userData.id);}
-  }
-  const wheel=(e:WheelEvent)=>{e.preventDefault();zoom=Math.max(10,Math.min(35,zoom+e.deltaY*.015));resize();};renderer.domElement.addEventListener('pointerdown',pointerdown);renderer.domElement.addEventListener('pointerup',click);renderer.domElement.addEventListener('wheel',wheel,{passive:false});
-  function animate(now:number){if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(.1,(now-prevTime)/1000);prevTime=now;const p=latest.current,w=p.world;
-   const me=w?.members[p.member];const desired=p.overview||!me?new T.Vector3(24,0,17):new T.Vector3(me.position.x/UNIT,0,me.position.z/UNIT);target.lerp(desired,Math.min(1,dt*3));cam.position.set(target.x+8,target.y+32,target.z+23);cam.lookAt(target);sun.target.position.copy(target);
-   const rocketProgress=w?.stage??0;const key=String(rocketProgress)+':'+(w?.phase==='LAUNCHED');if(key!==stageKey){stageKey=key;rocket.clear();box(rocket,0,.15,0,5,.3,6,'#8c9b94');for(let i=0;i<4;i++)box(rocket,(i%2?1:-1)*2,.4,(i<2?1:-1)*2.5,.2,.4,.2,'#f2bd62');if(rocketProgress>=1){box(rocket,0,.42,0,4.2,.25,4.2,'#e0dbc4');}if(rocketProgress>=2){for(const x of [-2,2]){box(rocket,x,3.5,1,.22,6.5,.22,'#a58466');box(rocket,x,3.5,-1,.22,6.5,.22,'#a58466');}box(rocket,0,6.6,1,4.3,.2,.22,'#a58466');}if(rocketProgress>=3){cylinder(rocket,0,3.3,0,1,1,4.5,'#f4eedb');cylinder(rocket,-1.3,2.2,0,.35,.35,3,'#d4cdb6');cylinder(rocket,1.3,2.2,0,.35,.35,3,'#d4cdb6');}if(rocketProgress>=4){for(const x of [-.6,0,.6])cylinder(rocket,x,1,0,.18,.32,.7,'#3c6268');box(rocket,0,2,0,2.15,.35,2.15,'#df8d5c');}if(rocketProgress>=5){cylinder(rocket,0,6.2,0,.08,1,1.4,'#f6f0dc');cylinder(rocket,0,5.3,0,1.03,1.03,.5,'#678d91');}if(rocketProgress>=6){box(rocket,-1.1,2.4,0,.35,1.8,1.1,'#e29261');box(rocket,1.1,2.4,0,.35,1.8,1.1,'#e29261');}label(rocket,rocketProgress>=6?'발사 준비 완료':'로켓 조립 구역',0,7.7,0,'#3c5953',4);}
-   if(w?.phase==='LAUNCHED')rocket.position.y=Math.min(28,rocket.position.y+dt*3);else rocket.position.y=0;
-   if(w){
-    for(const m of Object.values(w.machines).filter(x=>x.type!=='channel')){const k=JSON.stringify([m.geometry,m.tier]);const old=machineNodes.get(m.id);if(old?.key!==k){if(old){scene.remove(old.node);clickable.splice(clickable.indexOf(old.node),1);}const node=facility(m.geometry,m.type,m.tier);scene.add(node);clickable.push(node);machineNodes.set(m.id,{node,key:k});label(node,B.machines[m.type as keyof typeof B.machines].name_ko,0,2.5,0,'#34575a',3.2);}}
-    for(const [id,v]of machineNodes)if(!w.machines[id]&&!w.crates[id]){scene.remove(v.node);clickable.splice(clickable.indexOf(v.node),1);machineNodes.delete(id);}
-    for(const [id,pos]of Object.entries(w.crates)){if(!machineNodes.has(id)){const node=new T.Group();node.userData.id=id;box(node,0,.35,0,.8,.7,.8,'#c7a070');node.position.set(pos.x+.5,0,pos.z+.5);scene.add(node);clickable.push(node);machineNodes.set(id,{node,key:'crate'});}}
-    for(const [index,m]of Object.values(w.members).entries()){let node=playerNodes.get(m.id);if(!m.connected){if(node)node.visible=false;continue;}if(!node){node=new T.Group();node.userData.id='bag:'+m.id;const color=colors[index%6];cylinder(node,0,.6,0,.23,.28,.65,color);cylinder(node,0,1.12,0,.22,.22,.35,'#f1d0a7');cylinder(node,0,1.32,0,.29,.29,.13,'#efc663');box(node,-.14,.2,0,.15,.35,.2,'#3c5558');box(node,.14,.2,0,.15,.35,.2,'#3c5558');label(node,(index+1)+' '+m.name,0,1.9,0,m.id===p.member?'#b96e3c':'#3a5d62',2.4);scene.add(node);playerNodes.set(m.id,node);clickable.push(node);node.position.set(m.position.x/UNIT,0,m.position.z/UNIT);}node.visible=true;node.position.lerp(new T.Vector3(m.position.x/UNIT,m.work?Math.sin(now*.013)*.04:0,m.position.z/UNIT),Math.min(1,dt*14));}
-    for(const l of Object.values(w.links)){if(!lineNodes.has(l.id)){const a=geometry(w,l.from).delivery_distance_anchor,b=geometry(w,l.to).delivery_distance_anchor;const line=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(a.x,2.4,a.z),new T.Vector3(b.x,2.4,b.z)]),new T.LineBasicMaterial({color:'#4f9995',transparent:true,opacity:.55}));scene.add(line);lineNodes.set(l.id,line);}}
-    for(const [id,l]of lineNodes)if(!w.links[id]){scene.remove(l);lineNodes.delete(id);}
-    for(const c of Object.values(w.cargo)){let node=cargoNodes.get(c.id);if(!node){node=new T.Mesh(new T.BoxGeometry(.32,.22,.32),mat('#eed89d'));scene.add(node);cargoNodes.set(c.id,node);}const a=geometry(w,c.from).delivery_distance_anchor,b=geometry(w,c.to).delivery_distance_anchor;const progress=Math.min(1,Math.max(0,(Number(w.tick)-Number(c.departed))/(Number(c.arrival)-Number(c.departed))));node.position.set(a.x+(b.x-a.x)*progress,2.4+Math.sin(progress*Math.PI)*.4,a.z+(b.z-a.z)*progress);}
-    for(const [id,c]of cargoNodes)if(!w.cargo[id]){scene.remove(c);cargoNodes.delete(id);}
-   }
-   if(p.selected){try{let g;if(p.selected.startsWith('source_')){const s=M.source_zones.find(s=>s.id===p.selected)!;g={delivery_distance_anchor:{x:(s.x_min+s.x_max+1)/2,z:(s.z_min+s.z_max+1)/2}};}else g=w?geometry(w,p.selected):fixedGeometry.find(x=>x.id===p.selected);if(g){selection.visible=true;selection.position.set(g.delivery_distance_anchor.x,.2,g.delivery_distance_anchor.z);}}catch{selection.visible=false;}}else selection.visible=false;
-   const gh=p.ghost,ghKey=JSON.stringify(gh);if(ghKey!==ghostKey){ghostKey=ghKey;if(ghostNode)scene.remove(ghostNode);ghostNode=null;if(gh){const g=machineGeometry('ghost',gh.type,gh.x,gh.z,gh.rotation);ghostNode=facility(g,gh.type);const valid=w&&!placement(w,g,gh.moveId);ghostNode.traverse(o=>{if(o instanceof T.Mesh){o.material=new T.MeshBasicMaterial({color:valid?'#74ae93':'#d77761',transparent:true,opacity:.55,wireframe:false});}});scene.add(ghostNode);}}
-   renderer.render(scene,cam);
-  }
-  frame=requestAnimationFrame(animate);
-  return()=>{disposed=true;cancelAnimationFrame(frame);observer.disconnect();renderer.domElement.removeEventListener('pointerdown',pointerdown);renderer.domElement.removeEventListener('pointerup',click);renderer.domElement.removeEventListener('wheel',wheel);scene.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms)m.dispose();}if(o instanceof T.Sprite){o.material.map?.dispose();o.material.dispose();}});renderer.dispose();element.replaceChildren();};
- },[props.low]);return <div className="world-canvas" ref={host}/>;
+import { canvasWorld } from "./CanvasWorld";
+import React, { useEffect, useRef } from "react";
+import * as T from "three";
+import {
+  B,
+  M,
+  R,
+  UNIT,
+  type Item,
+} from "../../../packages/content/src/index.ts";
+import {
+  fixedGeometry,
+  geometry,
+  placement,
+  machineGeometry,
+  type World,
+  type Geometry,
+  type Point,
+} from "../../../packages/game-core/src/index.ts";
+export const colors = [
+  "#ed8050",
+  "#50a6c0",
+  "#9d82c6",
+  "#82ab64",
+  "#d0a048",
+  "#e27898",
+];
+export type Ghost = {
+  type: string;
+  x: number;
+  z: number;
+  rotation: number;
+  moveId?: string;
+};
+type Props = {
+  world: World | null;
+  member: string;
+  selected: string | null;
+  ghost: Ghost | null;
+  low: boolean;
+  overview: boolean;
+  onSelect: (id: string) => void;
+  onGround: (p: Point) => void;
+  onError: (s: string) => void;
+};
+export function WorldView(props: Props) {
+  const host = useRef<HTMLDivElement>(null),
+    latest = useRef(props);
+  latest.current = props;
+  useEffect(() => {
+    const element = host.current!;
+    let renderer: T.WebGLRenderer;
+    try {
+      renderer = new T.WebGLRenderer({ antialias: !props.low, alpha: false });
+    } catch {
+      return canvasWorld(element, latest);
+    }
+    renderer.setPixelRatio(
+      Math.min(
+        devicePixelRatio,
+        props.low
+          ? R.rendering.low_quality_dpr_cap
+          : R.rendering.desktop_dpr_cap,
+      ),
+    );
+    renderer.shadowMap.enabled = !props.low;
+    renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.setClearColor("#d7dfd4");
+    renderer.outputColorSpace = T.SRGBColorSpace;
+    renderer.domElement.setAttribute("aria-label", "작업장 3D 월드");
+    element.appendChild(renderer.domElement);
+    const scene = new T.Scene();
+    scene.fog = new T.Fog("#d7dfd4", 70, 130);
+    const cam = new T.OrthographicCamera(-30, 30, 22, -22, 0.1, 200);
+    const sun = new T.DirectionalLight("#fff0ce", 3);
+    sun.position.set(-15, 40, 10);
+    sun.castShadow = !props.low;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -40;
+    sun.shadow.camera.right = 40;
+    sun.shadow.camera.top = 40;
+    sun.shadow.camera.bottom = -40;
+    scene.add(sun, new T.HemisphereLight("#ecf6f5", "#7b8c73", 2.5));
+    const clickable: T.Object3D[] = [];
+    const dynamic = new T.Group();
+    scene.add(dynamic);
+    const playerNodes = new Map<string, T.Group>();
+    const machineNodes = new Map<string, { node: T.Group; key: string }>();
+    const cargoNodes = new Map<string, T.Mesh>();
+    const lineNodes = new Map<string, T.Line>();
+    const materials = new Map<string, T.MeshStandardMaterial>();
+    const mat = (color: string) => {
+      if (!materials.has(color))
+        materials.set(
+          color,
+          new T.MeshStandardMaterial({ color, roughness: 0.86 }),
+        );
+      return materials.get(color)!;
+    };
+    function box(
+      parent: T.Object3D,
+      x: number,
+      y: number,
+      z: number,
+      sx: number,
+      sy: number,
+      sz: number,
+      color: string,
+    ) {
+      const mesh = new T.Mesh(new T.BoxGeometry(sx, sy, sz), mat(color));
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function cylinder(
+      parent: T.Object3D,
+      x: number,
+      y: number,
+      z: number,
+      r1: number,
+      r2: number,
+      h: number,
+      color: string,
+      n = 12,
+    ) {
+      const mesh = new T.Mesh(new T.CylinderGeometry(r1, r2, h, n), mat(color));
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function label(
+      parent: T.Object3D,
+      text: string,
+      x: number,
+      y: number,
+      z: number,
+      color = "#254247",
+      scale = 2.6,
+    ) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 512;
+      canvas.height = 96;
+      const ctx = canvas.getContext("2d")!;
+      ctx.fillStyle = "rgba(250,248,236,.92)";
+      ctx.roundRect(2, 4, 508, 88, 20);
+      ctx.fill();
+      ctx.fillStyle = color;
+      ctx.font = "600 38px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 256, 50, 480);
+      const texture = new T.CanvasTexture(canvas);
+      const sprite = new T.Sprite(
+        new T.SpriteMaterial({ map: texture, depthTest: false }),
+      );
+      sprite.position.set(x, y, z);
+      sprite.scale.set(scale, (scale * 96) / 512, 1);
+      parent.add(sprite);
+      return sprite;
+    }
+    const ground = box(scene, 24, -0.2, 16, 66, 0.4, 50, "#a3ae90");
+    box(scene, 24, -0.03, 16, 48, 0.18, 32, "#c7c7aa");
+    for (const road of M.protected_walkways) {
+      const width = road.x_max - road.x_min + 1,
+        depth = road.z_max - road.z_min + 1;
+      box(
+        scene,
+        road.x_min + width / 2,
+        0.075,
+        road.z_min + depth / 2,
+        width,
+        0.06,
+        depth,
+        "#dedcc6",
+      );
+    }
+    for (let x = 2; x < 46; x += 3)
+      box(scene, x, 0.12, 16, 0.95, 0.01, 0.09, "#b2b39e");
+    for (const reg of M.factory_regions) {
+      const width = reg.x_max - reg.x_min + 1,
+        depth = reg.z_max - reg.z_min + 1;
+      box(
+        scene,
+        reg.x_min + width / 2,
+        0.065,
+        reg.z_min + depth / 2,
+        width,
+        0.025,
+        depth,
+        "#b3bbad",
+      );
+      label(
+        scene,
+        reg.id === "factory_a" ? "A · 생산 구역" : "B · 생산 구역",
+        reg.x_min + 5,
+        0.3,
+        reg.z_min + 1,
+        "#6b7e70",
+        3.2,
+      );
+    }
+    const grid = new T.GridHelper(48, 48, "#adb29a", "#bec2aa");
+    grid.scale.z = 32 / 48;
+    grid.position.set(24, 0.08, 16);
+    scene.add(grid);
+    for (let x = 0; x <= 48; x += 3) {
+      box(scene, x, 0.55, 0.3, 0.13, 1, 0.13, "#718876");
+      box(scene, x, 0.55, 31.7, 0.13, 1, 0.13, "#718876");
+    }
+    for (let z = 0; z <= 32; z += 3) {
+      box(scene, 0.3, 0.55, z, 0.13, 1, 0.13, "#718876");
+      box(scene, 47.7, 0.55, z, 0.13, 1, 0.13, "#718876");
+    }
+    box(scene, 24, 0.65, 0.3, 48, 0.1, 0.08, "#899b84");
+    box(scene, 24, 0.65, 31.7, 48, 0.1, 0.08, "#899b84");
+    for (const src of M.source_zones) {
+      const group = new T.Group();
+      group.userData.id = src.id;
+      scene.add(group);
+      clickable.push(group);
+      const cx = (src.x_min + src.x_max + 1) / 2,
+        cz = (src.z_min + src.z_max + 1) / 2;
+      const color =
+        src.item_id === "metal_scrap"
+          ? "#a58d79"
+          : src.item_id === "cable_scrap"
+            ? "#c59c5d"
+            : src.item_id === "plastic_scrap"
+              ? "#82a9a2"
+              : "#9a8ec2";
+      box(
+        group,
+        cx,
+        0.14,
+        cz,
+        src.x_max - src.x_min + 1,
+        0.15,
+        src.z_max - src.z_min + 1,
+        color,
+      );
+      for (let i = 0; i < 15; i++) {
+        const x = src.x_min + 0.6 + ((i * 17) % 55) / 10,
+          z =
+            src.z_min +
+            0.5 +
+            ((i * 23) % Math.max(10, (src.z_max - src.z_min) * 10)) / 10;
+        if (src.item_id === "energy_shard") {
+          const crystal = new T.Mesh(
+            new T.OctahedronGeometry(0.45 + (i % 3) * 0.15),
+            mat(i % 2 ? "#c1acdf" : "#9581ba"),
+          );
+          crystal.position.set(x, 0.7, z);
+          group.add(crystal);
+        } else {
+          const scrap = box(
+            group,
+            x,
+            0.25 + (i % 3) * 0.17,
+            z,
+            0.5 + (i % 3) * 0.2,
+            0.4,
+            0.7,
+            color,
+          );
+          scrap.rotation.y = i * 0.7;
+        }
+      }
+      label(group, src.name_ko, cx, 2, cz, "#304e4d", 3.5);
+      for (const point of src.manual_service_points) {
+        const ring = new T.Mesh(
+          new T.RingGeometry(0.2, 0.3, 16),
+          new T.MeshBasicMaterial({ color: "#fff4d0", side: T.DoubleSide }),
+        );
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.set(point.cell.x + 0.5, 0.14, point.cell.z + 0.5);
+        group.add(ring);
+      }
+      for (const pad of src.extractor_pads) {
+        box(
+          scene,
+          pad.top_left.x + 1,
+          0.19,
+          pad.top_left.z + 1,
+          1.7,
+          0.03,
+          1.7,
+          "#d4caa8",
+        );
+      }
+    }
+    function facility(g: Geometry, type: string, tier = 1) {
+      const group = new T.Group();
+      group.userData.id = g.id;
+      group.position.set(
+        g.delivery_distance_anchor.x,
+        0,
+        g.delivery_distance_anchor.z,
+      );
+      const w = g.footprint.width,
+        d = g.footprint.depth;
+      box(group, 0, 0.16, 0, w * 0.94, 0.3, d * 0.94, "#768c83");
+      if (type === "manual_workbench") {
+        box(group, 0, 0.85, 0, 1.85, 0.22, 1.25, "#b78755");
+        for (const x of [-0.7, 0.7])
+          box(group, x, 0.45, 0, 0.15, 0.8, 0.85, "#536b69");
+        box(group, -0.4, 1.12, 0, 0.5, 0.35, 0.4, "#778f8b");
+        box(group, 0.5, 1.04, 0.1, 0.45, 0.2, 0.3, "#d8b06c");
+      } else if (type === "shared_warehouse") {
+        box(group, 0, 0.7, 0, 1.7, 1.2, 1.6, "#d4b46d");
+        for (let i = -3; i <= 3; i++)
+          box(group, i * 0.22, 0.8, -0.82, 0.035, 1.1, 0.02, "#b58d46");
+        box(group, 0, 1.42, 0, 1.9, 0.2, 1.8, "#eee4c0");
+      } else if (type === "starter_generator" || type === "logistics_hub") {
+        box(
+          group,
+          0,
+          0.7,
+          0,
+          1.4,
+          1.05,
+          1.4,
+          type === "logistics_hub" ? "#73b5b3" : "#677e6b",
+        );
+        cylinder(group, 0, 1.35, 0, 0.45, 0.45, 0.4, "#e9c76a");
+        box(group, 0.6, 2, 0, 0.06, 1.3, 0.06, "#3e6263");
+        cylinder(group, 0.6, 2.7, 0, 0.15, 0.15, 0.12, "#e9a766");
+      } else if (type === "solar_array") {
+        for (const x of [-0.55, 0.55])
+          box(group, x, 0.7, 0, 0.12, 1, 0.12, "#839788");
+        const solar = box(group, 0, 1.15, 0, 1.8, 0.1, 1.5, "#346981");
+        solar.rotation.x = -0.2;
+        for (let i = -2; i <= 2; i++)
+          box(group, i * 0.32, 1.22, 0, 0.025, 0.03, 1.4, "#77a7b1");
+      } else if (type === "recovery_vault") {
+        box(group, 0, 0.65, 0, 1.5, 1, 1.4, "#95a49a");
+        box(group, 0, 1.21, 0, 1.65, 0.16, 1.5, "#d7e0cd");
+      } else {
+        const color =
+          type === "extractor"
+            ? "#cf9b65"
+            : type === "refinery"
+              ? "#aca4c1"
+              : type === "assembler"
+                ? "#779e8e"
+                : "#7ca4b1";
+        box(group, 0, 0.8, 0, 1.55, 1.2, 1.55, color);
+        box(group, 0, 1.45, 0, 1.7, 0.2, 1.7, "#e9e2cc");
+        cylinder(group, -0.45, 1.9, 0.35, 0.22, 0.3, 0.8, "#536d70");
+        box(group, 0, 1, -0.8, 0.8, 0.45, 0.06, "#2f5057");
+        cylinder(group, 0, 1.1, -0.85, 0.12, 0.12, 0.05, "#f5bc68");
+        if (tier === 2) box(group, 0.7, 1.65, -0.6, 0.22, 0.3, 0.2, "#e4b955");
+      }
+      for (const s of g.service_points) {
+        const x = s.interaction_anchor.x - g.delivery_distance_anchor.x,
+          z = s.interaction_anchor.z - g.delivery_distance_anchor.z;
+        const marker = cylinder(group, x, 0.22, z, 0.16, 0.16, 0.08, "#f1db99");
+      }
+      return group;
+    }
+    for (const g of M.starter_entities) {
+      const node = facility(g, g.kind);
+      scene.add(node);
+      clickable.push(node);
+      label(
+        node,
+        (
+          {
+            manual_workbench: "수동 작업대",
+            shared_warehouse: "공용 창고",
+            starter_generator: "기본 발전기",
+            recovery_vault: "비상 회수함",
+          } as any
+        )[g.kind],
+        0,
+        2,
+        0,
+        "#354e48",
+        3.1,
+      );
+    }
+    const rocket = new T.Group();
+    rocket.userData.id = "rocket";
+    rocket.position.set(
+      M.rocket_envelope.delivery_distance_anchor.x,
+      0,
+      M.rocket_envelope.delivery_distance_anchor.z,
+    );
+    scene.add(rocket);
+    clickable.push(rocket);
+    let stageKey = "";
+    const selection = new T.Mesh(
+      new T.RingGeometry(1, 1.08, 40),
+      new T.MeshBasicMaterial({
+        color: "#f2a65c",
+        side: T.DoubleSide,
+        depthTest: false,
+      }),
+    );
+    selection.rotation.x = -Math.PI / 2;
+    selection.visible = false;
+    scene.add(selection);
+    let ghostNode: T.Group | null = null,
+      ghostKey = "";
+    let zoom = props.world ? 23 : 28;
+    const target = new T.Vector3(21, 0, 17);
+    let frame = 0,
+      prevTime = performance.now(),
+      disposed = false;
+    function resize() {
+      const width = element.clientWidth,
+        height = element.clientHeight;
+      renderer.setSize(width, height);
+      cam.left = (-zoom * width) / height;
+      cam.right = (zoom * width) / height;
+      cam.top = zoom;
+      cam.bottom = -zoom;
+      cam.updateProjectionMatrix();
+    }
+    const observer = new ResizeObserver(resize);
+    observer.observe(element);
+    resize();
+    const raycaster = new T.Raycaster(),
+      pointer = new T.Vector2();
+    let down: { x: number; y: number } | null = null;
+    function pointerdown(e: PointerEvent) {
+      down = { x: e.clientX, y: e.clientY };
+    }
+    function click(e: PointerEvent) {
+      if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 10)
+        return;
+      down = null;
+      const r = renderer.domElement.getBoundingClientRect();
+      pointer.set(
+        ((e.clientX - r.left) / r.width) * 2 - 1,
+        (-(e.clientY - r.top) / r.height) * 2 + 1,
+      );
+      raycaster.setFromCamera(pointer, cam);
+      if (latest.current.ghost) {
+        const p = new T.Vector3();
+        raycaster.ray.intersectPlane(new T.Plane(new T.Vector3(0, 1, 0), 0), p);
+        latest.current.onGround({ x: Math.floor(p.x), z: Math.floor(p.z) });
+        return;
+      }
+      const hit = raycaster.intersectObjects(clickable, true)[0];
+      if (hit) {
+        let node: T.Object3D | null = hit.object;
+        while (node && !node.userData.id) node = node.parent;
+        if (node?.userData.id) latest.current.onSelect(node.userData.id);
+      }
+    }
+    const wheel = (e: WheelEvent) => {
+      e.preventDefault();
+      zoom = Math.max(10, Math.min(35, zoom + e.deltaY * 0.015));
+      resize();
+    };
+    renderer.domElement.addEventListener("pointerdown", pointerdown);
+    renderer.domElement.addEventListener("pointerup", click);
+    renderer.domElement.addEventListener("wheel", wheel, { passive: false });
+    function animate(now: number) {
+      if (disposed) return;
+      frame = requestAnimationFrame(animate);
+      const dt = Math.min(0.1, (now - prevTime) / 1000);
+      prevTime = now;
+      const p = latest.current,
+        w = p.world;
+      const me = w?.members[p.member];
+      const desired =
+        p.overview || !me
+          ? new T.Vector3(24, 0, 17)
+          : new T.Vector3(me.position.x / UNIT, 0, me.position.z / UNIT);
+      target.lerp(desired, Math.min(1, dt * 3));
+      cam.position.set(target.x + 8, target.y + 32, target.z + 23);
+      cam.lookAt(target);
+      sun.target.position.copy(target);
+      const rocketProgress = w?.stage ?? 0;
+      const key = String(rocketProgress) + ":" + (w?.phase === "LAUNCHED");
+      if (key !== stageKey) {
+        stageKey = key;
+        rocket.clear();
+        box(rocket, 0, 0.15, 0, 5, 0.3, 6, "#8c9b94");
+        for (let i = 0; i < 4; i++)
+          box(
+            rocket,
+            (i % 2 ? 1 : -1) * 2,
+            0.4,
+            (i < 2 ? 1 : -1) * 2.5,
+            0.2,
+            0.4,
+            0.2,
+            "#f2bd62",
+          );
+        if (rocketProgress >= 1) {
+          box(rocket, 0, 0.42, 0, 4.2, 0.25, 4.2, "#e0dbc4");
+        }
+        if (rocketProgress >= 2) {
+          for (const x of [-2, 2]) {
+            box(rocket, x, 3.5, 1, 0.22, 6.5, 0.22, "#a58466");
+            box(rocket, x, 3.5, -1, 0.22, 6.5, 0.22, "#a58466");
+          }
+          box(rocket, 0, 6.6, 1, 4.3, 0.2, 0.22, "#a58466");
+        }
+        if (rocketProgress >= 3) {
+          cylinder(rocket, 0, 3.3, 0, 1, 1, 4.5, "#f4eedb");
+          cylinder(rocket, -1.3, 2.2, 0, 0.35, 0.35, 3, "#d4cdb6");
+          cylinder(rocket, 1.3, 2.2, 0, 0.35, 0.35, 3, "#d4cdb6");
+        }
+        if (rocketProgress >= 4) {
+          for (const x of [-0.6, 0, 0.6])
+            cylinder(rocket, x, 1, 0, 0.18, 0.32, 0.7, "#3c6268");
+          box(rocket, 0, 2, 0, 2.15, 0.35, 2.15, "#df8d5c");
+        }
+        if (rocketProgress >= 5) {
+          cylinder(rocket, 0, 6.2, 0, 0.08, 1, 1.4, "#f6f0dc");
+          cylinder(rocket, 0, 5.3, 0, 1.03, 1.03, 0.5, "#678d91");
+        }
+        if (rocketProgress >= 6) {
+          box(rocket, -1.1, 2.4, 0, 0.35, 1.8, 1.1, "#e29261");
+          box(rocket, 1.1, 2.4, 0, 0.35, 1.8, 1.1, "#e29261");
+        }
+        label(
+          rocket,
+          rocketProgress >= 6 ? "발사 준비 완료" : "로켓 조립 구역",
+          0,
+          7.7,
+          0,
+          "#3c5953",
+          4,
+        );
+      }
+      if (w?.phase === "LAUNCHED")
+        rocket.position.y = Math.min(28, rocket.position.y + dt * 3);
+      else rocket.position.y = 0;
+      if (w) {
+        for (const m of Object.values(w.machines).filter(
+          (x) => x.type !== "channel",
+        )) {
+          const k = JSON.stringify([m.geometry, m.tier]);
+          const old = machineNodes.get(m.id);
+          if (old?.key !== k) {
+            if (old) {
+              scene.remove(old.node);
+              clickable.splice(clickable.indexOf(old.node), 1);
+            }
+            const node = facility(m.geometry, m.type, m.tier);
+            scene.add(node);
+            clickable.push(node);
+            machineNodes.set(m.id, { node, key: k });
+            label(
+              node,
+              B.machines[m.type as keyof typeof B.machines].name_ko,
+              0,
+              2.5,
+              0,
+              "#34575a",
+              3.2,
+            );
+          }
+        }
+        for (const [id, v] of machineNodes)
+          if (!w.machines[id] && !w.crates[id]) {
+            scene.remove(v.node);
+            clickable.splice(clickable.indexOf(v.node), 1);
+            machineNodes.delete(id);
+          }
+        for (const [id, pos] of Object.entries(w.crates)) {
+          if (!machineNodes.has(id)) {
+            const node = new T.Group();
+            node.userData.id = id;
+            box(node, 0, 0.35, 0, 0.8, 0.7, 0.8, "#c7a070");
+            node.position.set(pos.x + 0.5, 0, pos.z + 0.5);
+            scene.add(node);
+            clickable.push(node);
+            machineNodes.set(id, { node, key: "crate" });
+          }
+        }
+        for (const [index, m] of Object.values(w.members).entries()) {
+          let node = playerNodes.get(m.id);
+          if (!m.connected) {
+            if (node) node.visible = false;
+            continue;
+          }
+          if (!node) {
+            node = new T.Group();
+            node.userData.id = "bag:" + m.id;
+            const color = colors[index % 6];
+            cylinder(node, 0, 0.6, 0, 0.23, 0.28, 0.65, color);
+            cylinder(node, 0, 1.12, 0, 0.22, 0.22, 0.35, "#f1d0a7");
+            cylinder(node, 0, 1.32, 0, 0.29, 0.29, 0.13, "#efc663");
+            box(node, -0.14, 0.2, 0, 0.15, 0.35, 0.2, "#3c5558");
+            box(node, 0.14, 0.2, 0, 0.15, 0.35, 0.2, "#3c5558");
+            label(
+              node,
+              index + 1 + " " + m.name,
+              0,
+              1.9,
+              0,
+              m.id === p.member ? "#b96e3c" : "#3a5d62",
+              2.4,
+            );
+            scene.add(node);
+            playerNodes.set(m.id, node);
+            clickable.push(node);
+            node.position.set(m.position.x / UNIT, 0, m.position.z / UNIT);
+          }
+          node.visible = true;
+          node.position.lerp(
+            new T.Vector3(
+              m.position.x / UNIT,
+              m.work ? Math.sin(now * 0.013) * 0.04 : 0,
+              m.position.z / UNIT,
+            ),
+            Math.min(1, dt * 14),
+          );
+        }
+        for (const l of Object.values(w.links)) {
+          if (!lineNodes.has(l.id)) {
+            const a = geometry(w, l.from).delivery_distance_anchor,
+              b = geometry(w, l.to).delivery_distance_anchor;
+            const line = new T.Line(
+              new T.BufferGeometry().setFromPoints([
+                new T.Vector3(a.x, 2.4, a.z),
+                new T.Vector3(b.x, 2.4, b.z),
+              ]),
+              new T.LineBasicMaterial({
+                color: "#4f9995",
+                transparent: true,
+                opacity: 0.55,
+              }),
+            );
+            scene.add(line);
+            lineNodes.set(l.id, line);
+          }
+        }
+        for (const [id, l] of lineNodes)
+          if (!w.links[id]) {
+            scene.remove(l);
+            lineNodes.delete(id);
+          }
+        for (const c of Object.values(w.cargo)) {
+          let node = cargoNodes.get(c.id);
+          if (!node) {
+            node = new T.Mesh(
+              new T.BoxGeometry(0.32, 0.22, 0.32),
+              mat("#eed89d"),
+            );
+            scene.add(node);
+            cargoNodes.set(c.id, node);
+          }
+          const a = geometry(w, c.from).delivery_distance_anchor,
+            b = geometry(w, c.to).delivery_distance_anchor;
+          const progress = Math.min(
+            1,
+            Math.max(
+              0,
+              (Number(w.tick) - Number(c.departed)) /
+                (Number(c.arrival) - Number(c.departed)),
+            ),
+          );
+          node.position.set(
+            a.x + (b.x - a.x) * progress,
+            2.4 + Math.sin(progress * Math.PI) * 0.4,
+            a.z + (b.z - a.z) * progress,
+          );
+        }
+        for (const [id, c] of cargoNodes)
+          if (!w.cargo[id]) {
+            scene.remove(c);
+            cargoNodes.delete(id);
+          }
+      }
+      if (p.selected) {
+        try {
+          let g;
+          if (p.selected.startsWith("source_")) {
+            const s = M.source_zones.find((s) => s.id === p.selected)!;
+            g = {
+              delivery_distance_anchor: {
+                x: (s.x_min + s.x_max + 1) / 2,
+                z: (s.z_min + s.z_max + 1) / 2,
+              },
+            };
+          } else
+            g = w
+              ? geometry(w, p.selected)
+              : fixedGeometry.find((x) => x.id === p.selected);
+          if (g) {
+            selection.visible = true;
+            selection.position.set(
+              g.delivery_distance_anchor.x,
+              0.2,
+              g.delivery_distance_anchor.z,
+            );
+          }
+        } catch {
+          selection.visible = false;
+        }
+      } else selection.visible = false;
+      const gh = p.ghost,
+        ghKey = JSON.stringify(gh);
+      if (ghKey !== ghostKey) {
+        ghostKey = ghKey;
+        if (ghostNode) scene.remove(ghostNode);
+        ghostNode = null;
+        if (gh) {
+          const g = machineGeometry("ghost", gh.type, gh.x, gh.z, gh.rotation);
+          ghostNode = facility(g, gh.type);
+          const valid = w && !placement(w, g, gh.moveId);
+          ghostNode.traverse((o) => {
+            if (o instanceof T.Mesh) {
+              o.material = new T.MeshBasicMaterial({
+                color: valid ? "#74ae93" : "#d77761",
+                transparent: true,
+                opacity: 0.55,
+                wireframe: false,
+              });
+            }
+          });
+          scene.add(ghostNode);
+        }
+      }
+      renderer.render(scene, cam);
+    }
+    frame = requestAnimationFrame(animate);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      renderer.domElement.removeEventListener("pointerdown", pointerdown);
+      renderer.domElement.removeEventListener("pointerup", click);
+      renderer.domElement.removeEventListener("wheel", wheel);
+      scene.traverse((o) => {
+        if (o instanceof T.Mesh) {
+          o.geometry.dispose();
+          const ms = Array.isArray(o.material) ? o.material : [o.material];
+          for (const m of ms) m.dispose();
+        }
+        if (o instanceof T.Sprite) {
+          o.material.map?.dispose();
+          o.material.dispose();
+        }
+      });
+      renderer.dispose();
+      element.replaceChildren();
+    };
+  }, [props.low]);
+  return <div className="world-canvas" ref={host} />;
 }

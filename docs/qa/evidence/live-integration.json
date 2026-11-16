@@ -1,0 +1,117 @@
+{
+  "executedAt": "2026-11-16T06:13:17.117Z",
+  "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_NORMAL_CLOCK",
+  "tests": [
+    {
+      "id": "six-distinct-websocket-clients",
+      "status": "PASS",
+      "players": 6,
+      "uniqueGuests": 6,
+      "uniqueMembers": 6
+    },
+    {
+      "id": "private-state-view",
+      "status": "PASS",
+      "fullStateAndSchemaFilter": true
+    },
+    {
+      "id": "seventh-rejected",
+      "status": "PASS",
+      "error": "ROOM_FULL"
+    },
+    {
+      "id": "six-player-ready-start-and-goals",
+      "status": "PASS",
+      "phase": "RUNNING",
+      "firstStagePlate": 16
+    },
+    {
+      "id": "T01-final-item-six-concurrent",
+      "status": "PASS",
+      "fixture": true,
+      "applied": 1,
+      "rejected": 5,
+      "total": 1
+    },
+    {
+      "id": "T02-footprint-six-concurrent",
+      "status": "PASS",
+      "fixture": true,
+      "applied": 1,
+      "rejected": 5,
+      "paidOnce": true
+    },
+    {
+      "id": "T03-hundred-retries-and-reconnect",
+      "status": "PASS",
+      "fixture": true,
+      "retries": 100,
+      "sameReceipt": true,
+      "effectCount": 1
+    },
+    {
+      "id": "T04-command-quantity-reuse",
+      "status": "PASS",
+      "error": "IDEMPOTENCY_KEY_REUSED"
+    },
+    {
+      "id": "authoritative-movement",
+      "status": "PASS",
+      "before": {
+        "x": 11500,
+        "z": 7500
+      },
+      "after": {
+        "x": 14300,
+        "z": 7500
+      }
+    },
+    {
+      "id": "durable-ack-and-idempotency",
+      "status": "PASS",
+      "durableVersion": "378",
+      "retrySameReceipt": true,
+      "reusedPayloadRejected": true
+    },
+    {
+      "id": "remote-work-denied",
+      "status": "PASS",
+      "error": "OUT_OF_RANGE"
+    },
+    {
+      "id": "duplicate-tab-controller-replacement",
+      "status": "PASS",
+      "sameMember": true,
+      "oldEpoch": 3,
+      "newEpoch": 4
+    },
+    {
+      "id": "csrf-and-origin",
+      "status": "PASS",
+      "csrfRejected": true,
+      "originRejected": true
+    },
+    {
+      "id": "postgres-save-offline-freeze",
+      "status": "PASS",
+      "tick": "396",
+      "roundTripHash": "7837f128c6450835c4e47866700bf02d1ddd8c308eccad045b3fa6e89c88b621"
+    },
+    {
+      "id": "session-rejoin",
+      "status": "PASS",
+      "sameMember": true,
+      "samePlan": true,
+      "phasePreserved": true
+    },
+    {
+      "id": "writer-fence-and-corrupt-snapshot-fallback",
+      "status": "PASS",
+      "secondWriterDenied": true,
+      "staleEpochDenied": true,
+      "olderSnapshotReplayHash": "5cbb15e233beeb57597da206c3cbd89662cfc11b7b8a34d3c09b880f46bc6ae7"
+    }
+  ],
+  "completedAt": "2026-11-16T06:13:40.345Z",
+  "status": "PASS"
+}

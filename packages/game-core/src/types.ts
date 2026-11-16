@@ -1,25 +1,193 @@
-import type {Counts, Item, Recipe, MachineType} from '../../content/src/index.ts';
-export type Point={x:number;z:number};
-export type Service={cell:Point;interaction_anchor:Point};
-export type Geometry={id:string;kind:string;top_left:Point;footprint:{width:number;depth:number};rotation_degrees:number;service_points:Service[];delivery_distance_anchor:Point;solid:boolean};
-export type Inventory={id:string;version:number;kind:'PLAYER';owner:string;slots:({item:Item;quantity:number}|null)[]}|{id:string;version:number;kind:'BUFFER';owner:string|null;counts:Counts;capacity:number};
-export type Work={id:string;kind:'GATHER'|'MANUAL_CRAFT'|'ASSEMBLY'|'INSPECTION';target:string;progress:number};
-export type Member={id:string;guestId:string;name:string;epoch:number;connected:boolean;joinedOrder:number;seatUntil:number;channelUntil:number;position:Point;ready:boolean;upgrades:string[];work:Work|null;stats:Record<string,number>;tutorial:string[]};
-export type Machine={id:string;type:MachineType|'channel';owner:string|null;geometry:Geometry;recipe:Recipe|null;enabled:boolean;tier:number;version:number;paid:Counts;source:Item|null;job:Job|null};
-export type Job={id:string;recipe:string;escrow:Counts;output:Counts;progress:number;required:number;contentVersion:string};
-export type Link={id:string;from:string;to:string;item:Item;version:number;draining:boolean;credit:number;paid:Counts};
-export type Cargo={id:string;link:string;from:string;to:string;item:Item;departed:string;arrival:string};
-export type Stage={id:string;required:Counts;delivered:Counts;progress:number;completed:boolean;completedTick:string|null};
-export type Phase='LOBBY'|'RUNNING'|'LAUNCH_VOTE'|'COUNTDOWN'|'LAUNCHED'|'DELETED';
-export type World={
- id:string;name:string;code:string;owner:string;leader:string|null;phase:Phase;planned:number;settingsRevision:number;rosterRevision:number;locked:boolean;
- version:string;tick:string;seq:number;contentVersion:string;balanceHash:string;mapVersion:string;runtimeVersion:string;schemaVersion:number;
- pauses:string[];members:Record<string,Member>;inventories:Record<string,Inventory>;machines:Record<string,Machine>;links:Record<string,Link>;cargo:Record<string,Cargo>;crates:Record<string,Point>;
- stages:Stage[];stage:number;checks:Record<string,boolean>;vote:null|{id:string;roster:number;eligible:string[];yes:string[];expires:number};countdown:number;attempt:string|null;
- result:null|{attempt:string;tick:string;planned:number;members:string[];maxPlayers:number;automaticProduced:number;delivered:number;stageTicks:(string|null)[]};
- sourceCursors:Record<string,string>;destCursors:Record<string,string>;ledger:{generated:Counts;recipeInput:Counts;recipeOutput:Counts;spent:Counts;refunded:Counts;rocket:Counts};
- power:{supply:number;demand:number;ratio:number};stats:{automaticProduced:number;delivered:number;maxPlayers:number};offer:null|{id:string;from:string;to:string;expires:number};
+import type {
+  Counts,
+  Item,
+  Recipe,
+  MachineType,
+} from "../../content/src/index.ts";
+export type Point = { x: number; z: number };
+export type Service = { cell: Point; interaction_anchor: Point };
+export type Geometry = {
+  id: string;
+  kind: string;
+  top_left: Point;
+  footprint: { width: number; depth: number };
+  rotation_degrees: number;
+  service_points: Service[];
+  delivery_distance_anchor: Point;
+  solid: boolean;
 };
-export type Input={dx:number;dz:number;seq:number;at:number;hold:string|null;holdAt:number};
-export type Runtime={inputs:Record<string,Input>;now:number;wallNow:number};
-export type Outcome={entityId?:string;actualQuantity?:number;workId?:string;[k:string]:unknown};
+export type Inventory =
+  | {
+      id: string;
+      version: number;
+      kind: "PLAYER";
+      owner: string;
+      slots: ({ item: Item; quantity: number } | null)[];
+    }
+  | {
+      id: string;
+      version: number;
+      kind: "BUFFER";
+      owner: string | null;
+      counts: Counts;
+      capacity: number;
+    };
+export type Work = {
+  id: string;
+  kind: "GATHER" | "MANUAL_CRAFT" | "ASSEMBLY" | "INSPECTION";
+  target: string;
+  progress: number;
+};
+export type Member = {
+  id: string;
+  guestId: string;
+  name: string;
+  epoch: number;
+  connected: boolean;
+  joinedOrder: number;
+  seatUntil: number;
+  channelUntil: number;
+  position: Point;
+  ready: boolean;
+  upgrades: string[];
+  work: Work | null;
+  stats: Record<string, number>;
+  tutorial: string[];
+};
+export type Machine = {
+  id: string;
+  type: MachineType | "channel";
+  owner: string | null;
+  geometry: Geometry;
+  recipe: Recipe | null;
+  enabled: boolean;
+  tier: number;
+  version: number;
+  paid: Counts;
+  source: Item | null;
+  job: Job | null;
+};
+export type Job = {
+  id: string;
+  recipe: string;
+  escrow: Counts;
+  output: Counts;
+  progress: number;
+  required: number;
+  contentVersion: string;
+};
+export type Link = {
+  id: string;
+  from: string;
+  to: string;
+  item: Item;
+  version: number;
+  draining: boolean;
+  credit: number;
+  paid: Counts;
+};
+export type Cargo = {
+  id: string;
+  link: string;
+  from: string;
+  to: string;
+  item: Item;
+  departed: string;
+  arrival: string;
+};
+export type Stage = {
+  id: string;
+  required: Counts;
+  delivered: Counts;
+  progress: number;
+  completed: boolean;
+  completedTick: string | null;
+};
+export type Phase =
+  | "LOBBY"
+  | "RUNNING"
+  | "LAUNCH_VOTE"
+  | "COUNTDOWN"
+  | "LAUNCHED"
+  | "DELETED";
+export type World = {
+  id: string;
+  name: string;
+  code: string;
+  owner: string;
+  leader: string | null;
+  phase: Phase;
+  planned: number;
+  settingsRevision: number;
+  rosterRevision: number;
+  locked: boolean;
+  version: string;
+  tick: string;
+  seq: number;
+  contentVersion: string;
+  balanceHash: string;
+  mapVersion: string;
+  runtimeVersion: string;
+  schemaVersion: number;
+  pauses: string[];
+  members: Record<string, Member>;
+  inventories: Record<string, Inventory>;
+  machines: Record<string, Machine>;
+  links: Record<string, Link>;
+  cargo: Record<string, Cargo>;
+  crates: Record<string, Point>;
+  stages: Stage[];
+  stage: number;
+  checks: Record<string, boolean>;
+  vote: null | {
+    id: string;
+    roster: number;
+    eligible: string[];
+    yes: string[];
+    expires: number;
+  };
+  countdown: number;
+  attempt: string | null;
+  result: null | {
+    attempt: string;
+    tick: string;
+    planned: number;
+    members: string[];
+    maxPlayers: number;
+    automaticProduced: number;
+    delivered: number;
+    stageTicks: (string | null)[];
+  };
+  sourceCursors: Record<string, string>;
+  destCursors: Record<string, string>;
+  ledger: {
+    generated: Counts;
+    recipeInput: Counts;
+    recipeOutput: Counts;
+    spent: Counts;
+    refunded: Counts;
+    rocket: Counts;
+  };
+  power: { supply: number; demand: number; ratio: number };
+  stats: { automaticProduced: number; delivered: number; maxPlayers: number };
+  offer: null | { id: string; from: string; to: string; expires: number };
+};
+export type Input = {
+  dx: number;
+  dz: number;
+  seq: number;
+  at: number;
+  hold: string | null;
+  holdAt: number;
+};
+export type Runtime = {
+  inputs: Record<string, Input>;
+  now: number;
+  wallNow: number;
+};
+export type Outcome = {
+  entityId?: string;
+  actualQuantity?: number;
+  workId?: string;
+  [k: string]: unknown;
+};

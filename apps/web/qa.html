@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+  <meta charset="utf-8" /><title>고철로 우주까지 · 화면 QA</title
+  ><style>
+    html, body { height: 100vh; overflow: hidden; }
+      body {
+      margin: 0;
+      background: #243c41;
+      color: #f4efd9;
+      font: 14px sans-serif;
+    }
+    nav {
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    button {
+      padding: 10px;
+    }
+    #canvas {
+      transform-origin: top left;
+    }
+    iframe {
+      border: 0;
+      display: block;
+    }
+    p {
+      margin: 0;
+    }
+  </style>
+  <nav>
+    <strong>실제 앱 · 고정 뷰포트</strong
+    ><button data-w="1366" data-h="768">1366 × 768</button
+    ><button data-w="3840" data-h="2160">3840 × 2160</button
+    ><button data-w="800" data-h="360">800 × 360</button
+    ><button data-w="360" data-h="800">360 × 800</button>
+    <p id="size"></p>
+  </nav>
+  <div id="canvas">
+    <iframe
+      id="app"
+      title="게임 시험 화면"
+      src="/"
+      width="1366"
+      height="768"
+    ></iframe>
+  </div>
+  <script>
+    const app = document.querySelector("#app"),
+      canvas = document.querySelector("#canvas");
+    function resize(w, h) {
+      app.width = w;
+      app.height = h;
+      const s = Math.min(1, (innerWidth - 24) / w, (innerHeight - 72) / h);
+      canvas.style.transform = "scale(" + s + ")";
+      document.querySelector("#size").textContent =
+        w + " × " + h + " · 축소 미리보기 " + Math.round(s * 100) + "%";
+    }
+    document
+      .querySelectorAll("button")
+      .forEach((b) => (b.onclick = () => resize(+b.dataset.w, +b.dataset.h)));
+    resize(1366, 768);
+  </script>
+</html>

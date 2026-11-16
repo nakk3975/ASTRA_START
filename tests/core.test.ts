@@ -1,12 +1,260 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
-import {B,M,R,FP,type Item,type Counts} from '../packages/content/src/index.ts';
-import {createWorld,join,command,tick,center,add,plus,count,assertInvariants,near,machineGeometry,logistics,buffer,type World,type Runtime} from '../packages/game-core/src/index.ts';
-function setup(n=1){let w=createWorld(randomUUID(),'test','TEST1234',n,'test');const rt:Runtime={now:0,wallNow:0,inputs:{}};const members=Array.from({length:n},(_,i)=>join(w,randomUUID(),'작업자'+i,0).id);function cmd(id:string,type:string,payload:any){const r=command(w,id,{protocolVersion:1,roomId:w.id,commandId:randomUUID(),controllerEpoch:w.members[id].epoch,clientSeq:1,minDurableVersion:w.version,type,payload},rt);w=r.world;return r;}for(const id of members)cmd(id,'READY_SET',{ready:true});cmd(members[0],'START_SESSION',{settingsRevision:0});return {get w(){return w;},rt,members,cmd,advance(n:number){for(let i=0;i<n;i++){rt.now+=50;rt.wallNow+=50;for(const m of Object.values(w.members))if(m.work)rt.inputs[m.id]={dx:0,dz:0,seq:i,at:rt.now,hold:m.work.id,holdAt:rt.now};tick(w,rt);}}};}
-function seed(w:World,id:string,c:Counts){for(const [i,n]of Object.entries(c)){add(w.inventories[id],i as Item,n);plus(w.ledger.generated,{[i]:n});}}
-test('gather requires service range, full capacity waits without creating output',()=>{const s=setup(),m=s.members[0];assert.equal(s.cmd(m,'WORK_START',{kind:'GATHER',sourceId:'source_metal_scrap'}).error,'OUT_OF_RANGE');s.w.members[m].position=center(M.source_zones[0].manual_service_points[0].cell);seed(s.w,'bag:'+m,{metal_scrap:80});s.cmd(m,'WORK_START',{kind:'GATHER',sourceId:'source_metal_scrap'});s.advance(65);assert.equal(count(s.w.inventories['bag:'+m],'metal_scrap'),80);assert.equal(s.w.members[m].work?.progress,60);assertInvariants(s.w);});
-test('six channels craft concurrently, output stays private and input escrow is conserved',()=>{const s=setup(6);for(const m of s.members){s.w.members[m].position=center(M.starter_entities[0].service_points[0].cell);seed(s.w,'bag:'+m,{metal_scrap:2});assert.equal(s.cmd(m,'TRANSFER_ITEM',{from:'bag:'+m,to:'channel:'+m+':in',itemId:'metal_scrap',quantity:2}).error,undefined);assert.equal(s.cmd(m,'WORK_START',{kind:'MANUAL_CRAFT',channelId:'channel:'+m,recipeId:'smelt_ingot'}).error,undefined);}s.advance(180);for(const m of s.members){assert.equal(count(s.w.inventories['channel:'+m+':out'],'ingot'),1);assert.equal(count(s.w.inventories['bag:'+m],'ingot'),0);}assert.equal(s.cmd(s.members[0],'TAKE_MAX',{from:'channel:'+s.members[1]+':out',to:'bag:'+s.members[0],itemId:'ingot',quantity:1}).error,'NOT_OWNER');assertInvariants(s.w);});
-test('last rocket units clamp, assembly is required and planned costs stay fixed',()=>{const s=setup(6),m=s.members[0];for(const id of s.members){s.w.members[id].position=center(M.rocket_envelope.service_points[0].cell);seed(s.w,'bag:'+id,{plate:20});}for(const id of s.members)s.cmd(id,'CONTRIBUTE_ROCKET',{itemId:'plate',quantity:20});assert.equal(s.w.stages[0].delivered.plate,16);assert.equal(s.w.stage,0);assert.equal(s.cmd(m,'SET_LOBBY_SETTINGS',{plannedPlayers:1}).error,'INVALID_ROOM_PHASE');assert.equal(s.w.stages[1].required.wire,32);assertInvariants(s.w);});
-test('full bag, warehouse and bench recover through local overflow stash',()=>{const s=setup(),m=s.members[0];seed(s.w,'bag:'+m,{metal_scrap:80});seed(s.w,'shared_warehouse',{metal_scrap:200});seed(s.w,'channel:'+m+':in',{metal_scrap:20});seed(s.w,'channel:'+m+':out',{ingot:20});s.w.members[m].position=center(M.starter_entities[1].service_points[0].cell);const r=s.cmd(m,'STASH_OVERFLOW',{itemId:'metal_scrap',quantity:80});assert.equal(r.error,undefined);assert.equal(count(s.w.inventories['bag:'+m],'metal_scrap'),0);assert.equal(count(s.w.inventories[r.result.entityId!],'metal_scrap'),80);assert.equal(count(s.w.inventories.shared_warehouse,'metal_scrap'),200);assertInvariants(s.w);});
-test('WIP cancel full input rejects atomically; stopped work preserves job',()=>{const s=setup(),m=s.members[0],id='channel:'+m;s.w.members[m].position=center(M.starter_entities[0].service_points[0].cell);seed(s.w,id+':in',{metal_scrap:20});s.cmd(m,'WORK_START',{kind:'MANUAL_CRAFT',channelId:id,recipeId:'smelt_ingot'});s.advance(1);seed(s.w,id+':in',{metal_scrap:2});const before=structuredClone(s.w.machines[id]);const r=s.cmd(m,'CANCEL_JOB',{entityId:id,expectedEntityVersion:before.version});assert.equal(r.error,'REFUND_CAPACITY_REQUIRED');assert.deepEqual(s.w.machines[id],before);s.cmd(m,'WORK_STOP',{workId:s.w.members[m].work!.id});s.advance(20);assert.equal(s.w.machines[id].job!.progress,FP);});
-test('service distance is separate from delivery center',()=>{const s=setup(),g=machineGeometry('a','processor',11,5,2),p=center(g.service_points[0].cell);assert.equal(near(s.w,p,g),0);assert.ok(Math.hypot(p.x/1000-g.delivery_distance_anchor.x,p.z/1000-g.delivery_distance_anchor.z)>1.5);});
-test('offline clock is frozen and runtime input expiry stops gather',()=>{const s=setup(),m=s.members[0];s.w.members[m].position=center(M.source_zones[0].manual_service_points[0].cell);s.cmd(m,'WORK_START',{kind:'GATHER',sourceId:'source_metal_scrap'});s.rt.now=501;tick(s.w,s.rt);assert.equal(s.w.members[m].work,null);s.w.pauses.push('NO_CONNECTED_PLAYERS');const before=s.w.tick;for(let i=0;i<100;i++)tick(s.w,s.rt);assert.equal(s.w.tick,before);});
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import {
+  B,
+  M,
+  R,
+  FP,
+  type Item,
+  type Counts,
+} from "../packages/content/src/index.ts";
+import {
+  createWorld,
+  join,
+  command,
+  tick,
+  center,
+  add,
+  plus,
+  count,
+  assertInvariants,
+  near,
+  machineGeometry,
+  logistics,
+  buffer,
+  type World,
+  type Runtime,
+} from "../packages/game-core/src/index.ts";
+function setup(n = 1) {
+  let w = createWorld(randomUUID(), "test", "TEST1234", n, "test");
+  const rt: Runtime = { now: 0, wallNow: 0, inputs: {} };
+  const members = Array.from(
+    { length: n },
+    (_, i) => join(w, randomUUID(), "작업자" + i, 0).id,
+  );
+  function cmd(id: string, type: string, payload: any) {
+    const r = command(
+      w,
+      id,
+      {
+        protocolVersion: 1,
+        roomId: w.id,
+        commandId: randomUUID(),
+        controllerEpoch: w.members[id].epoch,
+        clientSeq: 1,
+        minDurableVersion: w.version,
+        type,
+        payload,
+      },
+      rt,
+    );
+    w = r.world;
+    return r;
+  }
+  for (const id of members) cmd(id, "READY_SET", { ready: true });
+  cmd(members[0], "START_SESSION", { settingsRevision: 0 });
+  return {
+    get w() {
+      return w;
+    },
+    rt,
+    members,
+    cmd,
+    advance(n: number) {
+      for (let i = 0; i < n; i++) {
+        rt.now += 50;
+        rt.wallNow += 50;
+        for (const m of Object.values(w.members))
+          if (m.work)
+            rt.inputs[m.id] = {
+              dx: 0,
+              dz: 0,
+              seq: i,
+              at: rt.now,
+              hold: m.work.id,
+              holdAt: rt.now,
+            };
+        tick(w, rt);
+      }
+    },
+  };
+}
+function seed(w: World, id: string, c: Counts) {
+  for (const [i, n] of Object.entries(c)) {
+    add(w.inventories[id], i as Item, n);
+    plus(w.ledger.generated, { [i]: n });
+  }
+}
+test("gather requires service range, full capacity waits without creating output", () => {
+  const s = setup(),
+    m = s.members[0];
+  assert.equal(
+    s.cmd(m, "WORK_START", { kind: "GATHER", sourceId: "source_metal_scrap" })
+      .error,
+    "OUT_OF_RANGE",
+  );
+  s.w.members[m].position = center(
+    M.source_zones[0].manual_service_points[0].cell,
+  );
+  seed(s.w, "bag:" + m, { metal_scrap: 80 });
+  s.cmd(m, "WORK_START", { kind: "GATHER", sourceId: "source_metal_scrap" });
+  s.advance(65);
+  assert.equal(count(s.w.inventories["bag:" + m], "metal_scrap"), 80);
+  assert.equal(s.w.members[m].work?.progress, 60);
+  assertInvariants(s.w);
+});
+test("six channels craft concurrently, output stays private and input escrow is conserved", () => {
+  const s = setup(6);
+  for (const m of s.members) {
+    s.w.members[m].position = center(
+      M.starter_entities[0].service_points[0].cell,
+    );
+    seed(s.w, "bag:" + m, { metal_scrap: 2 });
+    assert.equal(
+      s.cmd(m, "TRANSFER_ITEM", {
+        from: "bag:" + m,
+        to: "channel:" + m + ":in",
+        itemId: "metal_scrap",
+        quantity: 2,
+      }).error,
+      undefined,
+    );
+    assert.equal(
+      s.cmd(m, "WORK_START", {
+        kind: "MANUAL_CRAFT",
+        channelId: "channel:" + m,
+        recipeId: "smelt_ingot",
+      }).error,
+      undefined,
+    );
+  }
+  s.advance(180);
+  for (const m of s.members) {
+    assert.equal(count(s.w.inventories["channel:" + m + ":out"], "ingot"), 1);
+    assert.equal(count(s.w.inventories["bag:" + m], "ingot"), 0);
+  }
+  assert.equal(
+    s.cmd(s.members[0], "TAKE_MAX", {
+      from: "channel:" + s.members[1] + ":out",
+      to: "bag:" + s.members[0],
+      itemId: "ingot",
+      quantity: 1,
+    }).error,
+    "NOT_OWNER",
+  );
+  assertInvariants(s.w);
+});
+test("last rocket units clamp, assembly is required and planned costs stay fixed", () => {
+  const s = setup(6),
+    m = s.members[0];
+  for (const id of s.members) {
+    s.w.members[id].position = center(M.rocket_envelope.service_points[0].cell);
+    seed(s.w, "bag:" + id, { plate: 20 });
+  }
+  for (const id of s.members)
+    s.cmd(id, "CONTRIBUTE_ROCKET", { itemId: "plate", quantity: 20 });
+  assert.equal(s.w.stages[0].delivered.plate, 16);
+  assert.equal(s.w.stage, 0);
+  assert.equal(
+    s.cmd(m, "SET_LOBBY_SETTINGS", { plannedPlayers: 1 }).error,
+    "INVALID_ROOM_PHASE",
+  );
+  assert.equal(s.w.stages[1].required.wire, 32);
+  assertInvariants(s.w);
+});
+test("full bag, warehouse and bench recover through local overflow stash", () => {
+  const s = setup(),
+    m = s.members[0];
+  seed(s.w, "bag:" + m, { metal_scrap: 80 });
+  seed(s.w, "shared_warehouse", { metal_scrap: 200 });
+  seed(s.w, "channel:" + m + ":in", { metal_scrap: 20 });
+  seed(s.w, "channel:" + m + ":out", { ingot: 20 });
+  s.w.members[m].position = center(
+    M.starter_entities[1].service_points[0].cell,
+  );
+  const r = s.cmd(m, "STASH_OVERFLOW", { itemId: "metal_scrap", quantity: 80 });
+  assert.equal(r.error, undefined);
+  assert.equal(count(s.w.inventories["bag:" + m], "metal_scrap"), 0);
+  assert.equal(count(s.w.inventories[r.result.entityId!], "metal_scrap"), 80);
+  assert.equal(count(s.w.inventories.shared_warehouse, "metal_scrap"), 200);
+  s.w.members[m].position = center(
+    M.starter_entities[0].service_points[0].cell,
+  );
+  for (const [port, item] of [
+    ["out", "ingot"],
+    ["in", "metal_scrap"],
+  ] as const)
+    assert.equal(
+      s.cmd(m, "TRANSFER_ITEM", {
+        from: "channel:" + m + ":" + port,
+        to: "bag:" + m,
+        itemId: item,
+        quantity: 20,
+      }).error,
+      undefined,
+    );
+  assert.equal(
+    s.cmd(m, "SET_MACHINE_RECIPE", {
+      entityId: "channel:" + m,
+      recipeId: "press_plate",
+      expectedEntityVersion: s.w.machines["channel:" + m].version,
+    }).error,
+    undefined,
+  );
+
+  assertInvariants(s.w);
+});
+test("WIP cancel full input rejects atomically; stopped work preserves job", () => {
+  const s = setup(),
+    m = s.members[0],
+    id = "channel:" + m;
+  s.w.members[m].position = center(
+    M.starter_entities[0].service_points[0].cell,
+  );
+  seed(s.w, id + ":in", { metal_scrap: 20 });
+  s.cmd(m, "WORK_START", {
+    kind: "MANUAL_CRAFT",
+    channelId: id,
+    recipeId: "smelt_ingot",
+  });
+  s.advance(1);
+  seed(s.w, id + ":in", { metal_scrap: 2 });
+  const before = structuredClone(s.w.machines[id]);
+  const r = s.cmd(m, "CANCEL_JOB", {
+    entityId: id,
+    expectedEntityVersion: before.version,
+  });
+  assert.equal(r.error, "REFUND_CAPACITY_REQUIRED");
+  assert.deepEqual(s.w.machines[id], before);
+  s.cmd(m, "WORK_STOP", { workId: s.w.members[m].work!.id });
+  s.advance(20);
+  assert.equal(s.w.machines[id].job!.progress, FP);
+});
+test("service distance is separate from delivery center", () => {
+  const s = setup(),
+    g = machineGeometry("a", "processor", 11, 5, 2),
+    p = center(g.service_points[0].cell);
+  assert.equal(near(s.w, p, g), 0);
+  assert.ok(
+    Math.hypot(
+      p.x / 1000 - g.delivery_distance_anchor.x,
+      p.z / 1000 - g.delivery_distance_anchor.z,
+    ) > 1.5,
+  );
+});
+test("offline clock is frozen and runtime input expiry stops gather", () => {
+  const s = setup(),
+    m = s.members[0];
+  s.w.members[m].position = center(
+    M.source_zones[0].manual_service_points[0].cell,
+  );
+  s.cmd(m, "WORK_START", { kind: "GATHER", sourceId: "source_metal_scrap" });
+  s.rt.now = 501;
+  tick(s.w, s.rt);
+  assert.equal(s.w.members[m].work, null);
+  s.w.pauses.push("NO_CONNECTED_PLAYERS");
+  const before = s.w.tick;
+  for (let i = 0; i < 100; i++) tick(s.w, s.rt);
+  assert.equal(s.w.tick, before);
+});

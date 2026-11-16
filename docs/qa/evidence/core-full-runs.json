@@ -1,0 +1,226 @@
+{
+  "executedAt": "2026-11-16T06:08:38.869Z",
+  "results": [
+    {
+      "mode": "CORE_SIMULATION_NOT_BROWSER_OR_NETWORK",
+      "planned": 1,
+      "connectedMembers": 1,
+      "resourceInjection": false,
+      "teleportation": false,
+      "normalBalance": true,
+      "automation": {
+        "processor": "machine-0000064",
+        "paidMachines": 3,
+        "links": 2,
+        "extractor": true,
+        "automaticProduced": 1880,
+        "delivered": 1786
+      },
+      "tick": "307164",
+      "simulatedMinutes": 255.97,
+      "wallMilliseconds": 35097,
+      "commands": 1548,
+      "walkTicks": 34055,
+      "checkpoints": [
+        {
+          "stage": 1,
+          "tick": "6945",
+          "generated": {
+            "metal_scrap": 28,
+            "cable_scrap": 2
+          },
+          "automaticProduced": 0,
+          "delivered": 0
+        },
+        {
+          "stage": 2,
+          "tick": "27485",
+          "generated": {
+            "metal_scrap": 124,
+            "cable_scrap": 10
+          },
+          "automaticProduced": 38,
+          "delivered": 0
+        },
+        {
+          "stage": 3,
+          "tick": "94463",
+          "generated": {
+            "metal_scrap": 360,
+            "cable_scrap": 30,
+            "plastic_scrap": 76
+          },
+          "automaticProduced": 156,
+          "delivered": 102
+        },
+        {
+          "stage": 4,
+          "tick": "155214",
+          "generated": {
+            "metal_scrap": 936,
+            "cable_scrap": 56,
+            "plastic_scrap": 156
+          },
+          "automaticProduced": 987,
+          "delivered": 932
+        },
+        {
+          "stage": 5,
+          "tick": "210714",
+          "generated": {
+            "metal_scrap": 1352,
+            "cable_scrap": 108,
+            "plastic_scrap": 276
+          },
+          "automaticProduced": 1592,
+          "delivered": 1498
+        },
+        {
+          "stage": 6,
+          "tick": "306944",
+          "generated": {
+            "metal_scrap": 1544,
+            "cable_scrap": 118,
+            "plastic_scrap": 524,
+            "energy_shard": 200
+          },
+          "automaticProduced": 1880,
+          "delivered": 1786
+        }
+      ],
+      "result": {
+        "attempt": "launch-0004319",
+        "tick": "307163",
+        "planned": 1,
+        "members": [
+          "작업자1"
+        ],
+        "maxPlayers": 1,
+        "automaticProduced": 1880,
+        "delivered": 1786,
+        "stageTicks": [
+          "6944",
+          "27484",
+          "94462",
+          "155213",
+          "210713",
+          "306943"
+        ]
+      },
+      "finalHash": "2b8eb1c454e3fc54493e1b3a285d7d7bfed5fa1510f89db9cf65826499b5a097"
+    },
+    {
+      "mode": "CORE_SIMULATION_NOT_BROWSER_OR_NETWORK",
+      "planned": 6,
+      "connectedMembers": 6,
+      "resourceInjection": false,
+      "teleportation": false,
+      "normalBalance": true,
+      "automation": {
+        "processor": "machine-0000130",
+        "paidMachines": 3,
+        "links": 2,
+        "extractor": true,
+        "automaticProduced": 3758,
+        "delivered": 3602
+      },
+      "tick": "755601",
+      "simulatedMinutes": 629.6675,
+      "wallMilliseconds": 220446,
+      "commands": 3384,
+      "walkTicks": 78640,
+      "checkpoints": [
+        {
+          "stage": 1,
+          "tick": "16500",
+          "generated": {
+            "metal_scrap": 76,
+            "cable_scrap": 6
+          },
+          "automaticProduced": 0,
+          "delivered": 0
+        },
+        {
+          "stage": 2,
+          "tick": "60310",
+          "generated": {
+            "metal_scrap": 296,
+            "cable_scrap": 24
+          },
+          "automaticProduced": 100,
+          "delivered": 0
+        },
+        {
+          "stage": 3,
+          "tick": "217500",
+          "generated": {
+            "metal_scrap": 864,
+            "cable_scrap": 64,
+            "plastic_scrap": 194
+          },
+          "automaticProduced": 384,
+          "delivered": 268
+        },
+        {
+          "stage": 4,
+          "tick": "356311",
+          "generated": {
+            "metal_scrap": 2218,
+            "cable_scrap": 130,
+            "plastic_scrap": 406
+          },
+          "automaticProduced": 2366,
+          "delivered": 2216
+        },
+        {
+          "stage": 5,
+          "tick": "499611",
+          "generated": {
+            "metal_scrap": 2644,
+            "cable_scrap": 268,
+            "plastic_scrap": 722
+          },
+          "automaticProduced": 3002,
+          "delivered": 2846
+        },
+        {
+          "stage": 6,
+          "tick": "755381",
+          "generated": {
+            "metal_scrap": 3148,
+            "cable_scrap": 294,
+            "plastic_scrap": 1368,
+            "energy_shard": 520
+          },
+          "automaticProduced": 3758,
+          "delivered": 3602
+        }
+      ],
+      "result": {
+        "attempt": "launch-0009290",
+        "tick": "755600",
+        "planned": 6,
+        "members": [
+          "작업자1",
+          "작업자2",
+          "작업자3",
+          "작업자4",
+          "작업자5",
+          "작업자6"
+        ],
+        "maxPlayers": 6,
+        "automaticProduced": 3758,
+        "delivered": 3602,
+        "stageTicks": [
+          "16499",
+          "60309",
+          "217499",
+          "356310",
+          "499610",
+          "755380"
+        ]
+      },
+      "finalHash": "57bc394e330fa976085c71d66044287fdd1a59c234e352b9d90de1907199cd05"
+    }
+  ]
+}

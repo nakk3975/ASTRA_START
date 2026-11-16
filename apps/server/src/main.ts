@@ -1,36 +1,403 @@
-import express from 'express';import {Server,matchMaker} from '@colyseus/core';import {WebSocketTransport} from '@colyseus/ws-transport';import {randomBytes,randomUUID,createHmac,timingSafeEqual} from 'node:crypto';import {existsSync,readFileSync} from 'node:fs';import path from 'node:path';
-import {R} from '../../../packages/content/src/index.ts';import {createWorld,join,leave} from '../../../packages/game-core/src/index.ts';import {Repository,hash,balanceHash} from './repository.ts';import {Actor,roomCode,secret} from './actor.ts';import {OrbitRoom,tickets,actors,bindActors} from './room.ts';
-if(existsSync('.env'))process.loadEnvFile('.env');
-const production=process.env.NODE_ENV==='production';let url=process.env.DATABASE_URL;let local:any;
-if(!url&&!production){const {localDatabase}=await import('../../../scripts/local-db.ts');local=await localDatabase();url=local.url;}
-if(!url)throw Error('DATABASE_URL required');if(production&&(!process.env.PUBLIC_ORIGIN||!process.env.SESSION_SECRET))throw Error('PUBLIC_ORIGIN and SESSION_SECRET required');
-const sessionSecret=process.env.SESSION_SECRET??'local-development-session-secret';
-const repo=new Repository(url);await repo.migrate();const opening=new Map<string,Promise<Actor>>();
-bindActors(async id=>{if(actors.has(id))return actors.get(id)!;if(opening.has(id))return opening.get(id)!;if(actors.size+opening.size>=Number(process.env.MAX_ACTIVE_ROOMS??R.world.max_active_rooms_initial))throw Error('SERVER_BUSY');const job=(async()=>{const a=new Actor(repo,id);await a.open();actors.set(id,a);return a;})();opening.set(id,job);try{return await job;}finally{opening.delete(id);}});
-const roomRuntime=new Map<string,Promise<string>>();
-async function runtimeRoom(id:string){if(!roomRuntime.has(id))roomRuntime.set(id,matchMaker.createRoom('orbit',{worldId:id}).then(r=>r.roomId).catch(e=>{roomRuntime.delete(id);throw e;}));return roomRuntime.get(id)!;}
-const csrf=(guest:string,token:string)=>createHmac('sha256',sessionSecret).update(guest+':'+token).digest('hex');
-const same=(a:string,b:string)=>a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
-const allowed=(origin:string|undefined,host?:string)=>!!origin&&(process.env.PUBLIC_ORIGIN?origin===process.env.PUBLIC_ORIGIN:!production&&["http://"+host,"https://"+host,'http://localhost:3000','http://127.0.0.1:3000','http://localhost:2567','http://127.0.0.1:2567'].includes(origin));
-let shutting=false;
-const buckets=new Map<string,{n:number;until:number}>();function limit(key:string,n:number,ms:number){const now=Date.now(),b=buckets.get(key);if(!b||b.until<now){if(buckets.size>10000)for(const [k,v]of buckets)if(v.until<now)buckets.delete(k);buckets.set(key,{n:1,until:now+ms});return;}if(b.n>=n)throw Error('RATE_LIMITED');b.n++;}
-async function session(req:express.Request){const raw=(req.headers.cookie??'').split(';').map(s=>s.trim()).find(s=>s.startsWith('orbit_guest='))?.slice(12);if(!raw)return null;const [id,token]=raw.split('.');if(!id||!token||!/^[0-9a-f-]{36}$/i.test(id))return null;const g=(await repo.pool.query('SELECT id,nickname,auth_secret_hash FROM guest_identities WHERE id=$1',[id])).rows[0];if(!g||!same(g.auth_secret_hash,hash(token)))return null;return {id,name:g.nickname,token,csrf:csrf(id,token)};}
-const transport=new WebSocketTransport({maxPayload:R.limits.client_message_bytes,pingInterval:R.timers_ms.heartbeat_ping_interval,pingMaxRetries:R.timers_ms.heartbeat_response_timeout/R.timers_ms.heartbeat_ping_interval,beforeUpgrade:async(req:any)=>{const origin=req.headers?.get?.('origin')??req.headers?.origin;const host=req.headers?.get?.('host')??req.headers?.host;if(!allowed(origin,host))return new Response('INVALID_ORIGIN',{status:403});}});
-const server=new Server({transport,greet:false,express:async app=>{
- app.use(express.json({limit:R.limits.client_message_bytes}));
- app.use((req,res,next)=>{if(req.method==='POST'&&!allowed(req.headers.origin,req.headers['x-forwarded-host'] as string??req.headers.host)){res.status(403).json({error:'INVALID_ORIGIN'});return;}next();});
- app.get('/health/live',(_q,res)=>res.json({ok:true}));app.get('/health/ready',async(_q,res)=>{try{await repo.pool.query('SELECT 1');res.status(shutting?503:200).json({ok:!shutting});}catch{res.status(503).json({ok:false});}});
- const route=(method:'get'|'post',url:string,fn:(req:express.Request,res:express.Response,g:any)=>Promise<unknown>,auth=true)=>{app[method](url,async(req,res)=>{try{if(shutting)throw Error('SERVER_BUSY');const g=await session(req);if(auth&&!g)throw Error('AUTH_REQUIRED');if(req.method==='POST'&&g&&req.headers['x-csrf-token']!==g.csrf)throw Error('CSRF_FAILED');await fn(req,res,g);}catch(e){res.status((e as Error).message==='AUTH_REQUIRED'?401:400).json({error:(e as Error).message});}});};
- route('get','/api/session',async(_q,res,g)=>res.json(g?{guestId:g.id,name:g.name,csrf:g.csrf}:null),false);
- route('post','/api/guest',async(req,res,g)=>{const name=String(req.body.nickname??'').normalize('NFC').trim();const len=[...new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(name)].length;if(len<R.identity.nickname_min_graphemes||len>R.identity.nickname_max_graphemes)throw Error('INVALID_NICKNAME');if(g){await repo.pool.query('UPDATE guest_identities SET nickname=$2 WHERE id=$1',[g.id,name]);res.json({guestId:g.id,name,csrf:g.csrf});return;}limit('guest:'+req.ip,30,60000);const id=randomUUID(),token=randomBytes(R.identity.guest_secret_bytes).toString('base64url');await repo.pool.query('INSERT INTO guest_identities(id,auth_secret_hash,nickname) VALUES($1,$2,$3)',[id,hash(token),name]);res.cookie('orbit_guest',id+'.'+token,{httpOnly:true,secure:production,sameSite:'lax',maxAge:365*86400000,path:'/'});res.json({guestId:id,name,csrf:csrf(id,token)});},false);
- route('get','/api/rooms/recent',async(_q,res,g)=>{const r=await repo.pool.query('SELECT DISTINCT r.id,r.phase,r.planned_players,r.created_at FROM rooms r JOIN room_members m ON m.room_id=r.id WHERE m.guest_id=$1 AND r.phase<>\'DELETED\' ORDER BY r.created_at DESC LIMIT 20',[g.id]);res.json(r.rows);});
- route('post','/api/rooms',async(req,res,g)=>{limit('create:'+g.id,10,60000);const n=Number(req.body.plannedPlayers),name=String(req.body.roomName??'우리의 첫 로켓').slice(0,40);if(!Number.isInteger(n)||n<1||n>R.world.max_players)throw Error('BAD_PAYLOAD');const id=randomUUID(),key=secret(),w=createWorld(id,name,roomCode(),n,balanceHash);const m=join(w,g.id,g.name,Date.now());leave(w,m.id,Date.now(),false);await repo.create(w,hash(key));res.json({roomId:id,code:w.code,ownerRecoveryKey:key});});
- route('post','/api/rooms/resolve',async(req,res,g)=>{limit('resolve:'+g.id,R.rate_limits.room_code_lookup_per_guest_per_minute,60000);limit('resolve-ip:'+req.ip,R.rate_limits.room_code_lookup_per_ip_per_minute,60000);const r=await repo.pool.query('SELECT id,phase,planned_players FROM rooms WHERE code_digest=$1 AND phase<>\'DELETED\'',[hash(String(req.body.roomCode).toUpperCase())]);if(!r.rows[0])throw Error('ROOM_NOT_FOUND');res.json(r.rows[0]);});
- route('post','/api/rooms/:id/join-ticket',async(req,res,g)=>{const id=String(req.params.id);const r=await repo.pool.query('SELECT * FROM rooms WHERE id=$1 AND phase<>\'DELETED\'',[id]);if(!r.rows[0])throw Error('ROOM_NOT_FOUND');const member=await repo.pool.query('SELECT 1 FROM room_members WHERE room_id=$1 AND guest_id=$2',[id,g.id]);if(!member.rowCount&&r.rows[0].code_digest!==hash(String(req.body.roomCode??'').toUpperCase()))throw Error('AUTH_REQUIRED');const runtimeId=await runtimeRoom(id);const token=randomBytes(R.identity.join_ticket_nonce_bytes).toString('base64url');for(const [k,t]of tickets)if(t.expires<Date.now())tickets.delete(k);if(tickets.size>1000)throw Error('SERVER_BUSY');tickets.set(token,{guest:g.id,name:g.name,room:id,expires:Date.now()+R.timers_ms.join_ticket_ttl});res.json({ticket:token,runtimeRoomId:runtimeId});});
- route('post','/api/rooms/:id/recover-owner',async(req,res,g)=>{const id=String(req.params.id);limit('recover:'+g.id,R.rate_limits.owner_recovery_failures_per_guest_per_15min,900000);limit('recover-ip:'+req.ip,R.rate_limits.owner_recovery_failures_per_ip_per_15min,900000);await runtimeRoom(id);const a=actors.get(id)!;const key=secret();await a.mutate(async w=>{const old=(await repo.pool.query('SELECT key_hash FROM owner_recovery_keys WHERE room_id=$1',[id])).rows[0];if(!old||!same(old.key_hash,hash(String(req.body.ownerRecoveryKey??''))))throw Error('RECOVERY_KEY_INVALID');if(Object.values(w.members).some(m=>m.guestId===g.id&&m.id!==w.owner))throw Error('RECOVERY_MEMBER_CONFLICT');const owner=w.members[w.owner];owner.guestId=g.id;owner.epoch++;if(owner.connected)leave(w,owner.id,Date.now(),false);return {_recoveryHash:hash(key)};});res.json({ownerRecoveryKey:key});});
- if(!production){const {createServer}=await import('vite');const vite=await createServer({configFile:path.resolve('apps/web/vite.config.ts'),server:{middlewareMode:true,hmr:false},appType:'spa'});app.use(vite.middlewares);return;}const web=path.resolve('dist/web');if(existsSync(web)){app.use(express.static(web));app.get('/{*path}',(_q,res)=>res.sendFile(web+'/index.html'));}
- }});server.define('orbit',OrbitRoom);
-const portFlag=process.argv.indexOf('--port');const port=Number(process.env.API_PORT??(portFlag>=0?process.argv[portFlag+1]:process.env.PORT)??2567);await server.listen(port,'0.0.0.0');console.log('Scrap to Orbit server ready on '+port);
-for(const sig of ['SIGINT','SIGTERM'] as const)process.on(sig,async()=>{if(shutting)return;shutting=true;try{for(const a of actors.values()){await a.mutate(w=>{for(const m of Object.values(w.members))if(m.connected)leave(w,m.id,Date.now(),false);});await a.close();}await server.gracefullyShutdown(false);await repo.pool.end();if(local)await local.db.stop();}finally{process.exit(0);}});
+import express from "express";
+import { Server, matchMaker } from "@colyseus/core";
+import { WebSocketTransport } from "@colyseus/ws-transport";
+import {
+  randomBytes,
+  randomUUID,
+  createHmac,
+  timingSafeEqual,
+} from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { R } from "../../../packages/content/src/index.ts";
+import {
+  createWorld,
+  join,
+  leave,
+} from "../../../packages/game-core/src/index.ts";
+import { Repository, hash, balanceHash } from "./repository.ts";
+import { Actor, roomCode, secret } from "./actor.ts";
+import { OrbitRoom, tickets, actors, bindActors } from "./room.ts";
+if (existsSync(".env")) process.loadEnvFile(".env");
+const production = process.env.NODE_ENV === "production";
+let url = process.env.DATABASE_URL;
+let local: any;
+if (!url && !production) {
+  const { localDatabase } = await import("../../../scripts/local-db.ts");
+  local = await localDatabase();
+  url = local.url;
+}
+if (!url) throw Error("DATABASE_URL required");
+if (production && (!process.env.PUBLIC_ORIGIN || !process.env.SESSION_SECRET))
+  throw Error("PUBLIC_ORIGIN and SESSION_SECRET required");
+const sessionSecret =
+  process.env.SESSION_SECRET ?? "local-development-session-secret";
+const repo = new Repository(url);
+await repo.migrate();
+const opening = new Map<string, Promise<Actor>>();
+bindActors(async (id) => {
+  if (actors.has(id)) return actors.get(id)!;
+  if (opening.has(id)) return opening.get(id)!;
+  if (
+    actors.size + opening.size >=
+    Number(process.env.MAX_ACTIVE_ROOMS ?? R.world.max_active_rooms_initial)
+  )
+    throw Error("SERVER_BUSY");
+  const job = (async () => {
+    const a = new Actor(repo, id);
+    await a.open();
+    actors.set(id, a);
+    return a;
+  })();
+  opening.set(id, job);
+  try {
+    return await job;
+  } finally {
+    opening.delete(id);
+  }
+});
+const roomRuntime = new Map<string, Promise<string>>();
+async function runtimeRoom(id: string) {
+  if (roomRuntime.has(id) && !actors.has(id) && !opening.has(id))
+    roomRuntime.delete(id);
+  if (!roomRuntime.has(id))
+    roomRuntime.set(
+      id,
+      matchMaker
+        .createRoom("orbit", { worldId: id })
+        .then((r) => r.roomId)
+        .catch((e) => {
+          roomRuntime.delete(id);
+          throw e;
+        }),
+    );
+  return roomRuntime.get(id)!;
+}
+const csrf = (guest: string, token: string) =>
+  createHmac("sha256", sessionSecret)
+    .update(guest + ":" + token)
+    .digest("hex");
+const same = (a: string, b: string) =>
+  a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
+const allowed = (origin: string | undefined, host?: string) =>
+  !!origin &&
+  (process.env.PUBLIC_ORIGIN
+    ? origin === process.env.PUBLIC_ORIGIN
+    : !production &&
+      [
+        "http://" + host,
+        "https://" + host,
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:2567",
+        "http://127.0.0.1:2567",
+      ].includes(origin));
+let shutting = false;
+const buckets = new Map<string, { n: number; until: number }>();
+function limit(key: string, n: number, ms: number) {
+  const now = Date.now(),
+    b = buckets.get(key);
+  if (!b || b.until < now) {
+    if (buckets.size > 10000)
+      for (const [k, v] of buckets) if (v.until < now) buckets.delete(k);
+    buckets.set(key, { n: 1, until: now + ms });
+    return;
+  }
+  if (b.n >= n) throw Error("RATE_LIMITED");
+  b.n++;
+}
+async function session(req: express.Request) {
+  const raw = (req.headers.cookie ?? "")
+    .split(";")
+    .map((s) => s.trim())
+    .find((s) => s.startsWith("orbit_guest="))
+    ?.slice(12);
+  if (!raw) return null;
+  const [id, token] = raw.split(".");
+  if (!id || !token || !/^[0-9a-f-]{36}$/i.test(id)) return null;
+  const g = (
+    await repo.pool.query(
+      "SELECT id,nickname,auth_secret_hash FROM guest_identities WHERE id=$1",
+      [id],
+    )
+  ).rows[0];
+  if (!g || !same(g.auth_secret_hash, hash(token))) return null;
+  return { id, name: g.nickname, token, csrf: csrf(id, token) };
+}
+const transport = new WebSocketTransport({
+  maxPayload: R.limits.client_message_bytes,
+  pingInterval: R.timers_ms.heartbeat_ping_interval,
+  pingMaxRetries:
+    R.timers_ms.heartbeat_response_timeout /
+    R.timers_ms.heartbeat_ping_interval,
+  beforeUpgrade: async (req: any) => {
+    const origin = req.headers?.get?.("origin") ?? req.headers?.origin;
+    const host = req.headers?.get?.("host") ?? req.headers?.host;
+    if (!allowed(origin, host))
+      return new Response("INVALID_ORIGIN", { status: 403 });
+  },
+});
+const server = new Server({
+  transport,
+  greet: false,
+  express: async (app) => {
+    app.use(express.json({ limit: R.limits.client_message_bytes }));
+    app.use((req, res, next) => {
+      if (
+        req.method === "POST" &&
+        !allowed(
+          req.headers.origin,
+          (req.headers["x-forwarded-host"] as string) ?? req.headers.host,
+        )
+      ) {
+        res.status(403).json({ error: "INVALID_ORIGIN" });
+        return;
+      }
+      next();
+    });
+    app.get("/health/live", (_q, res) => res.json({ ok: true }));
+    app.get("/health/ready", async (_q, res) => {
+      try {
+        await repo.pool.query("SELECT 1");
+        res.status(shutting ? 503 : 200).json({ ok: !shutting });
+      } catch {
+        res.status(503).json({ ok: false });
+      }
+    });
+    const route = (
+      method: "get" | "post",
+      url: string,
+      fn: (
+        req: express.Request,
+        res: express.Response,
+        g: any,
+      ) => Promise<unknown>,
+      auth = true,
+    ) => {
+      app[method](url, async (req, res) => {
+        try {
+          if (shutting) throw Error("SERVER_BUSY");
+          const g = await session(req);
+          if (auth && !g) throw Error("AUTH_REQUIRED");
+          if (
+            req.method === "POST" &&
+            g &&
+            req.headers["x-csrf-token"] !== g.csrf
+          )
+            throw Error("CSRF_FAILED");
+          await fn(req, res, g);
+        } catch (e) {
+          res
+            .status((e as Error).message === "AUTH_REQUIRED" ? 401 : 400)
+            .json({ error: (e as Error).message });
+        }
+      });
+    };
+    route(
+      "get",
+      "/api/session",
+      async (_q, res, g) =>
+        res.json(g ? { guestId: g.id, name: g.name, csrf: g.csrf } : null),
+      false,
+    );
+    route(
+      "post",
+      "/api/guest",
+      async (req, res, g) => {
+        const name = String(req.body.nickname ?? "")
+          .normalize("NFC")
+          .trim();
+        const len = [
+          ...new Intl.Segmenter("ko", { granularity: "grapheme" }).segment(
+            name,
+          ),
+        ].length;
+        if (
+          len < R.identity.nickname_min_graphemes ||
+          len > R.identity.nickname_max_graphemes
+        )
+          throw Error("INVALID_NICKNAME");
+        if (g) {
+          await repo.pool.query(
+            "UPDATE guest_identities SET nickname=$2 WHERE id=$1",
+            [g.id, name],
+          );
+          res.json({ guestId: g.id, name, csrf: g.csrf });
+          return;
+        }
+        limit("guest:" + req.ip, 30, 60000);
+        const id = randomUUID(),
+          token = randomBytes(R.identity.guest_secret_bytes).toString(
+            "base64url",
+          );
+        await repo.pool.query(
+          "INSERT INTO guest_identities(id,auth_secret_hash,nickname) VALUES($1,$2,$3)",
+          [id, hash(token), name],
+        );
+        res.cookie("orbit_guest", id + "." + token, {
+          httpOnly: true,
+          secure: production,
+          sameSite: "lax",
+          maxAge: 365 * 86400000,
+          path: "/",
+        });
+        res.json({ guestId: id, name, csrf: csrf(id, token) });
+      },
+      false,
+    );
+    route("get", "/api/rooms/recent", async (_q, res, g) => {
+      const r = await repo.pool.query(
+        "SELECT DISTINCT r.id,r.phase,r.planned_players,r.created_at FROM rooms r JOIN room_members m ON m.room_id=r.id WHERE m.guest_id=$1 AND r.phase<>'DELETED' ORDER BY r.created_at DESC LIMIT 20",
+        [g.id],
+      );
+      res.json(r.rows);
+    });
+    route("post", "/api/rooms", async (req, res, g) => {
+      limit("create:" + g.id, 10, 60000);
+      const n = Number(req.body.plannedPlayers),
+        name = String(req.body.roomName ?? "우리의 첫 로켓").slice(0, 40);
+      if (!Number.isInteger(n) || n < 1 || n > R.world.max_players)
+        throw Error("BAD_PAYLOAD");
+      const id = randomUUID(),
+        key = secret(),
+        w = createWorld(id, name, roomCode(), n, balanceHash);
+      const m = join(w, g.id, g.name, Date.now());
+      leave(w, m.id, Date.now(), false);
+      await repo.create(w, hash(key));
+      res.json({ roomId: id, code: w.code, ownerRecoveryKey: key });
+    });
+    route("post", "/api/rooms/resolve", async (req, res, g) => {
+      limit(
+        "resolve:" + g.id,
+        R.rate_limits.room_code_lookup_per_guest_per_minute,
+        60000,
+      );
+      limit(
+        "resolve-ip:" + req.ip,
+        R.rate_limits.room_code_lookup_per_ip_per_minute,
+        60000,
+      );
+      const r = await repo.pool.query(
+        "SELECT id,phase,planned_players FROM rooms WHERE code_digest=$1 AND phase<>'DELETED'",
+        [hash(String(req.body.roomCode).toUpperCase())],
+      );
+      if (!r.rows[0]) throw Error("ROOM_NOT_FOUND");
+      res.json(r.rows[0]);
+    });
+    route("post", "/api/rooms/:id/join-ticket", async (req, res, g) => {
+      const id = String(req.params.id);
+      const r = await repo.pool.query(
+        "SELECT * FROM rooms WHERE id=$1 AND phase<>'DELETED'",
+        [id],
+      );
+      if (!r.rows[0]) throw Error("ROOM_NOT_FOUND");
+      const member = await repo.pool.query(
+        "SELECT 1 FROM room_members WHERE room_id=$1 AND guest_id=$2",
+        [id, g.id],
+      );
+      if (
+        !member.rowCount &&
+        r.rows[0].code_digest !==
+          hash(String(req.body.roomCode ?? "").toUpperCase())
+      )
+        throw Error("AUTH_REQUIRED");
+      const runtimeId = await runtimeRoom(id);
+      const token = randomBytes(R.identity.join_ticket_nonce_bytes).toString(
+        "base64url",
+      );
+      for (const [k, t] of tickets)
+        if (t.expires < Date.now()) tickets.delete(k);
+      if (tickets.size > 1000) throw Error("SERVER_BUSY");
+      tickets.set(token, {
+        guest: g.id,
+        name: g.name,
+        room: id,
+        expires: Date.now() + R.timers_ms.join_ticket_ttl,
+      });
+      res.json({ ticket: token, runtimeRoomId: runtimeId });
+    });
+    route("post", "/api/rooms/:id/recover-owner", async (req, res, g) => {
+      const id = String(req.params.id);
+      limit(
+        "recover:" + g.id,
+        R.rate_limits.owner_recovery_failures_per_guest_per_15min,
+        900000,
+      );
+      limit(
+        "recover-ip:" + req.ip,
+        R.rate_limits.owner_recovery_failures_per_ip_per_15min,
+        900000,
+      );
+      await runtimeRoom(id);
+      const a = actors.get(id)!;
+      const key = secret();
+      await a.mutate(async (w) => {
+        const old = (
+          await repo.pool.query(
+            "SELECT key_hash FROM owner_recovery_keys WHERE room_id=$1",
+            [id],
+          )
+        ).rows[0];
+        if (
+          !old ||
+          !same(old.key_hash, hash(String(req.body.ownerRecoveryKey ?? "")))
+        )
+          throw Error("RECOVERY_KEY_INVALID");
+        if (
+          Object.values(w.members).some(
+            (m) => m.guestId === g.id && m.id !== w.owner,
+          )
+        )
+          throw Error("RECOVERY_MEMBER_CONFLICT");
+        const owner = w.members[w.owner];
+        owner.guestId = g.id;
+        owner.epoch++;
+        if (owner.connected) leave(w, owner.id, Date.now(), false);
+        return { _recoveryHash: hash(key) };
+      });
+      res.json({ ownerRecoveryKey: key });
+    });
+    if (!production) {
+      const { createServer } = await import("vite");
+      const vite = await createServer({
+        configFile: path.resolve("apps/web/vite.config.ts"),
+        server: { middlewareMode: true, hmr: false },
+        appType: "spa",
+      });
+      app.use(vite.middlewares);
+      return;
+    }
+    const web = path.resolve("dist/web");
+    if (existsSync(web)) {
+      app.use(express.static(web));
+      app.get("/{*path}", (_q, res) => res.sendFile(web + "/index.html"));
+    }
+  },
+});
+server.define("orbit", OrbitRoom);
+const portFlag = process.argv.indexOf("--port");
+const port = Number(
+  process.env.API_PORT ??
+    (portFlag >= 0 ? process.argv[portFlag + 1] : process.env.PORT) ??
+    2567,
+);
+await server.listen(port, "0.0.0.0");
+console.log("Scrap to Orbit server ready on " + port);
+for (const sig of ["SIGINT", "SIGTERM"] as const)
+  process.on(sig, async () => {
+    if (shutting) return;
+    shutting = true;
+    try {
+      await server.gracefullyShutdown(false);
+      for (const a of actors.values()) await a.close();
+      await repo.pool.end();
+      if (local) await local.db.stop();
+    } finally {
+      process.exit(0);
+    }
+  });
 
-if(!production&&process.env.ORBIT_QA==='1'){const {runLive}=await import('../../../tests/live-run.ts');void runLive('http://127.0.0.1:'+port,repo);}
+if (!production && process.env.ORBIT_QA === "1") {
+  const { runLive } = await import("../../../tests/live-run.ts");
+  void runLive("http://127.0.0.1:" + port, repo);
+}
