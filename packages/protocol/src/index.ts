@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import {R,B,ITEMS,RECIPES} from '../../content/src/index.ts';
 const id=z.string().min(1).max(R.limits.client_string_max_length), int=z.number().int().nonnegative().max(B.limits.integer_quantity_max), quantity=int.min(1).max(B.limits.player_command_quantity_max), item=z.enum(ITEMS as [typeof ITEMS[number],...typeof ITEMS[number][]]);
-const object=(shape:z.ZodRawShape)=>z.object(shape).strict();
+const object=<T extends z.ZodRawShape>(shape:T)=>z.object(shape).strict();
 const version={expectedEntityVersion:int};
 export const payloads:Record<string,z.ZodType>={
  READY_SET:object({ready:z.boolean()}),START_SESSION:object({settingsRevision:int}),SET_LOBBY_SETTINGS:object({plannedPlayers:z.number().int().min(1).max(R.world.max_players)}),
