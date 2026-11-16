@@ -102,30 +102,30 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 > scrap-to-orbit@0.1.0 test
 > node --import tsx --test tests/*.test.ts
 
-✔ P0 content contracts and milestone rounding (0.919126ms)
-✔ P0 new world has no example factory or free inventory (1.734198ms)
-✔ gather requires service range, full capacity waits without creating output (11.657372ms)
-✔ six channels craft concurrently, output stays private and input escrow is conserved (55.87927ms)
-✔ last rocket units clamp, assembly is required and planned costs stay fixed (2.090583ms)
-✔ full bag, warehouse and bench recover through local overflow stash (1.033985ms)
-✔ WIP cancel full input rejects atomically; stopped work preserves job (3.31565ms)
-✔ service distance is separate from delivery center (0.51538ms)
-✔ offline clock is frozen and runtime input expiry stops gather (0.833228ms)
-✔ source cursor alternates scarce cargo and destination reservations conserve stock (8.232441ms)
-✔ inbound reservation excludes the final capacity and cargo is not instantly delivered (19.760247ms)
-✔ automatic extractor generates raw material at configured cycle, output pauses at cap (426.323478ms)
-✔ T01 six actors compete for final shared item: one gain, five rejections (14.26317ms)
-✔ T02 simultaneous footprint claims pay once and rollback losing costs (6.590792ms)
-✔ R04 R05 extractor MK2 has 2x work/power, ordinary MK2 1.5x, duplicate denied (101.892964ms)
-✔ R07 actual inspections forbidden until M6 assembly and launch requires all three (6.831998ms)
-✔ R08 R17 vote/cancel/countdown never consumes more fuel and launched freezes (13.290845ms)
-✔ R15 R19 owner consent and deletion rights are distinct from leader (1.392394ms)
-✔ R16 manual pause survives last disconnect and rejoin (1.379054ms)
-✔ T24 reserved seat rejects newcomer but permits same guest; expired inventory recovers once (2.100759ms)
-✔ T15 work channel reclaim returns WIP to local bench crate once (1.029569ms)
-✔ R20 costs must come from carrier inventory; protected routes and crates block construction (2.977572ms)
-✔ T25 stale controller and future durable version rejected before economic changes (0.414742ms)
-✔ T29 strict input rejects role forgery, negative/nonfinite/fraction quantity and prototype keys (5.818734ms)
+✔ P0 content contracts and milestone rounding (1.212488ms)
+✔ P0 new world has no example factory or free inventory (0.635527ms)
+✔ gather requires service range, full capacity waits without creating output (38.762307ms)
+✔ six channels craft concurrently, output stays private and input escrow is conserved (61.962183ms)
+✔ last rocket units clamp, assembly is required and planned costs stay fixed (2.129871ms)
+✔ full bag, warehouse and bench recover through local overflow stash (1.052142ms)
+✔ WIP cancel full input rejects atomically; stopped work preserves job (3.880083ms)
+✔ service distance is separate from delivery center (0.896032ms)
+✔ offline clock is frozen and runtime input expiry stops gather (0.76627ms)
+✔ source cursor alternates scarce cargo and destination reservations conserve stock (10.794049ms)
+✔ inbound reservation excludes the final capacity and cargo is not instantly delivered (13.025871ms)
+✔ automatic extractor generates raw material at configured cycle, output pauses at cap (356.870551ms)
+✔ T01 six actors compete for final shared item: one gain, five rejections (12.140605ms)
+✔ T02 simultaneous footprint claims pay once and rollback losing costs (4.989239ms)
+✔ R04 R05 extractor MK2 has 2x work/power, ordinary MK2 1.5x, duplicate denied (95.677836ms)
+✔ R07 actual inspections forbidden until M6 assembly and launch requires all three (5.765643ms)
+✔ R08 R17 vote/cancel/countdown never consumes more fuel and launched freezes (12.513435ms)
+✔ R15 R19 owner consent and deletion rights are distinct from leader (1.107343ms)
+✔ R16 manual pause survives last disconnect and rejoin (1.537017ms)
+✔ T24 reserved seat rejects newcomer but permits same guest; expired inventory recovers once (1.980621ms)
+✔ T15 work channel reclaim returns WIP to local bench crate once (1.095075ms)
+✔ R20 costs must come from carrier inventory; protected routes and crates block construction (4.021691ms)
+✔ T25 stale controller and future durable version rejected before economic changes (0.502662ms)
+✔ T29 strict input rejects role forgery, negative/nonfinite/fraction quantity and prototype keys (2.986184ms)
 ℹ tests 24
 ℹ suites 0
 ℹ pass 24
@@ -133,7 +133,7 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 1074.584341
+ℹ duration_ms 883.991698
 npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 
 > scrap-to-orbit@0.1.0 build
@@ -146,11 +146,11 @@ rendering chunks...
 computing gzip size...
 dist/web/index.html                     0.50 kB │ gzip:   0.35 kB
 dist/web/assets/index-CG0ORNAD.css     24.78 kB │ gzip:   6.41 kB
-dist/web/assets/index-RCSwp3zk.js   1,067.55 kB │ gzip: 295.21 kB
+dist/web/assets/index-BB7Hcnw7.js   1,067.76 kB │ gzip: 295.27 kB
 
 [plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 367ms
+✓ built in 454ms

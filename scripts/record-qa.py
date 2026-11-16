@@ -11,6 +11,7 @@ executed={t['id'] for t in live['tests'] if t['status']=='PASS'}
 full=json.loads((root/'docs/qa/evidence/core-full-runs.json').read_text())
 assert {r['planned'] for r in full['results']}=={1,6}
 complete={
+'UX09':('browser-m1.json','실제 브라우저 채집: 고철 12 → 20+4 → 20+6. 기존 스택 우선 채움과 새 슬롯 분배, 수량 합계 확인.'),
 'T01':('live-integration.json#T01-final-item-six-concurrent','실제 6개 WS 동시 요청. 명시적 재고 fixture: 1명 획득, 5명 거절, 총량 1.'),
 'T02':('live-integration.json#T02-footprint-six-concurrent','실제 6개 WS의 같은 footprint 요청: 설비 1개, 비용 1회, 5개 OCCUPIED. fixture 사용.'),
 'T03':('live-integration.json#T03-hundred-retries-and-reconnect','실제 자원 이동 commandId를 100회 재전송한 뒤 같은 게스트 새 연결에서 재전송. 동일 receipt, 총 효과 1.'),
@@ -18,7 +19,7 @@ complete={
 'T10':('live-integration.json#T10-missing-event-preserves-corrupt-save','실제 PostgreSQL: 최신 snapshot 손상 시 이전+delta hash 일치, delta 제거 시 SAVE_CORRUPT와 원래 head 보존.'),
 'T14':('unit-tests.txt','코어 fixture 시험: WIP 취소의 입력 부족 공간 거부, job/escrow/예약 불변 확인. DB 장애 시험은 아님.'),
 'R01':('unit-tests.txt','원본 JSON 목표를 단계별 올림: 6인 전선 11/32/52=95 직접 확인.'),
-'R02':('core-full-runs.json','자원 지급/순간이동 없는 코어 완주에서 M1은 자동 설비 없이 수동 제작으로 완료. 브라우저 완주 아님.'),
+'R02':('core-full-runs.json','코어 완주 및 실제 브라우저 M1 완료. 고철/폐전선 직접 채집, 주괴·판·기어·전선 수동 제작, 운반·납품·혼자 조립으로 M2 진입.'),
 'R07':('unit-tests.txt','코어 fixture: M5 실제 점검 거부, M6 뒤 각각 39tick 미완료/40tick 완료, 세 점검 이후 발사 제안 성공.'),
 'R08':('unit-tests.txt','코어 fixture로 투표/99tick 뒤 카운트다운 취소 및 재시도, 연료 보존과 발사 후 정지 확인. 실제 M6 납품량은 core-full-runs로 별도 확인.'),
 'R13':('unit-tests.txt','새 world에 예시 자동공장/수거기/무료 재고 없음. starter 기반 초기화 확인.'),

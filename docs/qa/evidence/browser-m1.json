@@ -1,0 +1,80 @@
+{
+  "observedDate": "2026-11-16",
+  "driver": "CUA Chrome, visible UI controls and held keyboard inputs",
+  "clock": "NORMAL_WALL_CLOCK",
+  "renderer": "Canvas 2D fallback; WebGL unavailable",
+  "resourceInjection": false,
+  "teleportation": false,
+  "initialInventory": {
+    "ingot": 2
+  },
+  "initialInventoryOrigin": "Four scrap gathered and two ingots crafted in the earlier recorded browser session. Restored after reconnect.",
+  "additionalGathering": {
+    "metal_scrap": 26,
+    "cable_scrap": 2
+  },
+  "stackObservations": [
+    [
+      12
+    ],
+    [
+      20,
+      4
+    ],
+    [
+      20,
+      6
+    ]
+  ],
+  "workbench": [
+    {
+      "recipe": "smelt_ingot",
+      "input": {
+        "metal_scrap": 26
+      },
+      "output": {
+        "ingot": 13
+      }
+    },
+    {
+      "recipe": "press_plate",
+      "input": {
+        "ingot": 12
+      },
+      "output": {
+        "plate": 6
+      }
+    },
+    {
+      "recipe": "cut_gear",
+      "input": {
+        "ingot": 2
+      },
+      "output": {
+        "gear": 4
+      }
+    },
+    {
+      "recipe": "draw_wire",
+      "input": {
+        "cable_scrap": 2
+      },
+      "output": {
+        "wire": 4
+      }
+    }
+  ],
+  "recipeNamesNote": "The recipe labels and input/output amounts were observed in Korean UI; IDs below are verified against the baseline before saving.",
+  "rocketContribution": {
+    "plate": 6,
+    "gear": 4,
+    "wire": 4
+  },
+  "assembly": "Completed M1 alone through the visible rocket assembly button. HUD and panel advanced to M2 조립 갠트리.",
+  "remainingInventory": {
+    "ingot": 1
+  },
+  "quantityControl": "Set 12; exactly 12 of 15 ingots moved to the workbench, 3 remained in the bag.",
+  "screenshot": "browser-m1-completed.jpg",
+  "fullLaunch": false
+}

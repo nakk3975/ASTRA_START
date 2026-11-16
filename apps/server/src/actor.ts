@@ -35,7 +35,9 @@ export class Actor {
   queue: Task[] = [];
   busy = false;
   failed: string | null = null;
-  nextTick = performance.now();
+  /** Defaults to real monotonic time. Only in-process test harnesses supply a virtual clock. */
+  simulationNow: () => number = () => performance.now();
+  nextTick = this.simulationNow();
   lastSnapshot = performance.now();
   lastRenew = 0;
   timer?: ReturnType<typeof setInterval>;
@@ -62,13 +64,14 @@ export class Actor {
       this.world = after;
     }
     this.lastRenew = performance.now();
-    this.nextTick = performance.now();
+    this.nextTick = this.simulationNow();
     this.timer = setInterval(
       () => void this.pump(),
       R.timers_ms.simulation_tick,
     );
   }
   enqueue(member: string, cmd: Command): Promise<Ack> {
+    if (this.closed) return Promise.reject(Error("ROOM_CLOSED"));
     if (
       this.queue.length >= R.limits.command_queue_per_room ||
       this.queue.filter((x) => x.member === member).length >=
@@ -99,7 +102,7 @@ export class Actor {
       if (this.failed) {
         this.world = await this.repo.load(this.id);
         this.failed = null;
-        this.nextTick = performance.now();
+        this.nextTick = this.simulationNow();
         this.onPublish(this.world);
       }
       const before = this.world;
@@ -107,7 +110,7 @@ export class Actor {
       const receipts: Receipt[] = [];
       const dedupe = new Map<string, { hash: string; ack: Ack }>();
       let recoveryHash: string | undefined;
-      this.rt.now = performance.now();
+      this.rt.now = this.simulationNow();
       this.rt.wallNow = Date.now();
       for (const task of tasks) {
         if (task.mutate) {
@@ -173,7 +176,7 @@ export class Actor {
             : ack,
         });
       }
-      const now = performance.now();
+      const now = this.simulationNow();
       const active =
         B.launch.automatic_economy_phases.includes(after.phase) &&
         !after.pauses.length;
@@ -225,7 +228,7 @@ export class Actor {
           String((e as Error)?.stack ?? e) + "\n",
         );
       this.failed = (e as Error).message;
-      this.nextTick = performance.now();
+      this.nextTick = this.simulationNow();
       this.onPending(this.failed);
       for (const t of tasks)
         t.reject(

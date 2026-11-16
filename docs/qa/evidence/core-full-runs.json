@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-11-16T06:08:38.869Z",
+  "executedAt": "2026-11-16T06:53:10.150Z",
   "results": [
     {
       "mode": "CORE_SIMULATION_NOT_BROWSER_OR_NETWORK",
@@ -16,9 +16,9 @@
         "automaticProduced": 1880,
         "delivered": 1786
       },
-      "tick": "307164",
-      "simulatedMinutes": 255.97,
-      "wallMilliseconds": 35097,
+      "tick": "307180",
+      "simulatedMinutes": 255.98333333333332,
+      "wallMilliseconds": 35647,
       "commands": 1548,
       "walkTicks": 34055,
       "checkpoints": [
@@ -44,7 +44,7 @@
         },
         {
           "stage": 3,
-          "tick": "94463",
+          "tick": "94475",
           "generated": {
             "metal_scrap": 360,
             "cable_scrap": 30,
@@ -55,7 +55,7 @@
         },
         {
           "stage": 4,
-          "tick": "155214",
+          "tick": "155230",
           "generated": {
             "metal_scrap": 936,
             "cable_scrap": 56,
@@ -66,7 +66,7 @@
         },
         {
           "stage": 5,
-          "tick": "210714",
+          "tick": "210730",
           "generated": {
             "metal_scrap": 1352,
             "cable_scrap": 108,
@@ -77,7 +77,7 @@
         },
         {
           "stage": 6,
-          "tick": "306944",
+          "tick": "306960",
           "generated": {
             "metal_scrap": 1544,
             "cable_scrap": 118,
@@ -90,7 +90,7 @@
       ],
       "result": {
         "attempt": "launch-0004319",
-        "tick": "307163",
+        "tick": "307179",
         "planned": 1,
         "members": [
           "작업자1"
@@ -101,13 +101,13 @@
         "stageTicks": [
           "6944",
           "27484",
-          "94462",
-          "155213",
-          "210713",
-          "306943"
+          "94474",
+          "155229",
+          "210729",
+          "306959"
         ]
       },
-      "finalHash": "2b8eb1c454e3fc54493e1b3a285d7d7bfed5fa1510f89db9cf65826499b5a097"
+      "finalHash": "caa619515757861b029c479dd756d0636214bfb5771e119867d81d7451ff2063"
     },
     {
       "mode": "CORE_SIMULATION_NOT_BROWSER_OR_NETWORK",
@@ -124,9 +124,9 @@
         "automaticProduced": 3758,
         "delivered": 3602
       },
-      "tick": "755601",
-      "simulatedMinutes": 629.6675,
-      "wallMilliseconds": 220446,
+      "tick": "755635",
+      "simulatedMinutes": 629.6958333333333,
+      "wallMilliseconds": 236344,
       "commands": 3384,
       "walkTicks": 78640,
       "checkpoints": [
@@ -152,7 +152,7 @@
         },
         {
           "stage": 3,
-          "tick": "217500",
+          "tick": "217530",
           "generated": {
             "metal_scrap": 864,
             "cable_scrap": 64,
@@ -163,7 +163,7 @@
         },
         {
           "stage": 4,
-          "tick": "356311",
+          "tick": "356345",
           "generated": {
             "metal_scrap": 2218,
             "cable_scrap": 130,
@@ -174,7 +174,7 @@
         },
         {
           "stage": 5,
-          "tick": "499611",
+          "tick": "499645",
           "generated": {
             "metal_scrap": 2644,
             "cable_scrap": 268,
@@ -185,7 +185,7 @@
         },
         {
           "stage": 6,
-          "tick": "755381",
+          "tick": "755415",
           "generated": {
             "metal_scrap": 3148,
             "cable_scrap": 294,
@@ -198,7 +198,7 @@
       ],
       "result": {
         "attempt": "launch-0009290",
-        "tick": "755600",
+        "tick": "755634",
         "planned": 6,
         "members": [
           "작업자1",
@@ -214,13 +214,13 @@
         "stageTicks": [
           "16499",
           "60309",
-          "217499",
-          "356310",
-          "499610",
-          "755380"
+          "217529",
+          "356344",
+          "499644",
+          "755414"
         ]
       },
-      "finalHash": "57bc394e330fa976085c71d66044287fdd1a59c234e352b9d90de1907199cd05"
+      "finalHash": "b1155aa12d60f59d1a6adaf38aba940b18dcee8179f00922abae4de43a04a50d"
     }
   ]
 }

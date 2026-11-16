@@ -1,0 +1,131 @@
+{
+  "executedAt": "2026-11-16T06:35:29.832Z",
+  "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_ACCELERATED_SIMULATION_CLOCK",
+  "normalClock": false,
+  "browser": false,
+  "source": "tests/network-full-run.ts + tests/full-scenario.ts",
+  "results": [
+    {
+      "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_ACCELERATED_SIMULATION_CLOCK",
+      "planned": 1,
+      "connectedMembers": 1,
+      "resourceInjection": false,
+      "teleportation": false,
+      "normalBalance": true,
+      "automation": {
+        "processor": "machine-0000065",
+        "paidMachines": 3,
+        "links": 2,
+        "extractor": true,
+        "automaticProduced": 1880,
+        "delivered": 1786
+      },
+      "tick": "311694",
+      "simulatedMinutes": 259.745,
+      "wallMilliseconds": 647611,
+      "commands": 1548,
+      "walkTicks": 34055,
+      "checkpoints": [
+        {
+          "stage": 1,
+          "tick": "7128",
+          "generated": {
+            "metal_scrap": 28,
+            "cable_scrap": 2
+          },
+          "automaticProduced": 0,
+          "delivered": 0
+        },
+        {
+          "stage": 2,
+          "tick": "28115",
+          "generated": {
+            "metal_scrap": 124,
+            "cable_scrap": 10
+          },
+          "automaticProduced": 38,
+          "delivered": 0
+        },
+        {
+          "stage": 3,
+          "tick": "96128",
+          "generated": {
+            "metal_scrap": 360,
+            "cable_scrap": 30,
+            "plastic_scrap": 76
+          },
+          "automaticProduced": 156,
+          "delivered": 102
+        },
+        {
+          "stage": 4,
+          "tick": "157719",
+          "generated": {
+            "metal_scrap": 944,
+            "cable_scrap": 56,
+            "plastic_scrap": 156
+          },
+          "automaticProduced": 998,
+          "delivered": 942
+        },
+        {
+          "stage": 5,
+          "tick": "214140",
+          "generated": {
+            "metal_scrap": 1352,
+            "cable_scrap": 108,
+            "plastic_scrap": 276
+          },
+          "automaticProduced": 1592,
+          "delivered": 1498
+        },
+        {
+          "stage": 6,
+          "tick": "311459",
+          "generated": {
+            "metal_scrap": 1544,
+            "cable_scrap": 118,
+            "plastic_scrap": 524,
+            "energy_shard": 200
+          },
+          "automaticProduced": 1880,
+          "delivered": 1786
+        }
+      ],
+      "result": {
+        "attempt": "launch-0004320",
+        "tick": "311693",
+        "planned": 1,
+        "members": [
+          "완주작업자1"
+        ],
+        "maxPlayers": 1,
+        "automaticProduced": 1880,
+        "delivered": 1786,
+        "stageTicks": [
+          "7127",
+          "28114",
+          "96127",
+          "157718",
+          "214139",
+          "311458"
+        ]
+      },
+      "finalHash": "819add4750c6da076a8217b4b08276f71f08ab7bc92251befae7fd74fcb380f4",
+      "status": "PASS",
+      "roomId": "f074de44-b663-4dd7-b5d0-d03000f7385c",
+      "distinctGuests": 1,
+      "distinctWebSockets": 1,
+      "inputMessages": 34839,
+      "holdMessages": 87885,
+      "committedBatches": 149952,
+      "durableCommandReceipts": 1548,
+      "allClientsReceivedLaunch": true,
+      "durableReloadHashMatches": true,
+      "completedAt": "2026-11-16T06:46:19.586Z"
+    }
+  ],
+  "status": "PARTIAL",
+  "note": "The solo run passed. The first six-client attempt was interrupted to batch waiting ticks in the test driver (maximum five 50ms ticks per normal actor commit). No six-client pass is claimed for this attempt.",
+  "interruptedAt": "2026-11-16T06:48:20.572315+00:00"
+}

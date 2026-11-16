@@ -383,21 +383,32 @@ const port = Number(
 );
 await server.listen(port, "0.0.0.0");
 console.log("Scrap to Orbit server ready on " + port);
+let shutdownPromise: Promise<void> | undefined;
+function shutdownApp() {
+  if (shutdownPromise) return shutdownPromise;
+  shutting = true;
+  shutdownPromise = (async () => {
+    await server.gracefullyShutdown(false);
+    for (const a of actors.values()) await a.close();
+    await repo.pool.end();
+  })();
+  return shutdownPromise;
+}
+local?.beforeStop(shutdownApp);
 for (const sig of ["SIGINT", "SIGTERM"] as const)
   process.on(sig, async () => {
-    if (shutting) return;
-    shutting = true;
     try {
-      await server.gracefullyShutdown(false);
-      for (const a of actors.values()) await a.close();
-      await repo.pool.end();
       if (local) await local.db.stop();
+      else await shutdownApp();
     } finally {
       process.exit(0);
     }
   });
 
-if (!production && process.env.ORBIT_QA === "1") {
+if (!production && process.env.ORBIT_FULL_QA === "1") {
+  const { runNetworkFull } = await import("../../../tests/network-full-run.ts");
+  void runNetworkFull("http://127.0.0.1:" + port, repo);
+} else if (!production && process.env.ORBIT_QA === "1") {
   const { runLive } = await import("../../../tests/live-run.ts");
   void runLive("http://127.0.0.1:" + port, repo);
 }

@@ -1,7 +1,10 @@
 import EmbeddedPostgres from "embedded-postgres";
 import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 export async function localDatabase() {
-  const databaseDir = new URL("../.local/postgres", import.meta.url).pathname;
+  const databaseDir = fileURLToPath(
+    new URL("../.local/postgres", import.meta.url),
+  );
   const db = new EmbeddedPostgres({
     databaseDir,
     user: "orbit",
@@ -17,7 +20,26 @@ export async function localDatabase() {
   try {
     await db.createDatabase("orbit");
   } catch {}
-  return { db, url: "postgres://orbit:local-orbit-only@127.0.0.1:55432/orbit" };
+  // embedded-postgres registers its own exit hook. Both that hook and our
+  // signal handler must await room persistence before stopping PostgreSQL.
+  const stopPostgres = db.stop.bind(db);
+  let beforeStop: (() => Promise<void>) | undefined;
+  let stopping: Promise<void> | undefined;
+  db.stop = () =>
+    (stopping ??= (async () => {
+      try {
+        await beforeStop?.();
+      } finally {
+        await stopPostgres();
+      }
+    })());
+  return {
+    db,
+    beforeStop(fn: () => Promise<void>) {
+      beforeStop = fn;
+    },
+    url: "postgres://orbit:local-orbit-only@127.0.0.1:55432/orbit",
+  };
 }
 if (process.argv[1]?.endsWith("local-db.ts")) {
   const { db } = await localDatabase();

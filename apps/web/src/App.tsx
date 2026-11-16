@@ -159,6 +159,35 @@ function Cost({ cost }: { cost: Counts }) {
     </div>
   );
 }
+function TransferQuantity({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <label>
+      한 번에 옮길 수량
+      <input
+        type="number"
+        inputMode="numeric"
+        min={1}
+        max={1000}
+        step={1}
+        value={value}
+        onChange={(e) =>
+          onChange(
+            Math.max(
+              1,
+              Math.min(1000, Math.trunc(Number(e.target.value)) || 1),
+            ),
+          )
+        }
+      />
+    </label>
+  );
+}
 function Panel({
   title,
   subtitle,
@@ -1377,6 +1406,12 @@ export default function App() {
                                 ? "연결된 배송망의 새 화물 출발을 관리합니다."
                                 : "입력을 넣으면 전력에 따라 자동 생산합니다."}
                       </div>
+                      {(rs.length > 0 || mac.source) && (
+                        <TransferQuantity
+                          value={quantity}
+                          onChange={setQuantity}
+                        />
+                      )}
                       {rs.length > 0 && <h3>내 가방 → 입력</h3>}
                       {ITEMS.filter(
                         (i) =>
@@ -1589,28 +1624,13 @@ export default function App() {
                       </button>
                     </>
                   )}
-                  <label>
-                    한 번에 옮길 수량
-                    <input
-                      type="number"
-                      min={1}
-                      max={1000}
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(
-                          Math.max(
-                            1,
-                            Math.min(1000, Number(e.target.value) || 1),
-                          ),
-                        )
-                      }
-                    />
-                  </label>
+                  <TransferQuantity value={quantity} onChange={setQuantity} />
                 </>
               )}
               {panel === "transfer" && selected && (
                 <>
                   <p>가까운 팀원에게 자원을 전달합니다.</p>
+                  <TransferQuantity value={quantity} onChange={setQuantity} />
                   {selected !== "bag:" + net.member ? (
                     inventoryRows(bag, "bag:" + net.member, selected, "전달")
                   ) : (

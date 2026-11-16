@@ -1,5 +1,4 @@
 import { Room, type Client } from "@colyseus/core";
-import { performance } from "node:perf_hooks";
 import { R } from "../../../packages/content/src/index.ts";
 import { join, leave, visible } from "../../../packages/game-core/src/index.ts";
 import {
@@ -39,6 +38,7 @@ export class OrbitRoom extends Room<{ state: GameState }> {
   controls = new Map<string, Control>();
   async onCreate(options: { worldId: string }) {
     this.actor = await openActor(options.worldId);
+    this.scheduleIdleCleanup();
     publishSchema(this.state, this.actor.world, this.actor.epoch);
     this.actor.onPublish = (w) => {
       publishSchema(this.state, w, this.actor.epoch);
@@ -114,7 +114,7 @@ export class OrbitRoom extends Room<{ state: GameState }> {
         this.actor.rt.inputs[ctl.member] = {
           ...input,
           ...p,
-          at: performance.now(),
+          at: this.actor.simulationNow(),
         };
       } catch {}
     });
@@ -135,7 +135,7 @@ export class OrbitRoom extends Room<{ state: GameState }> {
         this.actor.rt.inputs[ctl.member] = {
           ...input,
           hold: p.workId,
-          holdAt: performance.now(),
+          holdAt: this.actor.simulationNow(),
         };
       } catch {}
     });
@@ -225,11 +225,14 @@ export class OrbitRoom extends Room<{ state: GameState }> {
       );
     }
     if (!this.clients.length) {
-      clearTimeout(this.idleTimer);
-      this.idleTimer = setTimeout(() => {
-        if (!this.clients.length) void this.disconnect();
-      }, R.timers_ms.manual_channel_retention_max + 1000);
+      this.scheduleIdleCleanup();
     }
+  }
+  scheduleIdleCleanup() {
+    clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(() => {
+      if (!this.clients.length) void this.disconnect();
+    }, R.timers_ms.manual_channel_retention_max + 1000);
   }
   async onDispose() {
     clearTimeout(this.idleTimer);
@@ -246,7 +249,7 @@ export class OrbitRoom extends Room<{ state: GameState }> {
   rate(c: Control, key: keyof typeof R.rate_limits) {
     const rule = R.rate_limits[key];
     if (typeof rule === "number") return;
-    const now = performance.now(),
+    const now = this.actor.simulationNow(),
       token = c.tokens[key] ?? { n: rule.burst, t: now };
     token.n = Math.min(
       rule.burst,
