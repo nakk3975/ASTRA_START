@@ -1,0 +1,239 @@
+{
+  "method": "Actual game iframe resized in CSS; one connected player, capacity one, empty hands. Screenshots scaled to available browser viewport; not physical monitor pixel captures.",
+  "reports": [
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 1080,
+      "hudPercent": 12.404899691358024,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 178,
+          "width": 242,
+          "x": 18,
+          "y": 18
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 125.5,
+          "width": 480,
+          "x": 720,
+          "y": 18
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 179,
+          "width": 228,
+          "x": 1674,
+          "y": 18
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 188.5,
+          "width": 600,
+          "x": 660,
+          "y": 873.5
+        }
+      ],
+      "scrollHeight": 1080,
+      "scrollWidth": 1920,
+      "width": 1920
+    },
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 1440,
+      "hudPercent": 10.614690144856771,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 198,
+          "width": 322.65625,
+          "x": 18,
+          "y": 18
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 155.984375,
+          "width": 640,
+          "x": 960,
+          "y": 18
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 221,
+          "width": 304,
+          "x": 2238,
+          "y": 18
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 200.5,
+          "width": 800,
+          "x": 880,
+          "y": 1221.5
+        }
+      ],
+      "scrollHeight": 1440,
+      "scrollWidth": 2560,
+      "width": 2560
+    },
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 2160,
+      "hudPercent": 6.270660197293316,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 217.203125,
+          "width": 387.1875,
+          "x": 18,
+          "y": 18
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 180.4375,
+          "width": 768,
+          "x": 1536,
+          "y": 18
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 254.578125,
+          "width": 364.796875,
+          "x": 3457.203125,
+          "y": 18
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 213.09375,
+          "width": 960,
+          "x": 1440,
+          "y": 1928.90625
+        }
+      ],
+      "scrollHeight": 2160,
+      "scrollWidth": 3840,
+      "width": 3840
+    },
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 1440,
+      "hudPercent": 7.8993042938469,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 198,
+          "width": 322.65625,
+          "x": 18,
+          "y": 18
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 155.984375,
+          "width": 640,
+          "x": 1400,
+          "y": 18
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 221,
+          "width": 304,
+          "x": 3118,
+          "y": 18
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 200.5,
+          "width": 800,
+          "x": 1320,
+          "y": 1221.5
+        }
+      ],
+      "scrollHeight": 1440,
+      "scrollWidth": 3440,
+      "width": 3440
+    },
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 1440,
+      "hudPercent": 5.307345072428386,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 198,
+          "width": 322.65625,
+          "x": 18,
+          "y": 18
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 155.984375,
+          "width": 640,
+          "x": 2240,
+          "y": 18
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 221,
+          "width": 304,
+          "x": 4798,
+          "y": 18
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 200.5,
+          "width": 800,
+          "x": 2160,
+          "y": 1221.5
+        }
+      ],
+      "scrollHeight": 1440,
+      "scrollWidth": 5120,
+      "width": 5120
+    },
+    {
+      "graphics": "3D 화면을 시작하지 못했습니다브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다.오류 상세WEBGL_UNAVAILABLE: Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .3D 다시 시작",
+      "height": 768,
+      "hudPercent": 19.842174822321866,
+      "minButtonHeight": 44,
+      "panels": [
+        {
+          "class": "carry-crew hud-panel",
+          "height": 172.375,
+          "width": 220,
+          "x": 18,
+          "y": 10
+        },
+        {
+          "class": "carry-progress hud-panel",
+          "height": 100.234375,
+          "width": 408,
+          "x": 479,
+          "y": 10
+        },
+        {
+          "class": "carry-map hud-panel",
+          "height": 159.375,
+          "width": 218,
+          "x": 1130,
+          "y": 10
+        },
+        {
+          "class": "carry-hand hud-panel",
+          "height": 172,
+          "width": 550,
+          "x": 408,
+          "y": 586
+        }
+      ],
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "width": 1366
+    }
+  ]
+}

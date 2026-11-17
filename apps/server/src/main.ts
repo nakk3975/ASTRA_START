@@ -18,6 +18,10 @@ import {
 import { Repository, hash, balanceHash } from "./repository.ts";
 import { Actor, roomCode, secret } from "./actor.ts";
 import { OrbitRoom, tickets, actors, bindActors } from "./room.ts";
+import { CarryService } from "../../../packages/carry-core/src/service.ts";
+import { PgCarryStore } from "./carry/store.ts";
+import { CarryRoom, bindCarry } from "./carry/room.ts";
+import { mountCarry } from "./carry/routes.ts";
 if (existsSync(".env")) process.loadEnvFile(".env");
 const production = process.env.NODE_ENV === "production";
 let url = process.env.DATABASE_URL;
@@ -34,6 +38,9 @@ const sessionSecret =
   process.env.SESSION_SECRET ?? "local-development-session-secret";
 const repo = new Repository(url);
 await repo.migrate();
+const carryStore = new PgCarryStore(repo.pool);
+await carryStore.migrate();
+bindCarry(new CarryService(carryStore));
 const opening = new Map<string, Promise<Actor>>();
 bindActors(async (id) => {
   if (actors.has(id)) return actors.get(id)!;
@@ -159,6 +166,7 @@ const server = new Server({
       next();
     });
     app.get("/health/live", (_q, res) => res.json({ ok: true }));
+    mountCarry(app);
     app.get("/health/ready", async (_q, res) => {
       try {
         await repo.pool.query("SELECT 1");
@@ -378,6 +386,7 @@ const server = new Server({
   },
 });
 server.define("orbit", OrbitRoom);
+server.define("carry", CarryRoom);
 const portFlag = process.argv.indexOf("--port");
 const port = Number(
   process.env.API_PORT ??

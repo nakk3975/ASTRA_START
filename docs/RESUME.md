@@ -1,28 +1,15 @@
-# 고철로 우주까지 — 이어서 작업하기
+# 고철에서 우주까지 — 작업 재개 기준
 
-기준: 2026-11-17 KST. 저장소 `nakk3975/ASTRA_START`, 개발 브랜치 `codex/resume-meshy-pilot-20261117`, PR https://github.com/nakk3975/ASTRA_START/pull/1. main에 합치지는 않았다. 오래된 ZIP이나 다른 작업 폴더로 덮어쓰지 않는다.
+2026-11-17 KST. 저장소 nakk3975/ASTRA_START, 브랜치 codex/resume-meshy-pilot-20261117, PR https://github.com/nakk3975/ASTRA_START/pull/1. main 병합 전입니다. 최신 사용자 수정과 실제 코드는 이 브랜치를 기준으로 합니다.
 
-## 최신 작업
+최신 규칙 mining-2.1.0: 광맥 채굴, 다단 가공 보상, 1→2→3 운반량, 자동 채굴/컨베이어/크레인/설치기. packages/carry-core가 새 규칙, apps/web/src/carry가 새 게임 화면, apps/server/src/carry는 WS/PG, apps/sites-worker는 HTTP/D1입니다. 기존 game-core/v1은 /legacy로 보존했습니다.
 
-- 사용자가 “이동이 안 된다 / 그래픽 가속을 켰는데도 안 된다 / 나머지 모델도 생성” 요청. 이전 첫 3종 검수 뒤 생성 제한보다 최신 생성 요청을 우선 적용했다.
-- 추가 23종 Meshy 생성 성공. 기존 3종 포함 26종·LOD0/1 GLB 52개·미리보기 26개. task ID, 파일 hash, 삼각형, 텍스처는 shipping manifest에 있다. 유료 생성 중복 실행 금지.
-- 신규 비용 552 크레딧, 잔액 3011 → 2459 확인. 기존 89와 합산 641. 공급자 license 응답이 없어 UNVERIFIED 유지.
-- /asset-review에 WASD/방향키/터치 버튼 이동, 이동 시 걷기, 모델 선택, 크기에 맞는 이동 장애물, 리셋 추가. 게임 WorldView에도 26종이 자동 연결된다. 서버/경제/지도 변경 없음.
-- 운반 포드가 이미 0.32×0.24×0.42 타일인데 한 번 더 0.3배 축소하던 표현 오류 제거.
-- WebGL 생성 실패 사유를 표시하고 powerPreference를 default로 변경. 실패 시 이동/확인 기록은 비활성화, 모델 미리보기는 제공.
+사람 작업자로 교체 완료. Geometry task 01a1e7db-322c-743e-890c-995f361092a4, texture task 01a1e7de-f944-744d-b8e6-997c3f91418c. 추가15크레딧, 잔액2444 확인. 이전26종 생성까지 누적641크레딧, 이번 포함656. 두 작업 성공, 유료 생성 반복 금지. 18본 로컬 리깅/5클립/LOD0·1 실제 게임 manifest 연결. 공급자 license 필드 부재 상태 유지.
 
-## 현재 제한
+78테스트/설계/TypeScript/빌드 PASS. 실제6개 WS클라이언트+PG 재시작 PASS. 실제맵 26설비 광맥→주괴→철판→경사로→설치 자동화 PASS. 이동 봇 실제규칙 완주2420초(시뮬레이션), 첫설치75초/자동화상자434초. 상세 docs/carry/IMPLEMENTATION.md와 evidence 참조.
 
-원격 브라우저는 사용자 가속 옵션 변경 후에도 `GL_VENDOR=Disabled, GL_RENDERER=Disabled`, `BindToCurrentSequence failed`를 반환했다. 실제 WebGL 렌더링/키보드 이동/FPS/조립 외관 검수는 여전히 BLOCKED. 화면이 실패한 상태를 성공으로 보고하지 않는다. 브라우저 내부 설정 URL은 자동화 접근 정책으로 직접 열 수 없었으며 우회하지 않았다.
+GPU 검증 BLOCKED: cloud browser GL_VENDOR=Disabled, GL_RENDERER=Disabled. 인간의 실제 3D 게임 플레이, 모델 관절 변형/가림/조립 외관, FPS/저사양 및 정상시간6인 완주 미검증. GPU 실패를 3D 성공으로 보고하지 말 것. WebGL 없이 미리보기 이미지는 /asset-review에서 확인 가능.
 
-비공개 링크 https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site 는 모델 둘러보기·이동 연습 전용이며, 온라인 협동 게임 서버 배포가 아니다. WebGL이 제공되는 사용자 기기에서 열어야 3D 이동을 확인할 수 있다.
+Sites ID appgprj_6afbab1bae9c8191a78a6b95da2ba905. https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site. 소유자 전용 유지. v5 실제 게임 Worker+D1 배포 성공. 소스 73f711e0822d4591efc87b870451d2a025ad795e. 운영 API에서 방 생성·6인 참가·이동·7번째 거부·이어하기까지 확인. 클라우드 브라우저는 사이트 로그인 화면이므로 운영 UI 직접 검수는 별도. 세부 publication.json / production-smoke.json 참조. 새로운 Site를 만들지 말 것. 친구접속을 위해 임의공개하지 말 것. .sites-checkout의 source는 이 저장소 복사본이며 라이브러리에 저장소를 중복 업로드하지 않는다.
 
-## 검증과 다음 작업
-
-58개 단위 시험, 설계 검증, TypeScript, 게임/검수 빌드 통과. 전체 GLB 52개를 실제 로더 경로로 읽고 hash/예산/리깅/클립 검증. 브라우저에서 모델 26개 선택 목록, 새 로켓 엔진 이미지 표시, 오류 상세, 재시도 후 동일 WebGL 제한 및 이동 비활성화 확인.
-
-11종 LOD1은 UV/normal seam 때문에 표준 단순화로 예산에 도달하지 못해 Meshopt Permissive로 로컬 단순화했다. 추가 생성 비용은 없으며, 실제 게임 외관 확인은 필요하다. `docs/qa/evidence/all-models-generation.json` 및 manifest 참조.
-
-다음: GPU 브라우저에서 26종 두 품질/세 해상도/시설 방향, 다섯 작업자 동작/6명 독립 재생/실제 이동/가림/로켓 조립을 검수. 정상 속도 1인·6인 완주, 부하·저사양 성능·최종 인수 160항목은 아직 남아 있다. 이전 가속 소켓 완주와 실제 브라우저 완주를 구분한다.
-
-재현: Node 24.22.1, `npm ci`, `npm run check`, `npm run build:review`. `npm run dev`는 비운영에서 DATABASE_URL 미지정 시 `.local/postgres`를 자동 초기화한다.
+재현: npm ci, npm run check, npm run test:carry:network, npm run test:carry:campaign. Node24.22.1. 최종 게시 증거: docs/carry/evidence/publication.json.

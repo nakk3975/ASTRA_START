@@ -1425,33 +1425,48 @@
     },
     {
       "id": "worker",
-      "sourceTaskId": "01a1e4fa-41f7-7481-a851-d72d9a55bd88",
-      "sourceImageTaskId": "01a1e4f7-e200-7264-9d34-a0ee0857a2ae",
+      "sourceTaskId": "01a1e7de-f944-744d-b8e6-997c3f91418c",
+      "sourceImageTaskId": "local-rig-v1",
       "geometryModel": "meshy-t2.5",
-      "textureModel": "meshy-n1",
+      "textureModel": "meshy-7",
       "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
-      "review": "PENDING_GAME_REVIEW",
+      "review": "HUMAN_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
       "boundsMax": {
         "x": 1.4,
         "y": 1.8,
         "z": 0.9
       },
       "clips": [
-        "locomotion",
         "idle",
-        "work_loop",
+        "locomotion",
         "carry_locomotion",
+        "work_loop",
         "celebrate"
       ],
       "lods": [
         {
           "level": 0,
-          "url": "/assets/visuals/1.1.0/worker-lod0.1fd0e9dd3178.glb",
-          "sha256": "1fd0e9dd3178e7ea6303785e43c99a44dbb3b61f37acc5199615bd9da6af666a",
-          "bytes": 706316,
-          "triangles": 5410,
+          "url": "/assets/visuals/1.1.0/worker-lod0.f1431d6736c8.glb",
+          "sha256": "f1431d6736c8c75f266b91e3c2221cab50b88edd845fc7904f55b34a35f0b2bb",
+          "bytes": 454776,
+          "triangles": 4194,
+          "simplification": "standard",
           "materials": 1,
           "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
             {
               "size": [
                 1024,
@@ -1463,12 +1478,27 @@
         },
         {
           "level": 1,
-          "url": "/assets/visuals/1.1.0/worker-lod1.6fc4851e1a0d.glb",
-          "sha256": "6fc4851e1a0d1b23c5ae41e4e9b38e68bb34e259cb75311776f724a62a129443",
-          "bytes": 608196,
-          "triangles": 2819,
+          "url": "/assets/visuals/1.1.0/worker-lod1.f89e0f6b5494.glb",
+          "sha256": "f89e0f6b5494348350b87b75198c06326b857f03108f5339189ad7eefd29600e",
+          "bytes": 396124,
+          "triangles": 2810,
+          "simplification": "standard",
           "materials": 1,
           "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
             {
               "size": [
                 1024,
@@ -1479,18 +1509,9 @@
           ]
         }
       ],
-      "rigTaskId": "01a1e4fe-b6ef-745a-bae4-6335fc55a4b3",
-      "animationTaskId": "01a1e501-9a9d-74e7-9f79-b28476d181c5",
-      "animationActionIds": {
-        "idle": 0,
-        "work_loop": 128,
-        "carry_locomotion": 551,
-        "celebrate": 59
-      },
-      "locomotionSource": "rigging included walking",
-      "sourceCreditCost": 41,
-      "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED",
+      "sourcePreviewTaskId": "01a1e7db-322c-743e-890c-995f361092a4",
+      "sourceCreditCost": 15,
+      "rigMethod": "local-anatomical-skin-v1",
       "previewImage": "/assets/visuals/1.1.0/previews/worker.webp"
     }
   ],

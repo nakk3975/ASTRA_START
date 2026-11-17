@@ -1,0 +1,156 @@
+{
+  "method": "Recipe graph expansion; required rocket parts only, no kit construction, no walk/carry costs, no parallel time reduction. Processing seconds are summed machine work, not completion time.",
+  "profiles": [
+    {
+      "planned": 1,
+      "installed": 16,
+      "raw": {
+        "metal_scrap": 16,
+        "plastic_scrap": 10,
+        "cable_scrap": 6,
+        "energy_shard": 2
+      },
+      "cycles": {
+        "press_plate": 14,
+        "smelt_ingot": 16,
+        "assemble_hull": 4,
+        "recycle_polymer": 10,
+        "assemble_engine": 2,
+        "cut_gear": 2,
+        "assemble_circuit": 4,
+        "draw_wire": 6,
+        "blend_fuel": 2,
+        "assemble_control": 2
+      },
+      "coins": 264,
+      "xp": 302,
+      "processingSeconds": 324
+    },
+    {
+      "planned": 2,
+      "installed": 24,
+      "raw": {
+        "metal_scrap": 24,
+        "plastic_scrap": 15,
+        "cable_scrap": 9,
+        "energy_shard": 3
+      },
+      "cycles": {
+        "press_plate": 21,
+        "smelt_ingot": 24,
+        "assemble_hull": 6,
+        "recycle_polymer": 15,
+        "assemble_engine": 3,
+        "cut_gear": 3,
+        "assemble_circuit": 6,
+        "draw_wire": 9,
+        "blend_fuel": 3,
+        "assemble_control": 3
+      },
+      "coins": 396,
+      "xp": 453,
+      "processingSeconds": 486
+    },
+    {
+      "planned": 4,
+      "installed": 39,
+      "raw": {
+        "metal_scrap": 39,
+        "plastic_scrap": 25,
+        "cable_scrap": 15,
+        "energy_shard": 5
+      },
+      "cycles": {
+        "press_plate": 34,
+        "smelt_ingot": 39,
+        "assemble_hull": 10,
+        "recycle_polymer": 25,
+        "assemble_engine": 5,
+        "cut_gear": 5,
+        "assemble_circuit": 10,
+        "draw_wire": 15,
+        "blend_fuel": 5,
+        "assemble_control": 5
+      },
+      "coins": 654,
+      "xp": 748,
+      "processingSeconds": 800
+    },
+    {
+      "planned": 6,
+      "installed": 47,
+      "raw": {
+        "metal_scrap": 47,
+        "plastic_scrap": 30,
+        "cable_scrap": 18,
+        "energy_shard": 6
+      },
+      "cycles": {
+        "press_plate": 41,
+        "smelt_ingot": 47,
+        "assemble_hull": 12,
+        "recycle_polymer": 30,
+        "assemble_engine": 6,
+        "cut_gear": 6,
+        "assemble_circuit": 12,
+        "draw_wire": 18,
+        "blend_fuel": 6,
+        "assemble_control": 6
+      },
+      "coins": 786,
+      "xp": 899,
+      "processingSeconds": 962
+    }
+  ],
+  "upgrades": {
+    "carry2": {
+      "name": "운반량 2개",
+      "cost": 12,
+      "xp": 10,
+      "requires": null,
+      "description": "모든 작업자가 한 번에 2개 운반"
+    },
+    "carry3": {
+      "name": "운반량 3개",
+      "cost": 45,
+      "xp": 60,
+      "requires": "carry2",
+      "description": "운반량을 2개에서 3개로 증가"
+    },
+    "belts": {
+      "name": "컨베이어 해금",
+      "cost": 20,
+      "xp": 20,
+      "requires": null,
+      "description": "직선·코너 컨베이어 상자 제작"
+    },
+    "mining": {
+      "name": "자동 채굴 해금",
+      "cost": 45,
+      "xp": 40,
+      "requires": "belts",
+      "description": "광맥에서 직접 캐는 자동 채굴기"
+    },
+    "crane": {
+      "name": "크레인 해금",
+      "cost": 65,
+      "xp": 75,
+      "requires": "belts",
+      "description": "출력물과 트레이를 집어 옮기는 크레인"
+    },
+    "installer": {
+      "name": "자동 설치 해금",
+      "cost": 90,
+      "xp": 120,
+      "requires": "crane",
+      "description": "현재 로켓 소켓에 맞는 부품을 자동 설치"
+    },
+    "processing": {
+      "name": "가공 속도 +25%",
+      "cost": 50,
+      "xp": 70,
+      "requires": null,
+      "description": "모든 가공기의 처리 속도 증가"
+    }
+  }
+}

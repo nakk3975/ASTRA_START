@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "realClients": 6,
+  "transport": "Colyseus WebSocket",
+  "storage": "PostgreSQL",
+  "checks": [
+    "seventh guest rejected",
+    "same-item pickup race",
+    "actual network movement",
+    "disconnect safe drop once",
+    "SQL process restart preserves jobs and command receipts"
+  ]
+}

@@ -1,68 +1,68 @@
 {
-  "executedAt": "2026-11-17T02:39:43.157Z",
+  "executedAt": "2026-11-17T05:17:44.561Z",
   "mode": "CPU_SKIN_AND_ANIMATION_ONLY",
   "status": "PASS",
   "visualReview": "BLOCKED_WEBGL",
   "measurements": [
     {
       "lod": 0,
-      "clip": "locomotion",
-      "duration": 1.066666603088379,
-      "movingBones": 22
-    },
-    {
-      "lod": 0,
       "clip": "idle",
-      "duration": 4,
-      "movingBones": 22
+      "duration": 3,
+      "movingBones": 2
     },
     {
       "lod": 0,
-      "clip": "work_loop",
-      "duration": 1.8333333730697632,
-      "movingBones": 22
+      "clip": "locomotion",
+      "duration": 0.8999999761581421,
+      "movingBones": 8
     },
     {
       "lod": 0,
       "clip": "carry_locomotion",
-      "duration": 6.5,
-      "movingBones": 22
+      "duration": 1.0499999523162842,
+      "movingBones": 6
+    },
+    {
+      "lod": 0,
+      "clip": "work_loop",
+      "duration": 0.800000011920929,
+      "movingBones": 5
     },
     {
       "lod": 0,
       "clip": "celebrate",
-      "duration": 9.333333015441895,
-      "movingBones": 22
-    },
-    {
-      "lod": 1,
-      "clip": "locomotion",
-      "duration": 1.066666603088379,
-      "movingBones": 22
+      "duration": 1.5,
+      "movingBones": 3
     },
     {
       "lod": 1,
       "clip": "idle",
-      "duration": 4,
-      "movingBones": 22
+      "duration": 3,
+      "movingBones": 2
     },
     {
       "lod": 1,
-      "clip": "work_loop",
-      "duration": 1.8333333730697632,
-      "movingBones": 22
+      "clip": "locomotion",
+      "duration": 0.8999999761581421,
+      "movingBones": 8
     },
     {
       "lod": 1,
       "clip": "carry_locomotion",
-      "duration": 6.5,
-      "movingBones": 22
+      "duration": 1.0499999523162842,
+      "movingBones": 6
+    },
+    {
+      "lod": 1,
+      "clip": "work_loop",
+      "duration": 0.800000011920929,
+      "movingBones": 5
     },
     {
       "lod": 1,
       "clip": "celebrate",
-      "duration": 9.333333015441895,
-      "movingBones": 22
+      "duration": 1.5,
+      "movingBones": 3
     }
   ]
 }

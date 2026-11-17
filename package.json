@@ -25,7 +25,11 @@
     "check": "npm run verify:design && npm test && npm run build",
     "test:shutdown": "node --import tsx tests/shutdown-probe.ts",
     "test:commit-recovery": "node --import tsx scripts/qa-commit-recovery.ts",
-    "build:review": "tsc --noEmit && vite build --mode review --config apps/web/vite.config.ts"
+    "build:review": "tsc --noEmit && vite build --mode review --config apps/web/vite.config.ts",
+    "db:generate": "drizzle-kit generate",
+    "test:carry:network": "node --import tsx tests/carry-network.ts",
+    "test:carry:campaign": "node --import tsx tests/carry-campaign.ts",
+    "build:sites": "node scripts/build-sites.mjs"
   },
   "dependencies": {
     "@colyseus/core": "0.18.28",
@@ -49,6 +53,8 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "@types/three": "0.183.1",
+    "drizzle-kit": "^0.31.11",
+    "drizzle-orm": "^0.45.2",
     "embedded-postgres": "18.6.0-beta.19",
     "meshoptimizer": "^1.3.0",
     "prettier": "3.6.2",
