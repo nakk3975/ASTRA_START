@@ -8,7 +8,9 @@ import { CarryConnection } from "./network";
 import { CarryView, type Mode, type Settings } from "./view";
 import {
   ITEM,
-  machineCanRecipe,
+  automaticRecipe,
+  recipe,
+  type Kind,
   machineCapacity,
   machineSpeed,
   machineKind,
@@ -123,7 +125,10 @@ export default function CarryApp() {
         view.current.receive(w, n.session!.member, rtt);
       }
     };
-    n.onStatus = setStatus;
+    n.onStatus = (s) => {
+      if (n.stopped) stop();
+      setStatus(s);
+    };
     n.onAck = (r) => {
       setStatus(r.message);
       audio.current.ack(r);
@@ -798,96 +803,63 @@ export default function CarryApp() {
           )}
           {machine && !mode && (
             <div className="carry-machine hud-panel">
-              <label>
-                만들 부품 선택
-                <select
-                  disabled={!!machine.job || machine.input.length > 0}
-                  value={machine.recipe}
-                  onChange={(e) =>
-                    net.current.command("RECIPE", {
-                      target: machine.id,
-                      recipe: e.target.value,
-                    })
-                  }
-                >
-                  {machine.recipe === "lab_plate" && (
-                    <option value="lab_plate">개발용 철광석 → 철판</option>
-                  )}
-                  {machine.recipe !== "lab_plate" &&
-                    !recipeAvailable(hud, machine.recipe) && (
-                      <option value={machine.recipe} disabled>
-                        {RECIPES[machine.recipe]?.name ?? "가공"} · 필요한 광맥
-                        해금 후 사용
-                      </option>
+              <h3>재료에 맞춰 자동 가공</h3>
+              {(() => {
+                const held =
+                  hud.players[net.current.session?.member ?? ""]?.hand;
+                const input = held && hud.items[held];
+                const selected = input
+                  ? automaticRecipe(hud, machine, input.kind)
+                  : machine.recipe;
+                const r = selected ? recipe(hud, selected) : null;
+                return (
+                  <div className="recipe-flow">
+                    <b>
+                      {r
+                        ? Object.entries(r.input)
+                            .map(([k, n]) => `${ITEM[k as Kind].name} ${n}개`)
+                            .join(" + ") + ` → ${r.name} 1개`
+                        : "현재 재료를 넣을 수 없습니다"}
+                    </b>
+                    <span>금색 받침대에 E 투입 · 청록 받침대에서 E 받기</span>
+                    {r && (
+                      <span>
+                        가공{" "}
+                        {(r.seconds / machineSpeed(hud, machine)).toFixed(1)}초
+                        · 설치 +{INSTALL_VALUE[r.output] ?? 0}코인
+                      </span>
                     )}
-                  {Object.entries(RECIPES)
-                    .filter(
-                      ([id]) =>
-                        machineCanRecipe(machine, id) &&
-                        recipeAvailable(hud, id),
-                    )
-                    .map(([id, r]) => (
-                      <option
-                        key={id}
-                        value={id}
-                        disabled={
-                          r.output.startsWith("kit_") &&
-                          !deviceUnlocked(hud!, r.output.slice(4) as DeviceKind)
-                        }
-                      >
-                        {r.name} ·{" "}
-                        {(r.seconds / machineSpeed(hud!, machine)).toFixed(1)}초
-                        {REWARDS[r.output]
-                          ? ` · 가공 ${REWARDS[r.output]!.xp}XP / 설치 +${INSTALL_VALUE[r.output] ?? 0}◈`
-                          : ""}
-                      </option>
-                    ))}
-                </select>
-              </label>
-              {machine.type === "bench" && (
-                <div className="recipe-shortcuts">
-                  {[
-                    ["smelt_ingot", "① 주괴 만들기"],
-                    ["press_plate", "② 철판 만들기"],
-                  ].map(([id, name]) => (
-                    <button
-                      key={id}
-                      aria-pressed={machine.recipe === id}
-                      disabled={!!machine.job || machine.input.length > 0}
-                      onClick={() =>
-                        net.current.command("RECIPE", {
-                          target: machine.id,
-                          recipe: id,
-                        })
-                      }
-                    >
-                      {name}
-                    </button>
-                  ))}
-                </div>
-              )}
-              <div className="recipe-flow">
-                <b>
-                  {Object.entries(
-                    RECIPES[machine.recipe]?.input ?? { metal_scrap: 1 },
-                  )
-                    .map(
-                      ([k, n]) => `${ITEM[k as keyof typeof ITEM].name} ${n}개`,
-                    )
-                    .join(" + ")}{" "}
-                  → {RECIPES[machine.recipe]?.name ?? "철판"} 1개
-                </b>
-                <span>금색 받침대에 E 투입 · 청록 받침대에서 E 받기</span>
-                {machine.recipe === "smelt_ingot" && (
-                  <span>주괴를 받은 뒤 ‘② 철판 만들기’로 변경하세요.</span>
-                )}
-                {(machine.job || machine.input.length > 0) && (
-                  <span>
-                    가공 완료 후 남은 입력 재료를 꺼내면 제작 항목을 바꿀 수
-                    있습니다.
-                  </span>
-                )}
-              </div>
+                    <span>
+                      철광석 → 철 주괴 → 철판 · 주괴를 다시 넣으면 철판을
+                      만듭니다.
+                    </span>
+                    <span>
+                      {machine.type === "workbench"
+                        ? "자동화 상자는 보유 수량이 적은 설비부터 가공합니다. 원하는 상자는 설비 메뉴에서 바로 구매할 수도 있습니다."
+                        : "같은 재료로 여러 부품을 만들 수 있으면 현재 로켓 단계에서 부족한 부품을 우선합니다."}
+                    </span>
+                    {!!machine.input.length && (
+                      <span>
+                        추가 재료 대기:{" "}
+                        {Object.entries(recipe(hud, machine.recipe).input)
+                          .map(
+                            ([k, n]) =>
+                              [
+                                k,
+                                n -
+                                  machine.input.filter(
+                                    (id) => hud.items[id]?.kind === k,
+                                  ).length,
+                              ] as const,
+                          )
+                          .filter(([, n]) => n > 0)
+                          .map(([k, n]) => `${ITEM[k as Kind].name} ${n}개`)
+                          .join(" + ") || "재료 준비 완료"}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
               {workProgress(hud)
                 .filter((row) => row.id === machine.id)
                 .map((row) => (
@@ -947,7 +919,7 @@ export default function CarryApp() {
                   ② 작업대 금색 받침대에 투입 → 청록 받침대에서 주괴 들기
                 </span>
                 <span>
-                  ③ ‘철판 만들기’ 선택 → 주괴 투입 → 철판을 로켓에 설치 +1코인
+                  ③ 주괴를 작업대에 다시 투입 → 철판을 로켓에 설치 +1코인
                 </span>
                 <button onClick={() => openModal("veins")}>
                   구리 무료 해금 · {VEIN_UNLOCKS.cable_scrap.xp} XP

@@ -155,6 +155,13 @@ function stash() {
   throw Error("No staging position");
 }
 function make(kind: Kind): string {
+  const existing = Object.values(w.items).find(
+    (i) => i.kind === kind && ["ground", "output"].includes(i.state),
+  );
+  if (existing) {
+    pick(existing.id);
+    return existing.id;
+  }
   const r = Object.entries(RECIPES).find(([, r]) => r.output === kind);
   if (!r) {
     const src = SOURCES.find((s) => s.kind === kind);
@@ -186,8 +193,7 @@ function make(kind: Kind): string {
     );
   assert.ok(machine, "available recipe machine");
   go(machinePort(machine));
-  if (machine.recipe !== rid)
-    command("RECIPE", { target: machine.id, recipe: rid });
+  // Real player flow: held materials choose the recipe; never send RECIPE.
   for (const id of staged) {
     pick(id);
     go(machinePort(machine));
@@ -201,6 +207,10 @@ function make(kind: Kind): string {
   }
   const id = machine.output.find((id) => !before.has(id))!;
   pick(id);
+  if (w.items[id].kind !== kind) {
+    stash();
+    return make(kind);
+  }
   return id;
 }
 // Real fresh start: no granted money, items or extra machinery.
@@ -286,6 +296,7 @@ const report = {
   method:
     "single deterministic walking actor; no spawning, teleporting or inventory shortcuts",
   actors: 1,
+  manualRecipeCommands: 0,
   planned,
   initialCoins: 0,
   initialBasicMachines: 1,
@@ -305,7 +316,7 @@ const report = {
   installed: w.sockets.filter((s) => s.item).length,
 };
 writeFileSync(
-  `docs/carry/evidence/progression-3.3-campaign-${planned}.json`,
+  `docs/carry/evidence/progression-3.4-campaign-${planned}.json`,
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report);

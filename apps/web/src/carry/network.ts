@@ -47,18 +47,22 @@ export class CarryConnection {
   busy = false;
   stopped = true;
   generation = 0;
+  private retryAt = 0;
+  private failures = 0;
   async api(action: string, data: any) {
     const r = await fetch(`/api/carry/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      signal: AbortSignal.timeout(15000),
     });
     if (!r.headers.get("content-type")?.includes("application/json"))
       throw Error(
         "게임 서버에 연결되지 않았습니다. 검수 전용 주소가 아닌 게임 주소를 열어 주세요.",
       );
     const v = await r.json();
-    if (!r.ok) throw Error(v.error ?? "서버 오류");
+    if (!r.ok)
+      throw Object.assign(Error(v.error ?? "서버 오류"), { status: r.status });
     return v;
   }
   auth() {
@@ -146,6 +150,8 @@ export class CarryConnection {
     await this.connect();
   }
   async connect() {
+    this.retryAt = 0;
+    this.failures = 0;
     this.stopped = false;
     const generation = ++this.generation;
     try {
@@ -194,7 +200,12 @@ export class CarryConnection {
     this.timer = setInterval(() => void this.sync(), 80);
   }
   async sync(expedited = false) {
-    if (this.stopped || !this.session || this.inFlight >= (expedited ? 2 : 1))
+    if (
+      this.stopped ||
+      !this.session ||
+      performance.now() < this.retryAt ||
+      this.inFlight >= (expedited ? 2 : 1)
+    )
       return;
     this.inFlight++;
     this.busy = true;
@@ -223,11 +234,36 @@ export class CarryConnection {
           });
         if (generation === this.generation && !this.stopped) {
           this.rtt = performance.now() - at;
+          this.failures = 0;
+          this.retryAt = 0;
           this.accept(response);
         }
       }
     } catch (e) {
-      if (generation === this.generation) this.onStatus((e as Error).message);
+      if (generation === this.generation) {
+        const error = e as Error & { status?: number };
+        if (
+          error.status &&
+          error.status >= 400 &&
+          error.status < 500 &&
+          error.status !== 429
+        ) {
+          this.stopped = true;
+          clearInterval(this.timer);
+          this.input = { x: 0, z: 0 };
+          this.movement.setInput(this.input, performance.now());
+          this.onStatus(
+            `${error.message} 아래 ‘작업장 다시 연결’을 눌러 주세요.`,
+          );
+        } else {
+          this.retryAt =
+            performance.now() +
+            Math.min(15000, 1000 * 2 ** Math.min(4, this.failures++));
+          this.onStatus(
+            "연결 응답이 늦어 재시도 중입니다. 저장된 작업장은 유지됩니다.",
+          );
+        }
+      }
     } finally {
       this.inFlight--;
       this.busy = this.inFlight > 0;

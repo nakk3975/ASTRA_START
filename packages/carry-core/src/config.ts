@@ -1,4 +1,4 @@
-export const RULES = "quarry-3.3.0";
+export const RULES = "quarry-3.4.0";
 export const CFG = {
   speed: 3.5,
   radius: 0.36,

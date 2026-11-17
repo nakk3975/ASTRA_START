@@ -1,3 +1,4 @@
+import { releaseTree } from "../visuals/lifecycle";
 import { workProgress, progressText } from "./work-progress";
 import { ZOOM, clampDistance, wheelDistance } from "./zoom";
 import { quarryEnvironment } from "./quarry-environment";
@@ -10,7 +11,7 @@ import {
   playClip,
   type Visual,
 } from "../visuals/assets";
-import { ROCKET_PARTS } from "../visuals/rocket";
+import { updateCarryRocket } from "./rocket-view";
 import {
   OcclusionFade,
   createSilhouette,
@@ -200,7 +201,10 @@ export class CarryView {
         this.ready = true;
         this.onError("");
       })
-      .catch((e) => this.fail("MODEL_LOAD_FAILED", (e as Error).message));
+      .catch((e) => {
+        if (!this.disposed)
+          this.fail("MODEL_LOAD_FAILED", (e as Error).message);
+      });
     this.frame = requestAnimationFrame(this.animate);
   }
   private fail(reason: string, detail: string) {
@@ -402,9 +406,9 @@ export class CarryView {
     if (!e) return;
     e.visual?.release();
     e.silhouette?.dispose();
+    releaseTree(e.group, "dispose");
+    releaseTree(e.group);
     e.group.traverse((o) => {
-      o.userData.dispose?.();
-      o.userData.release?.();
       if (o instanceof T.Mesh) {
         if (this.geometries.delete(o.geometry)) o.geometry.dispose();
         for (const m of Array.isArray(o.material) ? o.material : [o.material])
@@ -716,7 +720,7 @@ export class CarryView {
               ? "celebrate"
               : q.actionUntil > w.time
                 ? "work_loop"
-                : q.hand
+                : q.hand && moving
                   ? "carry_locomotion"
                   : moving
                     ? "locomotion"
@@ -730,6 +734,13 @@ export class CarryView {
                 clip === "carry_locomotion" && !moving ? 0 : 1,
               );
           e.visual.mixer?.update(dt);
+          e.visual.motion?.update(
+            dt,
+            travel,
+            !!q.hand,
+            q.actionUntil > w.time,
+            w.phase === "LAUNCHED",
+          );
         }
       }
       for (const i of Object.values(w.items)) {
@@ -739,6 +750,7 @@ export class CarryView {
         let e = this.instances.get(key);
         if (!e) {
           const group = this.loose(i.kind);
+          group.userData.carryBottom = new T.Box3().setFromObject(group).min.y;
           this.scene.add(group);
           e = { group };
           e.group.position.set(i.pos.x, i.pos.y, i.pos.z);
@@ -747,27 +759,32 @@ export class CarryView {
         if (i.state === "hand") {
           const q = w.players[i.owner!],
             worker = this.instances.get(`player:${q.id}`);
-          e.group.position.copy(
-            worker?.group.position ?? this.v.set(q.pos.x, q.pos.y, q.pos.z),
-          );
           const slot = hands(q).indexOf(i.id);
-          const facing = worker
-            ? {
-                x: -Math.sin(worker.group.rotation.y),
-                z: -Math.cos(worker.group.rotation.y),
-              }
-            : q.facing;
+          const yaw =
+            worker?.group.rotation.y ?? Math.atan2(-q.facing.x, -q.facing.z);
+          const grip = worker?.visual?.motion?.grip();
+          e.group.position.copy(
+            grip ??
+              this.v.set(
+                q.pos.x + q.facing.x * 0.36,
+                q.pos.y + 1.04,
+                q.pos.z + q.facing.z * 0.36,
+              ),
+          );
+          const scale = hands(q).length > 1 ? 0.72 : 0.85;
+          const lateral = slot >= 4 ? 0.19 : hands(q).length > 4 ? -0.19 : 0;
           e.group.position.add(
             new T.Vector3(
-              facing.x * 0.62 + (slot >= 4 ? 0.22 : -0.08),
-              0.92 + (slot % 4) * 0.19,
-              facing.z * 0.62,
+              Math.cos(yaw) * lateral,
+              0.02 + (slot % 4) * 0.29,
+              -Math.sin(yaw) * lateral,
             ),
           );
-          if (hands(q).length > 1) e.group.scale.setScalar(0.82);
-          else e.group.scale.setScalar(1);
-          e.group.rotation.y = Math.atan2(facing.x, facing.z);
+          e.group.position.y -= (e.group.userData.carryBottom ?? 0) * scale;
+          e.group.scale.setScalar(scale);
+          e.group.rotation.y = yaw;
         } else {
+          e.group.scale.setScalar(1);
           e.group.position.lerp(
             this.v.set(i.pos.x, i.pos.y, i.pos.z),
             i.state === "ground" ? 1 : 1 - Math.exp(-dt * 18),
@@ -858,54 +875,8 @@ export class CarryView {
         key = `${installed}:${this.settings.low}`;
       if (this.rocketKey !== key) {
         this.rocketKey = key;
-        this.rocket.traverse((o) => o.userData.release?.());
-        this.rocket.clear();
-        for (const part of ROCKET_PARTS) {
-          const phase =
-            part.asset === "rocket_pad"
-              ? 0
-              : part.asset === "rocket_gantry" || part.asset.endsWith("_hull")
-                ? 1
-                : part.asset === "rocket_engine"
-                  ? 2
-                  : part.asset === "rocket_panel"
-                    ? part.stage === 4
-                      ? 3
-                      : 4
-                    : 5;
-          const v = assetInstance(part.asset, this.settings.low);
-          if (!v) continue;
-          v.root.position.set(
-            18 + part.position[0] * 0.72,
-            1.2 + part.position[1] * 0.72,
-            part.position[2] * 0.72,
-          );
-          v.root.rotation.y = part.rotation;
-          v.root.scale.setScalar(0.72);
-          const slots = w.sockets.filter(
-              (s) => s.stage === (w.profile === "lab" ? 0 : phase),
-            ),
-            ratio = slots.length
-              ? slots.filter((s) => s.item).length / slots.length
-              : 0;
-          v.root.traverse((o) => {
-            if (o instanceof T.Mesh) {
-              o.castShadow = ratio === 1;
-              for (const m of Array.isArray(o.material)
-                ? o.material
-                : [o.material]) {
-                m.transparent = ratio < 1;
-                m.opacity = 0.12 + 0.88 * ratio;
-              }
-            }
-          });
-          v.root.userData = {
-            release: v.release,
-            baseY: v.root.position.y,
-            flight: part.parent === "flight",
-          };
-          this.rocket.add(v.root);
-        }
+        this.fades.clear();
+        updateCarryRocket(this.rocket, w, this.settings.low, assetInstance);
       }
       if (w.phase === "LAUNCHED") this.launchAt ??= now;
       else this.launchAt = null;
@@ -1073,6 +1044,7 @@ export class CarryView {
     }
   }
   dispose() {
+    if (this.disposed) return;
     this.disposed = true;
     this.fades.clear();
     cancelAnimationFrame(this.frame);
@@ -1080,8 +1052,8 @@ export class CarryView {
     this.canvas.removeEventListener("pointerdown", this.pointer);
     this.canvas.removeEventListener("pointermove", this.hover);
     for (const key of [...this.instances.keys()]) this.remove(key);
-    this.rocket.traverse((o) => o.userData.release?.());
-    this.scene.traverse((o) => o.userData.dispose?.());
+    releaseTree(this.rocket);
+    releaseTree(this.scene, "dispose");
     this.geometries.forEach((g) => g.dispose());
     this.materials.forEach((m) => m.dispose());
     this.environment?.dispose();

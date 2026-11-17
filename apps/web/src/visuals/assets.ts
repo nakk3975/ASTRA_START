@@ -1,3 +1,4 @@
+import { WorkerMotion } from "./worker-motion";
 import * as T from "three";
 import { GLTFLoader, type GLTF } from "three/addons/loaders/GLTFLoader.js";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
@@ -44,6 +45,7 @@ export type Visual = {
   mixer: T.AnimationMixer | null;
   clips: T.AnimationClip[];
   release: () => void;
+  motion?: WorkerMotion;
 };
 export function assetInstance(id: string, low = false): Visual | null {
   const a = manifest?.assets.find((a) => a.id === id),
@@ -105,11 +107,18 @@ export function createVisual(
     }
   });
   const mixer = src.animations.length ? new T.AnimationMixer(model) : null;
+  let released = false;
   return {
     root,
     mixer,
     clips: src.animations,
+    motion:
+      id === "worker" || id.startsWith("worker-")
+        ? new WorkerMotion(model)
+        : undefined,
     release() {
+      if (released) return;
+      released = true;
       mixer?.stopAllAction();
       mixer?.uncacheRoot(model);
       own.forEach((m) => m.dispose());

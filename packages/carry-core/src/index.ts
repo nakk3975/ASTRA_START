@@ -1,3 +1,5 @@
+import { automaticRecipe } from "./auto-recipe.ts";
+export * from "./auto-recipe.ts";
 import {
   hands,
   carryCapacity,
@@ -125,6 +127,10 @@ export function migrateCarry(w: World) {
   if (w.rules === "quarry-3.2.0") {
     w.rules = RULES;
     event(w, "3.3 적용 · 설치 보상과 무료 필수 해금 · 기존 자금·진행 보존");
+  }
+  if (w.rules === "quarry-3.3.0") {
+    w.rules = RULES;
+    event(w, "3.4 적용 · 재료 자동 가공과 화면 복구 개선 · 기존 진행 보존");
   }
   return w;
 }
@@ -388,7 +394,7 @@ export function targets(w: World, p: Player) {
       t.push({
         id: `in:${m.id}`,
         pos: machinePort(m),
-        label: `E ${recipe(w, m.recipe)?.name ?? "기계"} 재료 넣기`,
+        label: `E ${recipe(w, automaticRecipe(w, m, w.items[p.hand].kind) ?? m.recipe)?.name ?? "기계"} 재료 넣기`,
       });
     for (const s of w.sockets.filter((s) => s.stage === currentStage(w)))
       t.push({
@@ -441,7 +447,14 @@ function take(w: World, p: Player, i: Item) {
   p.actionUntil = w.time + 0.3;
 }
 function acceptMachine(w: World, m: Machine, i: Item) {
-  const r = recipe(w, m.recipe);
+  const selected = automaticRecipe(w, m, i.kind);
+  if (!selected)
+    throw Error(
+      m.input.length
+        ? "먼저 넣은 재료에 맞는 추가 재료가 필요합니다. 금색 받침대에서 재료를 꺼내면 다시 바뀝니다."
+        : "이 재료를 가공할 수 없습니다. 필요한 광맥과 가공 단계를 확인하세요.",
+    );
+  const r = recipe(w, selected);
   const needed = (r?.input as Partial<Record<Kind, number>>)?.[i.kind] ?? 0;
   if (
     r.output.startsWith("kit_") &&
@@ -454,6 +467,7 @@ function acceptMachine(w: World, m: Machine, i: Item) {
     m.input.filter((id) => w.items[id].kind === i.kind).length >= needed
   )
     throw Error("해당 입력 받침대가 가득 찼습니다.");
+  m.recipe = selected;
   i.state = "input";
   i.owner = m.id;
   i.pos = machinePort(m);

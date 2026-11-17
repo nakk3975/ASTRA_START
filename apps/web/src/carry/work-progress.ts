@@ -38,7 +38,7 @@ export function workProgress(w: World, elapsed = 0): WorkProgress[] {
   for (const m of Object.values(w.machines)) {
     const r = recipe(w, m.job?.recipe ?? m.recipe),
       speed = w.profile === "lab" ? 1 : machineSpeed(w, m);
-    if (m.job) {
+    if (m.job && r) {
       const remaining = predict(m.job.remaining / speed);
       rows.push({
         id: m.id,
@@ -48,15 +48,20 @@ export function workProgress(w: World, elapsed = 0): WorkProgress[] {
         remaining,
         status: m.job.remaining <= 0 ? "blocked" : "working",
       });
-    } else if (m.output.length)
-      rows.push({
-        id: m.id,
-        label: `${ITEM[w.items[m.output[0]].kind].name} ${m.output.length}개`,
-        pos: { ...m.pos, y: m.pos.y + 2.7 },
-        ratio: 1,
-        remaining: 0,
-        status: "ready",
-      });
+    } else {
+      const output = m.output
+        .map((id) => w.items[id])
+        .filter((i) => i?.state === "output");
+      if (output.length)
+        rows.push({
+          id: m.id,
+          label: `${ITEM[output[0].kind].name} ${output.length}개`,
+          pos: { ...m.pos, y: m.pos.y + 2.7 },
+          ratio: 1,
+          remaining: 0,
+          status: "ready",
+        });
+    }
   }
   for (const d of Object.values(w.devices)) {
     if (d.progress <= 0 || d.type === "tray") continue;
