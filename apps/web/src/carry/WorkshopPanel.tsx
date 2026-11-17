@@ -283,11 +283,8 @@ export function WorkshopPanel({
                   </p>
                   {m.type === "bench" && (
                     <small>
-                      {m.tier === 0
-                        ? "다음: 회로·선체·연료·설비 상자 해금"
-                        : m.tier === 1
-                          ? "다음: 엔진·항법 부품 해금"
-                          : "모든 공정 사용 가능"}
+                      24 XP: 회로·선체·연료 · 50 XP: 엔진·항법 · 강화는
+                      속도·출력 공간 증가
                     </small>
                   )}
                   <button
@@ -323,10 +320,11 @@ export function WorkshopPanel({
       {tab === "veins" && (
         <>
           <p className="panel-intro">
-            철 → 구리 → 규석 → 석탄 순서로 해금합니다. XP는 소비하지 않습니다.
-            해금한 광맥은 수량을 1개로 유지하고 <b>품질과 채굴 속도</b>를
-            올립니다. 혼합 부품은 가장 낮은 재료 품질을 이어받으므로 한 광맥만
-            올려도 모든 부품 값이 오르지는 않습니다.
+            철 → 구리 → 규석 → 석탄 순서로 무료 해금합니다. XP는 조건이며
+            소비하지 않습니다. 해금한 광맥은 수량을 1개로 유지하고{" "}
+            <b>품질과 채굴 속도</b>를 올립니다. 혼합 부품은 가장 낮은 재료
+            품질을 이어받으므로 한 광맥만 올려도 모든 부품 값이 오르지는
+            않습니다.
           </p>
           <div className="shop-grid">
             {SOURCES.map((s) => {
@@ -347,9 +345,7 @@ export function WorkshopPanel({
                         ? `${ITEM[unlock.requires].name} 해금 후 개방`
                         : "첫 광맥"}
                     </p>
-                    <small>
-                      {researchCost(w, unlock.cost)} 코인 · {unlock.xp} XP 필요
-                    </small>
+                    <small>무료 해금 · {unlock.xp} XP 필요</small>
                     <p>
                       팀 자금 {money} 코인 · 경험치 {xp} XP
                     </p>
@@ -374,11 +370,11 @@ export function WorkshopPanel({
                       : `${ITEM[s.kind].name} 광맥`}
                   </h3>
                   <p>
-                    품질 판매가 +{v.level * 15}% · 채굴 시간 ÷
+                    품질 설치 보상 +{v.level}코인 · 채굴 시간 ÷
                     {(1 + v.level * 0.12).toFixed(2)}
                   </p>
                   <small>
-                    다음 등급: 판매가 +{Math.min(4, v.level + 1) * 15}% · 수량
+                    다음 등급: 설치 보상 +{Math.min(4, v.level + 1)}코인 · 수량
                     증가 없음
                   </small>
                   <button

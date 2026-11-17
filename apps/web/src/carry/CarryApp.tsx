@@ -1,3 +1,6 @@
+import { CarryAudio } from "./audio";
+import { ZOOM } from "./zoom";
+import { workProgress, progressText } from "./work-progress";
 import { WorkshopPanel, CharacterPicker } from "./WorkshopPanel";
 import { APP_VERSION } from "../../../../packages/carry-core/src/version.ts";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,8 +20,7 @@ import {
   veinUnlocked,
   recipeAvailable,
   researchCost,
-  MARKET,
-  SALE_VALUE,
+  INSTALL_VALUE,
   type MachineKind,
   RECIPES,
   REWARDS,
@@ -53,7 +55,7 @@ const defaults: Settings = {
   low: false,
   renderScale: 1,
   lock: false,
-  distance: 32,
+  distance: ZOOM.initial,
 };
 export default function CarryApp() {
   const host = useRef<HTMLDivElement>(null),
@@ -63,7 +65,7 @@ export default function CarryApp() {
     world = useRef<World | null>(null),
     modeRef = useRef<Mode>(null),
     modalRef = useRef(""),
-    soundRef = useRef(true);
+    audio = useRef(new CarryAudio());
   const [hud, setHud] = useState<World | null>(null),
     [mode, setMode] = useState<Mode>(null),
     [modal, setModal] = useState(""),
@@ -78,6 +80,7 @@ export default function CarryApp() {
     [busy, setBusy] = useState(false),
     [settings, setSettings] = useState<Settings>(defaults),
     [sound, setSound] = useState(true),
+    [volume, setVolume] = useState(0.45),
     [ui, setUi] = useState(1),
     [attempt, setAttempt] = useState(0);
   const stop = () => {
@@ -96,26 +99,26 @@ export default function CarryApp() {
     modalRef.current = m;
     setModal(m);
   };
-  function beep(ok: boolean) {
-    if (!soundRef.current) return;
-    try {
-      const Audio = window.AudioContext;
-      const a = new Audio();
-      const o = a.createOscillator(),
-        g = a.createGain();
-      o.frequency.value = ok ? 660 : 180;
-      g.gain.value = 0.035;
-      o.connect(g);
-      g.connect(a.destination);
-      o.start();
-      o.stop(a.currentTime + 0.09);
-      o.onended = () => void a.close();
-    } catch {}
-  }
+  useEffect(() => {
+    const unlock = () => {
+      void audio.current.unlock();
+    };
+    window.addEventListener("pointerdown", unlock);
+    window.addEventListener("keydown", unlock);
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+      audio.current.dispose();
+    };
+  }, []);
+  useEffect(() => {
+    audio.current.configure(sound, volume);
+  }, [sound, volume]);
   useEffect(() => {
     const n = net.current;
     n.onWorld = (w, rtt) => {
       world.current = w;
+      audio.current.observe(w, n.session?.member ?? "");
       if (view.current) {
         view.current.receive(w, n.session!.member, rtt);
       }
@@ -123,7 +126,7 @@ export default function CarryApp() {
     n.onStatus = setStatus;
     n.onAck = (r) => {
       setStatus(r.message);
-      beep(r.ok);
+      audio.current.ack(r);
       if (r.ok && ["설비 설치 완료", "기계 설치 완료"].includes(r.message))
         changeMode(null);
     };
@@ -145,6 +148,9 @@ export default function CarryApp() {
       if (s) stop();
     };
     v.onMetrics = setMetrics;
+    v.onZoom = (distance) => setSettings((s) => ({ ...s, distance }));
+    v.canZoom = () => !modalRef.current;
+    v.onStep = () => audio.current.play("step");
     if (world.current)
       v.receive(
         world.current,
@@ -344,8 +350,8 @@ export default function CarryApp() {
   useEffect(() => {
     const resize = () => {
       const base = Math.max(
-        0.85,
-        Math.min(1.6, innerWidth / 1920, innerHeight / 1080),
+        1,
+        Math.min(1.8, innerWidth / 1440, innerHeight / 900),
       );
       document.documentElement.style.setProperty(
         "--carry-scale",
@@ -643,7 +649,8 @@ export default function CarryApp() {
                 aria-label="음향 토글"
                 onClick={() => {
                   setSound(!sound);
-                  soundRef.current = !sound;
+                  audio.current.configure(!sound, volume);
+                  if (!sound) void audio.current.unlock();
                 }}
               >
                 {sound ? "♪ ON" : "♪ OFF"}
@@ -656,6 +663,41 @@ export default function CarryApp() {
               </button>
             </div>
           </aside>
+          <div className="zoom-controls hud-panel" aria-label="화면 거리 조절">
+            <button
+              aria-label="화면 확대"
+              onClick={() =>
+                setSettings((s) => ({
+                  ...s,
+                  distance: Math.max(ZOOM.min, s.distance - 2),
+                }))
+              }
+            >
+              ＋
+            </button>
+            <span>
+              휠 줌 · {Math.round((ZOOM.initial / settings.distance) * 100)}%
+            </span>
+            <button
+              aria-label="화면 축소"
+              onClick={() =>
+                setSettings((s) => ({
+                  ...s,
+                  distance: Math.min(ZOOM.max, s.distance + 2),
+                }))
+              }
+            >
+              −
+            </button>
+            <button
+              aria-label="기본 화면 거리"
+              onClick={() =>
+                setSettings((s) => ({ ...s, distance: ZOOM.initial }))
+              }
+            >
+              기본
+            </button>
+          </div>
           <div className="carry-hand hud-panel">
             <div className="hand-main">
               <div
@@ -757,8 +799,9 @@ export default function CarryApp() {
           {machine && !mode && (
             <div className="carry-machine hud-panel">
               <label>
-                가까운 기계 레시피
+                만들 부품 선택
                 <select
+                  disabled={!!machine.job || machine.input.length > 0}
                   value={machine.recipe}
                   onChange={(e) =>
                     net.current.command("RECIPE", {
@@ -795,12 +838,74 @@ export default function CarryApp() {
                         {r.name} ·{" "}
                         {(r.seconds / machineSpeed(hud!, machine)).toFixed(1)}초
                         {REWARDS[r.output]
-                          ? ` · 가공 ${REWARDS[r.output]!.xp}XP / 판매 ${SALE_VALUE[r.output] ?? 0}◈`
+                          ? ` · 가공 ${REWARDS[r.output]!.xp}XP / 설치 +${INSTALL_VALUE[r.output] ?? 0}◈`
                           : ""}
                       </option>
                     ))}
                 </select>
               </label>
+              {machine.type === "bench" && (
+                <div className="recipe-shortcuts">
+                  {[
+                    ["smelt_ingot", "① 주괴 만들기"],
+                    ["press_plate", "② 철판 만들기"],
+                  ].map(([id, name]) => (
+                    <button
+                      key={id}
+                      aria-pressed={machine.recipe === id}
+                      disabled={!!machine.job || machine.input.length > 0}
+                      onClick={() =>
+                        net.current.command("RECIPE", {
+                          target: machine.id,
+                          recipe: id,
+                        })
+                      }
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="recipe-flow">
+                <b>
+                  {Object.entries(
+                    RECIPES[machine.recipe]?.input ?? { metal_scrap: 1 },
+                  )
+                    .map(
+                      ([k, n]) => `${ITEM[k as keyof typeof ITEM].name} ${n}개`,
+                    )
+                    .join(" + ")}{" "}
+                  → {RECIPES[machine.recipe]?.name ?? "철판"} 1개
+                </b>
+                <span>금색 받침대에 E 투입 · 청록 받침대에서 E 받기</span>
+                {machine.recipe === "smelt_ingot" && (
+                  <span>주괴를 받은 뒤 ‘② 철판 만들기’로 변경하세요.</span>
+                )}
+                {(machine.job || machine.input.length > 0) && (
+                  <span>
+                    가공 완료 후 남은 입력 재료를 꺼내면 제작 항목을 바꿀 수
+                    있습니다.
+                  </span>
+                )}
+              </div>
+              {workProgress(hud)
+                .filter((row) => row.id === machine.id)
+                .map((row) => (
+                  <div
+                    className="machine-work"
+                    key={row.id}
+                    role="progressbar"
+                    aria-label={row.label}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(row.ratio * 100)}
+                  >
+                    <div className="work-track">
+                      <i style={{ width: `${row.ratio * 100}%` }} />
+                    </div>
+                    <b>{progressText(row)}</b>
+                  </div>
+                ))}
               <small>
                 {machine.job
                   ? machine.job.remaining > 0
@@ -831,21 +936,27 @@ export default function CarryApp() {
               발사대에서 최종 발사
             </button>
           )}
-          {hud.profile === "campaign" && !veinUnlocked(hud, "cable_scrap") && (
-            <div className="first-steps hud-panel">
-              <b>철에서 시작하는 공방</b>
-              <span>① 철광석에서 E 채굴</span>
-              <span>
-                ② 작업대 금색 받침대에 투입 → 청록 받침대에서 주괴 들기
-              </span>
-              <span>③ 판매소 E 판매 · 철판 가공으로 더 많은 수입</span>
-              <button onClick={() => openModal("veins")}>
-                구리 해금 · {researchCost(hud, VEIN_UNLOCKS.cable_scrap.cost)}{" "}
-                코인 · {VEIN_UNLOCKS.cable_scrap.xp} XP
-              </button>
-            </div>
-          )}
           {hud.profile === "campaign" &&
+            !machine &&
+            !mode &&
+            !veinUnlocked(hud, "cable_scrap") && (
+              <div className="first-steps hud-panel">
+                <b>철에서 시작하는 공방</b>
+                <span>① 철광석에서 E 채굴</span>
+                <span>
+                  ② 작업대 금색 받침대에 투입 → 청록 받침대에서 주괴 들기
+                </span>
+                <span>
+                  ③ ‘철판 만들기’ 선택 → 주괴 투입 → 철판을 로켓에 설치 +1코인
+                </span>
+                <button onClick={() => openModal("veins")}>
+                  구리 무료 해금 · {VEIN_UNLOCKS.cable_scrap.xp} XP
+                </button>
+              </div>
+            )}
+          {hud.profile === "campaign" &&
+            !machine &&
+            !mode &&
             veinUnlocked(hud, "cable_scrap") &&
             SOURCES.some((s) => !veinUnlocked(hud, s.kind)) && (
               <button
@@ -948,9 +1059,11 @@ export default function CarryApp() {
                   새 작업장은 0코인·낡은 작업대 1대·철광석으로 시작합니다. 광맥
                   개발에서 구리·규석·석탄을 순서대로 해금하세요. 광맥에서 E로
                   쉽게 채굴한 뒤 가공기 입력 받침대 → 출력 부품 → 발사대 소켓
-                  순서로 옮깁니다. 단계가 높은 부품을 만들수록 가공 XP와
-                  판매·납품 대금을 더 받습니다. 기계 가까이에서 레시피를 바꿀 수
-                  있습니다.
+                  순서로 옮깁니다. 단계가 높은 부품을 만들수록 가공 XP와 로켓
+                  설치 보상을 더 받습니다. 기본 철 부품은 1코인부터 시작합니다.
+                  회로·선체·연료는 24 XP, 엔진·항법 부품은 50 XP에서 열립니다.
+                  설비 강화는 속도를 높입니다. 기계 가까이에서 제작 항목을 바꿀
+                  수 있습니다.
                 </p>
                 <dl>
                   {[
@@ -960,6 +1073,7 @@ export default function CarryApp() {
                     ["Space / F", "내려놓기 / 짧게 던지기"],
                     ["1—6 / R", "설비 청사진 / 배치 회전"],
                     ["C / G", "카메라 재중앙 / 팀 핑"],
+                    ["마우스 휠", "위로 확대 · 아래로 축소"],
                     ["Esc", "모드 취소 · 창 닫기"],
                   ].map(([a, b]) => (
                     <div key={a}>
@@ -997,12 +1111,24 @@ export default function CarryApp() {
             ) : modal === "settings" ? (
               <>
                 <label>
+                  효과음 음량 · {Math.round(volume * 100)}%
+                  <input
+                    aria-label="효과음 음량"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step=".05"
+                    value={volume}
+                    onChange={(e) => setVolume(+e.target.value)}
+                  />
+                </label>
+                <label>
                   UI 크기
                   <input
                     aria-label="UI 크기"
                     type="range"
                     min=".85"
-                    max="1.3"
+                    max="1.6"
                     step=".05"
                     value={ui}
                     onChange={(e) => setUi(+e.target.value)}
@@ -1043,12 +1169,13 @@ export default function CarryApp() {
                   현재 작업 구역에 카메라 고정
                 </label>
                 <label>
-                  카메라 거리
+                  카메라 거리 · 휠 위로 확대 / 아래로 축소
                   <input
                     aria-label="카메라 거리"
                     type="range"
-                    min="26"
-                    max="38"
+                    min={ZOOM.min}
+                    max={ZOOM.max}
+                    step=".5"
                     value={settings.distance}
                     onChange={(e) =>
                       setSettings({ ...settings, distance: +e.target.value })

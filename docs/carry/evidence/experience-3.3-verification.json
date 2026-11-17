@@ -1,0 +1,57 @@
+{
+  "version": "3.3.0",
+  "date": "2026-11-17 KST",
+  "tests": {
+    "passed": 126,
+    "failed": 0,
+    "typescript": "pass",
+    "vite": "pass"
+  },
+  "walking_campaign": {
+    "planned": [
+      1,
+      2,
+      4,
+      6
+    ],
+    "all_launched": true,
+    "sales": 0,
+    "extra_practice": 0,
+    "seeded_inventory_or_currency": false,
+    "teleports": false,
+    "single_bot_not_human_timing": true
+  },
+  "browser": {
+    "version": "3.3.0",
+    "new_and_resumed_workshop": true,
+    "zoom_button_percentage": [
+      100,
+      110
+    ],
+    "volume_default": 0.45,
+    "settings_distance_after_zoom": 20,
+    "viewport": [
+      1363,
+      936
+    ],
+    "crew_horizontal_overflow_after_fix": false,
+    "webgl2": false,
+    "gpu_fps_or_world_visuals_verified": false,
+    "audio_listening_verified": false
+  },
+  "network": {
+    "pass": true,
+    "realClients": 6,
+    "transport": "Colyseus WebSocket",
+    "storage": "PostgreSQL",
+    "checks": [
+      "seventh guest rejected",
+      "same-item pickup race",
+      "actual network movement",
+      "sequenced WebSocket release stays fixed through duplicate late inputs and seven server pulses",
+      "socket action waits for all movement intervals before applying once",
+      "disconnect safe drop once",
+      "SQL process restart preserves jobs and command receipts"
+    ]
+  }
+}

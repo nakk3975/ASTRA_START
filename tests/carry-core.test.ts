@@ -416,7 +416,7 @@ test("shared upgrades require XP, money and 1→2→3 sequence; duplicate buy ch
   };
   assert.equal(commandCarry(w, p.id, c).ok, true);
   commandCarry(w, p.id, c);
-  assert.equal(w.economy.coins, 82);
+  assert.equal(w.economy.coins, 98);
   assert.equal(carryCapacity(w), 2);
   assert.equal(cmd(w, "UPGRADE", { upgrade: "carry3" }).ok, true);
   assert.equal(carryCapacity(w), 3);
@@ -509,7 +509,7 @@ test("automated mining→belt→machine→crane→installer conserves actual ite
       (i) => i.kind === "metal_scrap" && i.state === "consumed",
     ),
   );
-  assert.ok(w.economy.earned >= 4);
+  assert.equal(w.economy.earned, w.sockets.filter((s) => s.item).length);
   assertCarry(w);
 });
 

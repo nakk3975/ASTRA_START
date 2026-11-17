@@ -905,3 +905,155 @@ body,
     max-width: 40vw;
   }
 }
+
+/* 3.3: readable work feedback in screen pixels, independent of world zoom. */
+.carry-game {
+  font-size: max(16px, calc(15px * var(--carry-scale)));
+}
+.carry-game small {
+  font-size: max(14px, calc(13px * var(--carry-scale)));
+}
+.eyebrow {
+  font-size: max(12px, calc(11px * var(--carry-scale)));
+}
+.carry-machine {
+  width: calc(320px * var(--carry-scale));
+  max-width: 25vw;
+  max-height: 60vh;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+.recipe-shortcuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.recipe-shortcuts button {
+  white-space: normal;
+  padding: 8px 5px;
+}
+.recipe-shortcuts button[aria-pressed="true"] {
+  background: #ca8b36;
+  color: #211b13;
+  font-weight: 800;
+}
+.recipe-flow {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  background: #221f1bcc;
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+.recipe-flow b {
+  color: #ffe0a0;
+}
+.recipe-flow span {
+  color: #e5dbc6;
+}
+.work-track {
+  background: #171d20;
+  border: 1px solid #748b8e;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.work-track i {
+  display: block;
+  height: 100%;
+  background: #f8c65b;
+  border-radius: inherit;
+}
+.machine-work {
+  display: grid;
+  gap: 5px;
+}
+.world-progress-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.world-work-progress {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  min-width: 170px;
+  width: calc(180px * var(--carry-scale));
+  max-width: 270px;
+  padding: 7px 10px;
+  border: 1px solid #c5ba9d;
+  background: #232b27eb;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px #0005;
+  color: #fff5dc;
+  text-align: center;
+  font-size: max(14px, calc(13px * var(--carry-scale)));
+}
+.world-work-progress b,
+.world-work-progress span {
+  display: block;
+}
+.world-work-progress .work-track {
+  margin: 4px 0;
+}
+.world-work-progress[data-status="ready"] .work-track i {
+  background: #6ce1c1;
+}
+.world-work-progress[data-status="blocked"] .work-track i {
+  background: #f99769;
+}
+.zoom-controls {
+  position: absolute;
+  top: 34%;
+  right: 18px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 7px;
+  font-size: 0.9em;
+}
+.zoom-controls button {
+  min-width: 44px;
+  padding: 4px 8px;
+}
+.first-steps {
+  max-width: 24vw;
+  font-size: max(14px, calc(13px * var(--carry-scale)));
+}
+@media (max-width: 1100px) {
+  .carry-machine {
+    bottom: 215px;
+    max-width: 38vw;
+    max-height: 43vh;
+  }
+  .first-steps {
+    display: none;
+  }
+  .zoom-controls {
+    top: 36%;
+    right: 8px;
+  }
+  .zoom-controls span {
+    display: none;
+  }
+  .carry-hand {
+    max-width: 96vw;
+  }
+}
+@media (min-width: 2200px) {
+  .carry-machine {
+    width: calc(340px * var(--carry-scale));
+  }
+}
+
+.carry-room {
+  flex-wrap: wrap;
+}
+.carry-room .eyebrow {
+  flex-basis: 100%;
+  white-space: normal;
+}
+.carry-room button {
+  max-width: 100%;
+  font-size: 0.95em;
+}

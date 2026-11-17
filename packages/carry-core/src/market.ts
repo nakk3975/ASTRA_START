@@ -5,7 +5,6 @@ import {
   VEIN_UPGRADE_COST,
   VEIN_UPGRADE_XP,
   DEVICE_PRICE,
-  STAGE_BONUS,
   VEIN_UNLOCKS,
   type OreKind,
   ITEM,
@@ -58,22 +57,7 @@ function give(w: World, p: Player, kind: Kind) {
 export function payInstalled(w: World, i: Item) {
   const value = itemValue(i);
   credit(w, value);
-  event(w, `${ITEM[i.kind].name} 납품 +${value} 코인`, i.id);
-  for (let stage = 0; stage < STAGE_BONUS.length; stage++) {
-    const sockets = w.sockets.filter((s) => s.stage === stage);
-    if (
-      sockets.length &&
-      sockets.every((s) => s.item) &&
-      !w.stageBonuses.includes(stage)
-    ) {
-      w.stageBonuses.push(stage);
-      const bonus = Math.ceil(
-        STAGE_BONUS[stage] * (1 + 0.35 * (w.planned - 1)),
-      );
-      credit(w, bonus);
-      event(w, `M${stage + 1} 완성 보너스 +${bonus} 코인`);
-    }
-  }
+  event(w, `${ITEM[i.kind].name} 설치 +${value} 코인`, i.id);
 }
 export function machinePlacementReason(
   w: World,
@@ -137,8 +121,6 @@ export function machinePlacementReason(
     )
   )
     return "바닥 물건을 먼저 옮겨 주세요.";
-  if (Math.hypot(MARKET.x - x, MARKET.z - z) < 2.5)
-    return "판매소 앞을 비워 주세요.";
   if (Object.keys(w.machines).length >= 24)
     return "기계는 작업장당 24대까지 설치할 수 있습니다.";
   return "";
@@ -268,17 +250,8 @@ export function marketAction(
     return "광맥 품질과 채굴 속도 증가";
   }
   if (c.type === "SELL" || (c.type === "INTERACT" && c.target === "market")) {
-    if (!reachable(w, p.pos, MARKET))
-      throw Error("광맥 구역 아래 판매소로 이동하세요.");
-    if (!p.hand) throw Error("판매할 물건을 들고 오세요.");
-    const i = w.items[p.hand],
-      value = itemValue(i);
-    if (!value) throw Error("설비 상자는 판매할 수 없습니다. 다시 설치하세요.");
-    i.state = "consumed";
-    i.owner = "market";
-    p.hand = p.extraHands.shift() ?? null;
-    credit(w, value);
-    event(w, `${ITEM[i.kind].name} 판매 +${value} 코인`, i.id);
-    return `${value} 코인에 판매했습니다`;
+    throw Error(
+      "판매소는 종료되었습니다. 로켓 부품을 설치하면 코인을 받습니다.",
+    );
   }
 }

@@ -1,4 +1,4 @@
-export const RULES = "quarry-3.2.0";
+export const RULES = "quarry-3.3.0";
 export const CFG = {
   speed: 3.5,
   radius: 0.36,
@@ -290,7 +290,7 @@ const branch = (
         `${prefix}${level}`,
         {
           name: `${title} ${level}`,
-          cost,
+          cost: Math.max(1, Math.ceil(cost / 10)),
           xp: xp[i],
           requires: i ? `${prefix}${level - 1}` : required,
           description: description(level),
@@ -347,7 +347,7 @@ export const UPGRADES: Record<string, Upgrade> = {
   ),
   belts: {
     name: "운반 레일 해금",
-    cost: 35,
+    cost: 3,
     xp: 25,
     requires: null,
     description: "직선·코너 레일 구매와 제작",
@@ -355,7 +355,7 @@ export const UPGRADES: Record<string, Upgrade> = {
   },
   mining: {
     name: "자동 채굴 해금",
-    cost: 70,
+    cost: 5,
     xp: 65,
     requires: "belts",
     description: "광맥 가까이에 자동 채굴기 설치",
@@ -363,7 +363,7 @@ export const UPGRADES: Record<string, Upgrade> = {
   },
   crane: {
     name: "크레인 해금",
-    cost: 100,
+    cost: 7,
     xp: 100,
     requires: "belts",
     description: "출력 부품을 집어 다음 공정으로 전달",
@@ -371,7 +371,7 @@ export const UPGRADES: Record<string, Upgrade> = {
   },
   installer: {
     name: "자동 설치 해금",
-    cost: 180,
+    cost: 12,
     xp: 200,
     requires: "crane",
     description: "발사대의 맞는 소켓에 자동 설치",
@@ -408,42 +408,42 @@ export const CHARACTERS = [
 export const MACHINE_CATALOG = {
   bench: {
     name: "낡은 작업대",
-    price: 40,
+    price: 2,
     xp: 0,
     recipe: "smelt_ingot",
     description: "느린 수동 공방. 철 주괴·구리선·내열재·철판·기어부터 시작",
   },
   processor: {
     name: "기초 제련기",
-    price: 100,
+    price: 6,
     xp: 35,
     recipe: "smelt_ingot",
     description: "광맥 원재료를 철 주괴·구리선·내열재로 가공",
   },
   fabricator: {
     name: "기초 부품 제작기",
-    price: 150,
+    price: 8,
     xp: 70,
     recipe: "press_plate",
     description: "철판·기어부터 회로·선체까지",
   },
   refinery: {
     name: "기초 연료 혼합기",
-    price: 180,
+    price: 10,
     xp: 110,
     recipe: "blend_fuel",
     description: "석탄과 내열재를 연료 카트리지로",
   },
   assembler: {
     name: "기초 조립기",
-    price: 240,
+    price: 12,
     xp: 160,
     recipe: "assemble_engine",
     description: "엔진·항법 부품의 전용 조립",
   },
   workbench: {
     name: "설비 제작대",
-    price: 90,
+    price: 5,
     xp: 45,
     recipe: "kit_tray",
     description: "운반·채굴·설치 설비 상자 제작",
@@ -452,35 +452,31 @@ export const MACHINE_CATALOG = {
 export type MachineKind = keyof typeof MACHINE_CATALOG;
 export const MACHINE_GRADES = ["낡은", "개량", "산업", "정밀"] as const;
 export const MACHINE_TIER_SPEED = [0.55, 0.8, 1.1, 1.4];
-export const MACHINE_UPGRADE_COST = [70, 150, 320];
+export const MACHINE_UPGRADE_COST = [3, 8, 16];
 export const MACHINE_UPGRADE_XP = [30, 75, 180];
-export const VEIN_UPGRADE_COST = [65, 150, 300, 520];
+export const VEIN_UPGRADE_COST = [3, 6, 12, 20];
 export const VEIN_UPGRADE_XP = [55, 130, 260, 450];
 export const DEVICE_PRICE: Record<DeviceKind, number> = {
-  straight: 9,
-  corner: 9,
-  tray: 5,
-  miner: 100,
-  crane: 75,
-  installer: 150,
+  straight: 1,
+  corner: 1,
+  tray: 1,
+  miner: 6,
+  crane: 5,
+  installer: 10,
 };
-export const SALE_VALUE: Partial<Record<Kind, number>> = {
-  metal_scrap: 1,
-  cable_scrap: 1,
-  plastic_scrap: 1,
-  energy_shard: 2,
-  ingot: 5,
-  wire: 4,
-  polymer: 4,
-  plate: 11,
-  gear: 9,
-  circuit: 18,
-  hull_panel: 35,
-  fuel_cell: 32,
-  engine_part: 85,
-  control_part: 75,
+/** Coins are awarded only when a rocket socket receives a part. */
+export const INSTALL_VALUE: Partial<Record<Kind, number>> = {
+  ingot: 1,
+  plate: 1,
+  gear: 1,
+  wire: 2,
+  polymer: 3,
+  circuit: 4,
+  hull_panel: 4,
+  fuel_cell: 5,
+  engine_part: 6,
+  control_part: 7,
 };
-export const STAGE_BONUS = [35, 55, 85, 100, 130, 180];
 export const DEVICE_UNLOCK: Partial<Record<DeviceKind, UpgradeKey>> = {
   straight: "belts",
   corner: "belts",
@@ -543,8 +539,8 @@ export const plannedQuantity = (
 /** One prerequisite chain; XP is a threshold, coins are spent once. */
 export const VEIN_UNLOCKS = {
   metal_scrap: { cost: 0, xp: 0, requires: null },
-  cable_scrap: { cost: 20, xp: 12, requires: "metal_scrap" },
-  plastic_scrap: { cost: 45, xp: 30, requires: "cable_scrap" },
-  energy_shard: { cost: 70, xp: 65, requires: "plastic_scrap" },
+  cable_scrap: { cost: 0, xp: 12, requires: "metal_scrap" },
+  plastic_scrap: { cost: 0, xp: 24, requires: "cable_scrap" },
+  energy_shard: { cost: 0, xp: 60, requires: "plastic_scrap" },
 } as const;
 export type OreKind = keyof typeof VEIN_UNLOCKS;

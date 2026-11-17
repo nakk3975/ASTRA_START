@@ -213,17 +213,17 @@ assert.deepEqual(
 );
 const bench = w.machines["starter-bench"];
 const starterAt = w.time;
-let extraSales = 0;
+let extraPractice = 0;
 const unlockTimes: { kind: string; seconds: number; cost: number }[] = [];
 function earn(coins: number, xp = 0) {
-  while (w.economy.coins < coins || w.economy.xp < xp) {
+  assert.ok(
+    w.economy.coins >= coins,
+    "installation income must cover optional purchases",
+  );
+  while (w.economy.xp < xp) {
     make("plate");
-    go(MARKET);
-    command("SELL");
-    assert.ok(
-      ++extraSales < 120,
-      "progression must remain reachable with iron income",
-    );
+    stash();
+    assert.ok(++extraPractice < 30);
   }
 }
 function unlock(kind: OreKind) {
@@ -237,18 +237,10 @@ function unlock(kind: OreKind) {
 }
 function improve(tier: number) {
   while (bench.tier < tier) {
-    const cost = researchCost(w, MACHINE_UPGRADE_COST[bench.tier]),
-      xp = MACHINE_UPGRADE_XP[bench.tier];
-    while (w.economy.coins < cost || w.economy.xp < xp) {
-      make(bench.tier ? "hull_panel" : "plate");
-      go(MARKET);
-      command("SELL");
-      extraSales++;
-      assert.ok(
-        extraSales < 60,
-        "progression should not require excessive sales",
-      );
-    }
+    earn(
+      researchCost(w, MACHINE_UPGRADE_COST[bench.tier]),
+      MACHINE_UPGRADE_XP[bench.tier],
+    );
     go(machinePort(bench));
     command("UPGRADE_MACHINE", { target: bench.id });
   }
@@ -257,8 +249,6 @@ const stageTimes: number[] = [];
 while (currentStage(w) !== -1) {
   const stage = currentStage(w),
     socket = w.sockets.find((s) => s.stage === stage && !s.item)!;
-  if (stage >= 1) improve(1);
-  if (stage >= 2) improve(2);
   make(socket.kind);
   go(socket.pos);
   command("INTERACT", { target: socket.id });
@@ -266,14 +256,7 @@ while (currentStage(w) !== -1) {
   if (currentStage(w) !== stage) {
     stageTimes.push(w.time);
     if (stage === 0) {
-      improve(1);
-      earn(researchCost(w, UPGRADES.belts.cost), UPGRADES.belts.xp);
-      command("UPGRADE", { upgrade: "belts" });
-      earn(9);
-      command("BUY_DEVICE", { device: "straight" });
-      kitAt = w.time;
-      stash();
-      earn(40);
+      earn(2);
       command("BUY_MACHINE", { machine: "bench" });
       go({ x: -6, y: 0, z: -2.5 });
       command("PLACE_MACHINE", { machine: "bench", x: -6, z: 0, rotation: 0 });
@@ -282,6 +265,15 @@ while (currentStage(w) !== -1) {
       command("PACK_MACHINE", { target: bought.id });
       go({ x: -6, y: 0, z: -2.5 });
       command("PLACE_MACHINE", { machine: "bench", x: -6, z: 0, rotation: 0 });
+    }
+    if (stage === 1) {
+      improve(1);
+      earn(researchCost(w, UPGRADES.belts.cost), UPGRADES.belts.xp);
+      command("UPGRADE", { upgrade: "belts" });
+      earn(1);
+      command("BUY_DEVICE", { device: "straight" });
+      kitAt = w.time;
+      stash();
     }
   }
 }
@@ -300,7 +292,8 @@ const report = {
   unlockTimes,
   purchasePackReinstall: true,
   starterAtSeconds: Math.round(starterAt),
-  extraSales,
+  extraPractice,
+  sales: 0,
   coinsAtLaunch: w.economy.coins,
   xpAtLaunch: w.economy.xp,
   firstInstallSeconds: Math.round(first),
@@ -312,7 +305,7 @@ const report = {
   installed: w.sockets.filter((s) => s.item).length,
 };
 writeFileSync(
-  `docs/carry/evidence/progression-3.2-campaign-${planned}.json`,
+  `docs/carry/evidence/progression-3.3-campaign-${planned}.json`,
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report);

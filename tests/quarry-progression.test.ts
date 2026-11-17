@@ -71,11 +71,11 @@ test("all 1–6-player campaigns start at zero with exactly one lowest-tier benc
     assertCarry(w);
   }
 });
-test("iron processing and sales fund the entire ordered unlock chain; duplicate unlocks never charge twice", () => {
+test("iron processing XP unlocks every ore without currency; duplicate unlocks are idempotent", () => {
   const { w, p, command } = setup(),
     bench = w.machines["starter-bench"];
   let produced = 0;
-  function sellIngot() {
+  function processIngot() {
     p.pos = veinPort(SOURCES[0]);
     assert.equal(command("INTERACT", { target: "vein:metal_scrap" }).ok, true);
     for (let tick = 0; p.mining; tick++) {
@@ -90,8 +90,14 @@ test("iron processing and sales fund the entire ordered unlock chain; duplicate 
     }
     p.pos = machinePort(bench, true);
     assert.equal(command("INTERACT", { target: bench.output[0] }).ok, true);
-    p.pos = { ...MARKET };
-    assert.equal(command("SELL").ok, true);
+    p.pos = {
+      x: -15 + (produced % 8) * 1.2,
+      y: 0,
+      z: 5 + Math.floor(produced / 8) * 1.2,
+    };
+    p.facing = { x: 0, z: 1 };
+    assert.equal(command("DROP").ok, true);
+    assert.equal(w.economy.coins, 0);
     assertCarry(w);
     produced++;
   }
@@ -107,7 +113,7 @@ test("iron processing and sales fund the entire ordered unlock chain; duplicate 
     const spec = VEIN_UNLOCKS[kind],
       cost = researchCost(w, spec.cost);
     while (w.economy.coins < cost || w.economy.xp < spec.xp) {
-      sellIngot();
+      processIngot();
       assert.ok(produced < 40);
     }
     const before = w.economy.coins,
@@ -160,7 +166,7 @@ test("3.1 saves preserve installed equipment, all already-open ores, money and i
   assert.equal(w.veins.cable_scrap!.level, 2);
   assertCarry(w);
 });
-test("vein menu shows the chain, exact first unlock price and missing XP", () => {
+test("vein menu shows the chain, free unlock requirement and missing XP", () => {
   const { w, p } = setup();
   const html = renderToStaticMarkup(
     React.createElement(WorkshopPanel, {
@@ -171,7 +177,7 @@ test("vein menu shows the chain, exact first unlock price and missing XP", () =>
     }),
   );
   assert.match(html, /철 → 구리 → 규석 → 석탄/);
-  assert.match(html, /20.*코인.*12.*XP/s);
+  assert.match(html, /무료 해금.*12.*XP/s);
   assert.match(html, /12 XP가 필요합니다/);
   assert.match(html, /구리광석부터 해금/);
 });

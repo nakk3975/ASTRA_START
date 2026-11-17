@@ -1,3 +1,5 @@
+import { workProgress, progressText } from "./work-progress";
+import { ZOOM, clampDistance, wheelDistance } from "./zoom";
 import { quarryEnvironment } from "./quarry-environment";
 import { starterMachine } from "./starter-machines";
 import { MotionSmoother } from "./motion";
@@ -19,7 +21,6 @@ import {
   ITEM,
   MACHINE_CATALOG,
   MACHINE_GRADES,
-  MARKET,
   machinePlacementReason,
   type MachineKind,
   CFG,
@@ -73,6 +74,7 @@ export class CarryView {
   localInput = { x: 0, z: 0 };
   receive(w: World, member: string, rtt = 0) {
     this.world = w;
+    this.receivedAt = performance.now();
     this.member = member;
     // Network owns the acknowledged input timeline; never reconcile twice.
   }
@@ -84,11 +86,18 @@ export class CarryView {
     low: false,
     renderScale: 1,
     lock: false,
-    distance: 32,
+    distance: ZOOM.initial,
   };
   onError = (s: string) => {};
   onGround = (p: V3) => {};
   onMetrics = (m: any) => {};
+  onZoom = (distance: number) => {};
+  onStep = () => {};
+  canZoom = () => true;
+  private receivedAt = 0;
+  private displayDistance = ZOOM.initial;
+  private progressLayer = document.createElement("div");
+  private progressNodes = new Map<string, HTMLDivElement>();
   private disposed = false;
   private frame = 0;
   private last = 0;
@@ -125,6 +134,9 @@ export class CarryView {
     this.canvas.tabIndex = 0;
     this.canvas.setAttribute("aria-label", "고철에서 우주까지 3D 작업장");
     host.append(this.canvas);
+    this.progressLayer.className = "world-progress-layer";
+    host.append(this.progressLayer);
+    this.canvas.addEventListener("wheel", this.wheel, { passive: false });
     this.selection = new T.Mesh(
       this.geo(new T.RingGeometry(0.5, 0.55, 40)),
       this.mat("#f59e0b", true),
@@ -250,7 +262,6 @@ export class CarryView {
   private map() {
     this.environment = quarryEnvironment();
     this.scene.add(this.environment.root);
-    this.label(this.scene, "판매소 · E 판매", MARKET.x, 3.05, MARKET.z, 3.5);
     this.label(this.scene, "01  채굴장", -16, 0.8, -11.5, 4);
     this.label(this.scene, "02  작은 공방", -2, 0.8, -11.5, 4.5);
     this.label(this.scene, "03  우주선 건설", 17, 2, -7, 4);
@@ -452,7 +463,10 @@ export class CarryView {
       ) * this.settings.renderScale;
     this.renderer.setPixelRatio(ratio);
     this.renderer.setSize(this.width, this.height, false);
-    const span = this.settings.distance * 0.31;
+    this.updateProjection();
+  }
+  private updateProjection() {
+    const span = this.displayDistance * 0.31;
     this.camera.left = (-span * this.width) / this.height;
     this.camera.right = (span * this.width) / this.height;
     this.camera.top = span;
@@ -461,7 +475,7 @@ export class CarryView {
   }
   applySettings(settings: Settings) {
     const lodChanged = this.settings.low !== settings.low;
-    this.settings = settings;
+    this.settings = { ...settings, distance: clampDistance(settings.distance) };
     this.resize();
     if (this.renderer) this.renderer.shadowMap.enabled = !settings.low;
     if (lodChanged) {
@@ -469,6 +483,69 @@ export class CarryView {
       for (const key of [...this.instances.keys()]) this.remove(key);
       this.rocketKey = "";
     }
+  }
+  private wheel = (e: WheelEvent) => {
+    if (e.ctrlKey || !this.ready || !this.world || !this.canZoom()) return;
+    e.preventDefault();
+    const distance = wheelDistance(
+      this.settings.distance,
+      e.deltaY,
+      e.deltaMode,
+    );
+    this.settings = { ...this.settings, distance };
+    this.onZoom(distance);
+  };
+  private drawProgress(now: number) {
+    const active = new Set<string>();
+    if (this.world)
+      for (const row of workProgress(
+        this.world,
+        (now - this.receivedAt) / 1000,
+      )) {
+        const pos = new T.Vector3(row.pos.x, row.pos.y, row.pos.z).project(
+          this.camera,
+        );
+        if (
+          Math.abs(pos.x) > 1.1 ||
+          Math.abs(pos.y) > 1.1 ||
+          pos.z < -1 ||
+          pos.z > 1
+        )
+          continue;
+        active.add(row.id);
+        let node = this.progressNodes.get(row.id);
+        if (!node) {
+          node = document.createElement("div");
+          node.className = "world-work-progress";
+          const label = document.createElement("b"),
+            track = document.createElement("div"),
+            fill = document.createElement("i"),
+            time = document.createElement("span");
+          track.className = "work-track";
+          track.append(fill);
+          node.append(label, track, time);
+          node.setAttribute("role", "progressbar");
+          node.setAttribute("aria-valuemin", "0");
+          node.setAttribute("aria-valuemax", "100");
+          this.progressLayer.append(node);
+          this.progressNodes.set(row.id, node);
+        }
+        node.style.left = `${((pos.x + 1) * this.width) / 2}px`;
+        node.style.top = `${((1 - pos.y) * this.height) / 2}px`;
+        node.dataset.status = row.status;
+        node.children[0].textContent = row.label;
+        (node.children[1].firstElementChild as HTMLElement).style.width =
+          `${row.ratio * 100}%`;
+        node.children[2].textContent = progressText(row);
+        node.setAttribute("aria-label", row.label);
+        node.setAttribute("aria-valuenow", String(Math.round(row.ratio * 100)));
+        node.setAttribute("aria-valuetext", progressText(row));
+      }
+    for (const [id, node] of this.progressNodes)
+      if (!active.has(id)) {
+        node.remove();
+        this.progressNodes.delete(id);
+      }
   }
   private animate = (now: number) => {
     if (this.disposed) return;
@@ -488,6 +565,12 @@ export class CarryView {
     const rawDt = (now - this.last) / 1000 || 0.016,
       dt = Math.min(0.05, rawDt);
     this.last = now;
+    if (Math.abs(this.displayDistance - this.settings.distance) > 0.001) {
+      this.displayDistance +=
+        (this.settings.distance - this.displayDistance) *
+        (1 - Math.exp(-dt * 14));
+      this.updateProjection();
+    }
     const w = this.world,
       p = w?.players[this.member];
     if (w && this.loaded) {
@@ -626,6 +709,7 @@ export class CarryView {
         // Actual displayed displacement drives the feet: no walking in place
         // against a wall, and remote feet keep moving during interpolation.
         const moving = travel > dt * 0.05;
+        if (moving && q.id === this.member) this.onStep();
         if (e.visual) {
           const clip =
             w.phase === "LAUNCHED"
@@ -957,6 +1041,7 @@ export class CarryView {
       this.camera.lookAt(this.anchor);
     }
     this.renderer.render(this.scene, this.camera);
+    this.drawProgress(now);
     if (now - this.metricsAt > 500) {
       this.metricsAt = now;
       let playerCssHeight = 0;
@@ -1001,6 +1086,9 @@ export class CarryView {
     this.materials.forEach((m) => m.dispose());
     this.environment?.dispose();
     this.renderer?.dispose();
+    this.canvas.removeEventListener("wheel", this.wheel);
+    this.progressLayer.remove();
+    this.progressNodes.clear();
     this.canvas.remove();
   }
 }

@@ -78,7 +78,7 @@ test("campaign starts with zero funds and one movable basic bench", () => {
   assert.equal(w.items[item].state, "consumed");
   assertCarry(w);
 });
-test("tier upgrades cost once, unlock recipes gradually, and survive packing without duplication", () => {
+test("optional tier upgrades cost once and survive packing without duplication", () => {
   const w = make(),
     p = w.players.p;
   rich(w);
@@ -87,8 +87,8 @@ test("tier upgrades cost once, unlock recipes gradually, and survive packing wit
   p.pos = { x: -10, y: 0, z: -4.5 };
   cmd(w, "PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 0 });
   let m = Object.values(w.machines)[0];
-  assert.equal(machineCanRecipe(m, "assemble_engine"), false);
-  assert.equal(machineCanRecipe(m, "assemble_hull"), false);
+  assert.equal(machineCanRecipe(m, "assemble_engine"), true);
+  assert.equal(machineCanRecipe(m, "assemble_hull"), true);
   p.pos = machinePort(m);
   const c = {
     id: crypto.randomUUID(),
@@ -99,10 +99,10 @@ test("tier upgrades cost once, unlock recipes gradually, and survive packing wit
   const before = w.economy.coins;
   assert.equal(commandCarry(w, "p", c).ok, true);
   assert.equal(commandCarry(w, "p", c).ok, true);
-  assert.equal(w.economy.coins, before - 70);
+  assert.equal(w.economy.coins, before - 3);
   assert.equal(m.tier, 1);
   assert.equal(machineCanRecipe(m, "assemble_hull"), true);
-  assert.equal(machineCanRecipe(m, "assemble_engine"), false);
+  assert.equal(machineCanRecipe(m, "assemble_engine"), true);
   assert.equal(cmd(w, "UPGRADE_MACHINE", { target: m.id }).ok, true);
   assert.equal(machineCanRecipe(m, "assemble_engine"), true);
   assert.equal(cmd(w, "PACK_MACHINE", { target: m.id }).ok, true);
@@ -134,7 +134,7 @@ test("seven carry steps reach eight, speed caps at 30%, and branches do not skip
   assert.equal(cmd(w, "UPGRADE", { upgrade: "__proto__" }).ok, false);
   assertCarry(w);
 });
-test("processing gives XP, one-time sale or installation gives money; quality propagates conservatively", () => {
+test("processing gives XP and preserves quality, but removed selling cannot mint coins", () => {
   const w = make(),
     p = w.players.p;
   rich(w);
@@ -151,7 +151,7 @@ test("processing gives XP, one-time sale or installation gives money; quality pr
   assert.equal(w.economy.coins, coins);
   const i = w.items[m.output[0]];
   assert.equal(i.quality, 3);
-  assert.equal(itemValue(i), 7);
+  assert.equal(itemValue(i), 4);
   p.pos = machinePort(m, true);
   cmd(w, "INTERACT", { target: i.id });
   p.pos = { ...MARKET };
@@ -160,10 +160,10 @@ test("processing gives XP, one-time sale or installation gives money; quality pr
     seq: p.lastSeq + 1,
     type: "SELL" as const,
   };
-  assert.equal(commandCarry(w, "p", sale).ok, true);
+  assert.equal(commandCarry(w, "p", sale).ok, false);
   commandCarry(w, "p", sale);
-  assert.equal(w.economy.coins, coins + 7);
-  assert.equal(i.state, "consumed");
+  assert.equal(w.economy.coins, coins);
+  assert.equal(i.state, "hand");
   assert.equal(cmd(w, "SELL").ok, false);
   assertCarry(w);
 });

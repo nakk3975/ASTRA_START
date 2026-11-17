@@ -114,7 +114,7 @@ test("an action waits for movement split across packets without consuming its co
     cmd,
   );
   assert.equal(b.result?.ok, true);
-  assert.equal(b.world.economy.coins, 40);
+  assert.equal(b.world.economy.coins, 78);
   const c = await svc.sync(
     s.roomId,
     s.member,
@@ -123,7 +123,7 @@ test("an action waits for movement split across packets without consuming its co
     cmd,
   );
   assert.equal(c.result?.id, b.result?.id);
-  assert.equal(c.world.economy.coins, 40);
+  assert.equal(c.world.economy.coins, 78);
   assert.equal(
     Object.values(c.world.items).filter((i) => i.kind === "kit_bench").length,
     1,
@@ -260,7 +260,7 @@ test("resuming clears old movement barriers while keeping command identity for d
   await Promise.resolve();
   assert.equal(
     net.world?.economy.coins,
-    40,
+    78,
     "late previous-session response cannot undo the purchase",
   );
   net.stopped = true;

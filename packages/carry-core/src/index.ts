@@ -122,13 +122,17 @@ export function migrateCarry(w: World) {
     w.rules = RULES;
     event(w, "3.2 적용 · 기존 광맥과 자금·설비·진행을 보존했습니다.");
   }
+  if (w.rules === "quarry-3.2.0") {
+    w.rules = RULES;
+    event(w, "3.3 적용 · 설치 보상과 무료 필수 해금 · 기존 자금·진행 보존");
+  }
   return w;
 }
 function award(w: World, kind: Kind, id: string) {
   const r = REWARDS[kind];
   if (r) {
     w.economy.xp += r.xp;
-    event(w, `${ITEM[kind].name} 가공 +${r.xp} XP · 판매/납품 시 코인`, id);
+    event(w, `${ITEM[kind].name} 가공 +${r.xp} XP · 로켓 설치 시 코인`, id);
   }
 }
 export function event(w: World, text: string, item?: string) {
@@ -380,7 +384,6 @@ export function targets(w: World, p: Player) {
       });
   }
   if (p.hand) {
-    t.push({ id: "market", pos: MARKET, label: "E 판매" });
     for (const m of Object.values(w.machines))
       t.push({
         id: `in:${m.id}`,
@@ -650,7 +653,7 @@ function action(w: World, p: Player, c: Command) {
     if (!m || !r || !machineCanRecipe(m, c.recipe!))
       throw Error("이 기계에서는 만들 수 없습니다.");
     if (!recipeAvailable(w, c.recipe!))
-      throw Error("필요한 광맥을 먼저 해금하세요.");
+      throw Error("필요한 광맥과 제작 경험치를 먼저 달성하세요.");
     if (
       r.output.startsWith("kit_") &&
       !deviceUnlocked(w, r.output.slice(4) as DeviceKind)

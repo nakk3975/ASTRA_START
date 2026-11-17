@@ -70,7 +70,7 @@ export default {
     if (url.pathname === "/api/health")
       return json({
         ok: true,
-        rules: "quarry-3.2.0",
+        rules: "quarry-3.3.0",
         build: APP_VERSION,
         transport: "http",
         storage: "D1",

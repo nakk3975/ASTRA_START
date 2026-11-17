@@ -154,7 +154,7 @@ test("hosted HTTP adapter persists CAS commands in real SQLite using generated m
       });
       assert.equal(r.status, 200, r.data.error);
       assert.equal(r.data.result.ok, true);
-      assert.equal(r.data.world.economy.coins, 80);
+      assert.equal(r.data.world.economy.coins, 100);
     }
     const reopened = (await call("resume", auth(campaign))).data;
     assert.equal(reopened.world.veins.cable_scrap.unlocked, true);
@@ -186,7 +186,7 @@ test("hosted HTTP adapter persists CAS commands in real SQLite using generated m
     }
     const reload = await new D1CarryStore(binding).get(campaign.roomId);
     assert.equal(Object.keys(reload!.world.machines).length, 1);
-    assert.equal(reload!.world.economy.coins, 80);
+    assert.equal(reload!.world.economy.coins, 100);
     assertCarry(reload!.world);
   } finally {
     db.close();

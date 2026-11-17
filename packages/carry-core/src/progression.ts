@@ -5,7 +5,7 @@ import {
   UPGRADES,
   MACHINE_CATALOG,
   MACHINE_TIER_SPEED,
-  SALE_VALUE,
+  INSTALL_VALUE,
   CHARACTERS,
   VEIN_UNLOCKS,
   type OreKind,
@@ -46,7 +46,8 @@ export const miningSeconds = (w: World, kind: Kind, automatic = false) =>
 export const railSeconds = (w: World) =>
   [1.8, 1.5, 1.25, 1.05, 0.9][Math.min(4, level(w, "rail"))];
 export const itemValue = (i: Item) =>
-  Math.floor((SALE_VALUE[i.kind] ?? 0) * (1 + 0.15 * (i.quality ?? 0)));
+  (INSTALL_VALUE[i.kind] ?? 0) +
+  (INSTALL_VALUE[i.kind] ? Math.max(0, Math.floor(i.quality ?? 0)) : 0);
 const basic = [
   "smelt_ingot",
   "draw_wire",
@@ -62,9 +63,9 @@ export function machineCanRecipe(m: Machine, id: string) {
   if (m.type === "bench")
     return (
       basic.includes(id) ||
-      (m.tier >= 1 && medium.includes(id)) ||
-      (m.tier >= 2 && ["assemble_engine", "assemble_control"].includes(id)) ||
-      (m.tier >= 1 && r.machine === "workbench")
+      medium.includes(id) ||
+      ["assemble_engine", "assemble_control"].includes(id) ||
+      r.machine === "workbench"
     );
   return m.type === r.machine;
 }
@@ -92,6 +93,7 @@ export function recipeAvailable(w: World, id: string): boolean {
   if (id === "lab_plate") return w.profile === "lab";
   const recipe = RECIPES[id];
   if (!recipe) return false;
+  if (w.profile !== "lab" && w.economy.xp < recipeUnlockXp(id)) return false;
   const available = (kind: Kind, seen: Set<Kind>): boolean => {
     if (Object.hasOwn(VEIN_UNLOCKS, kind)) return veinUnlocked(w, kind);
     if (seen.has(kind)) return false;
@@ -106,4 +108,13 @@ export function recipeAvailable(w: World, id: string): boolean {
   return Object.keys(recipe.input).every((k) =>
     available(k as Kind, new Set()),
   );
+}
+
+/** Essential production never requires spending the finite installation income. */
+export function recipeUnlockXp(id: string) {
+  return ["assemble_engine", "assemble_control"].includes(id)
+    ? 50
+    : medium.includes(id) || RECIPES[id]?.machine === "workbench"
+      ? 24
+      : 0;
 }

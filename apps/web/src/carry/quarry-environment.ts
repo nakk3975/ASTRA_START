@@ -1,6 +1,5 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { MARKET } from "../../../../packages/carry-core/src/index.ts";
 
 /** Original outdoor quarry scenery. Decorations stay outside the walkable boundary.
  * Static meshes share a material batch, keeping the scenery cheap on small GPUs. */
@@ -140,14 +139,6 @@ export function quarryEnvironment() {
       z,
     );
   }
-  // The starting market is a timber stall, not a futuristic terminal.
-  box(MARKET.x, 0.53, MARKET.z, 2.1, 1.06, 1.15, "#ae8754");
-  box(MARKET.x, 1.08, MARKET.z, 2.3, 0.12, 1.35, "#e3cca0");
-  for (const x of [-1, 1])
-    box(MARKET.x + x, 1.4, MARKET.z + 0.45, 0.12, 2.8, 0.12, "#927047");
-  box(MARKET.x, 2.7, MARKET.z, 2.5, 0.13, 1.65, "#a46847");
-  for (const x of [-0.8, 0, 0.8])
-    box(MARKET.x + x, 2.78, MARKET.z, 0.38, 0.03, 1.7, "#eadbb5");
   // Rough stone launch foundation, with the exact original ramp surface.
   box(17, 0.6, 0, 10, 1.2, 12, "#b5a17d");
   box(17, 1.21, 0, 10, 0.035, 12, "#ded0ae");
