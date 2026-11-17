@@ -2,12 +2,25 @@ import React, { useEffect, useState } from "react";
 import { WorldView } from "./WorldView";
 import { viewControl } from "./visuals/camera";
 import { manifestHash } from "./visuals/assets";
+import {
+  REVIEW_STORAGE_KEY,
+  restoreReview,
+  reviewReady,
+  type ReviewRecord,
+} from "./visuals/review-state";
 import "./style.css";
 export default function Pilot({
   standalone = false,
 }: {
   standalone?: boolean;
 }) {
+  const [saved] = useState(() => {
+    try {
+      return restoreReview(localStorage.getItem(REVIEW_STORAGE_KEY));
+    } catch {
+      return restoreReview(null);
+    }
+  });
   const [size, setSize] = useState([1366, 768]),
     [low, setLow] = useState(false),
     [error, setError] = useState(""),
@@ -15,8 +28,22 @@ export default function Pilot({
     [count, setCount] = useState(1),
     [rotation, setRotation] = useState(0),
     [metrics, setMetrics] = useState<Record<string, any> | null>(null),
-    [notes, setNotes] = useState(""),
-    [records, setRecords] = useState<Record<string, unknown>[]>([]);
+    [notes, setNotes] = useState(saved.notes),
+    [records, setRecords] = useState<ReviewRecord[]>(saved.records),
+    [saveError, setSaveError] = useState("");
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        REVIEW_STORAGE_KEY,
+        JSON.stringify({ version: 2, records, notes }),
+      );
+      setSaveError("");
+    } catch {
+      setSaveError(
+        "이 브라우저에 기록을 저장하지 못했습니다. 내려받기로 보관해 주세요.",
+      );
+    }
+  }, [records, notes]);
   useEffect(() => {
     const timer = setInterval(() => {
       const raw =
@@ -25,15 +52,13 @@ export default function Pilot({
     }, 500);
     return () => clearInterval(timer);
   }, []);
-  const ready = !!(
-    metrics?.webgl &&
-    metrics?.loaded &&
-    metrics.css?.[0] === size[0] &&
-    metrics.css?.[1] === size[1] &&
-    metrics.quality === (low ? "low" : "standard")
-  );
+  const settings = { size, low, clip, count, rotation };
+  const ready = reviewReady(metrics, settings);
   function record(result: "VISUALLY_REVIEWED" | "NEEDS_REVISION") {
-    if (!ready) return;
+    const raw =
+      document.querySelector<HTMLElement>(".world-canvas")?.dataset.metrics;
+    const current = raw ? JSON.parse(raw) : null;
+    if (!reviewReady(current, settings) || !manifestHash) return;
     setRecords((old) => [
       ...old,
       {
@@ -45,7 +70,7 @@ export default function Pilot({
         clip,
         count,
         rotation,
-        measurements: structuredClone(metrics),
+        measurements: structuredClone(current),
         manifestHash,
       },
     ]);
@@ -67,6 +92,7 @@ export default function Pilot({
       error,
       manifestHash,
       records,
+      recordSchemaVersion: 2,
       reviewStatus:
         measurements.webgl && measurements.loaded
           ? "REQUIRES_VISUAL_REVIEW"
@@ -139,6 +165,21 @@ export default function Pilot({
           {error ||
             "같은 WorldView, 동일 GLB·카메라·품질 설정을 사용합니다. 실제 기기 FPS와 조작감은 별도 확인하세요."}
         </p>
+        {error && (
+          <details className="graphics-help">
+            <summary>3D 화면이 나오지 않을 때</summary>
+            <p>
+              내 PC의 Chrome·Edge에서 그래픽 가속을 켜고 브라우저를 다시 시작한
+              뒤 이 페이지를 열어 주세요. 그래도 안 되면 그래픽 드라이버를
+              확인해 주세요.
+            </p>
+            <p>
+              원격 검수 브라우저에서 WebGL이 제공되지 않는 경우에는 내 PC 설정을
+              바꿔도 원격 화면에는 적용되지 않습니다. 이때는 아래 기록을
+              내려받아 오류 상태를 확인할 수 있습니다.
+            </p>
+          </details>
+        )}
       </header>
       <aside className="pilot-review-tools">
         <strong>
@@ -148,6 +189,8 @@ export default function Pilot({
           {size.join(" × ")} · {low ? "저사양" : "표준"} · 기록 {records.length}
           개
         </span>
+        <span>메모와 기록은 이 브라우저에 자동 보관됩니다.</span>
+        {saveError && <p role="alert">{saveError}</p>}
         {ready && (
           <span>
             삼각형 {Number(metrics?.triangles).toLocaleString()} · 그리기{" "}

@@ -128,6 +128,7 @@ export class FixedCamera {
   }
 }
 export const viewControl = {
+  graphicsReady: false,
   input: { x: 0, z: 0 },
   inputAt: 0,
   panel: false,

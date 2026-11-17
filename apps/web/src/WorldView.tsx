@@ -14,6 +14,12 @@ import {
 } from "../../../packages/game-core/src/index.ts";
 import catalog from "../../../design/asset_catalog_v1_1.json";
 import {
+  OcclusionFade,
+  occlusionRay,
+  createSilhouette,
+} from "./visuals/occlusion";
+import { rocketPresentation } from "./visuals/rocket";
+import {
   assetInstance,
   preloadAssets,
   manifest,
@@ -61,6 +67,7 @@ type Entity = {
   node: T.Group;
   visual: Visual | null;
   key: string;
+  silhouette?: ReturnType<typeof createSilhouette>;
   dispose: () => void;
 };
 export function WorldView(props: Props) {
@@ -71,7 +78,14 @@ export function WorldView(props: Props) {
   useEffect(() => {
     const element = host.current!;
     element.replaceChildren();
+    viewControl.graphicsReady = false;
+    element.dataset.metrics = JSON.stringify({
+      webgl: false,
+      loaded: false,
+      reason: "STARTING",
+    });
     const recovery = (message: string) => {
+      element.querySelector(".world-recovery")?.remove();
       const card = document.createElement("div");
       card.className = "world-recovery";
       card.setAttribute("role", "alert");
@@ -123,6 +137,7 @@ export function WorldView(props: Props) {
     const ownGeo = new Set<T.BufferGeometry>(),
       ownMat = new Set<T.Material>(),
       ownTex = new Set<T.Texture>();
+    const fades = new OcclusionFade();
     function mat(color: string) {
       const m = new T.MeshStandardMaterial({ color, roughness: 0.85 });
       ownMat.add(m);
@@ -188,6 +203,7 @@ export function WorldView(props: Props) {
         color,
         side: T.DoubleSide,
         depthWrite: false,
+        depthTest: false,
       });
       ownMat.add(m);
       const n = new T.Mesh(g, m);
@@ -219,11 +235,19 @@ export function WorldView(props: Props) {
       }
       scene.add(node);
       clickables.push(node);
-      return {
+      const result: Entity = {
         node,
         visual,
         key: asset + ":" + rotation + ":" + latest.current.low,
         dispose() {
+          result.silhouette?.dispose();
+          visual?.root.traverse((o) => {
+            if (o instanceof T.Mesh)
+              for (const m of Array.isArray(o.material)
+                ? o.material
+                : [o.material])
+                fades.forget(m);
+          });
           visual?.release();
           node.traverse((o) => {
             if (o instanceof T.Mesh && ownGeo.has(o.geometry)) {
@@ -248,6 +272,7 @@ export function WorldView(props: Props) {
           if (i >= 0) clickables.splice(i, 1);
         },
       };
+      return result;
     }
     function facility(id: string, g: Geometry, asset: string) {
       const cx = g.top_left.x + g.footprint.width / 2,
@@ -313,16 +338,33 @@ export function WorldView(props: Props) {
       x = 0,
       z = 0,
       rotation = 0,
+      assembled = true,
     ) {
       const v = assetInstance(id, latest.current.low);
       if (!v) return;
       v.root.position.set(x, y, z);
       v.root.rotation.y = rotation;
       v.root.userData.id = "rocket";
+      if (!assembled)
+        v.root.traverse((o) => {
+          if (o instanceof T.Mesh)
+            for (const m of Array.isArray(o.material)
+              ? o.material
+              : [o.material]) {
+              m.transparent = true;
+              m.opacity = 0.38;
+              m.depthWrite = false;
+            }
+        });
       parent.add(v.root);
       rocketVisuals.push(v);
       clickables.push(v.root);
     }
+    // Four fixed markers show each quarter, even for stages with a single model.
+    // These are construction UI, never substitutes for missing Meshy models.
+    const buildMarkers = Array.from({ length: 4 }, (_, i) =>
+      box(rocketGround, -1.5 + i, 0.06, -2.6, 0.65, 0.08, 0.18, "#acb6aa"),
+    );
     const selection = ring(scene, 0, 0, 0.9, "#e39b47");
     selection.visible = false;
     let loaded = false,
@@ -349,6 +391,7 @@ export function WorldView(props: Props) {
       ghost: Entity | null = null,
       ghostKey = "",
       initialized = false;
+    let contextLost = false;
     const status = document.createElement("div");
     status.className = "world-status";
     status.textContent = "3D 모델을 불러오는 중";
@@ -374,6 +417,7 @@ export function WorldView(props: Props) {
     const ray = new T.Raycaster(),
       pointer = new T.Vector2();
     function pointerdown(e: PointerEvent) {
+      if (contextLost) return;
       drag = { x: e.clientX, y: e.clientY, pan: e.button === 1 };
       if (drag.pan) {
         e.preventDefault();
@@ -435,6 +479,23 @@ export function WorldView(props: Props) {
       viewControl.resync = true;
       previous = performance.now();
     }
+    function lost(e: Event) {
+      e.preventDefault();
+      contextLost = true;
+      viewControl.graphicsReady = false;
+      cancelAnimationFrame(frame);
+      hidden();
+      element.dataset.metrics = JSON.stringify({
+        webgl: false,
+        loaded: false,
+        reason: "WEBGL_CONTEXT_LOST",
+      });
+      recovery(
+        "3D 그래픽 연결이 끊겼습니다. 작업장 저장은 유지됩니다. 화면을 다시 시도해 주세요.",
+      );
+      latest.current.onError("3D 그래픽 연결 끊김");
+    }
+    renderer.domElement.addEventListener("webglcontextlost", lost);
     renderer.domElement.addEventListener("pointerdown", pointerdown);
     renderer.domElement.addEventListener("pointermove", pointermove);
     renderer.domElement.addEventListener("pointerup", pointerup);
@@ -444,6 +505,7 @@ export function WorldView(props: Props) {
       .then(() => {
         if (!disposed) {
           loaded = true;
+          viewControl.graphicsReady = !contextLost;
           status.textContent = "";
         }
       })
@@ -453,12 +515,8 @@ export function WorldView(props: Props) {
         recovery(e.message);
         latest.current.onError(e.message);
       });
-    const fadeState = new Map<
-      T.Material,
-      { hit: number; clear: number; opacity: number }
-    >();
     function animate(now: number) {
-      if (disposed) return;
+      if (disposed || contextLost) return;
       frame = requestAnimationFrame(animate);
       const rawdt = (now - previous) / 1000;
       previous = now;
@@ -478,6 +536,8 @@ export function WorldView(props: Props) {
         entities.clear();
         for (const e of players.values()) e.dispose();
         players.clear();
+        for (const e of cargo.values()) e.dispose();
+        cargo.clear();
         rocketKey = "";
       }
       if (loaded) {
@@ -622,6 +682,9 @@ export function WorldView(props: Props) {
               label(e.node, `${index + 1} ${m.name}`, 2.15, colors[index % 6]);
               players.set(m.id, e);
             }
+            if (m.id === p.member && e.visual && !e.silhouette)
+              e.silhouette = createSilhouette(e.visual.root, colors[index % 6]);
+            e.silhouette?.setVisible(false);
             e.node.visible = true;
             const dest = new T.Vector3(
                 m.position.x / UNIT,
@@ -748,58 +811,44 @@ export function WorldView(props: Props) {
               e.dispose();
               cargo.delete(id);
             }
-          const stage = w.stages[w.stage],
-            ratio = stage
-              ? Object.values(stage.delivered).reduce((a, b) => a + b, 0) /
-                Math.max(
-                  1,
-                  Object.values(stage.required).reduce((a, b) => a + b, 0),
-                )
-              : 1;
-          const key = [w.stage, Math.floor(ratio * 4), p.low].join(":");
+          const construction = rocketPresentation(w);
+          const key = `${construction.key}:${p.low}`;
           if (key !== rocketKey) {
             rocketKey = key;
             for (const v of rocketVisuals) {
               const i = clickables.indexOf(v.root);
               if (i >= 0) clickables.splice(i, 1);
+              v.root.traverse((o) => {
+                if (o instanceof T.Mesh)
+                  for (const m of Array.isArray(o.material)
+                    ? o.material
+                    : [o.material])
+                    fades.forget(m);
+              });
               v.release();
             }
             rocketVisuals.length = 0;
-            const completed = w.stage;
-            if (completed >= 1) rocketPart("rocket_pad", rocketGround, 0);
-            if (completed >= 2) rocketPart("rocket_gantry", rocketGround, 0.25);
-            if (completed >= 3) {
-              rocketPart("rocket_lower_hull", rocketFlight, 1.2);
-              rocketPart("rocket_upper_hull", rocketFlight, 4.2);
+            for (const part of construction.parts) {
+              const [x, y, z] = part.position;
+              rocketPart(
+                part.asset,
+                part.parent === "ground" ? rocketGround : rocketFlight,
+                y,
+                x,
+                z,
+                part.rotation,
+                part.assembled,
+              );
             }
-            if (completed >= 4) {
-              rocketPart("rocket_engine", rocketFlight, 0.25);
-              for (let i = 0; i < 4; i++) {
-                const a = (i * Math.PI) / 2;
-                rocketPart(
-                  "rocket_fin",
-                  rocketFlight,
-                  1.2,
-                  Math.cos(a) * 1.1,
-                  Math.sin(a) * 1.1,
-                  -a,
-                );
-              }
-            }
-            if (completed >= 5) {
-              rocketPart("rocket_nose", rocketFlight, 6.2);
-              for (let i = 0; i < (completed >= 6 ? 8 : 1); i++) {
-                const a = (i * Math.PI) / 4;
-                rocketPart(
-                  "rocket_panel",
-                  rocketFlight,
-                  3,
-                  Math.cos(a) * 1.01,
-                  Math.sin(a) * 1.01,
-                  -a,
-                );
-              }
-            }
+            buildMarkers.forEach((marker, i) => {
+              (marker.material as T.MeshStandardMaterial).color.set(
+                i < construction.assembly
+                  ? "#2f8878"
+                  : i < construction.delivery
+                    ? "#e1a24f"
+                    : "#acb6aa",
+              );
+            });
           }
           if (w.phase === "LAUNCHED") {
             if (!launchedAt) launchedAt = now;
@@ -893,51 +942,66 @@ export function WorldView(props: Props) {
         const ndc = player.position.clone().project(camera);
         offscreen.hidden = Math.abs(ndc.x) < 0.92 && Math.abs(ndc.y) < 0.85;
       } else offscreen.hidden = true;
-      // Fade only this instance's materials. The server footprint and ray target are untouched.
+      // Match the orthographic projection and fade complete visual instances only.
+      // Labels, service rings, click targets and server geometry remain independent.
       const hitMats = new Set<T.Material>();
-      if (player) {
-        const origin = camera.position.clone(),
-          end = player.position.clone().add(new T.Vector3(0, 1, 0));
-        ray.set(origin, end.clone().sub(origin).normalize());
-        ray.far = origin.distanceTo(end) - 0.25;
-        for (const h of ray.intersectObjects(
-          [...entities.values()]
-            .map((e) => e.node)
-            .concat(rocketGround, rocketFlight),
+      const blockers = [...entities.values()]
+        .flatMap((e) => (e.visual ? [e.visual.root] : []))
+        .concat(rocketVisuals.map((v) => v.root));
+      function findOccluders(target: T.Vector3) {
+        let blocked = false;
+        for (const hit of occlusionRay(camera, target).intersectObjects(
+          blockers,
           true,
-        ))
-          if (h.object instanceof T.Mesh) {
-            for (const m of Array.isArray(h.object.material)
-              ? h.object.material
-              : [h.object.material])
-              hitMats.add(m);
+        )) {
+          let root: T.Object3D | null = hit.object;
+          while (root && !blockers.includes(root as T.Group))
+            root = root.parent;
+          if (!root) continue;
+          blocked = true;
+          root.traverse((o) => {
+            if (o instanceof T.Mesh)
+              for (const m of Array.isArray(o.material)
+                ? o.material
+                : [o.material])
+                hitMats.add(m);
+          });
+        }
+        return blocked;
+      }
+      if (player && !p.overview) {
+        const hiddenPlayer = findOccluders(
+          player.position.clone().add(new T.Vector3(0, 0.9, 0)),
+        );
+        players.get(p.member)?.silhouette?.setVisible(hiddenPlayer);
+        if (w && p.selected) {
+          try {
+            const g = geometry(w, p.selected);
+            const nearest = g.service_points.reduce<
+              Geometry["service_points"][number] | null
+            >((best, service) => {
+              const a = service.interaction_anchor;
+              const b = best?.interaction_anchor;
+              return !b ||
+                Math.hypot(a.x - player.position.x, a.z - player.position.z) <
+                  Math.hypot(b.x - player.position.x, b.z - player.position.z)
+                ? service
+                : best;
+            }, null);
+            if (nearest)
+              findOccluders(
+                new T.Vector3(
+                  nearest.interaction_anchor.x,
+                  0.1,
+                  nearest.interaction_anchor.z,
+                ),
+              );
+          } catch {
+            /* Selection may be removed in the same snapshot. */
           }
-        ray.far = Infinity;
+        }
       }
-      for (const m of hitMats)
-        if (!fadeState.has(m))
-          fadeState.set(m, { hit: now, clear: 0, opacity: 1 });
-      for (const [m, f] of fadeState) {
-        const hit = hitMats.has(m);
-        if (hit) f.clear = 0;
-        else if (!f.clear) f.clear = now;
-        const target =
-          hit && now - f.hit >= 100
-            ? 0.22
-            : !hit && now - f.clear >= 300
-              ? 1
-              : f.opacity;
-        f.opacity +=
-          Math.sign(target - f.opacity) *
-          Math.min(
-            Math.abs(target - f.opacity),
-            viewControl.reduced ? 1 : (dt / 0.15) * 0.78,
-          );
-        m.transparent = f.opacity < 1;
-        m.opacity = f.opacity;
-        m.depthWrite = f.opacity >= 1;
-        if (!hit && f.opacity === 1) fadeState.delete(m);
-      }
+      fades.update(hitMats, now, dt, viewControl.reduced);
       const gh = p.ghost,
         key = JSON.stringify([gh, p.low]);
       if (key !== ghostKey) {
@@ -1007,6 +1071,7 @@ export function WorldView(props: Props) {
     frame = requestAnimationFrame(animate);
     return () => {
       disposed = true;
+      viewControl.graphicsReady = false;
       cancelAnimationFrame(frame);
       observer.disconnect();
       document.removeEventListener("visibilitychange", hidden);
@@ -1021,6 +1086,8 @@ export function WorldView(props: Props) {
       ownGeo.forEach((g) => g.dispose());
       ownMat.forEach((m) => m.dispose());
       ownTex.forEach((t) => t.dispose());
+      renderer.domElement.removeEventListener("webglcontextlost", lost);
+      fades.clear();
       renderer.dispose();
       element.replaceChildren();
     };

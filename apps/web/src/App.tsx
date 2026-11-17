@@ -523,6 +523,12 @@ export default function App() {
           ((k.has("s") || k.has("ArrowDown") ? 1 : 0) -
             (k.has("w") || k.has("ArrowUp") ? 1 : 0)) *
             1000;
+      if (!viewControl.graphicsReady) {
+        keys.current.clear();
+        stick.current = { dx: 0, dz: 0 };
+        net.stopInputs();
+        return;
+      }
       const movement = screenMovement(dx / 1000, dz / 1000);
       if (dx || dz) {
         viewControl.resync = false;
