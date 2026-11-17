@@ -24,6 +24,14 @@ export type Item = {
   recovered: number;
   sleep: boolean;
 };
+export type MoveFrame = { seq: number; dt: number; x: number; z: number };
+export type MovePacket = {
+  x: number;
+  z: number;
+  epoch: number;
+  control?: number;
+  frames?: MoveFrame[];
+};
 export type Player = {
   id: string;
   name: string;
@@ -36,6 +44,7 @@ export type Player = {
   extraHands: string[];
   mining: null | { kind: Kind; remaining: number };
   input: { x: number; z: number; at: number };
+  motion?: { ack: number; control: number; budget: number; at: number };
   lastSeq: number;
   lastSeen: number;
   epoch: number;

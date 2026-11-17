@@ -1,3 +1,5 @@
+import { quarryEnvironment } from "./quarry-environment";
+import { starterMachine } from "./starter-machines";
 import { MotionSmoother } from "./motion";
 import * as T from "three";
 import {
@@ -58,7 +60,7 @@ export type Mode =
 export class CarryView {
   renderer!: T.WebGLRenderer;
   scene = new T.Scene();
-  camera = new T.PerspectiveCamera(35, 1, 0.1, 120);
+  camera = new T.OrthographicCamera(-16, 16, 10, -10, 0.1, 120);
   world: World | null = null;
   member = "";
   motion = new MotionSmoother();
@@ -66,7 +68,7 @@ export class CarryView {
   receive(w: World, member: string, rtt = 0) {
     this.world = w;
     this.member = member;
-    this.motion.receive(w, member, performance.now(), rtt);
+    // Network owns the acknowledged input timeline; never reconcile twice.
   }
   ready = false;
   error = "";
@@ -109,7 +111,8 @@ export class CarryView {
   private height = 1;
   private canvas: HTMLCanvasElement;
   private sun = new T.DirectionalLight("#fff0cf", 3);
-  private bg = new T.Color("#a6c5cf");
+  private bg = new T.Color("#d8dfcf");
+  private environment?: ReturnType<typeof quarryEnvironment>;
   private launchAt: number | null = null;
   constructor(private host: HTMLElement) {
     this.canvas = document.createElement("canvas");
@@ -144,8 +147,8 @@ export class CarryView {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = T.PCFSoftShadowMap;
     this.scene.background = this.bg;
-    this.scene.fog = new T.Fog("#a6c5cf", 55, 110);
-    this.scene.add(new T.HemisphereLight("#eff9ff", "#585b64", 2.2));
+    this.scene.fog = new T.Fog("#d8dfcf", 55, 110);
+    this.scene.add(new T.HemisphereLight("#fff7e5", "#8b7957", 2.2));
     this.sun.position.set(-12, 26, 9);
     this.sun.castShadow = true;
     this.sun.shadow.mapSize.set(1024, 1024);
@@ -239,84 +242,21 @@ export class CarryView {
     return m;
   }
   private map() {
-    this.box(this.scene, MARKET.x, 0.3, MARKET.z, 2, 0.6, 1.2, "#9f784b");
-    this.label(this.scene, "판매소 · E 판매", MARKET.x, 1.8, MARKET.z, 3.5);
-    this.box(this.scene, 0, -0.4, 0, 48, 0.8, 26, "#23272f");
-    this.box(this.scene, -16, -0.02, 0, 15, 0.08, 24, "#58636a");
-    this.box(this.scene, -2, 0.015, 0, 20, 0.05, 24, "#78858b");
-    this.box(this.scene, 17, 0.6, 0, 10, 1.2, 12, "#7c919c");
-    this.box(this.scene, 17, 1.21, 0, 10, 0.035, 12, "#b8c7c9");
-    const ramp = new T.BufferGeometry();
-    ramp.setAttribute(
-      "position",
-      new T.Float32BufferAttribute(
-        [
-          8, 0, -2, 12, 1.2, -2, 12, 1.2, 2, 8, 0, -2, 12, 1.2, 2, 8, 0, 2, 8,
-          0, -2, 12, 0, -2, 12, 1.2, -2, 8, 0, 2, 12, 1.2, 2, 12, 0, 2,
-        ],
-        3,
-      ),
-    );
-    ramp.computeVertexNormals();
-    const rm = new T.Mesh(this.geo(ramp), this.mat("#9aa8aa"));
-    rm.receiveShadow = true;
-    this.scene.add(rm);
-    const stripe = new T.InstancedMesh(
-      this.geo(new T.BoxGeometry(0.45, 0.025, 0.16)),
-      this.mat("#f59e0b"),
-      88,
-    );
-    const matrix = new T.Matrix4();
-    for (let i = 0; i < 88; i++) {
-      matrix.makeTranslation(-21 + (i % 44), 0.07, i < 44 ? -10 : 10);
-      stripe.setMatrixAt(i, matrix);
-    }
-    this.scene.add(stripe);
-    for (let z = -11; z <= 11; z += 2) {
-      this.box(this.scene, -22.6, 0.6, z, 0.16, 1.2, 0.16, "#8b999f");
-    }
-    this.box(this.scene, -22.6, 0.9, 0, 0.12, 0.12, 23, "#a5b4b8");
-    this.box(this.scene, -22.6, 0.35, 0, 0.12, 0.1, 23, "#829296");
-    for (const src of SOURCES) {
-      this.box(
-        this.scene,
-        src.x - 0.6,
-        0.18,
-        src.z + 0.35,
-        0.4,
-        0.35,
-        2.1,
-        "#394d54",
-      );
+    this.environment = quarryEnvironment();
+    this.scene.add(this.environment.root);
+    this.label(this.scene, "판매소 · E 판매", MARKET.x, 3.05, MARKET.z, 3.5);
+    for (const src of SOURCES)
       this.label(
         this.scene,
-        ITEM[src.kind].name + " 광맥",
+        ITEM[src.kind].name + " 채굴",
         src.x,
-        1.5,
+        1.65,
         src.z - 1.1,
         2.4,
       );
-    }
-    this.label(this.scene, "01  폐기장", -16, 0.8, -11.5, 4);
-    this.label(this.scene, "02  가공 작업장", -2, 0.8, -11.5, 4.5);
-    this.label(this.scene, "03  발사대", 17, 2, -7, 4);
-    for (let x = -20; x < 22; x += 2)
-      for (let z = -10; z <= 10; z += 2) {
-        const h = floorHeight(x, z);
-        const l = this.box(
-          this.scene,
-          x,
-          h + 0.035,
-          z,
-          1.96,
-          0.008,
-          0.015,
-          "#839ca2",
-        );
-        (l.material as T.Material).transparent = true;
-        (l.material as T.Material).opacity = 0.16;
-        l.castShadow = false;
-      }
+    this.label(this.scene, "01  채굴장", -16, 0.8, -11.5, 4);
+    this.label(this.scene, "02  작은 공방", -2, 0.8, -11.5, 4.5);
+    this.label(this.scene, "03  우주선 건설", 17, 2, -7, 4);
   }
   private label(
     parent: T.Object3D,
@@ -330,12 +270,12 @@ export class CarryView {
     c.width = 512;
     c.height = 96;
     const ctx = c.getContext("2d")!;
-    ctx.fillStyle = "#161920dd";
+    ctx.fillStyle = "#f1e3c9ed";
     ctx.beginPath();
     ctx.roundRect(0, 0, 512, 96, 18);
     ctx.fill();
     ctx.font = "600 38px sans-serif";
-    ctx.fillStyle = "#f5f5e9";
+    ctx.fillStyle = "#524432";
     ctx.textAlign = "center";
     ctx.fillText(text, 256, 62);
     const tex = new T.CanvasTexture(c);
@@ -382,9 +322,24 @@ export class CarryView {
       h: number,
       d: number,
     ) => this.box(g, x, y, z, w, h, d, a.color);
-    if (a.shape === "scrap") {
-      box(0, 0.16, 0, 0.65, 0.17, 0.25).rotation.y = 0.4;
-      box(0.12, 0.25, 0, 0.18, 0.4, 0.32).rotation.z = 0.25;
+    if (a.shape === "ore" || a.shape === "coal") {
+      const chunk = new T.Mesh(
+        this.geo(new T.DodecahedronGeometry(0.32, 0)),
+        this.mat(a.color),
+      );
+      chunk.position.y = 0.28;
+      chunk.scale.set(1, 0.8, 0.85);
+      chunk.castShadow = true;
+      g.add(chunk);
+      if (a.shape === "ore") {
+        const fleck = new T.Mesh(
+          this.geo(new T.OctahedronGeometry(0.13, 0)),
+          this.mat(kind === "cable_scrap" ? "#81a795" : "#cf9b69"),
+        );
+        fleck.position.set(0.16, 0.45, 0.05);
+        fleck.scale.set(1, 0.45, 1);
+        g.add(fleck);
+      }
     } else if (a.shape === "plate" || a.shape === "hull") {
       box(0, 0.12, 0, 0.8, 0.13, 0.55);
       if (a.shape === "hull") box(0, 0.22, 0, 0.12, 0.1, 0.55);
@@ -498,7 +453,11 @@ export class CarryView {
       ) * this.settings.renderScale;
     this.renderer.setPixelRatio(ratio);
     this.renderer.setSize(this.width, this.height, false);
-    this.camera.aspect = this.width / this.height;
+    const span = this.settings.distance * 0.31;
+    this.camera.left = (-span * this.width) / this.height;
+    this.camera.right = (span * this.width) / this.height;
+    this.camera.top = span;
+    this.camera.bottom = -span;
     this.camera.updateProjectionMatrix();
   }
   applySettings(settings: Settings) {
@@ -537,15 +496,8 @@ export class CarryView {
               plastic_scrap: "source_plastic",
               energy_shard: "source_energy",
             }[src.kind],
-            e = this.addModel(key, asset, { x: src.x, y: 0.45, z: src.z });
-          e.visual?.root.scale.set(2.2, 3, 2.2);
-          const stone = new T.Mesh(
-            this.geo(new T.DodecahedronGeometry(0.9, 0)),
-            this.mat("#5c6d77"),
-          );
-          stone.scale.set(1, 0.7, 1);
-          stone.position.y = -0.1;
-          e.group.add(stone);
+            e = this.addModel(key, asset, { x: src.x, y: 0, z: src.z });
+          // Bounds are authored to match the authoritative ore footprint.
         }
       }
       for (const key of [...this.instances.keys()])
@@ -559,19 +511,11 @@ export class CarryView {
         }
         if (!e) {
           if (m.tier === 0) {
-            const group = new T.Group();
-            group.position.set(m.pos.x, 0, m.pos.z);
+            const group = starterMachine(m.type as MachineKind);
+            group.position.set(m.pos.x, m.pos.y, m.pos.z);
             this.scene.add(group);
             e = { group };
             this.instances.set(m.id, e);
-            this.box(group, 0, 0.85, 0, 2.1, 0.18, 1.6, "#99754a");
-            for (const x of [-0.8, 0.8])
-              for (const z of [-0.6, 0.6])
-                this.box(group, x, 0.4, z, 0.16, 0.8, 0.16, "#64513b");
-            if (m.type !== "bench") {
-              this.box(group, 0, 1.15, 0, 0.8, 0.5, 0.8, "#65727b");
-              this.cylinder(group, 0.45, 1.4, 0, 0.15, 0.4, "#b19668");
-            }
           } else
             e = this.addModel(
               m.id,
@@ -638,8 +582,14 @@ export class CarryView {
             : this.motion.remote(w, q.id, now);
         e.group.position.set(position.x, position.y, position.z);
         const input = q.id === this.member ? this.localInput : q.input;
-        const facing = Math.hypot(input.x, input.z) > 0.01 ? input : q.facing,
-          angle = Math.atan2(-facing.x, -facing.z);
+        const facing =
+          Math.hypot(input.x, input.z) > 0.01
+            ? input
+            : q.id === this.member
+              ? (e.group.userData.lastFacing ?? q.facing)
+              : q.facing;
+        e.group.userData.lastFacing = { x: facing.x, z: facing.z };
+        const angle = Math.atan2(-facing.x, -facing.z);
         e.group.rotation.y +=
           Math.atan2(
             Math.sin(angle - e.group.rotation.y),
@@ -690,16 +640,22 @@ export class CarryView {
             worker?.group.position ?? this.v.set(q.pos.x, q.pos.y, q.pos.z),
           );
           const slot = hands(q).indexOf(i.id);
+          const facing = worker
+            ? {
+                x: -Math.sin(worker.group.rotation.y),
+                z: -Math.cos(worker.group.rotation.y),
+              }
+            : q.facing;
           e.group.position.add(
             new T.Vector3(
-              q.facing.x * 0.62 + (slot >= 4 ? 0.22 : -0.08),
+              facing.x * 0.62 + (slot >= 4 ? 0.22 : -0.08),
               0.92 + (slot % 4) * 0.19,
-              q.facing.z * 0.62,
+              facing.z * 0.62,
             ),
           );
           if (hands(q).length > 1) e.group.scale.setScalar(0.82);
           else e.group.scale.setScalar(1);
-          e.group.rotation.y = Math.atan2(q.facing.x, q.facing.z);
+          e.group.rotation.y = Math.atan2(facing.x, facing.z);
         } else {
           e.group.position.lerp(
             this.v.set(i.pos.x, i.pos.y, i.pos.z),
@@ -935,16 +891,9 @@ export class CarryView {
           displayed.y + 0.7,
           displayed.z,
         );
-        if (!this.settings.lock) {
-          const ndc = target.clone().project(this.camera);
-          if (Math.abs(ndc.x) > 0.3 || Math.abs(ndc.y) > 0.28)
-            this.anchor.lerp(
-              this.v.set(displayed.x, this.anchor.y, displayed.z),
-              1 - Math.exp(-dt * 3),
-            );
-        }
-        this.anchor.y +=
-          (displayed.y - this.anchor.y) * (1 - Math.exp(-dt * 3));
+        // Follow the rendered position directly: no delayed camera drift after release.
+        if (!this.settings.lock)
+          this.anchor.set(displayed.x, displayed.y, displayed.z);
         const distance = this.settings.distance;
         this.camera.position.set(
           this.anchor.x + distance * 0.5,
@@ -965,7 +914,10 @@ export class CarryView {
           ...Object.keys(w.machines),
           ...Object.keys(w.devices).map((id) => `device:${id}`),
         ]
-          .map((id) => this.instances.get(id)?.visual?.root)
+          .map((id) => {
+            const instance = this.instances.get(id);
+            return instance?.visual?.root ?? instance?.group;
+          })
           .filter(Boolean) as T.Object3D[];
         for (const entry of ray.intersectObjects(
           [...blockers, this.rocket],
@@ -1001,7 +953,7 @@ export class CarryView {
         viewport: [this.width, this.height],
         drawing: [this.canvas.width, this.canvas.height],
         camera: {
-          fov: 35,
+          projection: "orthographic",
           distance: this.settings.distance,
           elevation: 45,
           azimuth: 45,
@@ -1027,6 +979,7 @@ export class CarryView {
     this.scene.traverse((o) => o.userData.dispose?.());
     this.geometries.forEach((g) => g.dispose());
     this.materials.forEach((m) => m.dispose());
+    this.environment?.dispose();
     this.renderer?.dispose();
     this.canvas.remove();
   }

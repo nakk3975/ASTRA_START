@@ -76,7 +76,7 @@ export default function CarryApp() {
     [attempt, setAttempt] = useState(0);
   const stop = () => {
     keys.current.clear();
-    net.current.input = { x: 0, z: 0 };
+    net.current.setInput({ x: 0, z: 0 });
     if (view.current) view.current.localInput = { x: 0, z: 0 };
   };
   const changeMode = (m: Mode) => {
@@ -133,6 +133,7 @@ export default function CarryApp() {
   useEffect(() => {
     const v = new CarryView(host.current!);
     view.current = v;
+    v.motion = net.current.movement;
     v.onError = (s) => {
       setGraphics(s);
       if (s) stop();
@@ -232,7 +233,7 @@ export default function CarryApp() {
               held("KeyD", "ArrowRight") - held("KeyA", "ArrowLeft"),
               held("KeyS", "ArrowDown") - held("KeyW", "ArrowUp"),
             );
-      net.current.input = next;
+      net.current.setInput(next);
       if (view.current) view.current.localInput = next;
     };
     const down = (e: KeyboardEvent) => {
@@ -321,22 +322,8 @@ export default function CarryApp() {
     document.addEventListener("visibilitychange", stop);
     document.addEventListener("focusin", focus);
     const t = setInterval(() => {
-      if (
-        modalRef.current ||
-        !view.current?.ready ||
-        document.hidden ||
-        net.current.stopped
-      ) {
-        net.current.input = { x: 0, z: 0 };
-        return;
-      }
-      const k = keys.current,
-        held = (a: string, b: string) => Number(k.has(a) || k.has(b));
-      updateInput();
-      net.current.input = screenMovement(
-        held("KeyD", "ArrowRight") - held("KeyA", "ArrowLeft"),
-        held("KeyS", "ArrowDown") - held("KeyW", "ArrowUp"),
-      );
+      if (document.hidden) stop();
+      else updateInput();
     }, 40);
     return () => {
       clearInterval(t);
@@ -581,7 +568,7 @@ export default function CarryApp() {
                 strokeDasharray="3 4"
               />
               <text x="16" y="13">
-                폐기장
+                채굴장
               </text>
               <text x="82" y="13">
                 가공장
@@ -768,7 +755,7 @@ export default function CarryApp() {
                   }
                 >
                   {machine.recipe === "lab_plate" && (
-                    <option value="lab_plate">개발용 고철 → 철판</option>
+                    <option value="lab_plate">개발용 철광석 → 철판</option>
                   )}
                   {Object.entries(RECIPES)
                     .filter(([id]) => machineCanRecipe(machine, id))
@@ -799,7 +786,7 @@ export default function CarryApp() {
               </small>
               <small>
                 {machine.recipe === "lab_plate"
-                  ? "고철 1개"
+                  ? "철광석 1개"
                   : Object.entries(RECIPES[machine.recipe]?.input ?? {})
                       .map(
                         ([k, n]) =>

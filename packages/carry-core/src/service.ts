@@ -12,6 +12,8 @@ import {
   validAvatar,
   type World,
   type Command,
+  type MovePacket,
+  movePosition,
 } from "./index.ts";
 export type Save = {
   id: string;
@@ -158,7 +160,7 @@ export class CarryService {
     id: string,
     member: string,
     key: string,
-    input?: { x: number; z: number; epoch: number },
+    input?: MovePacket,
     command?: Command,
   ) {
     return this.update(id, async (s) => {
@@ -178,7 +180,47 @@ export class CarryService {
           throw Error("잘못된 이동 입력");
         if (p.epoch !== input.epoch)
           throw Error("다른 창에서 이어하기를 시작했습니다.");
-        setInput(s.world, member, input.x, input.z);
+        if (input.frames !== undefined) {
+          if (
+            !Array.isArray(input.frames) ||
+            input.frames.length > 40 ||
+            !Number.isSafeInteger(input.control) ||
+            input.control! < 0
+          )
+            throw Error("잘못된 이동 묶음");
+          for (const frame of input.frames)
+            if (
+              !Number.isSafeInteger(frame.seq) ||
+              frame.seq < 1 ||
+              !Number.isFinite(frame.dt) ||
+              frame.dt <= 0 ||
+              frame.dt > 0.05 ||
+              !Number.isFinite(frame.x) ||
+              !Number.isFinite(frame.z) ||
+              Math.abs(frame.x) > 1 ||
+              Math.abs(frame.z) > 1
+            )
+              throw Error("잘못된 이동 구간");
+          const at = this.now();
+          p.motion ??= { ack: 0, control: -1, budget: 0.25, at };
+          const m = p.motion;
+          m.budget = Math.min(1, m.budget + Math.max(0, (at - m.at) / 1000));
+          m.at = at;
+          // Replay only a contiguous unacknowledged prefix. Budget is real server time.
+          for (const frame of input.frames) {
+            if (frame.seq <= m.ack) continue;
+            if (frame.seq !== m.ack + 1 || frame.dt > m.budget + 1e-8) break;
+            if (s.world.phase !== "LAUNCHED")
+              p.pos = movePosition(s.world, p, p.pos, frame, frame.dt);
+            m.budget = Math.max(0, m.budget - frame.dt);
+            m.ack = frame.seq;
+          }
+          // An older concurrent request must never restore movement after key release.
+          if (input.control! >= m.control) {
+            m.control = input.control!;
+            setInput(s.world, member, input.x, input.z);
+          }
+        } else if (!p.motion) setInput(s.world, member, input.x, input.z);
       }
       p.lastSeen = this.now();
       return command ? commandCarry(s.world, member, command) : null;

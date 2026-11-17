@@ -1,3 +1,19 @@
+# 최신 변경 — 3.1.1 (2026-11-17 KST)
+
+고주사율(144/240/360Hz)에서 HTTP 왕복 360ms가 겹치면 90프레임 이동 대기열이 가득 차 이동이 누락되는 결함을 재현해 수정했다. 미전송 입력만 50ms로 합치며 전송한 seq는 수정하지 않는다. tests/movement-refresh.test.ts 5개 추가, 총97개 테스트 및 타입/빌드·실제6WS/PG 통과. 기계0등급 6종을 starter-machines.ts의 개별 수공구 외형으로 교체. 유료 생성 없음. 기존 저장 규칙 quarry-3.1.0 유지. 상세 docs/carry/REFRESH_3_1_1.md.
+
+이번 재개 시점에 Sites v7은 quarry-3.1이었지만 GitHub PR#1은 workshop-3.0 dda035c에 머물러 있었다. f22f8c3의 source 원본 SHA와 GitHub tree를 비교해 충돌이 없는 변경만 합쳐 동기화한다. 다음 작업자는 Sites get_site와 PR head를 조회해 최신 커밋을 확인할 것. source/migrations/001_initial.sql은 기존 GitHub 원문으로 복구했다. 오프라인 렌더는 3D 게임 실행 캡처가 아니다. GPU 검수 불가 상태를 완료로 표기하지 말 것.
+
+# 이전 변경 — quarry-3.1.0
+
+현재 최신 요청은 키업 후 재이동/멈칫함과 부자연스러운 폐기물 광맥을 수정하는 것이다. 입력 구간 seq/dt와 서버 ack를 사용하며 예측은 CarryConnection.movement 하나로 공유한다. 키업 즉시 전송, 역순 제어 차단, 중복 이동 차단, 서버 시간 예산. 정사영 카메라의 지연 이동 제거. 새로운 movement-transport 테스트 및 실제 WS 정지 검증 추가. 상세 `docs/carry/QUARRY_3_1.md`.
+
+광물은 철광석·구리광석·규석·석탄(석탄층). 내부 ID 보존. 4개 자연 암반 Meshy 모델 60크레딧으로 교체 완료, 잔액2339. 성공 모델 재생성 금지. `docs/carry/quarry-generation.json`에 출처·작업ID·해시. 기존29종58GLB 유지. 새 모델은 bounds1.8×1.25×1.8(석탄 높이1.05)이므로 이전 수거함 scale2.2/3/2.2를 재적용하지 말 것. 지형은 quarry-environment.ts, CPU외관렌더 스크립트와 증거 포함. 기존3.0저장 자금/설비/연구 보존.
+
+검증: 설계/92테스트/타입/빌드 및 실제6WS+PG. 지연·역순 HTTP 재현에서 정지 후 표시 변위0. 원격 브라우저 WebGL2 미지원이 계속되므로 실시간3D/FPS/사용자 체감 미검증. 오프라인 렌더를 게임 캡처로 말하지 말 것. 최신 게시 결과는 `docs/carry/evidence/quarry-publication.json`, `quarry-production-smoke.json` 기준.
+
+아래는 이전 버전 작업 기록이다.
+
 # 고철에서 우주까지 — 작업 재개 기준
 
 2026-11-17 KST. 저장소 nakk3975/ASTRA_START, 브랜치 codex/resume-meshy-pilot-20261117, PR https://github.com/nakk3975/ASTRA_START/pull/1. main 병합 전. 최신 코드는 이 브랜치이며 현재 규칙은 **workshop-3.0.0**입니다.

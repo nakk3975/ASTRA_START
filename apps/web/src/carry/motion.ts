@@ -1,69 +1,129 @@
 import {
   movePosition,
-  CFG,
   type World,
   type V3,
+  type MoveFrame,
 } from "../../../../packages/carry-core/src/index.ts";
 const mix = (a: V3, b: V3, t: number): V3 => ({
   x: a.x + (b.x - a.x) * t,
   y: a.y + (b.y - a.y) * t,
   z: a.z + (b.z - a.z) * t,
 });
-/** Local prediction never changes the authoritative world or inventory. */
+/** Exact acknowledged-input replay. Rendering never writes authority or inventory. */
 export class MotionSmoother {
   private room = "";
   private member = "";
+  private epoch = -1;
+  private world: World | null = null;
   private position: V3 | null = null;
-  private correction = { x: 0, y: 0, z: 0 };
-  private history: { at: number; pos: V3 }[] = [];
+  private offset: V3 = { x: 0, y: 0, z: 0 };
+  private input = { x: 0, z: 0 };
+  private sequence = 0;
+  private sentSequence = 0;
+  private pending: MoveFrame[] = [];
+  private sampledAt = 0;
+  private lastReceived = 0;
   private frames: { at: number; time: number; players: Record<string, V3> }[] =
     [];
-  private lastWorldTime = -1;
-  private lastReceived = 0;
-  receive(w: World, member: string, now: number, rtt = 0) {
+  receive(w: World, member: string, now: number, _rtt = 0) {
     const p = w.players[member];
     if (!p) return;
-    if (this.room !== w.id || this.member !== member || !this.position) {
+    if (
+      this.room !== w.id ||
+      this.member !== member ||
+      this.epoch !== p.epoch ||
+      !this.position
+    ) {
       this.room = w.id;
       this.member = member;
+      this.epoch = p.epoch;
+      this.pending = [];
+      this.sequence = p.motion?.ack ?? 0;
+      this.sentSequence = this.sequence;
       this.position = { ...p.pos };
-      this.history = [];
+      this.offset = { x: 0, y: 0, z: 0 };
       this.frames = [];
-      this.correction = { x: 0, y: 0, z: 0 };
-      this.lastWorldTime = -1;
+      this.sampledAt = now;
+      this.input = { x: 0, z: 0 };
+    } else {
+      this.capture(now);
+      const displayed = {
+        x: this.position.x + this.offset.x,
+        y: this.position.y + this.offset.y,
+        z: this.position.z + this.offset.z,
+      };
+      const ack = p.motion?.ack ?? 0;
+      this.pending = this.pending.filter((f) => f.seq > ack);
+      let predicted = { ...p.pos };
+      for (const frame of this.pending)
+        predicted = movePosition(w, p, predicted, frame, frame.dt);
+      this.position = predicted;
+      this.offset = {
+        x: displayed.x - predicted.x,
+        y: displayed.y - predicted.y,
+        z: displayed.z - predicted.z,
+      };
+      // Large authority corrections still recover. Small residuals settle only while moving.
+      if (Math.hypot(this.offset.x, this.offset.z) > 1.5)
+        this.offset = { x: 0, y: 0, z: 0 };
     }
-    if (w.time < this.lastWorldTime) return;
-    this.lastWorldTime = w.time;
+    this.world = w;
     this.lastReceived = now;
-    this.frames.push({
-      at: now,
-      time: w.time,
-      players: Object.fromEntries(
-        Object.values(w.players).map((q) => [q.id, { ...q.pos }]),
-      ),
-    });
-    this.frames = this.frames.slice(-30);
-    const when = now - Math.min(300, Math.max(0, rtt / 2));
-    const earlier = this.history.filter((h) => h.at <= when).at(-1),
-      later = this.history.find((h) => h.at >= when);
-    const predicted =
-      earlier && later
-        ? mix(
-            earlier.pos,
-            later.pos,
-            (when - earlier.at) / Math.max(1, later.at - earlier.at),
-          )
-        : (earlier?.pos ?? later?.pos ?? this.position!);
-    const error = {
-      x: p.pos.x - predicted.x,
-      y: p.pos.y - predicted.y,
-      z: p.pos.z - predicted.z,
-    };
-    if (Math.hypot(error.x, error.z) > 3) {
-      this.position = { ...p.pos };
-      this.history = [];
-      this.correction = { x: 0, y: 0, z: 0 };
-    } else this.correction = error;
+    const previous = this.frames.at(-1);
+    if (!previous || w.time >= previous.time) {
+      this.frames.push({
+        at: now,
+        time: w.time,
+        players: Object.fromEntries(
+          Object.values(w.players).map((q) => [q.id, { ...q.pos }]),
+        ),
+      });
+      this.frames = this.frames.slice(-30);
+    }
+  }
+  setInput(input: { x: number; z: number }, now: number) {
+    this.capture(now);
+    this.input = { ...input };
+  }
+  private capture(now: number) {
+    const elapsed = Math.max(0, Math.min(0.12, (now - this.sampledAt) / 1000));
+    this.sampledAt = now;
+    const w = this.world,
+      p = w?.players[this.member];
+    if (
+      !w ||
+      !p ||
+      !this.position ||
+      w.phase === "LAUNCHED" ||
+      now - this.lastReceived > 1500 ||
+      (!this.input.x && !this.input.z)
+    )
+      return;
+    let dt = elapsed;
+    while (dt > 1e-6) {
+      // Pack render samples into at most 50 ms intervals. Once a sequence has
+      // been sent, its duration and direction must never change on retries.
+      // Otherwise high-refresh displays exhaust the bounded network queue.
+      const tail = this.pending.at(-1);
+      const append =
+        tail &&
+        tail.seq > this.sentSequence &&
+        tail.x === this.input.x &&
+        tail.z === this.input.z &&
+        tail.dt < 0.05 - 1e-6;
+      if (!append && this.pending.length >= 90) break;
+      const part = Math.min(append ? 0.05 - tail.dt : 0.05, dt);
+      if (append) tail.dt += part;
+      else this.pending.push({ seq: ++this.sequence, dt: part, ...this.input });
+      this.position = movePosition(w, p, this.position, this.input, part);
+      dt -= part;
+    }
+  }
+  packet(now: number) {
+    this.capture(now);
+    const frames = this.pending.slice(0, 40).map((f) => ({ ...f }));
+    this.sentSequence = Math.max(this.sentSequence, frames.at(-1)?.seq ?? 0);
+    return frames;
   }
   step(
     w: World,
@@ -72,59 +132,41 @@ export class MotionSmoother {
     dt: number,
     now: number,
   ): V3 {
-    const p = w.players[member];
-    if (!p) return { x: 0, y: 0, z: 0 };
     if (!this.position || this.room !== w.id) this.receive(w, member, now);
-    // Bound stale prediction during outages; stop immediately when input clears.
-    const active =
-      now - this.lastReceived < 900 && w.phase !== "LAUNCHED"
-        ? input
-        : { x: 0, z: 0 };
-    this.position = movePosition(
-      w,
-      p,
-      this.position!,
-      active,
-      Math.min(0.05, dt),
-    );
-    const alpha = 1 - Math.exp(-dt * 9),
-      correction = {
-        x: this.correction.x * alpha,
-        y: this.correction.y * alpha,
-        z: this.correction.z * alpha,
+    this.setInput(input, now);
+    if (input.x || input.z) {
+      const k = Math.exp(-Math.min(0.05, dt) * 12);
+      this.offset = {
+        x: this.offset.x * k,
+        y: this.offset.y * k,
+        z: this.offset.z * k,
       };
-    this.position = {
-      x: this.position.x + correction.x,
-      y: this.position.y + correction.y,
-      z: this.position.z + correction.z,
+    }
+    return {
+      x: this.position!.x + this.offset.x,
+      y: this.position!.y + this.offset.y,
+      z: this.position!.z + this.offset.z,
     };
-    this.correction = {
-      x: this.correction.x - correction.x,
-      y: this.correction.y - correction.y,
-      z: this.correction.z - correction.z,
-    };
-    this.history.push({ at: now, pos: { ...this.position } });
-    this.history = this.history.filter((h) => now - h.at < 1200);
-    return { ...this.position };
   }
   remote(w: World, id: string, now: number): V3 {
     const latest = this.frames.at(-1);
     if (!latest) return w.players[id].pos;
-    const prior = this.frames.at(-2);
-    const delay = Math.max(
-      0.14,
-      Math.min(0.6, prior ? (latest.time - prior.time) * 1.2 : 0.14),
-    );
-    const time = latest.time + Math.min(0.6, (now - latest.at) / 1000) - delay;
-    const a = [...this.frames].reverse().find((f) => f.time <= time),
-      b = this.frames.find((f) => f.time >= time);
+    const previous = this.frames.at(-2),
+      delay = Math.max(
+        0.12,
+        Math.min(0.35, previous ? (latest.time - previous.time) * 1.2 : 0.12),
+      );
+    const target =
+      latest.time + Math.min(0.35, (now - latest.at) / 1000) - delay;
+    const a = [...this.frames].reverse().find((f) => f.time <= target),
+      b = this.frames.find((f) => f.time >= target);
     if (a?.players[id] && b?.players[id])
       return mix(
         a.players[id],
         b.players[id],
         Math.max(
           0,
-          Math.min(1, (time - a.time) / Math.max(0.00001, b.time - a.time)),
+          Math.min(1, (target - a.time) / Math.max(0.00001, b.time - a.time)),
         ),
       );
     return { ...(a?.players[id] ?? b?.players[id] ?? w.players[id].pos) };

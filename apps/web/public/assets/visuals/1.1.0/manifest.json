@@ -1026,28 +1026,42 @@
     },
     {
       "id": "source_cable",
-      "sourceTaskId": "01a1e754-f637-77a3-98d1-ffe2485a163e",
-      "sourceImageTaskId": "01a1e74d-95da-774e-adcc-def119809bee",
+      "sourceTaskId": "01a1e849-02c3-727f-be55-37cdca35d1d1",
+      "sourceImageTaskId": null,
       "geometryModel": "meshy-t2",
-      "textureModel": "meshy-n1",
+      "textureModel": "meshy-7",
       "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
-      "review": "PENDING_GAME_REVIEW",
+      "review": "NATURAL_DEPOSIT_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
       "boundsMax": {
-        "x": 0.7,
-        "y": 0.15,
-        "z": 0.7
+        "x": 1.8,
+        "y": 1.25,
+        "z": 1.8
       },
       "clips": [],
       "lods": [
         {
           "level": 0,
-          "url": "/assets/visuals/1.1.0/source_cable-lod0.a55642255dac.glb",
-          "sha256": "a55642255dac1b0f6980e8509e602e5e25b7fd1061084666bbcb550fb401bcd0",
-          "bytes": 84208,
-          "triangles": 563,
+          "url": "/assets/visuals/1.1.0/source_cable-lod0.ba52f26fa4eb.glb",
+          "sha256": "ba52f26fa4eb4f194240baf16c9ae0bc83d9e418f8b3613d3e185bf8b7307671",
+          "bytes": 53708,
+          "triangles": 562,
           "simplification": "standard",
           "materials": 1,
           "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
             {
               "size": [
                 512,
@@ -1059,66 +1073,9 @@
         },
         {
           "level": 1,
-          "url": "/assets/visuals/1.1.0/source_cable-lod1.6791b208a1b8.glb",
-          "sha256": "6791b208a1b8df6837cb7972a6425f239d3f9cd6fe8715923662902605a60bf9",
-          "bytes": 63988,
-          "triangles": 280,
-          "simplification": "permissive-seam-collapse; visual-review-pending",
-          "materials": 1,
-          "textures": [
-            {
-              "size": [
-                512,
-                512
-              ],
-              "mime": "image/webp"
-            }
-          ]
-        }
-      ],
-      "sourceCreditCost": 24,
-      "previewImage": "/assets/visuals/1.1.0/previews/source_cable.webp",
-      "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
-    },
-    {
-      "id": "source_energy",
-      "sourceTaskId": "01a1e755-30dd-747e-8a94-1625664f14c0",
-      "sourceImageTaskId": "01a1e74d-e0b1-76d8-b298-0cda9b27669b",
-      "geometryModel": "meshy-t2",
-      "textureModel": "meshy-n1",
-      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
-      "review": "PENDING_GAME_REVIEW",
-      "boundsMax": {
-        "x": 0.7,
-        "y": 0.15,
-        "z": 0.7
-      },
-      "clips": [],
-      "lods": [
-        {
-          "level": 0,
-          "url": "/assets/visuals/1.1.0/source_energy-lod0.8cf5296831a0.glb",
-          "sha256": "8cf5296831a06a72d789d41c88e429aa0a13afca147f958d1e1ce958ed68a6c4",
-          "bytes": 87940,
-          "triangles": 787,
-          "simplification": "standard",
-          "materials": 1,
-          "textures": [
-            {
-              "size": [
-                512,
-                512
-              ],
-              "mime": "image/webp"
-            }
-          ]
-        },
-        {
-          "level": 1,
-          "url": "/assets/visuals/1.1.0/source_energy-lod1.6d4ababa412d.glb",
-          "sha256": "6d4ababa412d396fdee62f8c6cfc8bdbf0a9bc84e7186356e523dbcf88fdc26f",
-          "bytes": 65560,
+          "url": "/assets/visuals/1.1.0/source_cable-lod1.29b838b0ecdc.glb",
+          "sha256": "29b838b0ecdcab45075444b1b00759854734d45e19e2d876f2e1dd3fbd3b4b94",
+          "bytes": 41704,
           "triangles": 282,
           "simplification": "permissive-seam-collapse; visual-review-pending",
           "materials": 1,
@@ -1129,35 +1086,140 @@
                 512
               ],
               "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
             }
           ]
         }
       ],
-      "sourceCreditCost": 24,
-      "previewImage": "/assets/visuals/1.1.0/previews/source_energy.webp",
+      "nameKo": "구리 광맥",
+      "depositType": "copper_deposit",
+      "sourcePreviewTaskId": "01a1e845-1d88-7214-a39e-4fdc31b3413e",
+      "sourceCreditCost": 15,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_cable.webp",
       "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+      "gpuValidation": "PENDING_PARENT_GAME_REVIEW"
     },
     {
-      "id": "source_metal",
-      "sourceTaskId": "01a1e754-d9ae-74bd-a2c2-fe59739c9b2d",
-      "sourceImageTaskId": "01a1e74d-7f6a-73df-bdfb-715fbe0e6019",
+      "id": "source_energy",
+      "sourceTaskId": "01a1e849-5048-77f7-9249-e6ed038ea060",
+      "sourceImageTaskId": null,
       "geometryModel": "meshy-t2",
-      "textureModel": "meshy-n1",
+      "textureModel": "meshy-7",
       "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
-      "review": "PENDING_GAME_REVIEW",
+      "review": "NATURAL_DEPOSIT_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
       "boundsMax": {
-        "x": 0.7,
-        "y": 0.15,
-        "z": 0.7
+        "x": 1.8,
+        "y": 1.05,
+        "z": 1.8
       },
       "clips": [],
       "lods": [
         {
           "level": 0,
-          "url": "/assets/visuals/1.1.0/source_metal-lod0.4734c52f6053.glb",
-          "sha256": "4734c52f6053641b9e266639bc02bc12a9cf86662160526b648d4ae772ce6d25",
-          "bytes": 82312,
+          "url": "/assets/visuals/1.1.0/source_energy-lod0.5523e9416ea8.glb",
+          "sha256": "5523e9416ea8b6a24b4054d384b571889c1f8fa951a1772b6703bcdaeddff079",
+          "bytes": 56544,
+          "triangles": 626,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_energy-lod1.d0ae4d67f7f3.glb",
+          "sha256": "d0ae4d67f7f3f6b9b6c8e9b873f8c7c0e260d620e926c850d59670f48530099f",
+          "bytes": 34548,
+          "triangles": 278,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "nameKo": "석탄층",
+      "depositType": "coal_deposit",
+      "sourcePreviewTaskId": "01a1e845-6a03-74bf-9884-f2b03fe44df9",
+      "sourceCreditCost": 15,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_energy.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "PENDING_PARENT_GAME_REVIEW"
+    },
+    {
+      "id": "source_metal",
+      "sourceTaskId": "01a1e848-e100-73db-9735-816b2107211b",
+      "sourceImageTaskId": null,
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "NATURAL_DEPOSIT_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.25,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_metal-lod0.09309ef3614e.glb",
+          "sha256": "09309ef3614ee70c5bcedf8b3079f35dfd0121ffdf906c7388c950abffa670b8",
+          "bytes": 70884,
           "triangles": 752,
           "simplification": "standard",
           "materials": 1,
@@ -1168,18 +1230,14 @@
                 512
               ],
               "mime": "image/webp"
-            }
-          ]
-        },
-        {
-          "level": 1,
-          "url": "/assets/visuals/1.1.0/source_metal-lod1.fc5208d5b78a.glb",
-          "sha256": "fc5208d5b78a48dd2a93c9d750aa6e03de0b1ba09b1972c04fa4c6b665dcb6ad",
-          "bytes": 54256,
-          "triangles": 280,
-          "simplification": "permissive-seam-collapse; visual-review-pending",
-          "materials": 1,
-          "textures": [
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
             {
               "size": [
                 512,
@@ -1188,34 +1246,13 @@
               "mime": "image/webp"
             }
           ]
-        }
-      ],
-      "sourceCreditCost": 24,
-      "previewImage": "/assets/visuals/1.1.0/previews/source_metal.webp",
-      "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
-    },
-    {
-      "id": "source_plastic",
-      "sourceTaskId": "01a1e755-1384-7517-8bad-7d7eddb04486",
-      "sourceImageTaskId": "01a1e74d-ab7a-7620-a9bf-92ac6435fdd7",
-      "geometryModel": "meshy-t2",
-      "textureModel": "meshy-n1",
-      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
-      "review": "PENDING_GAME_REVIEW",
-      "boundsMax": {
-        "x": 0.7,
-        "y": 0.15,
-        "z": 0.7
-      },
-      "clips": [],
-      "lods": [
+        },
         {
-          "level": 0,
-          "url": "/assets/visuals/1.1.0/source_plastic-lod0.66757f9818db.glb",
-          "sha256": "66757f9818db4e6903fa7e6b1b045f5ac4c56b0bdf23571ecfe7d8a6321bb2d1",
-          "bytes": 89372,
-          "triangles": 751,
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_metal-lod1.7bb8aa768d99.glb",
+          "sha256": "7bb8aa768d996424b3983bcf2ee7cab1d1bd42d425a627db3b6355bfda9fc65a",
+          "bytes": 54588,
+          "triangles": 298,
           "simplification": "standard",
           "materials": 1,
           "textures": [
@@ -1225,18 +1262,14 @@
                 512
               ],
               "mime": "image/webp"
-            }
-          ]
-        },
-        {
-          "level": 1,
-          "url": "/assets/visuals/1.1.0/source_plastic-lod1.92dfeb2edf48.glb",
-          "sha256": "92dfeb2edf48e09e5a8e0c68adf74c248f2c8bfb9b8d65ab6060da89f8939266",
-          "bytes": 62544,
-          "triangles": 281,
-          "simplification": "permissive-seam-collapse; visual-review-pending",
-          "materials": 1,
-          "textures": [
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
             {
               "size": [
                 512,
@@ -1247,10 +1280,101 @@
           ]
         }
       ],
-      "sourceCreditCost": 24,
+      "nameKo": "철광석 광맥",
+      "depositType": "iron_deposit",
+      "sourcePreviewTaskId": "01a1e844-f839-737a-a7c8-153de9698626",
+      "sourceCreditCost": 15,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_metal.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "PENDING_PARENT_GAME_REVIEW"
+    },
+    {
+      "id": "source_plastic",
+      "sourceTaskId": "01a1e849-2cd3-75ef-98b0-c51c32e46def",
+      "sourceImageTaskId": null,
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "NATURAL_DEPOSIT_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.25,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_plastic-lod0.cd2955f5683f.glb",
+          "sha256": "cd2955f5683fedba35e73e9f54280e023a61e2c6ddfaaa1c5b675695e121624a",
+          "bytes": 74080,
+          "triangles": 752,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_plastic-lod1.7e1f20c9a734.glb",
+          "sha256": "7e1f20c9a734a9eb386d5283e31ec0c4d494c4a70aea40a49371be039b08c243",
+          "bytes": 55516,
+          "triangles": 278,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "nameKo": "규석 광맥",
+      "depositType": "quartz_deposit",
+      "sourcePreviewTaskId": "01a1e845-4504-766b-9657-f6b23909d01c",
+      "sourceCreditCost": 15,
       "previewImage": "/assets/visuals/1.1.0/previews/source_plastic.webp",
       "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+      "gpuValidation": "PENDING_PARENT_GAME_REVIEW"
     },
     {
       "id": "starter_generator",

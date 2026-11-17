@@ -1,6 +1,9 @@
 import { Room, type Client } from "@colyseus/core";
 import type { CarryService } from "../../../../packages/carry-core/src/service.ts";
-import type { Command } from "../../../../packages/carry-core/src/index.ts";
+import type {
+  Command,
+  MovePacket,
+} from "../../../../packages/carry-core/src/index.ts";
 export let carryService: CarryService;
 export const bindCarry = (s: CarryService) => {
   carryService = s;
@@ -14,7 +17,7 @@ export class CarryRoom extends Room {
       member: string;
       token: string;
       epoch: number;
-      input:{x:number;z:number};
+      input: MovePacket;
       lastInput: number;
       lastCommand: number;
     }
@@ -35,14 +38,29 @@ export class CarryRoom extends Room {
     }, 100);
     this.onMessage("INPUT", async (c, raw) => {
       const ctl = this.controls.get(c.sessionId);
-      if (!ctl || Date.now() - ctl.lastInput < 45) return;
+      if (!ctl || !raw || typeof raw !== "object") return;
+      if (
+        Date.now() - ctl.lastInput < 30 &&
+        raw.x === ctl.input.x &&
+        raw.z === ctl.input.z &&
+        !raw.frames?.length
+      )
+        return;
       ctl.lastInput = Date.now();
       try {
-        if(!Number.isFinite(raw.x)||!Number.isFinite(raw.z)||Math.abs(raw.x)>1||Math.abs(raw.z)>1)throw Error("잘못된 이동 입력");
-        ctl.input={x:raw.x,z:raw.z};
+        if (
+          !Number.isFinite(raw.x) ||
+          !Number.isFinite(raw.z) ||
+          Math.abs(raw.x) > 1 ||
+          Math.abs(raw.z) > 1
+        )
+          throw Error("잘못된 이동 입력");
+        if (JSON.stringify(raw).length > 6500)
+          throw Error("이동 입력 크기 초과");
+        if ((raw.control ?? 0) >= (ctl.input.control ?? 0))
+          ctl.input = { ...raw, epoch: ctl.epoch };
         await carryService.sync(this.worldId, ctl.member, ctl.token, {
-          x: raw.x,
-          z: raw.z,
+          ...raw,
           epoch: ctl.epoch,
         });
       } catch (e) {
@@ -84,7 +102,7 @@ export class CarryRoom extends Room {
     this.controls.set(c.sessionId, {
       ...auth,
       epoch: r.result,
-      input:{x:0,z:0},
+      input: { x: 0, z: 0, epoch: r.result },
       lastInput: 0,
       lastCommand: 0,
     });

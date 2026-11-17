@@ -1,3 +1,4 @@
+import { MotionSmoother } from "./motion";
 import { Client, type Room } from "@colyseus/sdk";
 import type {
   World,
@@ -19,6 +20,20 @@ export class CarryConnection {
   epoch = 0;
   transport = "http";
   input = { x: 0, z: 0 };
+  movement = new MotionSmoother();
+  control = 0;
+  inFlight = 0;
+  urgent = false;
+  setInput(input: { x: number; z: number }) {
+    const changed = input.x !== this.input.x || input.z !== this.input.z;
+    this.movement.setInput(input, performance.now());
+    this.input = { ...input };
+    if (changed) {
+      this.control++;
+      this.urgent = true;
+      void this.sync(true);
+    }
+  }
   rtt = 0;
   onWorld = (w: World, rtt: number) => {};
   onStatus = (s: string) => {};
@@ -54,6 +69,12 @@ export class CarryConnection {
       this.seq = Math.max(
         this.seq,
         this.world!.players[this.session!.member].lastSeq,
+      );
+      this.movement.receive(
+        this.world!,
+        this.session!.member,
+        performance.now(),
+        this.rtt,
       );
       this.onWorld(this.world!, this.rtt);
     }
@@ -162,42 +183,51 @@ export class CarryConnection {
     await this.sync();
   }
   schedule() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(async () => {
-      const at = performance.now();
-      await this.sync();
-      if (!this.stopped)
-        this.timer = setTimeout(
-          () => this.schedule(),
-          Math.max(0, 80 - (performance.now() - at)),
-        );
-    }, 20);
+    clearInterval(this.timer);
+    this.timer = setInterval(() => void this.sync(), 80);
   }
-  async sync() {
-    if (this.stopped || this.busy || !this.session) return;
+  async sync(expedited = false) {
+    if (this.stopped || !this.session || this.inFlight >= (expedited ? 2 : 1))
+      return;
+    this.inFlight++;
     this.busy = true;
-    const generation = this.generation;
+    this.urgent = false;
+    const generation = this.generation,
+      control = this.control;
+    const input = {
+      ...this.input,
+      control,
+      epoch: this.epoch,
+      frames: this.movement.packet(performance.now()),
+    };
     try {
       const cmd = this.pending.values().next().value;
       if (this.room) {
-        this.room.send("INPUT", this.input);
+        this.room.send("INPUT", input);
         if (cmd) this.room.send("COMMAND", cmd);
       } else {
-        const at = performance.now();
-        const response = await this.api("sync", {
-          ...this.auth(),
-          input: { ...this.input, epoch: this.epoch },
-          command: cmd,
-        });
+        const at = performance.now(),
+          response = await this.api("sync", {
+            ...this.auth(),
+            input,
+            command: cmd,
+          });
         if (generation === this.generation && !this.stopped) {
           this.rtt = performance.now() - at;
           this.accept(response);
         }
       }
     } catch (e) {
-      this.onStatus((e as Error).message);
+      if (generation === this.generation) this.onStatus((e as Error).message);
     } finally {
-      this.busy = false;
+      this.inFlight--;
+      this.busy = this.inFlight > 0;
+      if (
+        generation === this.generation &&
+        !this.stopped &&
+        (this.urgent || control < this.control)
+      )
+        queueMicrotask(() => void this.sync(true));
     }
   }
   command(type: Command["type"], extra: Partial<Command> = {}) {

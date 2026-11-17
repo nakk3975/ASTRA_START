@@ -102,6 +102,10 @@ export function migrateCarry(w: World) {
       "공방 성장 규칙 적용: 기존 설비·물건·자금 보존. 빈 공방은 새 작업장에서 시작합니다.",
     );
   }
+  if (w.rules === "workshop-3.0.0") {
+    w.rules = RULES;
+    event(w, "광물 채굴장과 이동 동기화 개선 적용 · 기존 진행 보존");
+  }
   return w;
 }
 function award(w: World, kind: Kind, id: string) {
@@ -272,6 +276,7 @@ export function joinCarry(w: World, id: string, name: string, now: number) {
   p.connected = true;
   p.lastSeen = now;
   p.epoch++;
+  delete p.motion;
   p.input = { x: 0, z: 0, at: -10 };
   return p;
 }
@@ -1030,7 +1035,7 @@ export function tickCarry(w: World, dt: number) {
   if (!Object.values(w.players).some((p) => p.connected)) return;
   w.time += dt;
   for (const p of Object.values(w.players)) {
-    if (!p.connected || w.phase === "LAUNCHED") continue;
+    if (!p.connected || w.phase === "LAUNCHED" || p.motion) continue;
     const i = p.input;
     if (w.time - i.at > CFG.inputExpiry) continue;
     p.pos = movePosition(w, p, p.pos, i, dt);

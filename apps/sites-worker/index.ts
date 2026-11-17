@@ -69,7 +69,8 @@ export default {
     if (url.pathname === "/api/health")
       return json({
         ok: true,
-        rules: "workshop-3.0.0",
+        rules: "quarry-3.1.0",
+        build: "3.1.1",
         transport: "http",
         storage: "D1",
       });

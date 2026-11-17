@@ -335,7 +335,11 @@ export function WorkshopPanel({
                     <span>광맥 {v.level + 1}/5등급</span>
                     <b>{v.extracted}개 채굴</b>
                   </div>
-                  <h3>{ITEM[s.kind].name} 광맥</h3>
+                  <h3>
+                    {s.kind === "energy_shard"
+                      ? "석탄층"
+                      : `${ITEM[s.kind].name} 광맥`}
+                  </h3>
                   <p>
                     품질 판매가 +{v.level * 15}% · 채굴 시간 ÷
                     {(1 + v.level * 0.12).toFixed(2)}

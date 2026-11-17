@@ -1,4 +1,4 @@
-export const RULES = "workshop-3.0.0";
+export const RULES = "quarry-3.1.0";
 export const CFG = {
   speed: 3.5,
   radius: 0.36,
@@ -51,28 +51,28 @@ export const ITEM = {
     shape: "kit",
     color: "#cba478",
   },
-  metal_scrap: { name: "고철", heavy: true, shape: "scrap", color: "#8797a5" },
+  metal_scrap: { name: "철광석", heavy: true, shape: "ore", color: "#9b7155" },
   cable_scrap: {
-    name: "폐전선",
+    name: "구리광석",
     heavy: false,
-    shape: "coil",
-    color: "#e8a847",
+    shape: "ore",
+    color: "#ba8053",
   },
   plastic_scrap: {
-    name: "폐플라스틱",
-    heavy: false,
-    shape: "plastic",
-    color: "#c0dcdd",
-  },
-  energy_shard: {
-    name: "동력석",
+    name: "규석",
     heavy: false,
     shape: "crystal",
-    color: "#06b6d4",
+    color: "#f3e9d2",
   },
-  ingot: { name: "주괴", heavy: true, shape: "ingot", color: "#9caebd" },
-  wire: { name: "전선", heavy: false, shape: "coil", color: "#f59e0b" },
-  polymer: { name: "수지", heavy: false, shape: "plastic", color: "#e9ead3" },
+  energy_shard: {
+    name: "석탄",
+    heavy: false,
+    shape: "coal",
+    color: "#454342",
+  },
+  ingot: { name: "철 주괴", heavy: true, shape: "ingot", color: "#9caebd" },
+  wire: { name: "구리선", heavy: false, shape: "coil", color: "#f59e0b" },
+  polymer: { name: "내열재", heavy: false, shape: "plastic", color: "#e9ead3" },
   plate: { name: "철판", heavy: true, shape: "plate", color: "#a9c1c8" },
   gear: { name: "기어", heavy: false, shape: "gear", color: "#d5aa62" },
   circuit: { name: "회로", heavy: false, shape: "circuit", color: "#059b95" },
@@ -83,7 +83,7 @@ export const ITEM = {
     color: "#f0e6c9",
   },
   fuel_cell: {
-    name: "추진 탱크",
+    name: "연료 카트리지",
     heavy: true,
     shape: "tank",
     color: "#d1e0dd",
@@ -154,21 +154,21 @@ export type Recipe = {
 };
 export const RECIPES: Record<string, Recipe> = {
   smelt_ingot: {
-    name: "주괴",
+    name: "철 주괴",
     machine: "processor",
     input: { metal_scrap: 1 },
     output: "ingot",
     seconds: 5,
   },
   draw_wire: {
-    name: "전선",
+    name: "구리선",
     machine: "processor",
     input: { cable_scrap: 1 },
     output: "wire",
     seconds: 4,
   },
   recycle_polymer: {
-    name: "수지",
+    name: "내열재",
     machine: "processor",
     input: { plastic_scrap: 1 },
     output: "polymer",
@@ -203,7 +203,7 @@ export const RECIPES: Record<string, Recipe> = {
     seconds: 7,
   },
   blend_fuel: {
-    name: "추진 탱크",
+    name: "연료 카트리지",
     machine: "refinery",
     input: { energy_shard: 1, polymer: 1 },
     output: "fuel_cell",
@@ -411,14 +411,14 @@ export const MACHINE_CATALOG = {
     price: 40,
     xp: 0,
     recipe: "smelt_ingot",
-    description: "느린 수동 공방. 주괴·전선·수지·철판·기어부터 시작",
+    description: "느린 수동 공방. 철 주괴·구리선·내열재·철판·기어부터 시작",
   },
   processor: {
     name: "기초 제련기",
     price: 100,
     xp: 35,
     recipe: "smelt_ingot",
-    description: "광맥 원재료를 주괴·전선·수지로 가공",
+    description: "광맥 원재료를 철 주괴·구리선·내열재로 가공",
   },
   fabricator: {
     name: "기초 부품 제작기",
@@ -432,7 +432,7 @@ export const MACHINE_CATALOG = {
     price: 180,
     xp: 110,
     recipe: "blend_fuel",
-    description: "동력석과 수지를 추진 탱크로",
+    description: "석탄과 내열재를 연료 카트리지로",
   },
   assembler: {
     name: "기초 조립기",

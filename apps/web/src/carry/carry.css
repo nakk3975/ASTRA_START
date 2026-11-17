@@ -1,12 +1,12 @@
 :root {
   --carry-scale: 1;
   --amber: #f59e0b;
-  --cyan: #06b6d4;
-  --panel: #161920d9;
-  --ink: #edf1ec;
+  --cyan: #9ab385;
+  --panel: #382f26ed;
+  --ink: #f7edd8;
   font-family: Inter, Pretendard, "Noto Sans KR", system-ui, sans-serif;
   color: var(--ink);
-  background: #23272f;
+  background: #353128;
 }
 * {
   box-sizing: border-box;
@@ -46,7 +46,7 @@ body,
   min-height: 44px;
   border: 1px solid #6b7b814d;
   border-radius: 9px;
-  background: #242e38;
+  background: #4a4034;
   padding: 8px 12px;
 }
 .carry-game button {
@@ -55,7 +55,7 @@ body,
 }
 .carry-game button:hover {
   border-color: var(--amber);
-  background: #34424a;
+  background: #62513e;
 }
 .carry-game button:disabled {
   opacity: 0.45;
@@ -75,7 +75,7 @@ body,
 }
 .carry-game small {
   font-size: max(14px, calc(12px * var(--carry-scale)));
-  color: #b7c5c7;
+  color: #d2c4ac;
 }
 .carry-game label {
   display: flex;
@@ -89,7 +89,7 @@ body,
   background: var(--panel);
   border: 1px solid #a6bfca26;
   border-radius: calc(12px * var(--carry-scale));
-  backdrop-filter: blur(10px);
+  backdrop-filter: none;
   padding: calc(12px * var(--carry-scale));
   box-shadow: 0 8px 24px #050c171c;
   pointer-events: none;
@@ -105,7 +105,7 @@ body,
   font-size: 11px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #a5b4bb;
+  color: #cdbb9e;
 }
 .carry-crew {
   position: absolute;
@@ -259,7 +259,7 @@ body,
 }
 .hand-actions button {
   flex: 1;
-  background: #1c252b;
+  background: #40382e;
   padding: 4px 8px;
 }
 .quickslots button {
@@ -281,7 +281,7 @@ body,
   transform: translateX(-50%);
   max-width: 70vw;
   padding: 8px 18px;
-  background: #161920ee;
+  background: #382f26f5;
   border-radius: 10px;
   pointer-events: none;
   color: #f3d6a1;
@@ -353,7 +353,7 @@ body,
   max-height: 94vh;
   overflow: auto;
   padding: 30px;
-  background: linear-gradient(150deg, #161920f2, #273440ed);
+  background: linear-gradient(150deg, #382f26f5, #514533ed);
   border: 1px solid #8d9b9b44;
   border-radius: 22px;
   box-shadow: 0 30px 80px #0f182744;
@@ -426,7 +426,7 @@ body,
   width: min(620px, 90vw);
   max-height: 88vh;
   overflow: auto;
-  background: #1c242e;
+  background: #40382e;
   border: 1px solid #778a9559;
   border-radius: 20px;
   padding: 30px;
@@ -641,7 +641,7 @@ body,
   margin-top: 16px;
 }
 .upgrade-grid article {
-  background: #27333f;
+  background: #514533;
   border: 1px solid #5d6e7a44;
   padding: 14px;
   border-radius: 10px;
@@ -667,7 +667,7 @@ body,
 .character-grid button {
   white-space: normal;
   padding: 8px !important;
-  background: #25313b;
+  background: #504534;
 }
 .character-grid img {
   display: block;
@@ -675,7 +675,7 @@ body,
   height: 125px;
   object-fit: contain;
   border-radius: 8px;
-  background: #141e27;
+  background: #30291f;
 }
 .character-grid strong {
   display: block;
@@ -720,13 +720,13 @@ body,
   flex-wrap: wrap;
   position: sticky;
   top: -24px;
-  background: #1c242e;
+  background: #40382e;
   padding: 14px 0;
   z-index: 2;
 }
 .workshop-panel nav [aria-pressed="true"] {
   background: #eeb052;
-  color: #14202b;
+  color: #30291f;
   font-weight: 800;
 }
 .shop-wallet {
@@ -752,7 +752,7 @@ body,
   border: 1px solid #71828b44;
   border-radius: 12px;
   padding: 16px;
-  background: #27333f;
+  background: #514533;
   display: flex;
   flex-direction: column;
 }
@@ -788,7 +788,7 @@ body,
   gap: 14px;
 }
 .research-grid section {
-  background: #25313e;
+  background: #504534;
   border: 1px solid #52677466;
   border-radius: 12px;
   padding: 14px;
@@ -807,7 +807,7 @@ body,
   align-items: center;
   padding: 10px;
   border-left: 3px solid #596977;
-  background: #202a34;
+  background: #4a4034;
   margin-top: 5px;
   border-radius: 3px 8px 8px 3px;
 }
@@ -817,7 +817,7 @@ body,
 .research-track p {
   font-size: 13px;
   margin: 5px 0;
-  color: #b1c2c9;
+  color: #d6c7ae;
 }
 .research-track small {
   font-size: 12px !important;

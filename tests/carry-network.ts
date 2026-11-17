@@ -108,14 +108,12 @@ try {
     });
     const fixture = (await store.get(first.roomId))!,
       item = Object.values(fixture.world.items).at(-1)!;
-    const commands = guests
-      .slice(0, 2)
-      .map(() => ({
-        id: crypto.randomUUID(),
-        seq: 1,
-        type: "INTERACT",
-        target: item.id,
-      }));
+    const commands = guests.slice(0, 2).map(() => ({
+      id: crypto.randomUUID(),
+      seq: 1,
+      type: "INTERACT",
+      target: item.id,
+    }));
     for (let i = 0; i < 2; i++) rooms[i].send("COMMAND", commands[i]);
     await until(
       () =>
@@ -150,6 +148,54 @@ try {
       (await store.get(first.roomId))!.world.players[moving.member].pos.x >
         start + 0.5,
     );
+    // Actual sequenced transport: key release cannot be undone by a late input.
+    const movingEpoch = (await store.get(first.roomId))!.world.players[
+      moving.member
+    ].epoch;
+    const motionFrames = Array.from({ length: 4 }, (_, i) => ({
+      seq: i + 1,
+      dt: 0.05,
+      x: 1,
+      z: 0,
+    }));
+    rooms[2].send("INPUT", {
+      x: 1,
+      z: 0,
+      epoch: movingEpoch,
+      control: 1,
+      frames: motionFrames,
+    });
+    await until(
+      () => worlds.get(2)?.world.players[moving.member].motion?.ack === 4,
+      "movement frame acknowledgement",
+    );
+    rooms[2].send("INPUT", {
+      x: 0,
+      z: 0,
+      epoch: movingEpoch,
+      control: 2,
+      frames: motionFrames,
+    });
+    await until(
+      () => worlds.get(2)?.world.players[moving.member].motion?.control === 2,
+      "keyup acknowledgement",
+    );
+    const stoppedAt = {
+      ...(await store.get(first.roomId))!.world.players[moving.member].pos,
+    };
+    rooms[2].send("INPUT", {
+      x: 1,
+      z: 0,
+      epoch: movingEpoch,
+      control: 1,
+      frames: motionFrames,
+    });
+    await delay(700);
+    const stoppedPlayer = (await store.get(first.roomId))!.world.players[
+      moving.member
+    ];
+    assert.deepEqual(stoppedPlayer.pos, stoppedAt);
+    assert.equal(stoppedPlayer.input.x, 0);
     await rooms[winner].leave();
     await until(
       () => worlds.get(5)?.world.items[item.id].state === "ground",
@@ -214,6 +260,7 @@ try {
               "seventh guest rejected",
               "same-item pickup race",
               "actual network movement",
+              "sequenced WebSocket release stays fixed through duplicate late inputs and seven server pulses",
               "disconnect safe drop once",
               "SQL process restart preserves jobs and command receipts",
             ],
