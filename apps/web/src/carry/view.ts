@@ -437,7 +437,8 @@ export class CarryView {
     };
   }
   recenter() {
-    const p = this.world?.players[this.member];
+    const p = this.world?.players[this.member]
+      ? this.motion.player(this.world, this.member) : null;
     if (p) this.anchor.set(p.pos.x, p.pos.y, p.pos.z);
   }
   private resize() {
@@ -580,6 +581,10 @@ export class CarryView {
           q.id === this.member
             ? this.motion.step(w, this.member, this.localInput, dt, now)
             : this.motion.remote(w, q.id, now);
+        const travel = Math.hypot(
+          position.x - e.group.position.x,
+          position.z - e.group.position.z,
+        );
         e.group.position.set(position.x, position.y, position.z);
         const input = q.id === this.member ? this.localInput : q.input;
         const facing =
@@ -596,9 +601,9 @@ export class CarryView {
             Math.cos(angle - e.group.rotation.y),
           ) *
           (1 - Math.exp(-dt * 18));
-        const moving =
-          (q.id === this.member || w.time - q.input.at < CFG.inputExpiry) &&
-          Math.hypot(input.x, input.z) > 0.01;
+        // Actual displayed displacement drives the feet: no walking in place
+        // against a wall, and remote feet keep moving during interpolation.
+        const moving = travel > dt * 0.05;
         if (e.visual) {
           const clip =
             w.phase === "LAUNCHED"
@@ -833,12 +838,13 @@ export class CarryView {
         e.group.visible = s.stage === stage;
         if (s.item) e.group.scale.setScalar(0.7);
       }
-      const t = p ? targets(w, p)[0] : undefined;
+      const local = p ? this.motion.player(w, this.member) : null;
+      const t = local ? targets(w, local)[0] : undefined;
       this.target = t?.id ?? "";
       this.selection.visible = !!t;
       if (t) this.selection.position.set(t.pos.x, t.pos.y + 0.06, t.pos.z);
       this.ghost.visible = !!p && !!this.mode && this.mode.kind !== "ping";
-      if (p && this.mode && this.mode.kind !== "ping") {
+      if (local && this.mode && this.mode.kind !== "ping") {
         if (!this.ghost.children.length) {
           const box = this.box(
             this.ghost,
@@ -857,15 +863,15 @@ export class CarryView {
         const x =
             this.mode.x ??
             Math.round(
-              (p.pos.x +
-                p.facing.x * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
+              (local.pos.x +
+                local.facing.x * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
                 2,
             ) / 2,
           z =
             this.mode.z ??
             Math.round(
-              (p.pos.z +
-                p.facing.z * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
+              (local.pos.z +
+                local.facing.z * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
                 2,
             ) / 2;
         this.ghost.position.set(x, floorHeight(x, z) + 0.02, z);
@@ -877,8 +883,8 @@ export class CarryView {
         );
         const reason =
           this.mode.kind === "machine"
-            ? machinePlacementReason(w, p, x, z, this.mode.rotation)
-            : placementReason(w, p, this.mode.device, x, z, this.mode.rotation);
+            ? machinePlacementReason(w, local, x, z, this.mode.rotation)
+            : placementReason(w, local, this.mode.device, x, z, this.mode.rotation);
         (
           (this.ghost.children[0] as T.Mesh).material as T.MeshStandardMaterial
         ).color.set(reason ? "#f47272" : "#06b6d4");

@@ -70,7 +70,7 @@ export default {
       return json({
         ok: true,
         rules: "quarry-3.1.0",
-        build: "3.1.1",
+        build: "3.1.2",
         transport: "http",
         storage: "D1",
       });

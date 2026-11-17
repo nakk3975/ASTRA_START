@@ -1,0 +1,24 @@
+{
+  "build": "3.1.2",
+  "dateKST": "2026-11-17",
+  "testedBeforeEnvironmentLoss": {
+    "unitTests": {
+      "passed": 103,
+      "failed": 0
+    },
+    "typecheck": "PASS",
+    "webBuild": "PASS",
+    "designValidation": "PASS",
+    "websocketClients": 6,
+    "postgresRestart": "PASS",
+    "actionAfterMovement": "PASS"
+  },
+  "recoveredCommitRetested": false,
+  "siteDeployment": "NOT_COMPLETED_ENVIRONMENT_UNAVAILABLE",
+  "liveSiteVersion": 8,
+  "liveSiteBuild": "3.1.1",
+  "gpuValidation": "BLOCKED_WEBGL2_UNAVAILABLE",
+  "assetsChanged": false,
+  "balanceChanged": false,
+  "saveSchemaChanged": false
+}

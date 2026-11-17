@@ -31,6 +31,8 @@ export type MovePacket = {
   epoch: number;
   control?: number;
   frames?: MoveFrame[];
+  /** Execute the accompanying action only after this movement interval is applied. */
+  actionAfter?: number;
 };
 export type Player = {
   id: string;

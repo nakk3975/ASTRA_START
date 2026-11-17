@@ -40,6 +40,7 @@ export class CarryConnection {
   onAck = (r: Receipt) => {};
   timer?: ReturnType<typeof setInterval>;
   pending = new Map<string, Command>();
+  private actionBarriers = new Map<string, { seq: number; input: { x: number; z: number } }>();
   busy = false;
   stopped = true;
   generation = 0;
@@ -65,7 +66,9 @@ export class CarryConnection {
     if (r.world && r.revision >= this.revision) {
       this.world = r.world;
       this.revision = r.revision;
-      this.epoch = this.world!.players[this.session!.member].epoch;
+      const epoch = this.world!.players[this.session!.member].epoch;
+      if (this.epoch !== epoch) this.actionBarriers.clear();
+      this.epoch = epoch;
       this.seq = Math.max(
         this.seq,
         this.world!.players[this.session!.member].lastSeq,
@@ -80,6 +83,7 @@ export class CarryConnection {
     }
     if (r.result?.id) {
       this.pending.delete(r.result.id);
+      this.actionBarriers.delete(r.result.id);
       this.persistOutbox();
       this.onAck(r.result);
     }
@@ -193,15 +197,17 @@ export class CarryConnection {
     this.busy = true;
     this.urgent = false;
     const generation = this.generation,
-      control = this.control;
+      control = this.control,
+      cmd = this.pending.values().next().value,
+      barrier = cmd && this.actionBarriers.get(cmd.id);
     const input = {
-      ...this.input,
+      ...(barrier?.input ?? this.input),
       control,
       epoch: this.epoch,
-      frames: this.movement.packet(performance.now()),
+      frames: this.movement.packet(performance.now(), barrier?.seq),
+      ...(barrier ? { actionAfter: barrier.seq } : {}),
     };
     try {
-      const cmd = this.pending.values().next().value;
       if (this.room) {
         this.room.send("INPUT", input);
         if (cmd) this.room.send("COMMAND", cmd);
@@ -237,9 +243,14 @@ export class CarryConnection {
       return;
     }
     const c = { ...extra, id: crypto.randomUUID(), seq: ++this.seq, type };
+    this.actionBarriers.set(c.id, {
+      seq: this.movement.checkpoint(performance.now()),
+      input: { ...this.input },
+    });
     this.pending.set(c.id, c);
     this.persistOutbox();
-    void this.sync();
+    this.urgent = true;
+    void this.sync(true);
   }
   async stop() {
     this.stopped = true;
@@ -254,6 +265,7 @@ export class CarryConnection {
         () => {},
       );
     this.pending.clear();
+    this.actionBarriers.clear();
     this.persistOutbox();
     this.world = null;
     this.revision = -1;

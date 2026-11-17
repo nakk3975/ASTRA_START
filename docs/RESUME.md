@@ -1,3 +1,13 @@
+# 최신 개발 변경 — 3.1.2 / 배포 대기 (2026-11-17 KST)
+
+GitHub 기존 개발 브랜치 `codex/resume-meshy-pilot-20261117`와 draft PR#1을 이어서 작업했다. 기존 사이트는 **v8 / 3.1.1**이며 이번 변경은 아직 배포하지 못했다. 실행 환경이 103개 단위시험·타입검사·빌드와 6개 실제 WS/PG 검증 후 배포 준비 도중 연결 해제됐다. 연결 가능한 GitHub 도구로 검증한 패치를 기존 8344ce756e22b3caf7678150feb3614ccb705a37 베이스에 재적용해 저장했다. 복구 커밋 자체는 재실행하지 못했으므로 다음 작업에서 반드시 npm run check, npm run test:carry:network 후 게시한다.
+
+변경: MotionSmoother.player로 E 대상/HUD/기계패널/설치 고스트/C 재중앙에 동일한 표시 위치와 방향을 사용. checkpoint로 행동 직전 이동 구간을 봉인. CarryConnection.actionBarriers와 MovePacket.actionAfter로 행동 이전 이동이 모두 적용된 뒤 명령을 한 번 처리하고, 행동 이후 이동은 ACK 뒤 전송. 일반 HTTP 요청 중에도 행동을 우선 전송. 재접속 시 이전 이동 barrier만 해제하고 동일한 명령 ID를 보존. 마지막 적용 이동 방향과 실제 표시 변위 기반 걷기 보정. 신규 회귀시험 6개, 실제 WS 시험의 분할 이동 후 행동 대기 추가.
+
+docs/carry/INTERACTION_3_1_2.md가 이번 변경·검증·중단 상태의 기준이다. 저장 규칙 quarry-3.1.0, 자금/재료/레시피/광맥/모델은 유지. 신규 모델 생성 없음. 원격 브라우저 WebGL2 미지원으로 GPU 외관/FPS/사람의 체감은 미검증. 벽 주변 분할 적분에 약 0.6~1.1cm 잔여 표시 오차도 관측되어 모든 지형의 정확성을 완료했다고 말하지 않는다.
+
+다음: GitHub 이 브랜치의 최신 코드를 기준으로 재검증하고, Sites v8 소스 위에 이번 변경만 병합한 뒤 helper로 push/package/deploy. Sites ID와 소유자 전용 범위 유지. main 미병합. 환경 중단 전 로컬 README wrapper 갱신은 GitHub 게임 루트 README와 다르므로 게시 체크아웃의 루트 README도 실제 Worker/D1 게임 설명으로 고친다.
+
 # 최신 변경 — 3.1.1 (2026-11-17 KST)
 
 고주사율(144/240/360Hz)에서 HTTP 왕복 360ms가 겹치면 90프레임 이동 대기열이 가득 차 이동이 누락되는 결함을 재현해 수정했다. 미전송 입력만 50ms로 합치며 전송한 seq는 수정하지 않는다. tests/movement-refresh.test.ts 5개 추가, 총97개 테스트 및 타입/빌드·실제6WS/PG 통과. 기계0등급 6종을 starter-machines.ts의 개별 수공구 외형으로 교체. 유료 생성 없음. 기존 저장 규칙 quarry-3.1.0 유지. 상세 docs/carry/REFRESH_3_1_1.md.

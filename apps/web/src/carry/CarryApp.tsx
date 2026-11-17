@@ -170,7 +170,8 @@ export default function CarryApp() {
   function place(at?: V3) {
     const m = modeRef.current,
       w = world.current,
-      p = w?.players[net.current.session?.member ?? ""];
+      member = net.current.session?.member ?? "",
+      p = w?.players[member] ? net.current.movement.player(w, member) : null;
     if (!m || m.kind === "ping" || !p) return;
     const reach = m.kind === "machine" ? 2.5 : 1.4,
       x = at?.x ?? m.x ?? Math.round((p.pos.x + p.facing.x * reach) * 2) / 2,
@@ -198,7 +199,7 @@ export default function CarryApp() {
     const n = net.current,
       w = world.current;
     if (!w || !view.current?.ready || n.stopped || modalRef.current) return;
-    const p = w.players[n.session!.member];
+    const p = n.movement.player(w, n.session!.member);
     if (type === "INTERACT") {
       if (modeRef.current && modeRef.current.kind !== "ping") {
         place();
@@ -365,7 +366,8 @@ export default function CarryApp() {
       setBusy(false);
     }
   }
-  const me = hud?.players[net.current.session?.member ?? ""],
+  const member = net.current.session?.member ?? "",
+    me = hud?.players[member] ? net.current.movement.player(hud, member) : undefined,
     held = me?.hand ? hud?.items[me.hand] : null,
     stage = hud ? currentStage(hud) : -1,
     stageData = hud ? PROFILES[hud.profile].stages[stage] : null,

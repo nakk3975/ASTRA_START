@@ -3,6 +3,7 @@ import {
   type World,
   type V3,
   type MoveFrame,
+  type Player,
 } from "../../../../packages/carry-core/src/index.ts";
 const mix = (a: V3, b: V3, t: number): V3 => ({
   x: a.x + (b.x - a.x) * t,
@@ -18,6 +19,7 @@ export class MotionSmoother {
   private position: V3 | null = null;
   private offset: V3 = { x: 0, y: 0, z: 0 };
   private input = { x: 0, z: 0 };
+  private facing = { x: 0, z: -1 };
   private sequence = 0;
   private sentSequence = 0;
   private pending: MoveFrame[] = [];
@@ -45,6 +47,7 @@ export class MotionSmoother {
       this.frames = [];
       this.sampledAt = now;
       this.input = { x: 0, z: 0 };
+      this.facing = { ...p.facing };
     } else {
       this.capture(now);
       const displayed = {
@@ -84,6 +87,30 @@ export class MotionSmoother {
   setInput(input: { x: number; z: number }, now: number) {
     this.capture(now);
     this.input = { ...input };
+    const length = Math.hypot(input.x, input.z);
+    if (length > 0)
+      this.facing = { x: input.x / length, z: input.z / length };
+  }
+  /** Display-only player for prompts/placement. Never send its position to authority. */
+  player(w: World, member: string): Player {
+    const p = w.players[member];
+    if (!this.position || this.room !== w.id || this.member !== member || this.epoch !== p.epoch)
+      return p;
+    return {
+      ...p,
+      pos: {
+        x: this.position.x + this.offset.x,
+        y: this.position.y + this.offset.y,
+        z: this.position.z + this.offset.z,
+      },
+      facing: { ...this.facing },
+    };
+  }
+  checkpoint(now: number) {
+    this.capture(now);
+    // Seal the final interval: movement after the action belongs to a new seq.
+    this.sentSequence = this.sequence;
+    return this.sequence;
   }
   private capture(now: number) {
     const elapsed = Math.max(0, Math.min(0.12, (now - this.sampledAt) / 1000));
@@ -119,9 +146,9 @@ export class MotionSmoother {
       dt -= part;
     }
   }
-  packet(now: number) {
+  packet(now: number, through = Infinity) {
     this.capture(now);
-    const frames = this.pending.slice(0, 40).map((f) => ({ ...f }));
+    const frames = this.pending.filter((f) => f.seq <= through).slice(0, 40).map((f) => ({ ...f }));
     this.sentSequence = Math.max(this.sentSequence, frames.at(-1)?.seq ?? 0);
     return frames;
   }
