@@ -9,6 +9,7 @@ import {
   publicWorld,
   migrateCarry,
   CFG,
+  validAvatar,
   type World,
   type Command,
 } from "./index.ts";
@@ -66,7 +67,7 @@ export class CarryService {
     for (const p of Object.values(s.world.players))
       if (p.connected && now - p.lastSeen > CFG.disconnectSeconds * 1000)
         leaveCarry(s.world, p.id);
-    let dt = Math.min(0.25, Math.max(0, (now - s.at) / 1000));
+    let dt = Math.min(1, Math.max(0, (now - s.at) / 1000));
     while (dt > 0.00001) {
       const part = Math.min(0.05, dt);
       tickCarry(s.world, part);
@@ -82,8 +83,10 @@ export class CarryService {
     name: string,
     planned: number,
     profile: "campaign" | "lab" = "campaign",
+    avatar = "worker",
   ) {
     this.name(name);
+    if (!validAvatar(avatar)) throw Error("캐릭터를 선택하세요.");
     if (!["campaign", "lab"].includes(profile))
       throw Error("지원하지 않는 규칙입니다.");
     const id = crypto.randomUUID(),
@@ -91,7 +94,7 @@ export class CarryService {
       key = token(),
       code = token().slice(0, 8).toUpperCase();
     const world = createCarryWorld(id, code, planned, profile);
-    joinCarry(world, member, name, this.now());
+    joinCarry(world, member, name, this.now()).avatar = avatar;
     const row = {
       id,
       code,
@@ -115,8 +118,9 @@ export class CarryService {
     if (typeof name !== "string" || name.trim().length < 1 || name.length > 18)
       throw Error("이름은 1~18자로 입력해 주세요.");
   }
-  async join(code: string, name: string) {
+  async join(code: string, name: string, avatar = "worker") {
     this.name(name);
+    if (!validAvatar(avatar)) throw Error("캐릭터를 선택하세요.");
     const existing = await this.store.byCode(code.toUpperCase());
     if (!existing) throw Error("방 코드를 확인해 주세요.");
     const member = crypto.randomUUID(),
@@ -127,7 +131,7 @@ export class CarryService {
         throw Error(
           "이 저장본의 방문자 한도입니다. 기존 접속 정보로 이어 주세요.",
         );
-      joinCarry(s.world, member, name, this.now());
+      joinCarry(s.world, member, name, this.now()).avatar = avatar;
       s.credentials[member] = hash;
     });
     return {

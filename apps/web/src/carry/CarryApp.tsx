@@ -1,8 +1,19 @@
+import { WorkshopPanel, CharacterPicker } from "./WorkshopPanel";
 import React, { useEffect, useRef, useState } from "react";
 import { CarryConnection } from "./network";
 import { CarryView, type Mode, type Settings } from "./view";
 import {
   ITEM,
+  machineCanRecipe,
+  machineCapacity,
+  machineSpeed,
+  machineKind,
+  itemValue,
+  level,
+  startingFunds,
+  MARKET,
+  SALE_VALUE,
+  type MachineKind,
   RECIPES,
   REWARDS,
   PROFILES,
@@ -54,6 +65,7 @@ export default function CarryApp() {
     [graphics, setGraphics] = useState(""),
     [metrics, setMetrics] = useState<any>(null),
     [name, setName] = useState("작업자"),
+    [avatar, setAvatar] = useState("worker"),
     [code, setCode] = useState(""),
     [planned, setPlanned] = useState(1),
     [profile, setProfile] = useState("campaign"),
@@ -65,6 +77,7 @@ export default function CarryApp() {
   const stop = () => {
     keys.current.clear();
     net.current.input = { x: 0, z: 0 };
+    if (view.current) view.current.localInput = { x: 0, z: 0 };
   };
   const changeMode = (m: Mode) => {
     stop();
@@ -95,18 +108,18 @@ export default function CarryApp() {
   }
   useEffect(() => {
     const n = net.current;
-    n.onWorld = (w) => {
+    n.onWorld = (w, rtt) => {
       world.current = w;
       if (view.current) {
-        view.current.world = w;
-        view.current.member = n.session!.member;
+        view.current.receive(w, n.session!.member, rtt);
       }
     };
     n.onStatus = setStatus;
     n.onAck = (r) => {
       setStatus(r.message);
       beep(r.ok);
-      if (r.ok && r.message === "설비 설치 완료") changeMode(null);
+      if (r.ok && ["설비 설치 완료", "기계 설치 완료"].includes(r.message))
+        changeMode(null);
     };
     const t = setInterval(() => {
       setHud(n.world);
@@ -125,7 +138,12 @@ export default function CarryApp() {
       if (s) stop();
     };
     v.onMetrics = setMetrics;
-    v.world = world.current;
+    if (world.current)
+      v.receive(
+        world.current,
+        net.current.session?.member ?? "",
+        net.current.rtt,
+      );
     v.member = net.current.session?.member ?? "";
     v.applySettings(settings);
     setGraphics(v.error);
@@ -135,7 +153,7 @@ export default function CarryApp() {
       if (m?.kind === "ping") {
         net.current.command("PING", { x: p.x, z: p.z });
         changeMode(null);
-      } else if (m?.kind === "place") {
+      } else if (m) {
         changeMode({ ...m, x: p.x, z: p.z });
         place(p);
       }
@@ -152,15 +170,28 @@ export default function CarryApp() {
     const m = modeRef.current,
       w = world.current,
       p = w?.players[net.current.session?.member ?? ""];
-    if (m?.kind !== "place" || !p) return;
-    const x = at?.x ?? m.x ?? Math.round((p.pos.x + p.facing.x * 1.4) * 2) / 2,
-      z = at?.z ?? m.z ?? Math.round((p.pos.z + p.facing.z * 1.4) * 2) / 2;
-    net.current.command("PLACE", {
-      device: m.device,
+    if (!m || m.kind === "ping" || !p) return;
+    const reach = m.kind === "machine" ? 2.5 : 1.4,
+      x = at?.x ?? m.x ?? Math.round((p.pos.x + p.facing.x * reach) * 2) / 2,
+      z = at?.z ?? m.z ?? Math.round((p.pos.z + p.facing.z * reach) * 2) / 2;
+    net.current.command(m.kind === "machine" ? "PLACE_MACHINE" : "PLACE", {
+      ...(m.kind === "machine" ? { machine: m.machine } : { device: m.device }),
       x,
       z,
       rotation: m.rotation,
     });
+  }
+  function placeHeld() {
+    const w = world.current,
+      p = w?.players[net.current.session?.member ?? ""],
+      item = p?.hand ? w?.items[p.hand] : null;
+    if (!item?.kind.startsWith("kit_")) return;
+    const key = item.kind.slice(4);
+    changeMode(
+      machineKind(key)
+        ? { kind: "machine", machine: key, rotation: 0 }
+        : { kind: "place", device: key as DeviceKind, rotation: 0 },
+    );
   }
   function act(type: Command["type"]) {
     const n = net.current,
@@ -168,11 +199,15 @@ export default function CarryApp() {
     if (!w || !view.current?.ready || n.stopped || modalRef.current) return;
     const p = w.players[n.session!.member];
     if (type === "INTERACT") {
-      if (modeRef.current?.kind === "place") {
+      if (modeRef.current && modeRef.current.kind !== "ping") {
         place();
         return;
       }
       if (modeRef.current) return;
+      if (p.hand && w.items[p.hand].kind.startsWith("kit_")) {
+        placeHeld();
+        return;
+      }
       const t = targets(w, p)[0];
       if (t) n.command("INTERACT", { target: t.id });
       else
@@ -187,6 +222,19 @@ export default function CarryApp() {
     const editable = (el: EventTarget | null) =>
       el instanceof HTMLElement &&
       !!el.closest("input,textarea,select,[contenteditable=true]");
+    const updateInput = () => {
+      const k = keys.current,
+        held = (a: string, b: string) => Number(k.has(a) || k.has(b));
+      const next =
+        modalRef.current || !view.current?.ready || net.current.stopped
+          ? { x: 0, z: 0 }
+          : screenMovement(
+              held("KeyD", "ArrowRight") - held("KeyA", "ArrowLeft"),
+              held("KeyS", "ArrowDown") - held("KeyW", "ArrowUp"),
+            );
+      net.current.input = next;
+      if (view.current) view.current.localInput = next;
+    };
     const down = (e: KeyboardEvent) => {
       if (editable(e.target)) return;
       if (e.code === "Escape") {
@@ -227,6 +275,7 @@ export default function CarryApp() {
       e.preventDefault();
       if (e.repeat || keys.current.has(e.code)) return;
       keys.current.add(e.code);
+      updateInput();
       if (e.code === "KeyE") act("INTERACT");
       if (e.code === "KeyQ") act("SELECT_HAND");
       if (e.code === "Space") act("DROP");
@@ -244,15 +293,25 @@ export default function CarryApp() {
           else changeMode({ kind: "place", device: d[0], rotation: 0 });
         }
       }
-      if (e.code === "KeyR" && modeRef.current?.kind === "place")
+      if (
+        e.code === "KeyR" &&
+        modeRef.current &&
+        modeRef.current.kind !== "ping"
+      )
         changeMode({
           ...modeRef.current,
           rotation:
             (modeRef.current.rotation + 1) %
-            (modeRef.current.device === "corner" ? 8 : 4),
+            (modeRef.current.kind === "place" &&
+            modeRef.current.device === "corner"
+              ? 8
+              : 4),
         });
     };
-    const up = (e: KeyboardEvent) => keys.current.delete(e.code);
+    const up = (e: KeyboardEvent) => {
+      keys.current.delete(e.code);
+      updateInput();
+    };
     const focus = (e: FocusEvent) => {
       if (editable(e.target)) stop();
     };
@@ -273,6 +332,7 @@ export default function CarryApp() {
       }
       const k = keys.current,
         held = (a: string, b: string) => Number(k.has(a) || k.has(b));
+      updateInput();
       net.current.input = screenMovement(
         held("KeyD", "ArrowRight") - held("KeyA", "ArrowLeft"),
         held("KeyS", "ArrowDown") - held("KeyW", "ArrowUp"),
@@ -307,7 +367,8 @@ export default function CarryApp() {
     setStatus("작업장에 연결하는 중…");
     try {
       if (action === "resume") await net.current.resume();
-      else await net.current.start(action, name, code, planned, profile);
+      else
+        await net.current.start(action, name, code, planned, profile, avatar);
       setHud(net.current.world);
       openModal("");
       view.current?.recenter();
@@ -353,8 +414,7 @@ export default function CarryApp() {
           </h1>
           <p>
             한 사람의 손에서, 모두의 로켓으로.
-            <br />
-            광맥을 캐고 · 여러 단계로 가공하고 · 자동화하세요.
+            <br />빈 공방에서 시작해, 내 손으로 우주까지.
           </p>
           <form
             onSubmit={(e) => {
@@ -371,6 +431,10 @@ export default function CarryApp() {
                 required
               />
             </label>
+            <CharacterPicker value={avatar} onSelect={setAvatar} />
+            <small>
+              캐릭터 능력은 동일합니다 · 시작 자금 {startingFunds(planned)} 코인
+            </small>
             <div className="carry-form-row">
               <label>
                 난이도 기준 인원
@@ -468,8 +532,12 @@ export default function CarryApp() {
               className="economy-button"
               onClick={() => openModal("upgrades")}
             >
-              팀 자금 {hud.economy.coins} ◈ · {hud.economy.xp} XP ↑
+              {hud.economy.coins} ◈ · {hud.economy.xp} XP · 성장
             </button>
+            <div className="crew-shop">
+              <button onClick={() => openModal("shop")}>설비 구매</button>
+              <button onClick={() => openModal("characters")}>캐릭터</button>
+            </div>
           </div>
           <section className="carry-progress hud-panel">
             <div className="progress-title">
@@ -606,7 +674,7 @@ export default function CarryApp() {
                 <strong>{held ? ITEM[held.kind].name : "빈손"}</strong>
                 <small>
                   {held && ITEM[held.kind].heavy
-                    ? "무거운 물건 · 이동속도 -20%"
+                    ? `무거운 짐 · 속도 -${20 - level(hud, "handling") * 4}%`
                     : "Q · 사용할 물건을 바꿉니다"}
                 </small>
               </div>
@@ -615,9 +683,11 @@ export default function CarryApp() {
                 className="primary"
                 onClick={() => act("INTERACT")}
               >
-                {mode?.kind === "place"
+                {mode && mode.kind !== "ping"
                   ? "E 설비 설치"
-                  : (near?.label ?? "E 상호작용")}
+                  : held?.kind.startsWith("kit_")
+                    ? "E 설치 모드"
+                    : (near?.label ?? "E 상호작용")}
               </button>
             </div>
             {me && carryCapacity(hud) > 1 && (
@@ -633,7 +703,8 @@ export default function CarryApp() {
                         net.current.command("SELECT_HAND", { target: id })
                       }
                     >
-                      {n + 1} · {i ? ITEM[i.kind].name : "빈 칸"}
+                      <b>{n + 1}</b>{" "}
+                      <span>{i ? ITEM[i.kind].name : "빈 칸"}</span>
                       {n === 0 ? " ✓" : ""}
                     </button>
                   );
@@ -679,7 +750,7 @@ export default function CarryApp() {
             <div className="carry-mode hud-panel">
               {mode.kind === "ping"
                 ? "핑을 남길 바닥을 클릭하세요"
-                : `${ITEM[`kit_${mode.device}`].name} 필요 · R 회전 · E/클릭 설치`}
+                : `${ITEM[`kit_${mode.kind === "machine" ? mode.machine : mode.device}`].name} · R 회전 · E/클릭 설치`}
               <button onClick={() => changeMode(null)}>Esc 취소</button>
             </div>
           )}
@@ -700,7 +771,7 @@ export default function CarryApp() {
                     <option value="lab_plate">개발용 고철 → 철판</option>
                   )}
                   {Object.entries(RECIPES)
-                    .filter(([, r]) => r.machine === machine.type)
+                    .filter(([id]) => machineCanRecipe(machine, id))
                     .map(([id, r]) => (
                       <option
                         key={id}
@@ -710,9 +781,10 @@ export default function CarryApp() {
                           !deviceUnlocked(hud!, r.output.slice(4) as DeviceKind)
                         }
                       >
-                        {r.name} · {r.seconds}초
+                        {r.name} ·{" "}
+                        {(r.seconds / machineSpeed(hud!, machine)).toFixed(1)}초
                         {REWARDS[r.output]
-                          ? ` · +${REWARDS[r.output]!.coins}코인 / ${REWARDS[r.output]!.xp}XP`
+                          ? ` · 가공 ${REWARDS[r.output]!.xp}XP / 판매 ${SALE_VALUE[r.output] ?? 0}◈`
                           : ""}
                       </option>
                     ))}
@@ -721,9 +793,9 @@ export default function CarryApp() {
               <small>
                 {machine.job
                   ? machine.job.remaining > 0
-                    ? `가공 중 · ${Math.ceil(machine.job.remaining)}초`
+                    ? `가공 중 · ${Math.ceil(machine.job.remaining / machineSpeed(hud!, machine))}초`
                     : "완료 · 출력 공간 대기"
-                  : `입력 ${machine.input.length}개 · 출력 ${machine.output.length}/3`}
+                  : `입력 ${machine.input.length}개 · 출력 ${machine.output.length}/${machineCapacity(machine)}`}
               </small>
               <small>
                 {machine.recipe === "lab_plate"
@@ -735,6 +807,9 @@ export default function CarryApp() {
                       )
                       .join(" + ")}
               </small>
+              <button onClick={() => openModal("machines")}>
+                이 설비 강화·회수
+              </button>
             </div>
           )}
           {stage === -1 && hud.phase !== "LAUNCHED" && (
@@ -744,6 +819,15 @@ export default function CarryApp() {
             >
               발사대에서 최종 발사
             </button>
+          )}
+          {Object.keys(hud.machines).length === 0 && (
+            <div className="first-steps hud-panel">
+              <b>첫 공방 만들기</b>
+              <span>① 설비 구매에서 40코인 작업대 구매</span>
+              <span>② 상자를 들고 E → 가까운 바닥 클릭</span>
+              <span>③ 광맥 E 채굴 → 가공 → 판매소 E 판매</span>
+              <button onClick={() => openModal("shop")}>작업대 구매하기</button>
+            </div>
           )}
           <div className="carry-toast" role="status">
             {status !== "연결됨" ? status : ""}
@@ -791,8 +875,10 @@ export default function CarryApp() {
                 ? "조작 도움말"
                 : modal === "settings"
                   ? "설정"
-                  : modal === "upgrades"
-                    ? "팀 업그레이드"
+                  : ["upgrades", "shop", "machines", "characters"].includes(
+                        modal,
+                      )
+                    ? "공방 성장"
                     : "메뉴"
             }
           >
@@ -804,17 +890,19 @@ export default function CarryApp() {
                 ? "손에서 손으로, 우주까지"
                 : modal === "settings"
                   ? "작업 환경"
-                  : modal === "upgrades"
-                    ? "가공하고, 더 편하게"
+                  : ["upgrades", "shop", "machines", "characters"].includes(
+                        modal,
+                      )
+                    ? "내 손으로 키우는 공방"
                     : "작업장 메뉴"}
             </h2>
             {modal === "help" ? (
               <>
                 <p>
                   광맥에서 E로 쉽게 채굴한 뒤 가공기 입력 받침대 → 출력 부품 →
-                  발사대 소켓 순서로 옮깁니다. 단계가 높은 부품을 만들수록
-                  코인과 XP를 더 받습니다. 기계 가까이에서 레시피를 바꿀 수
-                  있습니다.
+                  발사대 소켓 순서로 옮깁니다. 단계가 높은 부품을 만들수록 가공
+                  XP와 판매·납품 대금을 더 받습니다. 기계 가까이에서 레시피를
+                  바꿀 수 있습니다.
                 </p>
                 <dl>
                   {[
@@ -842,57 +930,18 @@ export default function CarryApp() {
                   동료와는 통과하며 기계·벽에는 막힙니다.
                 </p>
               </>
-            ) : modal === "upgrades" ? (
-              <>
-                <p>
-                  팀이 함께 모은 자금으로 해금합니다. XP는 소비하지 않는 성장
-                  조건입니다. 운반량은 1개 → 2개 → 3개 순서로 증가합니다.
-                </p>
-                <strong>
-                  {hud?.economy.coins ?? 0} 코인 · {hud?.economy.xp ?? 0} XP
-                </strong>
-                <div className="upgrade-grid">
-                  {Object.entries(UPGRADES).map(([key, u]) => {
-                    const e = hud?.economy,
-                      owned = e?.upgrades.includes(
-                        key as keyof typeof UPGRADES,
-                      ),
-                      ready =
-                        !!e &&
-                        !owned &&
-                        e.coins >= u.cost &&
-                        e.xp >= u.xp &&
-                        (!u.requires || e.upgrades.includes(u.requires));
-                    return (
-                      <article key={key}>
-                        <strong>{u.name}</strong>
-                        <p>{u.description}</p>
-                        <small>
-                          {u.cost} 코인 · {u.xp} XP 이상
-                          {u.requires
-                            ? ` · ${UPGRADES[u.requires].name} 필요`
-                            : ""}
-                        </small>
-                        <button
-                          disabled={!ready}
-                          onClick={() =>
-                            net.current.command("UPGRADE", {
-                              upgrade: key as keyof typeof UPGRADES,
-                            })
-                          }
-                        >
-                          {owned ? "해금 완료" : "해금하기"}
-                        </button>
-                      </article>
-                    );
-                  })}
-                </div>
-                <p>
-                  해금 후 작업대에서 설비 상자를 제작하세요. 채굴기 →
-                  컨베이어/크레인 → 가공기 → 자동 설치기로 운반 과정을 연결할 수
-                  있습니다.
-                </p>
-              </>
+            ) : ["upgrades", "shop", "machines", "characters"].includes(
+                modal,
+              ) &&
+              hud &&
+              me ? (
+              <WorkshopPanel
+                key={modal}
+                world={hud}
+                player={me}
+                initial={modal === "upgrades" ? "research" : modal}
+                send={(type, data) => net.current.command(type, data)}
+              />
             ) : modal === "settings" ? (
               <>
                 <label>

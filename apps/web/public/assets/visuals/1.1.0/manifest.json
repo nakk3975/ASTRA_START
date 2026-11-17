@@ -1513,6 +1513,282 @@
       "sourceCreditCost": 15,
       "rigMethod": "local-anatomical-skin-v1",
       "previewImage": "/assets/visuals/1.1.0/previews/worker.webp"
+    },
+    {
+      "id": "worker-engineer",
+      "sourceTaskId": "01a1e814-e5b3-7107-9b1e-ce30b4bdcab5",
+      "sourceImageTaskId": null,
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "HUMAN_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
+      "boundsMax": {
+        "x": 1.4,
+        "y": 1.8,
+        "z": 0.9
+      },
+      "clips": [
+        "idle",
+        "locomotion",
+        "carry_locomotion",
+        "work_loop",
+        "celebrate"
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/worker-engineer-lod0.8108cc5d56e5.glb",
+          "sha256": "8108cc5d56e57d607f918278916668c82d569f8156570f09d37975b3edc2baa3",
+          "bytes": 488440,
+          "triangles": 4181,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/worker-engineer-lod1.7acfcbd9760e.glb",
+          "sha256": "7acfcbd9760eac4e45709cc5d3f401c296f2b89fe1f2f747ea5eec74e3ac5c11",
+          "bytes": 431236,
+          "triangles": 2815,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "nameKo": "엔지니어 미나",
+      "sourcePreviewTaskId": "01a1e813-ba55-76f0-a1f2-88c89c19a047",
+      "sourceCreditCost": 15,
+      "rigMethod": "local-anatomical-skin-v1",
+      "previewImage": "/assets/visuals/1.1.0/previews/worker-engineer.webp"
+    },
+    {
+      "id": "worker-mechanic",
+      "sourceTaskId": "01a1e815-086f-759c-a2bd-1af4c0dc9057",
+      "sourceImageTaskId": null,
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "HUMAN_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
+      "boundsMax": {
+        "x": 1.4,
+        "y": 1.8,
+        "z": 0.9
+      },
+      "clips": [
+        "idle",
+        "locomotion",
+        "carry_locomotion",
+        "work_loop",
+        "celebrate"
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/worker-mechanic-lod0.9e3d5caee718.glb",
+          "sha256": "9e3d5caee718a01258272288ad69747d81d8bdd2635d36c9557e72574d8f2799",
+          "bytes": 463436,
+          "triangles": 4215,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/worker-mechanic-lod1.5f884da572a0.glb",
+          "sha256": "5f884da572a0b9ad73d527fa1f4a66c63a22312f56cc5ba1ed6015e713d671cb",
+          "bytes": 405556,
+          "triangles": 2810,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "nameKo": "정비사 준",
+      "sourcePreviewTaskId": "01a1e813-dc43-71cc-9c4c-4cbeb182e7a1",
+      "sourceCreditCost": 15,
+      "rigMethod": "local-anatomical-skin-v1",
+      "previewImage": "/assets/visuals/1.1.0/previews/worker-mechanic.webp"
+    },
+    {
+      "id": "worker-pilot",
+      "sourceTaskId": "01a1e815-2999-7100-a9c5-22b348b36e42",
+      "sourceImageTaskId": null,
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "HUMAN_SOURCE_PREVIEW_INSPECTED_GPU_REVIEW_PENDING",
+      "boundsMax": {
+        "x": 1.4,
+        "y": 1.8,
+        "z": 0.9
+      },
+      "clips": [
+        "idle",
+        "locomotion",
+        "carry_locomotion",
+        "work_loop",
+        "celebrate"
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/worker-pilot-lod0.5609036f9bc7.glb",
+          "sha256": "5609036f9bc7c0b1b8124c165f63fe735da0b5e526d09d29b3330fea8068d2c0",
+          "bytes": 483540,
+          "triangles": 4198,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/worker-pilot-lod1.a26518970f98.glb",
+          "sha256": "a26518970f981d3e77ef272fb3f4d026da0c8d9a012e44157e143e336e1735c0",
+          "bytes": 427100,
+          "triangles": 2818,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            },
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "nameKo": "파일럿 루나",
+      "sourcePreviewTaskId": "01a1e813-feb3-7223-916e-692975b51252",
+      "sourceCreditCost": 15,
+      "rigMethod": "local-anatomical-skin-v1",
+      "previewImage": "/assets/visuals/1.1.0/previews/worker-pilot.webp"
     }
   ],
   "totalSourceCredits": 641,

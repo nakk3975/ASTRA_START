@@ -14,7 +14,15 @@ import fs from "node:fs/promises";
 import crypto from "node:crypto";
 const [id, source, taskId, imageTaskId] = process.argv.slice(2);
 const catalog = JSON.parse(await fs.readFile("design/asset_catalog_v1_1.json"));
-const spec = catalog.assets.find((x) => x.id === id);
+// Selectable human variants share the original worker budgets and rig contract.
+const characterVariant = [
+  "worker-engineer",
+  "worker-mechanic",
+  "worker-pilot",
+].includes(id);
+const spec = catalog.assets.find(
+  (x) => x.id === (characterVariant ? "worker" : id),
+);
 if (!spec || !source || !taskId)
   throw Error(
     "Usage: node scripts/prepare-asset.mjs ID SOURCE TASK_ID IMAGE_TASK_ID",

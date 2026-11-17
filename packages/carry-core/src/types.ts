@@ -1,4 +1,4 @@
-import type { Kind, DeviceKind, UpgradeKey } from "./config.ts";
+import type { Kind, DeviceKind, UpgradeKey, MachineKind } from "./config.ts";
 export type V3 = { x: number; y: number; z: number };
 export type ItemState =
   | "ground"
@@ -19,12 +19,15 @@ export type Item = {
   vel: V3;
   rotation: number;
   born: number;
+  quality: number;
+  machineData?: { tier: number; investment: number };
   recovered: number;
   sleep: boolean;
 };
 export type Player = {
   id: string;
   name: string;
+  avatar: string;
   seat: number;
   connected: boolean;
   pos: V3;
@@ -42,6 +45,9 @@ export type Player = {
 export type Machine = {
   id: string;
   type: string;
+  tier: number;
+  rotation: number;
+  investment: number;
   pos: V3;
   recipe: string;
   input: string[];
@@ -89,6 +95,8 @@ export type World = {
   pings: { id: string; player: string; pos: V3; until: number }[];
   refill: number;
   events: { time: number; text: string; item?: string }[];
+  veins: Partial<Record<Kind, { level: number; extracted: number }>>;
+  stageBonuses: number[];
   economy: {
     coins: number;
     xp: number;
@@ -109,7 +117,17 @@ export type Command = {
     | "PING"
     | "LAUNCH"
     | "UPGRADE"
-    | "SELECT_HAND";
+    | "SELECT_HAND"
+    | "BUY_MACHINE"
+    | "PLACE_MACHINE"
+    | "UPGRADE_MACHINE"
+    | "PACK_MACHINE"
+    | "BUY_DEVICE"
+    | "UPGRADE_VEIN"
+    | "SELL"
+    | "AVATAR";
+  machine?: MachineKind;
+  avatar?: string;
   target?: string;
   recipe?: string;
   device?: DeviceKind;

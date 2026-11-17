@@ -1,4 +1,22 @@
 import {
+  hands,
+  carryCapacity,
+  movementSpeed,
+  startingFunds,
+  machineCapacity,
+  machineSpeed,
+  miningSeconds,
+  railSeconds,
+  machineCanRecipe,
+  researchCost,
+  validAvatar,
+} from "./progression.ts";
+import { marketAction, payInstalled, MARKET } from "./market.ts";
+import { movePosition } from "./motion.ts";
+export * from "./progression.ts";
+export * from "./market.ts";
+export * from "./motion.ts";
+import {
   CFG,
   ITEM,
   RECIPES,
@@ -38,16 +56,6 @@ export * from "./config.ts";
 export * from "./types.ts";
 export * from "./map.ts";
 const zero = () => ({ x: 0, y: 0, z: 0 });
-export const hands = (p: Player) => [
-  ...(p.hand ? [p.hand] : []),
-  ...(p.extraHands ?? []),
-];
-export const carryCapacity = (w: World) =>
-  w.economy.upgrades.includes("carry3")
-    ? 3
-    : w.economy.upgrades.includes("carry2")
-      ? 2
-      : 1;
 const removeHand = (p: Player) => {
   p.hand = p.extraHands.shift() ?? null;
 };
@@ -60,24 +68,47 @@ export function deviceUnlocked(w: World, type: DeviceKind) {
   return w.profile === "lab" || !key || w.economy.upgrades.includes(key);
 }
 export function migrateCarry(w: World) {
-  if (w.rules === "carry-2.0.0") {
-    w.rules = RULES;
-    w.economy = { coins: 0, xp: 0, earned: 0, spent: 0, upgrades: [] };
+  if (w.rules === "carry-2.0.0" || w.rules === "mining-2.1.0") {
+    w.economy ??= { coins: 0, xp: 0, earned: 0, spent: 0, upgrades: [] };
+    w.economy.upgrades = w.economy.upgrades.map((k) =>
+      k === "processing" ? "processing1" : k,
+    );
     for (const p of Object.values(w.players)) {
-      p.extraHands = [];
+      p.extraHands ??= [];
       p.mining = null;
+      p.avatar ??= "worker";
     }
-    event(w, "채굴 규칙으로 갱신: 기존 물건과 설치 상태 보존");
+    for (const m of Object.values(w.machines)) {
+      m.tier ??= 2;
+      m.rotation ??= 0;
+      m.investment ??= 0;
+    }
+    for (const i of Object.values(w.items)) i.quality ??= 0;
+    w.veins = Object.fromEntries(
+      SOURCES.map((s) => [s.kind, { level: 0, extracted: 0 }]),
+    );
+    w.stageBonuses = [
+      ...new Set(
+        w.sockets
+          .filter((s) =>
+            w.sockets.filter((q) => q.stage === s.stage).every((q) => q.item),
+          )
+          .map((s) => s.stage),
+      ),
+    ];
+    w.rules = RULES;
+    event(
+      w,
+      "공방 성장 규칙 적용: 기존 설비·물건·자금 보존. 빈 공방은 새 작업장에서 시작합니다.",
+    );
   }
   return w;
 }
 function award(w: World, kind: Kind, id: string) {
   const r = REWARDS[kind];
   if (r) {
-    w.economy.coins += r.coins;
-    w.economy.earned += r.coins;
     w.economy.xp += r.xp;
-    event(w, `${ITEM[kind].name} 가공: +${r.coins} 코인 · +${r.xp} XP`, id);
+    event(w, `${ITEM[kind].name} 가공 +${r.xp} XP · 판매/납품 시 코인`, id);
   }
 }
 export function event(w: World, text: string, item?: string) {
@@ -101,6 +132,7 @@ export function spawn(
     vel: zero(),
     rotation: 0,
     born: w.time,
+    quality: 0,
     recovered: 0,
     sleep: state === "ground",
   });
@@ -131,7 +163,17 @@ export function createCarryWorld(
     pings: [],
     refill: 0,
     events: [],
-    economy: { coins: 0, xp: 0, earned: 0, spent: 0, upgrades: [] },
+    veins: Object.fromEntries(
+      SOURCES.map((s) => [s.kind, { level: 0, extracted: 0 }]),
+    ),
+    stageBonuses: [],
+    economy: {
+      coins: profile === "campaign" ? startingFunds(planned) : 0,
+      xp: 0,
+      earned: profile === "campaign" ? startingFunds(planned) : 0,
+      spent: 0,
+      upgrades: [],
+    },
   };
   const defs = [
     ["press-a", "processor", -8, -7, "smelt_ingot"],
@@ -146,10 +188,13 @@ export function createCarryWorld(
     ["assembler-control", "assembler", 6, 0, "assemble_control"],
     ["workbench", "workbench", -13, -10, "kit_tray"],
   ] as const;
-  for (const [id, type, x, z, recipe] of defs)
+  for (const [id, type, x, z, recipe] of profile === "lab" ? defs : [])
     w.machines[id] = {
       id,
       type,
+      tier: 2,
+      rotation: 0,
+      investment: 0,
       pos: { x, y: 0, z },
       recipe: profile === "lab" && id === "press-a" ? "lab_plate" : recipe,
       input: [],
@@ -200,6 +245,7 @@ export function joinCarry(w: World, id: string, name: string, now: number) {
       id,
       name: name.slice(0, 18),
       seat,
+      avatar: "worker",
       connected: true,
       pos: { x: -14, y: 0, z: -5 + seat * 1.4 },
       facing: { x: 1, z: 0 },
@@ -292,6 +338,7 @@ export function targets(w: World, p: Player) {
       });
   }
   if (p.hand) {
+    t.push({ id: "market", pos: MARKET, label: "E 판매" });
     for (const m of Object.values(w.machines))
       t.push({
         id: `in:${m.id}`,
@@ -459,6 +506,8 @@ export function placementReason(
 function action(w: World, p: Player, c: Command) {
   if (w.phase === "LAUNCHED" && c.type !== "PING")
     throw Error("발사가 완료됐습니다.");
+  const market = marketAction(w, p, c);
+  if (market !== undefined) return market;
   const held = p.hand ? w.items[p.hand] : null;
   if (c.type === "INTERACT") {
     const t = targets(w, p).find((t) => t.id === c.target);
@@ -466,9 +515,9 @@ function action(w: World, p: Player, c: Command) {
     if (t.id.startsWith("vein:")) {
       if (p.mining) throw Error("채굴 중입니다.");
       const src = SOURCES.find((s) => `vein:${s.kind}` === t.id)!;
-      p.mining = { kind: src.kind, remaining: 0.6 };
+      p.mining = { kind: src.kind, remaining: miningSeconds(w, src.kind) };
       p.action = "mine";
-      p.actionUntil = w.time + 0.6;
+      p.actionUntil = w.time + miningSeconds(w, src.kind);
       return "광맥 채굴 시작";
     }
     if (w.items[t.id]) {
@@ -493,6 +542,7 @@ function action(w: World, p: Player, c: Command) {
       held.owner = s.id;
       held.pos = { ...s.pos };
       s.item = held.id;
+      payInstalled(w, held);
       removeHand(p);
       p.action = "work";
       p.actionUntil = w.time + 0.6;
@@ -553,7 +603,7 @@ function action(w: World, p: Player, c: Command) {
   if (c.type === "RECIPE") {
     const m = w.machines[c.target ?? ""],
       r = recipe(w, c.recipe ?? "");
-    if (!m || !r || r.machine !== m.type)
+    if (!m || !r || !machineCanRecipe(m, c.recipe!))
       throw Error("이 기계에서는 만들 수 없습니다.");
     if (
       r.output.startsWith("kit_") &&
@@ -622,10 +672,11 @@ function action(w: World, p: Player, c: Command) {
     if (u.requires && !w.economy.upgrades.includes(u.requires))
       throw Error("선행 업그레이드가 필요합니다.");
     if (w.economy.xp < u.xp) throw Error(`팀 경험치 ${u.xp} XP가 필요합니다.`);
-    if (w.economy.coins < u.cost)
-      throw Error(`팀 자금 ${u.cost} 코인이 필요합니다.`);
-    w.economy.coins -= u.cost;
-    w.economy.spent += u.cost;
+    const cost = researchCost(w, u.cost);
+    if (w.economy.coins < cost)
+      throw Error(`팀 자금 ${cost} 코인이 필요합니다.`);
+    w.economy.coins -= cost;
+    w.economy.spent += cost;
     w.economy.upgrades.push(key);
     event(w, `팀 업그레이드: ${u.name}`);
     return `${u.name} 해금`;
@@ -690,10 +741,12 @@ function machinesTick(w: World, dt: number) {
     if (m.job) {
       m.job.remaining = Math.max(
         0,
-        m.job.remaining -
-          dt * (w.economy.upgrades.includes("processing") ? 1.25 : 1),
+        m.job.remaining - dt * (w.profile === "lab" ? 1 : machineSpeed(w, m)),
       );
-      if (m.job.remaining === 0 && m.output.length < CFG.outputSlots) {
+      if (
+        m.job.remaining === 0 &&
+        m.output.length < (w.profile === "lab" ? 3 : machineCapacity(m))
+      ) {
         for (const id of m.job.input) {
           const i = w.items[id];
           i.state = "consumed";
@@ -701,14 +754,43 @@ function machinesTick(w: World, dt: number) {
         }
         const r = recipe(w, m.job.recipe),
           p = machinePort(m, true);
-        p.z += (m.output.length - 1) * 0.55;
+        // Keep every tray slot within crane reach, including rotated five-slot machines.
+        const a = (m.rotation * Math.PI) / 2;
+        const slots = [
+          [0, 0],
+          [0, 0.5],
+          [0, -0.5],
+          [0.4, 0.25],
+          [0.4, -0.25],
+        ];
+        const slot =
+          slots.find(
+            ([forward, side]) =>
+              !m.output.some((id) => {
+                const q = w.items[id].pos;
+                return (
+                  Math.hypot(
+                    q.x - (p.x + Math.cos(a) * forward - Math.sin(a) * side),
+                    q.z - (p.z + Math.sin(a) * forward + Math.cos(a) * side),
+                  ) < 0.2
+                );
+              }),
+          ) ?? slots[0];
+        p.x += Math.cos(a) * slot[0] - Math.sin(a) * slot[1];
+        p.z += Math.sin(a) * slot[0] + Math.cos(a) * slot[1];
         const i = spawn(w, r.output, p, "output", m.id);
+        i.quality = Math.min(
+          ...m.job.input.map((id) => w.items[id].quality ?? 0),
+        );
         m.output.push(i.id);
         award(w, r.output, i.id);
         m.job = null;
       }
     }
-    if (!m.job && m.output.length < CFG.outputSlots) {
+    if (
+      !m.job &&
+      m.output.length < (w.profile === "lab" ? 3 : machineCapacity(m))
+    ) {
       const r = recipe(w, m.recipe);
       if (
         r.output.startsWith("kit_") &&
@@ -778,7 +860,7 @@ function automationTick(w: World, dt: number) {
     const ends = deviceEnds(d);
     if (d.type === "miner") {
       if (!d.item) {
-        d.progress += dt / 3;
+        d.progress += dt / miningSeconds(w, d.source ?? "metal_scrap", true);
         if (d.progress >= 1) {
           const src = SOURCES.find((s) => s.kind === d.source);
           if (src) {
@@ -789,6 +871,8 @@ function automationTick(w: World, dt: number) {
               "device",
               d.id,
             );
+            i.quality = w.veins[src.kind]?.level ?? 0;
+            w.veins[src.kind]!.extracted++;
             d.item = i.id;
             w.economy.xp++;
             event(w, `${ITEM[i.kind].name} 자동 채굴`, i.id);
@@ -819,6 +903,7 @@ function automationTick(w: World, dt: number) {
             i.owner = socket.id;
             i.pos = { ...socket.pos };
             socket.item = i.id;
+            payInstalled(w, i);
             d.item = null;
             d.progress = 0;
             event(w, `${ITEM[i.kind].name} 자동 설치`, i.id);
@@ -854,7 +939,7 @@ function automationTick(w: World, dt: number) {
     const i = w.items[d.item];
     d.progress = Math.min(
       1,
-      d.progress + dt / (d.type === "crane" ? 2.8 : 1.3),
+      d.progress + dt / (d.type === "crane" ? 2.8 : railSeconds(w)),
     );
     const f = d.type === "crane" ? ends.from : d.pos,
       t = ends.to,
@@ -948,22 +1033,7 @@ export function tickCarry(w: World, dt: number) {
     if (!p.connected || w.phase === "LAUNCHED") continue;
     const i = p.input;
     if (w.time - i.at > CFG.inputExpiry) continue;
-    const speed =
-      CFG.speed *
-      (hands(p).some((id) => ITEM[w.items[id].kind].heavy) ? 0.8 : 1);
-    const steps = Math.max(1, Math.ceil(dt / 0.025));
-    for (let n = 0; n < steps; n++) {
-      let pos = { ...p.pos, x: p.pos.x + (i.x * speed * dt) / steps };
-      if (validFloor(w, pos, CFG.radius, p.pos)) {
-        p.pos.x = pos.x;
-        p.pos.y = floorHeight(p.pos.x, p.pos.z);
-      }
-      pos = { ...p.pos, z: p.pos.z + (i.z * speed * dt) / steps };
-      if (validFloor(w, pos, CFG.radius, p.pos)) {
-        p.pos.z = pos.z;
-        p.pos.y = floorHeight(p.pos.x, p.pos.z);
-      }
-    }
+    p.pos = movePosition(w, p, p.pos, i, dt);
   }
   if (w.phase === "WORKING") {
     for (const p of Object.values(w.players)) {
@@ -980,6 +1050,8 @@ export function tickCarry(w: World, dt: number) {
       p.mining.remaining -= dt;
       if (p.mining.remaining <= 0) {
         const i = spawn(w, src.kind, p.pos, "hand", p.id);
+        i.quality = w.veins[src.kind]?.level ?? 0;
+        w.veins[src.kind]!.extracted++;
         addHand(p, i.id);
         p.mining = null;
         w.economy.xp++;
@@ -1005,6 +1077,7 @@ export function assertCarry(w: World) {
     claimed.set(id, owner);
   };
   for (const p of Object.values(w.players)) {
+    if (!validAvatar(p.avatar)) throw Error("PLAYER_AVATAR_INVARIANT");
     for (const id of hands(p)) add(id, p.id, "hand");
     if (hands(p).length > carryCapacity(w))
       throw Error("CARRY_CAPACITY_INVARIANT");
@@ -1013,22 +1086,34 @@ export function assertCarry(w: World) {
   }
   if (
     !w.economy ||
+    !Number.isSafeInteger(w.economy.coins) ||
     w.economy.coins < 0 ||
     w.economy.earned - w.economy.spent !== w.economy.coins ||
     !Number.isSafeInteger(w.economy.xp)
   )
     throw Error("ECONOMY_INVARIANT");
   for (const m of Object.values(w.machines)) {
+    if (
+      !Number.isInteger(m.tier) ||
+      m.tier < 0 ||
+      m.tier > 3 ||
+      !Number.isInteger(m.rotation) ||
+      m.rotation < 0 ||
+      m.rotation > 3
+    )
+      throw Error("MACHINE_LEVEL_INVARIANT");
     m.input.forEach((id) => add(id, m.id, "input"));
     m.output.forEach((id) => add(id, m.id, "output"));
     m.job?.input.forEach((id) => add(id, m.id, "processing"));
-    if (m.output.length > CFG.outputSlots)
+    if (m.output.length > Math.max(3, machineCapacity(m)))
       throw Error("OUTPUT_CAPACITY_INVARIANT");
   }
   for (const d of Object.values(w.devices))
     if (d.item) add(d.item, d.id, "device");
   for (const s of w.sockets) if (s.item) add(s.item, s.id, "installed");
   for (const i of Object.values(w.items)) {
+    if (!Number.isInteger(i.quality) || i.quality < 0 || i.quality > 4)
+      throw Error("ITEM_QUALITY_INVARIANT");
     if (!ITEM[i.kind] || !Object.values(i.pos).every(Number.isFinite))
       throw Error("ITEM_POSITION_INVARIANT");
     if (

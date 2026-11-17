@@ -39,7 +39,7 @@ function validateManifest(value: unknown): asserts value is Manifest {
   for (const a of m.assets) {
     if (
       !a ||
-      !/^[a-z_]+$/.test(a.id) ||
+      !/^[a-z_-]+$/.test(a.id) ||
       ids.has(a.id) ||
       !a.boundsMax ||
       ![a.boundsMax.x, a.boundsMax.y, a.boundsMax.z].every(

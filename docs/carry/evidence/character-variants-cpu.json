@@ -1,0 +1,211 @@
+{
+  "status": "PASS",
+  "scope": "CPU GLB skin/clip/bounds/clone checks only; source thumbnails inspected separately",
+  "gpuReview": "PENDING",
+  "rows": [
+    {
+      "id": "worker-engineer",
+      "lod": 0,
+      "triangles": 4181,
+      "vertices": 3898,
+      "bones": 18,
+      "bounds": [
+        0.5762965735205279,
+        1.8000000062584878,
+        0.3786552171626657
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    },
+    {
+      "id": "worker-engineer",
+      "lod": 1,
+      "triangles": 2815,
+      "vertices": 3023,
+      "bones": 18,
+      "bounds": [
+        0.5762965735205279,
+        1.8000000062584878,
+        0.3786552171626657
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    },
+    {
+      "id": "worker-mechanic",
+      "lod": 0,
+      "triangles": 4215,
+      "vertices": 3839,
+      "bones": 18,
+      "bounds": [
+        0.5707547162999538,
+        1.8000000062584878,
+        0.42852848768234253
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    },
+    {
+      "id": "worker-mechanic",
+      "lod": 1,
+      "triangles": 2810,
+      "vertices": 2956,
+      "bones": 18,
+      "bounds": [
+        0.5707547162999538,
+        1.8000000062584878,
+        0.4276035726070404
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    },
+    {
+      "id": "worker-pilot",
+      "lod": 0,
+      "triangles": 4198,
+      "vertices": 3856,
+      "bones": 18,
+      "bounds": [
+        0.6332293192769292,
+        1.8000000062584878,
+        0.6221550107188523
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    },
+    {
+      "id": "worker-pilot",
+      "lod": 1,
+      "triangles": 2818,
+      "vertices": 2996,
+      "bones": 18,
+      "bounds": [
+        0.6313841978932622,
+        1.7981550040841103,
+        0.6221550107188523
+      ],
+      "movement": [
+        {
+          "clip": "idle",
+          "movingBones": 2
+        },
+        {
+          "clip": "locomotion",
+          "movingBones": 8
+        },
+        {
+          "clip": "carry_locomotion",
+          "movingBones": 6
+        },
+        {
+          "clip": "work_loop",
+          "movingBones": 5
+        },
+        {
+          "clip": "celebrate",
+          "movingBones": 3
+        }
+      ]
+    }
+  ]
+}

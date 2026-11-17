@@ -69,7 +69,7 @@ export default {
     if (url.pathname === "/api/health")
       return json({
         ok: true,
-        rules: "mining-2.1.0",
+        rules: "workshop-3.0.0",
         transport: "http",
         storage: "D1",
       });
@@ -103,9 +103,9 @@ export default {
         s = new CarryService(new D1CarryStore(env.DB));
       let result;
       if (action === "create")
-        result = await s.create(data.name, data.planned, data.profile);
+        result = await s.create(data.name, data.planned, data.profile, data.avatar);
       else if (action === "join")
-        result = await s.join(String(data.code), data.name);
+        result = await s.join(String(data.code), data.name, data.avatar);
       else if (action === "resume")
         result = await s.resume(data.id, data.member, data.token);
       else if (action === "sync")

@@ -658,3 +658,245 @@ body,
 .carry-modal:has(.upgrade-grid) {
   width: min(840px, 92vw);
 }
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.character-grid button {
+  white-space: normal;
+  padding: 8px !important;
+  background: #25313b;
+}
+.character-grid img {
+  display: block;
+  width: 100%;
+  height: 125px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #141e27;
+}
+.character-grid strong {
+  display: block;
+  font-size: 14px;
+  margin-top: 6px;
+}
+.character-grid small {
+  display: block;
+  font-size: 12px !important;
+}
+.character-grid [aria-pressed="true"] {
+  border: 2px solid #f5b34c;
+  background: #4b3f2d;
+}
+.carry-lobby .character-grid img {
+  height: 92px;
+}
+.carry-lobby .character-grid small {
+  display: none;
+}
+.carry-lobby h1 {
+  font-size: 43px;
+  margin: 14px 0;
+}
+.crew-shop {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+.crew-shop button {
+  flex: 1;
+  padding: 4px;
+  font-size: 13px;
+}
+.carry-modal:has(.workshop-panel) {
+  width: min(1040px, 94vw);
+  padding: 24px;
+}
+.workshop-panel nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: -24px;
+  background: #1c242e;
+  padding: 14px 0;
+  z-index: 2;
+}
+.workshop-panel nav [aria-pressed="true"] {
+  background: #eeb052;
+  color: #14202b;
+  font-weight: 800;
+}
+.shop-wallet {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #e9bd70;
+}
+.shop-wallet b {
+  font-size: 23px;
+}
+.panel-intro {
+  color: #c5d3d5;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.shop-grid article {
+  border: 1px solid #71828b44;
+  border-radius: 12px;
+  padding: 16px;
+  background: #27333f;
+  display: flex;
+  flex-direction: column;
+}
+.shop-grid h3 {
+  margin: 12px 0 4px;
+  font-size: 18px;
+}
+.shop-grid p {
+  font-size: 14px;
+  color: #c5d0d3;
+  flex: 1;
+}
+.shop-grid small {
+  font-size: 12px !important;
+}
+.shop-grid button {
+  margin-top: 12px;
+  white-space: normal;
+}
+.shop-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #e9bd70;
+  font-size: 12px;
+}
+.shop-note {
+  color: #e9bd70;
+}
+.research-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.research-grid section {
+  background: #25313e;
+  border: 1px solid #52677466;
+  border-radius: 12px;
+  padding: 14px;
+}
+.research-grid header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.research-grid h3 {
+  margin: 5px 0 14px;
+}
+.research-track article {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-left: 3px solid #596977;
+  background: #202a34;
+  margin-top: 5px;
+  border-radius: 3px 8px 8px 3px;
+}
+.research-track article > div {
+  flex: 1;
+}
+.research-track p {
+  font-size: 13px;
+  margin: 5px 0;
+  color: #b1c2c9;
+}
+.research-track small {
+  font-size: 12px !important;
+}
+.research-track .available {
+  border-left-color: #f1b757;
+}
+.research-track .owned {
+  border-left-color: #40b8a4;
+  opacity: 0.75;
+}
+.research-track button {
+  padding: 5px 10px;
+}
+.first-steps {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: 285px;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+.first-steps span {
+  color: #bcccd0;
+}
+.carry-slots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-height: 100px;
+  overflow: auto;
+}
+.carry-slots button {
+  min-width: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  text-align: left;
+  overflow: hidden;
+}
+.carry-slots span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.carry-hand:has(.carry-slots) ~ .carry-mode {
+  bottom: 310px;
+}
+.carry-hand:has(.carry-slots) ~ .carry-toast {
+  bottom: 320px;
+}
+@media (max-width: 1450px) {
+  .first-steps {
+    width: 245px;
+    max-width: 20vw;
+    font-size: 12px;
+  }
+  .carry-modal:has(.workshop-panel) {
+    width: 94vw;
+  }
+  .carry-slots button {
+    font-size: 12px;
+  }
+  .carry-hand .hand-main small {
+    font-size: 12px;
+  }
+}
+@media (max-width: 800px) {
+  .shop-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+  .character-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .first-steps {
+    bottom: 220px;
+    max-width: 40vw;
+  }
+}

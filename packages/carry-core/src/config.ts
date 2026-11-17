@@ -1,4 +1,4 @@
-export const RULES = "mining-2.1.0";
+export const RULES = "workshop-3.0.0";
 export const CFG = {
   speed: 3.5,
   radius: 0.36,
@@ -11,10 +11,46 @@ export const CFG = {
   outputSlots: 3,
   inputSlots: 6,
   deviceLimit: 120,
-  inputExpiry: 0.35,
+  inputExpiry: 0.75,
   disconnectSeconds: 12,
 };
 export const ITEM = {
+  kit_workbench: {
+    name: "설비 제작대 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
+  kit_assembler: {
+    name: "기초 조립기 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
+  kit_refinery: {
+    name: "기초 연료 혼합기 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
+  kit_fabricator: {
+    name: "기초 부품 제작기 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
+  kit_processor: {
+    name: "기초 제련기 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
+  kit_bench: {
+    name: "낡은 작업대 상자",
+    heavy: true,
+    shape: "kit",
+    color: "#cba478",
+  },
   metal_scrap: { name: "고철", heavy: true, shape: "scrap", color: "#8797a5" },
   cable_scrap: {
     name: "폐전선",
@@ -230,58 +266,221 @@ export const RECIPES: Record<string, Recipe> = {
     seconds: 10,
   },
 };
-export const UPGRADES = {
-  carry2: {
-    name: "운반량 2개",
-    cost: 12,
-    xp: 10,
-    requires: null,
-    description: "모든 작업자가 한 번에 2개 운반",
-  },
-  carry3: {
-    name: "운반량 3개",
-    cost: 45,
-    xp: 60,
-    requires: "carry2",
-    description: "운반량을 2개에서 3개로 증가",
-  },
+export type Upgrade = {
+  name: string;
+  cost: number;
+  xp: number;
+  requires: string | null;
+  description: string;
+  branch: string;
+};
+const branch = (
+  prefix: string,
+  title: string,
+  costs: number[],
+  xp: number[],
+  description: (level: number) => string,
+  start = 1,
+  required: string | null = null,
+): Record<string, Upgrade> =>
+  Object.fromEntries(
+    costs.map((cost, i) => {
+      const level = i + start;
+      return [
+        `${prefix}${level}`,
+        {
+          name: `${title} ${level}`,
+          cost,
+          xp: xp[i],
+          requires: i ? `${prefix}${level - 1}` : required,
+          description: description(level),
+          branch: prefix,
+        },
+      ];
+    }),
+  );
+export const UPGRADES: Record<string, Upgrade> = {
+  ...branch(
+    "carry",
+    "운반량",
+    [18, 38, 70, 115, 180, 270, 390],
+    [8, 25, 55, 95, 155, 240, 350],
+    (n) => `한 번에 ${n}개 · 한 단계씩 증가`,
+    2,
+  ),
+  ...branch(
+    "speed",
+    "이동속도",
+    [25, 55, 105, 180, 280],
+    [15, 45, 90, 160, 260],
+    (n) => `기본 이동속도 +${n * 6}% · 최대 +30%`,
+  ),
+  ...branch(
+    "handling",
+    "운반 자세",
+    [40, 90, 170],
+    [35, 90, 180],
+    (n) => `무거운 짐 속도 손실 ${20 - n * 4}% · 최대 8%`,
+  ),
+  ...branch(
+    "rail",
+    "레일 모터",
+    [50, 100, 180, 300],
+    [45, 100, 190, 320],
+    (n) => `레일 한 칸 이동 ${[1.8, 1.5, 1.25, 1.05, 0.9][n]}초`,
+    1,
+    "belts",
+  ),
+  ...branch(
+    "tool",
+    "채굴 도구",
+    [28, 65, 130, 230],
+    [20, 55, 115, 210],
+    (n) => `직접 채굴 ${(0.8 / (1 + n * 0.18)).toFixed(2)}초 · 산출 수량은 1개`,
+  ),
+  ...branch(
+    "processing",
+    "가공 조율",
+    [60, 130, 240],
+    [60, 130, 250],
+    (n) => `모든 설비 가공 속도 +${n * 8}%`,
+  ),
   belts: {
-    name: "컨베이어 해금",
-    cost: 20,
-    xp: 20,
+    name: "운반 레일 해금",
+    cost: 35,
+    xp: 25,
     requires: null,
-    description: "직선·코너 컨베이어 상자 제작",
+    description: "직선·코너 레일 구매와 제작",
+    branch: "automation",
   },
   mining: {
     name: "자동 채굴 해금",
-    cost: 45,
-    xp: 40,
+    cost: 70,
+    xp: 65,
     requires: "belts",
-    description: "광맥에서 직접 캐는 자동 채굴기",
+    description: "광맥 가까이에 자동 채굴기 설치",
+    branch: "automation",
   },
   crane: {
     name: "크레인 해금",
-    cost: 65,
-    xp: 75,
+    cost: 100,
+    xp: 100,
     requires: "belts",
-    description: "출력물과 트레이를 집어 옮기는 크레인",
+    description: "출력 부품을 집어 다음 공정으로 전달",
+    branch: "automation",
   },
   installer: {
     name: "자동 설치 해금",
-    cost: 90,
-    xp: 120,
+    cost: 180,
+    xp: 200,
     requires: "crane",
-    description: "현재 로켓 소켓에 맞는 부품을 자동 설치",
+    description: "발사대의 맞는 소켓에 자동 설치",
+    branch: "automation",
   },
-  processing: {
-    name: "가공 속도 +25%",
-    cost: 50,
+};
+export type UpgradeKey = string;
+export const CHARACTERS = [
+  {
+    id: "worker",
+    name: "현장 반장",
+    description: "노란 안전모 · 주황 작업복",
+    preview: "worker.webp",
+  },
+  {
+    id: "worker-engineer",
+    name: "엔지니어",
+    description: "흰 안전모 · 청록 작업복",
+    preview: "worker-engineer.webp",
+  },
+  {
+    id: "worker-mechanic",
+    name: "정비 전문가",
+    description: "주황 안전모 · 파란 작업복",
+    preview: "worker-mechanic.webp",
+  },
+  {
+    id: "worker-pilot",
+    name: "우주 비행사",
+    description: "보라색 비행복",
+    preview: "worker-pilot.webp",
+  },
+] as const;
+export const MACHINE_CATALOG = {
+  bench: {
+    name: "낡은 작업대",
+    price: 40,
+    xp: 0,
+    recipe: "smelt_ingot",
+    description: "느린 수동 공방. 주괴·전선·수지·철판·기어부터 시작",
+  },
+  processor: {
+    name: "기초 제련기",
+    price: 100,
+    xp: 35,
+    recipe: "smelt_ingot",
+    description: "광맥 원재료를 주괴·전선·수지로 가공",
+  },
+  fabricator: {
+    name: "기초 부품 제작기",
+    price: 150,
     xp: 70,
-    requires: null,
-    description: "모든 가공기의 처리 속도 증가",
+    recipe: "press_plate",
+    description: "철판·기어부터 회로·선체까지",
+  },
+  refinery: {
+    name: "기초 연료 혼합기",
+    price: 180,
+    xp: 110,
+    recipe: "blend_fuel",
+    description: "동력석과 수지를 추진 탱크로",
+  },
+  assembler: {
+    name: "기초 조립기",
+    price: 240,
+    xp: 160,
+    recipe: "assemble_engine",
+    description: "엔진·항법 부품의 전용 조립",
+  },
+  workbench: {
+    name: "설비 제작대",
+    price: 90,
+    xp: 45,
+    recipe: "kit_tray",
+    description: "운반·채굴·설치 설비 상자 제작",
   },
 } as const;
-export type UpgradeKey = keyof typeof UPGRADES;
+export type MachineKind = keyof typeof MACHINE_CATALOG;
+export const MACHINE_GRADES = ["낡은", "개량", "산업", "정밀"] as const;
+export const MACHINE_TIER_SPEED = [0.55, 0.8, 1.1, 1.4];
+export const MACHINE_UPGRADE_COST = [70, 150, 320];
+export const MACHINE_UPGRADE_XP = [30, 75, 180];
+export const VEIN_UPGRADE_COST = [65, 150, 300, 520];
+export const VEIN_UPGRADE_XP = [55, 130, 260, 450];
+export const DEVICE_PRICE: Record<DeviceKind, number> = {
+  straight: 9,
+  corner: 9,
+  tray: 5,
+  miner: 100,
+  crane: 75,
+  installer: 150,
+};
+export const SALE_VALUE: Partial<Record<Kind, number>> = {
+  metal_scrap: 1,
+  cable_scrap: 1,
+  plastic_scrap: 1,
+  energy_shard: 2,
+  ingot: 5,
+  wire: 4,
+  polymer: 4,
+  plate: 11,
+  gear: 9,
+  circuit: 18,
+  hull_panel: 35,
+  fuel_cell: 32,
+  engine_part: 85,
+  control_part: 75,
+};
+export const STAGE_BONUS = [35, 55, 85, 100, 130, 180];
 export const DEVICE_UNLOCK: Partial<Record<DeviceKind, UpgradeKey>> = {
   straight: "belts",
   corner: "belts",

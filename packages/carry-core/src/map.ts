@@ -21,23 +21,31 @@ export const veinPort = (s: { x: number; z: number }): V3 => ({
   z: s.z,
 });
 export function floorHeight(x: number, z: number) {
-  if (x >= 12 && x <= 22 && Math.abs(z) <= 6) return MAP.height;
-  if (x >= 8 && x < 12 && Math.abs(z) <= 2) return ((x - 8) / 4) * MAP.height;
+  if (x >= 12 && x <= 22 && Math.abs(z) <= 6 + 1e-7) return MAP.height;
+  if (x >= 8 && x < 12 && Math.abs(z) <= 2 + 1e-7)
+    return ((x - 8) / 4) * MAP.height;
   return 0;
 }
-export const machinePort = (m: { pos: V3 }, output = false): V3 => ({
-  x: m.pos.x + (output ? 1.6 : -1.6),
-  y: m.pos.y,
-  z: m.pos.z,
-});
+export const machinePort = (
+  m: { pos: V3; rotation?: number },
+  output = false,
+): V3 => {
+  const a = ((m.rotation ?? 0) * Math.PI) / 2,
+    k = output ? 1.6 : -1.6;
+  return {
+    x: m.pos.x + Math.round(Math.cos(a)) * k,
+    y: m.pos.y,
+    z: m.pos.z + Math.round(Math.sin(a)) * k,
+  };
+};
 export function walls(w: World): Rect[] {
   return [
     ...SOURCES.map((s) => ({ x: s.x, z: s.z, w: 1.8, d: 1.8 })),
     ...Object.values(w.machines).map((m) => ({
       x: m.pos.x,
       z: m.pos.z,
-      w: 2.35,
-      d: 2.1,
+      w: (m.rotation ?? 0) % 2 ? 2.1 : 2.35,
+      d: (m.rotation ?? 0) % 2 ? 2.35 : 2.1,
     })),
     { x: -22.6, z: 0, w: 0.3, d: 23 },
     { x: 18, z: 0, w: 2.8, d: 2.8 },

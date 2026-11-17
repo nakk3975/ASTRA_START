@@ -4,8 +4,15 @@ import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import { dedup, prune } from "@gltf-transform/functions";
 import * as T from "three";
 import fs from "node:fs/promises";
+const [
+  sourcePath = "assets/source/human-worker/textured.glb",
+  outputPath = "assets/source/human-worker/animated.glb",
+  reportPath = "docs/carry/human-worker-rig.json",
+  sourceTaskId = "01a1e7de-f944-744d-b8e6-997c3f91418c",
+  poseStyle = "relaxed",
+] = process.argv.slice(2);
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS),
-  doc = await io.read("assets/source/human-worker/textured.glb");
+  doc = await io.read(sourcePath);
 const scene = doc.getRoot().listScenes()[0],
   meshNodes = doc
     .getRoot()
@@ -40,8 +47,20 @@ for (const [side, sign] of [
 ])
   defs.push(
     [`upperarm_${side}`, "chest", sign * 0.235, 1.29, 0],
-    [`forearm_${side}`, `upperarm_${side}`, sign * 0.285, 1.06, 0.005],
-    [`hand_${side}`, `forearm_${side}`, sign * 0.26, 0.85, 0.04],
+    [
+      `forearm_${side}`,
+      `upperarm_${side}`,
+      sign * (poseStyle === "a-pose" ? 0.36 : 0.285),
+      1.06,
+      0.005,
+    ],
+    [
+      `hand_${side}`,
+      `forearm_${side}`,
+      sign * (poseStyle === "a-pose" ? 0.45 : 0.26),
+      0.85,
+      0.04,
+    ],
     [`thigh_${side}`, "hips", sign * 0.125, 0.84, 0],
     [`shin_${side}`, `thigh_${side}`, sign * 0.125, 0.46, 0.015],
     [`foot_${side}`, `shin_${side}`, sign * 0.125, 0.11, 0.07],
@@ -242,15 +261,16 @@ clip("celebrate", 1.5, (b, t, d) => {
   return [0, 0, 0];
 });
 await doc.transform(dedup(), prune());
-await io.write("assets/source/human-worker/animated.glb", doc);
+await io.write(outputPath, doc);
 await fs.writeFile(
-  "docs/carry/human-worker-rig.json",
+  reportPath,
   JSON.stringify(
     {
       method:
         "locally authored skeletal skin with anatomical region weights; not Meshy auto-rigging",
-      source: "01a1e7de-f944-744d-b8e6-997c3f91418c",
+      source: sourceTaskId,
       height: 1.8,
+      poseStyle,
       bones: defs.length,
       clips: doc
         .getRoot()

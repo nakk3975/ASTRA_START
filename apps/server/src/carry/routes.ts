@@ -23,9 +23,9 @@ export function mountCarry(app: Application) {
         action = req.params.action;
       let data: any;
       if (action === "create")
-        data = await carryService.create(body.name, body.planned, body.profile);
+        data = await carryService.create(body.name, body.planned, body.profile, body.avatar);
       else if (action === "join")
-        data = await carryService.join(String(body.code), body.name);
+        data = await carryService.join(String(body.code), body.name, body.avatar);
       else if (action === "resume")
         data = await carryService.resume(body.id, body.member, body.token);
       else if (action === "sync")

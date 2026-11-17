@@ -67,7 +67,7 @@ export function createVisual(
     size = box.getSize(new T.Vector3()),
     center = box.getCenter(new T.Vector3());
   const scale =
-    id === "worker"
+    id === "worker" || id.startsWith("worker-")
       ? 1.8 / size.y
       : Math.min(
           a.boundsMax.x / size.x,
@@ -88,7 +88,7 @@ export function createVisual(
     model.position.y = -box.min.y * model.scale.y;
   }
   // Meshy rigs face +Z. Rotate the complete skin/skeleton hierarchy together once.
-  if (id === "worker") root.rotation.y = Math.PI;
+  if (id === "worker" || id.startsWith("worker-")) root.rotation.y = Math.PI;
   const own: T.Material[] = [];
   const skeletons = new Set<T.Skeleton>();
   model.traverse((o) => {
@@ -100,7 +100,7 @@ export function createVisual(
       own.push(...(Array.isArray(o.material) ? o.material : [o.material]));
       o.castShadow = false;
       o.receiveShadow = true;
-      o.frustumCulled = id !== "worker";
+      o.frustumCulled = !(id === "worker" || id.startsWith("worker-"));
       o.userData.assetId = id;
     }
   });
@@ -122,7 +122,12 @@ export function playClip(v: Visual, name: string) {
   if (!v.mixer || v.root.userData.clip === name) return;
   const clip = v.clips.find((c) => c.name === name);
   if (!clip) return;
-  v.mixer.stopAllAction();
-  v.mixer.clipAction(clip).play();
+  const previous = v.clips.find((c) => c.name === v.root.userData.clip);
+  if (previous) v.mixer.clipAction(previous).fadeOut(0.12);
+  v.mixer
+    .clipAction(clip)
+    .reset()
+    .fadeIn(previous ? 0.12 : 0)
+    .play();
   v.root.userData.clip = name;
 }

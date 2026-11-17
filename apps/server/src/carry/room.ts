@@ -14,6 +14,7 @@ export class CarryRoom extends Room {
       member: string;
       token: string;
       epoch: number;
+      input:{x:number;z:number};
       lastInput: number;
       lastCommand: number;
     }
@@ -37,6 +38,8 @@ export class CarryRoom extends Room {
       if (!ctl || Date.now() - ctl.lastInput < 45) return;
       ctl.lastInput = Date.now();
       try {
+        if(!Number.isFinite(raw.x)||!Number.isFinite(raw.z)||Math.abs(raw.x)>1||Math.abs(raw.z)>1)throw Error("잘못된 이동 입력");
+        ctl.input={x:raw.x,z:raw.z};
         await carryService.sync(this.worldId, ctl.member, ctl.token, {
           x: raw.x,
           z: raw.z,
@@ -56,7 +59,7 @@ export class CarryRoom extends Room {
           this.worldId,
           ctl.member,
           ctl.token,
-          { x: 0, z: 0, epoch: ctl.epoch },
+          { ...ctl.input, epoch: ctl.epoch },
           cmd,
         );
         c.send("ACK", r);
@@ -81,6 +84,7 @@ export class CarryRoom extends Room {
     this.controls.set(c.sessionId, {
       ...auth,
       epoch: r.result,
+      input:{x:0,z:0},
       lastInput: 0,
       lastCommand: 0,
     });

@@ -19,7 +19,8 @@ export class CarryConnection {
   epoch = 0;
   transport = "http";
   input = { x: 0, z: 0 };
-  onWorld = (w: World) => {};
+  rtt = 0;
+  onWorld = (w: World, rtt: number) => {};
   onStatus = (s: string) => {};
   onAck = (r: Receipt) => {};
   timer?: ReturnType<typeof setInterval>;
@@ -54,7 +55,7 @@ export class CarryConnection {
         this.seq,
         this.world!.players[this.session!.member].lastSeq,
       );
-      this.onWorld(this.world!);
+      this.onWorld(this.world!, this.rtt);
     }
     if (r.result?.id) {
       this.pending.delete(r.result.id);
@@ -79,11 +80,14 @@ export class CarryConnection {
     code: string,
     planned: number,
     profile = "campaign",
+    avatar = "worker",
   ) {
     await this.stop();
     const r = await this.api(
       mode,
-      mode === "create" ? { name, planned, profile } : { name, code },
+      mode === "create"
+        ? { name, planned, profile, avatar }
+        : { name, code, avatar },
     );
     this.session = {
       roomId: r.roomId,
@@ -153,26 +157,43 @@ export class CarryConnection {
         }
       });
     }
-    this.timer = setInterval(() => void this.sync(), 100);
+    this.schedule();
     this.onStatus("연결됨");
     await this.sync();
+  }
+  schedule() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(async () => {
+      const at = performance.now();
+      await this.sync();
+      if (!this.stopped)
+        this.timer = setTimeout(
+          () => this.schedule(),
+          Math.max(0, 80 - (performance.now() - at)),
+        );
+    }, 20);
   }
   async sync() {
     if (this.stopped || this.busy || !this.session) return;
     this.busy = true;
+    const generation = this.generation;
     try {
       const cmd = this.pending.values().next().value;
       if (this.room) {
         this.room.send("INPUT", this.input);
         if (cmd) this.room.send("COMMAND", cmd);
-      } else
-        this.accept(
-          await this.api("sync", {
-            ...this.auth(),
-            input: { ...this.input, epoch: this.epoch },
-            command: cmd,
-          }),
-        );
+      } else {
+        const at = performance.now();
+        const response = await this.api("sync", {
+          ...this.auth(),
+          input: { ...this.input, epoch: this.epoch },
+          command: cmd,
+        });
+        if (generation === this.generation && !this.stopped) {
+          this.rtt = performance.now() - at;
+          this.accept(response);
+        }
+      }
     } catch (e) {
       this.onStatus((e as Error).message);
     } finally {

@@ -1,3 +1,4 @@
+import { MotionSmoother } from "./motion";
 import * as T from "three";
 import {
   assetInstance,
@@ -9,6 +10,11 @@ import { ROCKET_PARTS } from "../visuals/rocket";
 import { OcclusionFade, createSilhouette } from "../visuals/occlusion";
 import {
   ITEM,
+  MACHINE_CATALOG,
+  MACHINE_GRADES,
+  MARKET,
+  machinePlacementReason,
+  type MachineKind,
   CFG,
   hands,
   COLORS,
@@ -40,6 +46,13 @@ export type Mode =
       x?: number;
       z?: number;
     }
+  | {
+      kind: "machine";
+      machine: MachineKind;
+      rotation: number;
+      x?: number;
+      z?: number;
+    }
   | { kind: "ping" }
   | null;
 export class CarryView {
@@ -48,6 +61,13 @@ export class CarryView {
   camera = new T.PerspectiveCamera(35, 1, 0.1, 120);
   world: World | null = null;
   member = "";
+  motion = new MotionSmoother();
+  localInput = { x: 0, z: 0 };
+  receive(w: World, member: string, rtt = 0) {
+    this.world = w;
+    this.member = member;
+    this.motion.receive(w, member, performance.now(), rtt);
+  }
   ready = false;
   error = "";
   mode: Mode = null;
@@ -219,6 +239,8 @@ export class CarryView {
     return m;
   }
   private map() {
+    this.box(this.scene, MARKET.x, 0.3, MARKET.z, 2, 0.6, 1.2, "#9f784b");
+    this.label(this.scene, "판매소 · E 판매", MARKET.x, 1.8, MARKET.z, 3.5);
     this.box(this.scene, 0, -0.4, 0, 48, 0.8, 26, "#23272f");
     this.box(this.scene, -16, -0.02, 0, 15, 0.08, 24, "#58636a");
     this.box(this.scene, -2, 0.015, 0, 20, 0.05, 24, "#78858b");
@@ -430,7 +452,7 @@ export class CarryView {
     this.instances.delete(key);
   }
   private hover = (event: PointerEvent) => {
-    if (this.mode?.kind !== "place") return;
+    if (!this.mode || this.mode.kind === "ping") return;
     const p = this.groundPoint(event);
     this.mode.x = p.x;
     this.mode.z = p.z;
@@ -526,49 +548,65 @@ export class CarryView {
           e.group.add(stone);
         }
       }
+      for (const key of [...this.instances.keys()])
+        if (this.instances.get(key)?.group.userData.machine && !w.machines[key])
+          this.remove(key);
       for (const m of Object.values(w.machines)) {
         let e = this.instances.get(m.id);
+        if (e && e.group.userData.tier !== m.tier) {
+          this.remove(m.id);
+          e = undefined;
+        }
         if (!e) {
-          e = this.addModel(m.id, m.type, m.pos);
+          if (m.tier === 0) {
+            const group = new T.Group();
+            group.position.set(m.pos.x, 0, m.pos.z);
+            this.scene.add(group);
+            e = { group };
+            this.instances.set(m.id, e);
+            this.box(group, 0, 0.85, 0, 2.1, 0.18, 1.6, "#99754a");
+            for (const x of [-0.8, 0.8])
+              for (const z of [-0.6, 0.6])
+                this.box(group, x, 0.4, z, 0.16, 0.8, 0.16, "#64513b");
+            if (m.type !== "bench") {
+              this.box(group, 0, 1.15, 0, 0.8, 0.5, 0.8, "#65727b");
+              this.cylinder(group, 0.45, 1.4, 0, 0.15, 0.4, "#b19668");
+            }
+          } else
+            e = this.addModel(
+              m.id,
+              m.type === "bench"
+                ? m.tier === 1
+                  ? "workbench"
+                  : m.tier === 2
+                    ? "fabricator"
+                    : "assembler"
+                : m.type,
+              m.pos,
+            );
+          e.group.userData.machine = true;
+          e.group.userData.tier = m.tier;
           for (const out of [false, true]) {
-            const port = machinePort(m, out);
             this.box(
               e.group,
-              port.x - m.pos.x,
+              out ? 1.6 : -1.6,
               0.1,
               0,
               1.05,
               0.2,
-              2,
+              1.5,
               out ? "#25858e" : "#a87825",
             );
-            for (let k = -1; k <= 1; k++)
-              this.box(
-                e.group,
-                port.x - m.pos.x,
-                0.205,
-                k * 0.55,
-                0.85,
-                0.02,
-                0.025,
-                "#f4dfad",
-              );
           }
-          this.label(
+          const label = this.label(
             e.group,
-            m.type === "workbench"
-              ? "설비 작업대"
-              : m.type === "processor"
-                ? "재료 가공기"
-                : m.type === "fabricator"
-                  ? "프레스·용접기"
-                  : m.type === "refinery"
-                    ? "추진 팩 합성기"
-                    : "모듈 조립기",
+            `${MACHINE_GRADES[m.tier]} · ${MACHINE_CATALOG[m.type as MachineKind]?.name.replace("낡은 ", "").replace("기초 ", "") ?? m.type}`,
             0,
             2.35,
             0,
           );
+          label.userData.machineLabel = true;
+          e.group.rotation.y = (-m.rotation * Math.PI) / 2;
         }
       }
       const alive = new Set<string>();
@@ -576,8 +614,13 @@ export class CarryView {
         const key = `player:${q.id}`;
         alive.add(key);
         let e = this.instances.get(key);
+        if (e && e.group.userData.avatar !== q.avatar) {
+          this.remove(key);
+          e = undefined;
+        }
         if (!e) {
-          e = this.addModel(key, "worker", q.pos);
+          e = this.addModel(key, q.avatar ?? "worker", q.pos);
+          e.group.userData.avatar = q.avatar;
           const disc = new T.Mesh(
             this.geo(new T.RingGeometry(0.35, 0.41, 24)),
             this.mat(COLORS[q.seat], true),
@@ -589,14 +632,23 @@ export class CarryView {
           if (q.id === this.member && e.visual)
             e.silhouette = createSilhouette(e.visual.root, COLORS[q.seat]);
         }
-        e.group.position.lerp(
-          this.v.set(q.pos.x, q.pos.y, q.pos.z),
-          1 - Math.exp(-dt * 15),
-        );
-        e.group.rotation.y = Math.atan2(-q.facing.x, -q.facing.z);
+        const position =
+          q.id === this.member
+            ? this.motion.step(w, this.member, this.localInput, dt, now)
+            : this.motion.remote(w, q.id, now);
+        e.group.position.set(position.x, position.y, position.z);
+        const input = q.id === this.member ? this.localInput : q.input;
+        const facing = Math.hypot(input.x, input.z) > 0.01 ? input : q.facing,
+          angle = Math.atan2(-facing.x, -facing.z);
+        e.group.rotation.y +=
+          Math.atan2(
+            Math.sin(angle - e.group.rotation.y),
+            Math.cos(angle - e.group.rotation.y),
+          ) *
+          (1 - Math.exp(-dt * 18));
         const moving =
-          w.time - q.input.at < CFG.inputExpiry &&
-          Math.hypot(q.input.x, q.input.z) > 0.01;
+          (q.id === this.member || w.time - q.input.at < CFG.inputExpiry) &&
+          Math.hypot(input.x, input.z) > 0.01;
         if (e.visual) {
           const clip =
             w.phase === "LAUNCHED"
@@ -609,9 +661,14 @@ export class CarryView {
                     ? "locomotion"
                     : "idle";
           playClip(e.visual, clip);
-          e.visual.mixer?.update(
-            q.hand && !moving && q.actionUntil <= w.time ? 0 : dt,
-          );
+          const animation = e.visual.clips.find((c) => c.name === clip);
+          if (animation)
+            e.visual.mixer
+              ?.clipAction(animation)
+              .setEffectiveTimeScale(
+                clip === "carry_locomotion" && !moving ? 0 : 1,
+              );
+          e.visual.mixer?.update(dt);
         }
       }
       for (const i of Object.values(w.items)) {
@@ -635,9 +692,9 @@ export class CarryView {
           const slot = hands(q).indexOf(i.id);
           e.group.position.add(
             new T.Vector3(
-              q.facing.x * (0.62 + slot * 0.04),
-              0.92 + slot * 0.25,
-              q.facing.z * (0.62 + slot * 0.04),
+              q.facing.x * 0.62 + (slot >= 4 ? 0.22 : -0.08),
+              0.92 + (slot % 4) * 0.19,
+              q.facing.z * 0.62,
             ),
           );
           if (hands(q).length > 1) e.group.scale.setScalar(0.82);
@@ -824,8 +881,8 @@ export class CarryView {
       this.target = t?.id ?? "";
       this.selection.visible = !!t;
       if (t) this.selection.position.set(t.pos.x, t.pos.y + 0.06, t.pos.z);
-      this.ghost.visible = !!p && this.mode?.kind === "place";
-      if (p && this.mode?.kind === "place") {
+      this.ghost.visible = !!p && !!this.mode && this.mode.kind !== "ping";
+      if (p && this.mode && this.mode.kind !== "ping") {
         if (!this.ghost.children.length) {
           const box = this.box(
             this.ghost,
@@ -842,33 +899,52 @@ export class CarryView {
           m.opacity = 0.45;
         }
         const x =
-            this.mode.x ?? Math.round((p.pos.x + p.facing.x * 1.4) * 2) / 2,
-          z = this.mode.z ?? Math.round((p.pos.z + p.facing.z * 1.4) * 2) / 2;
+            this.mode.x ??
+            Math.round(
+              (p.pos.x +
+                p.facing.x * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
+                2,
+            ) / 2,
+          z =
+            this.mode.z ??
+            Math.round(
+              (p.pos.z +
+                p.facing.z * (this.mode.kind === "machine" ? 2.5 : 1.4)) *
+                2,
+            ) / 2;
         this.ghost.position.set(x, floorHeight(x, z) + 0.02, z);
         this.ghost.rotation.y = (-this.mode.rotation * Math.PI) / 2;
-        const reason = placementReason(
-          w,
-          p,
-          this.mode.device,
-          x,
-          z,
-          this.mode.rotation,
+        (this.ghost.children[0] as T.Mesh).scale.set(
+          this.mode.kind === "machine" ? 1.75 : 1,
+          1,
+          this.mode.kind === "machine" ? 2 : 1,
         );
+        const reason =
+          this.mode.kind === "machine"
+            ? machinePlacementReason(w, p, x, z, this.mode.rotation)
+            : placementReason(w, p, this.mode.device, x, z, this.mode.rotation);
         (
           (this.ghost.children[0] as T.Mesh).material as T.MeshStandardMaterial
         ).color.set(reason ? "#f47272" : "#06b6d4");
       }
       if (p) {
-        const target = new T.Vector3(p.pos.x, p.pos.y + 0.7, p.pos.z);
+        const displayed =
+          this.instances.get(`player:${p.id}`)?.group.position ?? p.pos;
+        const target = new T.Vector3(
+          displayed.x,
+          displayed.y + 0.7,
+          displayed.z,
+        );
         if (!this.settings.lock) {
           const ndc = target.clone().project(this.camera);
           if (Math.abs(ndc.x) > 0.3 || Math.abs(ndc.y) > 0.28)
             this.anchor.lerp(
-              this.v.set(p.pos.x, this.anchor.y, p.pos.z),
+              this.v.set(displayed.x, this.anchor.y, displayed.z),
               1 - Math.exp(-dt * 3),
             );
         }
-        this.anchor.y += (p.pos.y - this.anchor.y) * (1 - Math.exp(-dt * 3));
+        this.anchor.y +=
+          (displayed.y - this.anchor.y) * (1 - Math.exp(-dt * 3));
         const distance = this.settings.distance;
         this.camera.position.set(
           this.anchor.x + distance * 0.5,

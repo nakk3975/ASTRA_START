@@ -13,6 +13,12 @@ import {
   ITEM,
   CFG,
   machinePort,
+  machineCanRecipe,
+  MACHINE_UPGRADE_COST,
+  MACHINE_UPGRADE_XP,
+  researchCost,
+  MARKET,
+  startingFunds,
   validFloor,
   reachable,
   floorHeight,
@@ -23,7 +29,8 @@ import {
   type Command,
 } from "../packages/carry-core/src/index.ts";
 // One deterministic walking actor, no spawn/teleport/stock cheats. This is not a human playtime study.
-const w = createCarryWorld("walk-campaign", "WALKTEST", 1, "campaign");
+const planned = Number(process.argv[2] ?? 1);
+const w = createCarryWorld("walk-campaign", "WALKTEST", planned, "campaign");
 const p = joinCarry(w, "walker", "경로 검증", 0);
 let commands = 0,
   walking = 0,
@@ -95,7 +102,10 @@ function go(target: V3) {
   for (const a of points) {
     let limit = 0;
     while (Math.hypot(a.x - p.pos.x, a.z - p.pos.z) > 0.005) {
-      assert.ok(++limit < 50, "movement stuck");
+      assert.ok(
+        ++limit < 50,
+        `movement stuck from ${JSON.stringify(p.pos)} toward ${JSON.stringify(a)} target ${JSON.stringify(target)} hand ${p.hand}`,
+      );
       const dx = a.x - p.pos.x,
         dz = a.z - p.pos.z,
         d = Math.hypot(dx, dz),
@@ -161,10 +171,13 @@ function make(kind: Kind): string {
   const machine =
     Object.values(w.machines).find(
       (m) =>
-        m.type === def.machine && m.recipe === rid && !m.job && !m.input.length,
+        machineCanRecipe(m, rid) &&
+        m.recipe === rid &&
+        !m.job &&
+        !m.input.length,
     ) ??
     Object.values(w.machines).find(
-      (m) => m.type === def.machine && !m.job && !m.input.length,
+      (m) => machineCanRecipe(m, rid) && !m.job && !m.input.length,
     );
   assert.ok(machine, "available recipe machine");
   go(machinePort(machine));
@@ -178,17 +191,46 @@ function make(kind: Kind): string {
   const before = new Set(machine.output);
   go(machinePort(machine, true));
   for (let n = 0; !machine.output.some((id) => !before.has(id)); n++) {
-    assert.ok(n < 400, "machine completion");
+    assert.ok(n < 800, "machine completion");
     step();
   }
   const id = machine.output.find((id) => !before.has(id))!;
   pick(id);
   return id;
 }
+// Buy and place the cheapest equipment with actual opening funds.
+assert.equal(Object.keys(w.machines).length, 0);
+assert.equal(w.economy.coins, startingFunds(planned));
+command("BUY_MACHINE", { machine: "bench" });
+go({ x: -10, y: 0, z: -4.5 });
+command("PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 0 });
+const bench = Object.values(w.machines)[0];
+const starterAt = w.time;
+let extraSales = 0;
+function improve(tier: number) {
+  while (bench.tier < tier) {
+    const cost = researchCost(w, MACHINE_UPGRADE_COST[bench.tier]),
+      xp = MACHINE_UPGRADE_XP[bench.tier];
+    while (w.economy.coins < cost || w.economy.xp < xp) {
+      make(bench.tier ? "hull_panel" : "plate");
+      go(MARKET);
+      command("SELL");
+      extraSales++;
+      assert.ok(
+        extraSales < 60,
+        "progression should not require excessive sales",
+      );
+    }
+    go(machinePort(bench));
+    command("UPGRADE_MACHINE", { target: bench.id });
+  }
+}
 const stageTimes: number[] = [];
 while (currentStage(w) !== -1) {
   const stage = currentStage(w),
     socket = w.sockets.find((s) => s.stage === stage && !s.item)!;
+  if (stage >= 1) improve(1);
+  if (stage >= 2) improve(2);
   make(socket.kind);
   go(socket.pos);
   command("INTERACT", { target: socket.id });
@@ -196,8 +238,9 @@ while (currentStage(w) !== -1) {
   if (currentStage(w) !== stage) {
     stageTimes.push(w.time);
     if (stage === 0) {
+      improve(1);
       command("UPGRADE", { upgrade: "belts" });
-      make("kit_straight");
+      command("BUY_DEVICE", { device: "straight" });
       kitAt = w.time;
       stash();
     }
@@ -211,7 +254,12 @@ const report = {
   pass: true,
   method:
     "single deterministic walking actor; no spawning, teleporting or inventory shortcuts",
-  players: 1,
+  actors: 1,
+  planned,
+  starterAtSeconds: Math.round(starterAt),
+  extraSales,
+  coinsAtLaunch: w.economy.coins,
+  xpAtLaunch: w.economy.xp,
   firstInstallSeconds: Math.round(first),
   firstAutomationKitSeconds: Math.round(kitAt),
   completionSeconds: Math.round(w.time),
@@ -221,7 +269,7 @@ const report = {
   installed: w.sockets.filter((s) => s.item).length,
 };
 writeFileSync(
-  "docs/carry/walking-campaign.json",
+  `docs/carry/evidence/growth-campaign-${planned}.json`,
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report);

@@ -396,7 +396,7 @@ test("ore begins in veins, quick mining yields one item into a free carry slot a
   p.pos = veinPort(SOURCES[0]);
   assert.equal(cmd(w, "INTERACT", { target: "vein:metal_scrap" }).ok, true);
   assert.equal(p.hand, null);
-  steps(w, 0.7);
+  steps(w, 0.9);
   assert.equal(hands(p).length, 1);
   assert.equal(w.items[p.hand!].kind, "metal_scrap");
   assert.equal(w.economy.xp, 1);
@@ -416,14 +416,14 @@ test("shared upgrades require XP, money and 1→2→3 sequence; duplicate buy ch
   };
   assert.equal(commandCarry(w, p.id, c).ok, true);
   commandCarry(w, p.id, c);
-  assert.equal(w.economy.coins, 88);
+  assert.equal(w.economy.coins, 82);
   assert.equal(carryCapacity(w), 2);
   assert.equal(cmd(w, "UPGRADE", { upgrade: "carry3" }).ok, true);
   assert.equal(carryCapacity(w), 3);
   p.pos = veinPort(SOURCES[0]);
   for (let n = 0; n < 3; n++) {
     cmd(w, "INTERACT", { target: "vein:metal_scrap" });
-    steps(w, 0.7);
+    steps(w, 0.9);
   }
   const ids = hands(p);
   assert.equal(ids.length, 3);
@@ -443,7 +443,8 @@ test("advanced crafting pays more, full output grants no duplicate rewards, and 
   const i = spawn(w, "metal_scrap", machinePort(m), "input", m.id);
   m.input.push(i.id);
   steps(w, 4.2);
-  assert.equal(w.economy.coins, 4);
+  assert.equal(w.economy.coins, 0);
+  assert.equal(w.economy.xp, 4);
   const earned = w.economy.earned;
   steps(w, 10);
   assert.equal(w.economy.earned, earned);
@@ -512,9 +513,14 @@ test("automated mining→belt→machine→crane→installer conserves actual ite
   assertCarry(w);
 });
 
-test("production map: ore→ingot→plate→ramp→installation runs hands-free with legal equipment placements", () => {
+test("purchased-equipment layout fixture: ore→ingot→plate→ramp→installation runs hands-free with legal equipment placements", () => {
   const w = world("campaign"),
     p = w.players.p;
+  Object.assign(
+    w.machines,
+    createCarryWorld("fixture", "FIXTURE", 1, "lab").machines,
+  );
+  w.machines["press-a"].recipe = "smelt_ingot";
   w.economy.upgrades = ["belts", "mining", "crane", "installer"];
   const original = JSON.stringify({ machines: w.machines, sockets: w.sockets });
   const points: [string, number, number, number][] = [

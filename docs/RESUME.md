@@ -1,15 +1,13 @@
 # 고철에서 우주까지 — 작업 재개 기준
 
-2026-11-17 KST. 저장소 nakk3975/ASTRA_START, 브랜치 codex/resume-meshy-pilot-20261117, PR https://github.com/nakk3975/ASTRA_START/pull/1. main 병합 전입니다. 최신 사용자 수정과 실제 코드는 이 브랜치를 기준으로 합니다.
+2026-11-17 KST. 저장소 nakk3975/ASTRA_START, 브랜치 codex/resume-meshy-pilot-20261117, PR https://github.com/nakk3975/ASTRA_START/pull/1. main 병합 전. 최신 코드는 이 브랜치이며 현재 규칙은 **workshop-3.0.0**입니다.
 
-최신 규칙 mining-2.1.0: 광맥 채굴, 다단 가공 보상, 1→2→3 운반량, 자동 채굴/컨베이어/크레인/설치기. packages/carry-core가 새 규칙, apps/web/src/carry가 새 게임 화면, apps/server/src/carry는 WS/PG, apps/sites-worker는 HTTP/D1입니다. 기존 game-core/v1은 /legacy로 보존했습니다.
+최신 요청 반영: 이동 예측/서버 보정/원격 보간, 경사로 경계 멈춤 수정. 빈 공방+시작80코인, 40코인 작업대 상자 구매·직접 설치. 운반1→8, 이속5단계+30%, 짐운반·도구·레일·가공·자동화 분기, 기계4등급, 광맥각5등급. 가공XP/판매·납품코인 분리. 기존 저장·설비·자금 보존 마이그레이션. 상세 docs/carry/GROWTH_3_0.md.
 
-사람 작업자로 교체 완료. Geometry task 01a1e7db-322c-743e-890c-995f361092a4, texture task 01a1e7de-f944-744d-b8e6-997c3f91418c. 추가15크레딧, 잔액2444 확인. 이전26종 생성까지 누적641크레딧, 이번 포함656. 두 작업 성공, 유료 생성 반복 금지. 18본 로컬 리깅/5클립/LOD0·1 실제 게임 manifest 연결. 공급자 license 필드 부재 상태 유지.
+사람 캐릭터4종: worker + worker-engineer/mechanic/pilot. 이번3종 생성45크레딧, 확인잔액2399. 성공작 재생성 금지. 18본/5클립/2LOD, 29종58GLB. 출처/작업ID는 docs/carry/character-generation-v2.json. 공급자 license 필드 부재 상태 유지.
 
-78테스트/설계/TypeScript/빌드 PASS. 실제6개 WS클라이언트+PG 재시작 PASS. 실제맵 26설비 광맥→주괴→철판→경사로→설치 자동화 PASS. 이동 봇 실제규칙 완주2420초(시뮬레이션), 첫설치75초/자동화상자434초. 상세 docs/carry/IMPLEMENTATION.md와 evidence 참조.
+검증: 89테스트·설계·타입·빌드 PASS, 실제6개 WS+PG 재시작 PASS, 1/2/4/6인 목표량 단일 이동봇 구매부터 발사까지 PASS. 사람이 협동한 플레이 시간은 아님. 증거 docs/carry/evidence/growth-*.json/jpg. GPU는 원격브라우저 WebGL2 미지원으로 미검증. UI구매/자금/캐릭터 변경은 확인. GPU/FPS가 검증됐다고 말하지 말 것.
 
-GPU 검증 BLOCKED: cloud browser GL_VENDOR=Disabled, GL_RENDERER=Disabled. 인간의 실제 3D 게임 플레이, 모델 관절 변형/가림/조립 외관, FPS/저사양 및 정상시간6인 완주 미검증. GPU 실패를 3D 성공으로 보고하지 말 것. WebGL 없이 미리보기 이미지는 /asset-review에서 확인 가능.
+Sites ID appgprj_6afbab1bae9c8191a78a6b95da2ba905, https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site. 기존 소유자전용 범위 유지. 새 Site를 만들거나 임의공개하지 말 것. .sites-checkout/source는 저장소 복사본. 최신 게시 결과는 growth-publication.json 및 growth-production-smoke.json 참조(이전 publication.json/production-smoke.json은 v5 기록). 신규 변경은 helper로 정확한 source를 push/package한 뒤 기존 Site에 게시.
 
-Sites ID appgprj_6afbab1bae9c8191a78a6b95da2ba905. https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site. 소유자 전용 유지. v5 실제 게임 Worker+D1 배포 성공. 소스 73f711e0822d4591efc87b870451d2a025ad795e. 운영 API에서 방 생성·6인 참가·이동·7번째 거부·이어하기까지 확인. 클라우드 브라우저는 사이트 로그인 화면이므로 운영 UI 직접 검수는 별도. 세부 publication.json / production-smoke.json 참조. 새로운 Site를 만들지 말 것. 친구접속을 위해 임의공개하지 말 것. .sites-checkout의 source는 이 저장소 복사본이며 라이브러리에 저장소를 중복 업로드하지 않는다.
-
-재현: npm ci, npm run check, npm run test:carry:network, npm run test:carry:campaign. Node24.22.1. 최종 게시 증거: docs/carry/evidence/publication.json.
+packages/carry-core는 공통 규칙, apps/web/src/carry는 새게임, apps/server/src/carry는 WS+PG, apps/sites-worker는 HTTP+D1. /legacy는 이전 v1을 별도 보존. npm run check, npm run test:carry:network, npm run test:carry:campaign, node --import tsx tests/carry-campaign.ts 2/4/6. Node24.22.1.
