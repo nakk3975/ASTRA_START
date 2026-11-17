@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "dev": "node --import tsx apps/server/src/main.ts",
+    "review:assets": "vite --config apps/web/vite.config.ts --open /asset-review",
     "start": "node --import tsx apps/server/src/main.ts",
     "build": "tsc --noEmit && vite build --config apps/web/vite.config.ts",
     "typecheck": "tsc --noEmit",
@@ -22,7 +23,9 @@
     "test:full": "node --import tsx tests/full-run.ts",
     "format": "prettier --write apps packages scripts tests",
     "check": "npm run verify:design && npm test && npm run build",
-    "test:shutdown": "node --import tsx tests/shutdown-probe.ts"
+    "test:shutdown": "node --import tsx tests/shutdown-probe.ts",
+    "test:commit-recovery": "node --import tsx scripts/qa-commit-recovery.ts",
+    "build:review": "tsc --noEmit && vite build --mode review --config apps/web/vite.config.ts"
   },
   "dependencies": {
     "@colyseus/core": "0.18.28",

@@ -1,14 +1,135 @@
 {
-  "executedAt": "2026-11-16T15:37:53.836Z",
+  "executedAt": "2026-11-16T16:06:23.272Z",
   "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_ACCELERATED_SIMULATION_CLOCK",
   "normalClock": false,
   "browser": false,
   "source": "tests/network-full-run.ts + tests/full-scenario.ts",
-  "results": [],
-  "progress": {
-    "planned": 1,
-    "stage": 2,
-    "tick": "28115",
-    "updatedAt": "2026-11-16T15:38:34.090Z"
-  }
+  "results": [
+    {
+      "mode": "REAL_HTTP_WEBSOCKET_POSTGRESQL_ACCELERATED_SIMULATION_CLOCK",
+      "planned": 6,
+      "connectedMembers": 6,
+      "resourceInjection": false,
+      "teleportation": false,
+      "normalBalance": true,
+      "automation": {
+        "processor": "machine-0000131",
+        "paidMachines": 3,
+        "links": 2,
+        "extractor": true,
+        "automaticProduced": 3758,
+        "delivered": 3602
+      },
+      "tick": "765601",
+      "simulatedMinutes": 638.0008333333334,
+      "wallMilliseconds": 1835551,
+      "commands": 3384,
+      "walkTicks": 78640,
+      "checkpoints": [
+        {
+          "stage": 1,
+          "tick": "16859",
+          "generated": {
+            "metal_scrap": 76,
+            "cable_scrap": 6
+          },
+          "automaticProduced": 0,
+          "delivered": 0
+        },
+        {
+          "stage": 2,
+          "tick": "61475",
+          "generated": {
+            "metal_scrap": 296,
+            "cable_scrap": 24
+          },
+          "automaticProduced": 100,
+          "delivered": 0
+        },
+        {
+          "stage": 3,
+          "tick": "220665",
+          "generated": {
+            "metal_scrap": 864,
+            "cable_scrap": 64,
+            "plastic_scrap": 194
+          },
+          "automaticProduced": 384,
+          "delivered": 268
+        },
+        {
+          "stage": 4,
+          "tick": "361366",
+          "generated": {
+            "metal_scrap": 2224,
+            "cable_scrap": 130,
+            "plastic_scrap": 406
+          },
+          "automaticProduced": 2372,
+          "delivered": 2216
+        },
+        {
+          "stage": 5,
+          "tick": "506771",
+          "generated": {
+            "metal_scrap": 2644,
+            "cable_scrap": 268,
+            "plastic_scrap": 722
+          },
+          "automaticProduced": 3002,
+          "delivered": 2846
+        },
+        {
+          "stage": 6,
+          "tick": "765351",
+          "generated": {
+            "metal_scrap": 3148,
+            "cable_scrap": 294,
+            "plastic_scrap": 1368,
+            "energy_shard": 520
+          },
+          "automaticProduced": 3758,
+          "delivered": 3602
+        }
+      ],
+      "result": {
+        "attempt": "launch-0009291",
+        "tick": "765600",
+        "planned": 6,
+        "members": [
+          "완주작업자1",
+          "완주작업자2",
+          "완주작업자3",
+          "완주작업자4",
+          "완주작업자5",
+          "완주작업자6"
+        ],
+        "maxPlayers": 6,
+        "automaticProduced": 3758,
+        "delivered": 3602,
+        "stageTicks": [
+          "16858",
+          "61474",
+          "220664",
+          "361365",
+          "506770",
+          "765350"
+        ]
+      },
+      "finalHash": "146bf25e7a6c72795befbea1769b29e686c3a19075c960dbe844fde2bc93963c",
+      "status": "PASS",
+      "roomId": "831ccf2a-8351-4827-aa9c-0458de73fbba",
+      "distinctGuests": 6,
+      "distinctWebSockets": 6,
+      "inputMessages": 80351,
+      "holdMessages": 126161,
+      "committedBatches": 217410,
+      "durableCommandReceipts": 3384,
+      "allClientsReceivedLaunch": true,
+      "durableReloadHashMatches": true,
+      "completedAt": "2026-11-16T16:37:00.591Z"
+    }
+  ],
+  "status": "PASS",
+  "completedAt": "2026-11-16T16:37:01.060Z"
 }

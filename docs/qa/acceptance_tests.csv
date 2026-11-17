@@ -1,100 +1,161 @@
 ﻿id,category,priority,scenario,expected,status,evidence,notes
-UX01,UX,CRITICAL,1인 계획으로 방 생성 후 끝까지 진행,"다른 플레이어 도움 없이 모든 제작, 조립, 점검과 발사가 가능",NOT_RUN,,1인 실제 HTTP/WS/DB 발사 완주 성공(가속 논리 시계). 정상 시간 브라우저 M1 완료. 브라우저 전체 발사 완주는 미실행.
-UX02,UX,CRITICAL,6인 계획으로 6명이 입장,"플레이어 목록, 스폰, 이름, 준비 상태가 모두 표시되고 7번째는 명확히 거부",NOT_RUN,,6개 독립 게스트 소켓 입장/준비/시작과 7번째 거부 확인. 6개 브라우저 시각 확인은 미실행.
-UX03,UX,HIGH,계획 인원 6 방에 2명만 접속,확정된 건설비가 감소하거나 다시 계산되지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX04,UX,HIGH,플레이 중 6번째 사용자가 합류,현재 단계와 자원이 동일하게 보이고 진행비가 바뀌지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX05,UX,HIGH,같은 소스에서 6명이 동시에 채집,"각각 독립 작업 가능, 자동 추출기 3대와도 상호 차단 없음",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX06,UX,HIGH,공용 수동 작업대에서 6명 제작,6개 채널이 구분되고 다른 사람의 작업을 잘못 수거 또는 취소하지 않음,NOT_RUN,,코어 6채널 동시 제작 및 실제 WS private StateView 격리 확인. 6인 UI 전체 시나리오는 미실행.
-UX07,UX,HIGH,캐릭터 6명이 좁은 통로에 모임,서로의 이동을 막지 않으며 선택한 상호작용 대상이 보임,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX08,UX,HIGH,채집 중 인벤토리 공간이 없어짐,"결과물 손실 없이 대기, 가방 가득 참 안내, 공간 확보 후 규칙대로 재개",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX09,UX,HIGH,4슬롯에 같은 자원이 나뉘어 있음,픽업은 기존 스택부터 채우고 수량 합계가 유지됨,PASS,docs/qa/evidence/browser-m1.json,"실제 브라우저 채집: 고철 12 → 20+4 → 20+6. 기존 스택 우선 채움과 새 슬롯 분배, 수량 합계 확인."
-UX10,UX,HIGH,다른 사람에게 수량을 전달,양쪽 인벤토리 변화가 일치하고 부족 공간으로 넘친 수량이 사라지지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX11,UX,HIGH,공용 보관함만 재료가 있는 상태,플레이어가 들고 있는 재료와 공용 재고가 시각적으로 구분됨,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX12,UX,HIGH,가방 없이 먼 기계를 클릭,상태 열람은 가능하나 원격 자원 투입과 수거는 거부됨,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX13,UX,HIGH,여러 상호작용 대상이 겹침,강조된 하나만 실행되며 한 번의 키로 두 작업이 시작되지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX14,UX,HIGH,채집 유지 중 다른 대상 위로 포인터 이동,기존 대상이 유지되고 새 대상에서 생산하지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX15,UX,HIGH,이동키를 누른 채 브라우저 탭 전환,입력이 해제되고 복귀 후 새 입력 전까지 계속 이동하지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX16,UX,HIGH,채팅 또는 코드 입력창에서 WASD 입력,글자가 입력되고 캐릭터는 움직이지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX17,UX,HIGH,건설 고스트를 회전,"footprint, 서비스 포트, 방향 표시와 실제 설치 결과가 일치",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX18,UX,HIGH,보호 통행로에 설치 시도,자원 차감 없이 보호 구역 이유와 실패 위치를 표시,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX19,UX,HIGH,기계로 유일한 길을 막는 배치 시도,BFS 검사로 거부하고 막히는 접근점이 표시됨,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX20,UX,HIGH,두 사용자가 같은 칸에 동시에 배치,하나만 성공하며 실패 사용자의 재료는 보존됨,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX21,UX,HIGH,캐릭터가 있는 칸에 기계를 배치,겹침 설치가 거부되고 캐릭터가 기계 안에 갇히지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX22,UX,HIGH,생산 중 기계 무료 재배치 시도,"EMPTY_IDLE가 될 때까지 사유와 함께 거부되며 직접 재고 수거 후 비용 없이 이동, 원가 원장 보존",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX23,UX,HIGH,비행 배송이 있는 기계를 철거 시도,"새 송신 정지와 대기 이유가 보이고 배송 도착 및 직접 수거 후에만 철거, 내용 재고 순간이동 없음",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX24,UX,HIGH,철거 환급을 담을 가방과 창고가 가득 참,"건설비가 철거 현장 회수상자에 남고 소실되거나 두 번 지급되지 않음, 중앙 순간이동 없음",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX25,UX,HIGH,입력이 없고 출력도 가득 찬 기계 검사,정해진 상태 우선순위와 세부 원인을 읽을 수 있음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX26,UX,HIGH,전력 부족 발생,"부족 설비와 발전량, 공급 부족 원인이 구분되어 표시됨",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX27,UX,HIGH,배송 링크 24 tile 경계 전후 연결,설정된 거리 판정과 UI 미리보기가 동일하고 초과 연결은 거부,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX28,UX,HIGH,링크 선을 여러 번 교차,드론이 충돌하거나 캐릭터 보행을 막지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX29,UX,HIGH,목적지 출력 공간이 가득 참,배송이 대기하며 자원은 출발 또는 기존 inTransit에 정확히 남음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX30,UX,HIGH,동시에 여러 링크가 같은 입력 버퍼를 사용,예약 공간 때문에 상한을 초과하지 않고 남은 공간 표시가 맞음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX31,UX,HIGH,비행 중 허브 전력이 끊김,확정된 전력 규칙대로 기존 배송이 처리되고 UI가 같은 규칙을 설명,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX32,UX,HIGH,링크 필터나 목적지를 변경,기존 비행 재고 정리 전 다른 아이템이 잘못된 버퍼에 들어가지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX33,UX,HIGH,자동화가 시작됨,플레이어가 이동하지 않아도 설정된 생산과 배송이 보이며 다음 건설 목표가 남음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX34,UX,CRITICAL,6명이 동시에 로켓 마지막 자재를 투입,필요한 수량만 받아 단계가 정확히 한 번 완료되고 초과분은 각 출발지에 남음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX35,UX,HIGH,최종 점검을 혼자 수행,각 점검을 순서대로 완료할 수 있고 동시 키 조작 요구가 없음,NOT_RUN,,코어 3점검 순차 수행/발사 확인. 실제 게임 화면 최종 단계 시험 미실행.
-UX36,UX,HIGH,발사 준비 중 이탈과 재접속 발생,"서버 프로토콜과 동일한 준비 상태, 안내, 취소 또는 재개가 나타남",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX37,UX,HIGH,발사 연출을 일부 사용자만 건너뜀,다른 사용자의 연출과 서버 완성 기록은 영향을 받지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX38,UX,HIGH,완성 결과로 다시 진입,기록이 중복 생성되지 않고 결과와 작업장 상태가 일관됨,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX39,UX,CRITICAL,게임 중 연결 차단 후 복귀,조작이 잠기고 동기화 완료 후 동일 인벤토리와 진행으로 복구,NOT_RUN,,"브라우저 서버 재시작 후 재접속과 가방 보존, 소켓 게스트 재접속 확인. 네트워크 차단 조합 전체 미실행."
-UX40,UX,CRITICAL,모든 사용자가 나갔다가 장시간 후 복귀,오프라인 생산이 추가되지 않고 멈춘 상태에서 재개,NOT_RUN,,실제 무접속 500ms tick 정지와 DB 재로딩 확인. 장시간/기기수면 조합은 미실행.
-UX41,UX,HIGH,1366×768에서 전체 핵심 흐름,페이지 외부 스크롤 없이 핵심 HUD와 주요 버튼이 보임,NOT_RUN,,1366×768 HUD/패널과 외부 스크롤 없음 확인. 전체 게임 흐름은 미실행.
-UX42,UX,HIGH,3840×2160에서 전체 핵심 흐름,월드가 과도하게 작지 않고 UI가 읽히며 팝업이 화면 밖으로 벗어나지 않음,NOT_RUN,,3840×2160 CSS viewport HUD/로켓 패널과 외부 스크롤 없음 확인. 전체 게임 흐름/GPU 검수는 미실행.
-UX43,UX,CRITICAL,800×360 모바일 가로에서 전체 핵심 흐름,"이동, 채집, 제작, 배치, 링크, 점검, 발사를 터치만으로 완료",NOT_RUN,,800×360 조작 버튼/패널 배치 확인. 실제 휴대전화 터치만으로 완주는 미실행.
-UX44,UX,HIGH,360×800 세로로 회전했다가 복귀,"입력 중지, 회전 안내, 진행 유지, 가로 복귀 후 입력 새 시작",NOT_RUN,,360×800 회전 안내와 가로 복귀 관찰. 실제 기기의 입력 유지 중 회전 시험은 미실행.
-UX45,UX,HIGH,패널을 열고 닫으며 스크롤과 줌 조작,월드와 패널의 스크롤이 서로 전달되지 않고 카메라가 튀지 않음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX46,UX,HIGH,로켓 뒤에 캐릭터가 위치,가림 처리와 윤곽으로 캐릭터 위치와 목표를 파악 가능,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX47,UX,HIGH,색 구별이 어렵거나 음향을 끈 상태,"전력, 가득 참, 재료 부족, 준비 상태를 텍스트와 아이콘으로 판별 가능",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-UX48,UX,HIGH,저사양 모드 전환 후 같은 상태 재생,"그래픽만 바뀌고 자원량, 배송, 생산시간, 조작 판정은 동일",NOT_RUN,,WebGL 없는 시험 브라우저는 2D 호환 렌더러 사용. GPU 품질 전환의 실제 렌더링 비교는 미실행.
-T01,SERVER,CRITICAL,6명이 동일한 마지막 아이템 1개를 동시에 집음,"1명만 획득. source 0, 총량 불변, 나머지 일관된 오류.",PASS,docs/qa/evidence/live-integration.json#T01-final-item-six-concurrent,"실제 6개 WS 동시 요청. 명시적 재고 fixture: 1명 획득, 5명 거절, 총량 1."
-T02,SERVER,CRITICAL,6명이 같은 건설 footprint에 동시에 설치,건물 1개/비용 1회. 실패자의 비용·타일 점유 변화 없음.,PASS,docs/qa/evidence/live-integration.json#T02-footprint-six-concurrent,"실제 6개 WS의 같은 footprint 요청: 설비 1개, 비용 1회, 5개 OCCUPIED. fixture 사용."
-T03,SERVER,CRITICAL,"같은 commandId를 100회 재전송, reconnect 후 다시 전송","효과 1회, 동일 receipt. 새 connection이어도 key 범위 유지.",PASS,docs/qa/evidence/live-integration.json#T03-hundred-retries-and-reconnect,"실제 자원 이동 commandId를 100회 재전송한 뒤 같은 게스트 새 연결에서 재전송. 동일 receipt, 총 효과 1."
-T04,SERVER,CRITICAL,같은 commandId로 quantity/target을 바꾸어 재사용,"`IDEMPOTENCY_KEY_REUSED`, 원래 효과만 유지.",PASS,docs/qa/evidence/live-integration.json#T04-command-quantity-reuse,동일 commandId의 quantity 변경에 IDEMPOTENCY_KEY_REUSED 확인.
-T05,SERVER,CRITICAL,DB COMMIT 이전 process kill,미ACK working만 취소. 마지막 durable 경제 상태 복구. 음수/분실 없음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T06,SERVER,CRITICAL,DB COMMIT 후 ACK 전 kill 또는 socket drop,"재접속 시 변화 존재, status receipt 존재, 재실행으로 중복 없음.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T07,SERVER,CRITICAL,COMMIT 응답만 유실시키고 즉시 retry,room row lock으로 불명확 commit 종료 확인 후 판정. 성공한 batch 두 번 적용되지 않음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T08,SERVER,CRITICAL,version V ACK 직후 새 replica로 읽기/명령,V 이상 snapshot 제공 또는 재동기화 대기. V 미만 상태에서 종속 명령 실행 금지.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T09,SERVER,CRITICAL,"구 writer network partition 후 lease 만료, 새 writer 획득, 구 writer 복귀","구 epoch COMMIT 거부, 데이터 덮어쓰기/이중 ACK 없음.",NOT_RUN,,실제 PostgreSQL 두 writer와 stale epoch COMMIT 거부 확인. 실제 network partition+lease 만료 조합은 미실행.
-T10,SERVER,CRITICAL,"최신 snapshot 손상, 이전 snapshot + delta 복구 / event 한 개 누락","정상 사슬은 같은 hash. 사슬 누락은 보존된 오류 상태, 빈 세계 덮어쓰기 없음.",PASS,docs/qa/evidence/live-integration.json#T10-missing-event-preserves-corrupt-save,"실제 PostgreSQL: 최신 snapshot 손상 시 이전+delta hash 일치, delta 제거 시 SAVE_CORRUPT와 원래 head 보존."
-T11,SERVER,CRITICAL,이벤트 압축 후 수시간 전 commandId 재전송,영수증이 남아 원래 결과. 자원 중복 없음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T12,SERVER,CRITICAL,출력 마지막 공간 경합 및 수동6채널 동시 제작/가방full,"예약 포함 capacity 초과 없음. 개인 output 혼선 없이 완료, 다른 멤버 조회/수거 불가.",NOT_RUN,,코어 6채널 제작·용량 예약과 실제 개인 데이터 분리 확인. 마지막 출력 공간+가방full 전체 조합 미실행.
-T13,SERVER,CRITICAL,WIP 완료 tick에 취소·이동·서버 crash 경합,정의된 tick 순서에 따라 완료 또는 취소 하나. 입력과 출력 동시 지급 없음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T14,SERVER,CRITICAL,WIP 취소 시 입력 buffer full,"취소 거절, job/escrow/예약 그대로. 중앙 vault 우회 없음.",PASS,docs/qa/evidence/unit-tests.txt,"코어 fixture 시험: WIP 취소의 입력 부족 공간 거부, job/escrow/예약 불변 확인. DB 장애 시험은 아님."
-T15,SERVER,CRITICAL,"수동 작업 hold 유실/숨김/끊김, 채널120초만료/새멤버재배정","최대500ms 후 정지. 만료 회수는 bench옆에1회, 원buffer/WIP와 중복 없음.",NOT_RUN,,코어 hold 500ms 만료와 120초 채널 WIP 현장 회수 확인. 숨김/통신/재배정 전체 조합 미실행.
-T16,SERVER,CRITICAL,"무한소스6명채집, 한명가방full/공간확보/hold취소","WAITING_CAPACITY에서미생성, 공간확보후전량1회. 취소는진척0/미지급,중복슬롯불가.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T17,SERVER,CRITICAL,"cargo dispatch 및 arrival 직전/직후 kill, 동일 도착 이벤트 재시도",source/cargo/destination 중 정확히 한 곳에 존재. 예약/token 누수 없음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T18,SERVER,CRITICAL,24tile/4flight/full/저전력 + A·B 희소자원경쟁·C항상성공,"두단계중재로A/B기아없음,패자미차감,48round상한,복구cursor유지.출발cargo도착.",NOT_RUN,,코어 희소 source A/B 분배와 마지막 목적지 예약 확인. C 경쟁·장거리·저전력·복구 전체 조합 미실행.
-T19,SERVER,CRITICAL,링크 변경·삭제와 기계 이동/철거 동시 요청,drain/EMPTY_IDLE 조건 적용. in-flight cargo가 새 목적지로 워프하지 않음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T20,SERVER,CRITICAL,"EMPTY_IDLE 이동의원거리/새거리/BFS경계, 반복철거","원service1.5+새center3+BFS동시통과,entity/원장보존.철거현장환급1회,중앙운송불가.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T21,SERVER,CRITICAL,부분전력·수요변동·정상COMMIT지연40ms를 장시간 반복,"기본6U 보호/manual독립, 전력비율일관. 정상tick부채catch-up으로 매COMMIT마다40ms씩영구느려지지않음.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T22,SERVER,CRITICAL,"로비계획변경/START경합, 로켓마지막납품6명+예약화물+조립","START전ready리셋/후계획고정. 예약포함목표준수, 납품만으로단계해금불가,조립완료1회.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T23,SERVER,CRITICAL,"leader/owner 이탈, owner 복귀, 복구 키 교체",leader 자동 위임과 owner 권한 분리. 이전 복구 키/이전 제어 epoch 불가.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T24,SERVER,CRITICAL,"6자리 중1명 끊김,7번째입장과 원래멤버재접속 동시","유예 내 reserved seat 보호, 활성+예약≤6. 인벤/멤버 복제 없음.",NOT_RUN,,"코어 예약 좌석과 재접속, 만료 회수 확인. 실제 동시 네트워크 경합은 미실행."
-T25,SERVER,CRITICAL,"같은 guest 두 탭, 이전 탭의 지연된 건설 명령",신규 controller만 유효. 이전 탭 명령으로 자원 변경 불가.,NOT_RUN,,실제 새 연결 제어 epoch 교체 및 코어 stale epoch 거부 확인. 이전 탭의 지연 건설 패킷 시험은 미실행.
-T26,SERVER,CRITICAL,"이탈 유예만료와 재접속 경합, 회수상자 생성 직후 crash",원인벤과 현장상자 중 한 곳에만 존재. 글로벌 vault 순간이동 없음.,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T27,SERVER,CRITICAL,모든 사람이 나감/기기수면/서버재시작/브라우저시계+1일,"0연결 이후 시계정지, 재시작 offline생산0. hidden이지만 연결유지1명이면 자동화는 진행.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T28,SERVER,CRITICAL,점검3×40tick/참가자취소/최종COMMIT취소경합/재시작,"자동생산·cargo는COUNTDOWN까지진행,수동차단.취소/발사하나만확정,추가연료0.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-T29,SERVER,CRITICAL,악성 Origin·expired/reused ticket·위조 role·음수/NaN 수량·8KiB 초과·flood,"거절/제한, 비인가 상태유출 없음, 정상 다른5명 진행을 장시간 막지 않음.",NOT_RUN,,실제 Origin/CSRF와 strict 명령 파싱 검증. 만료/재사용 ticket·flood·8KiB 전송 전체 조합 미실행.
-T30,SERVER,CRITICAL,"6인×3방, 느린client/DB2초지연/1MiB송신적체/반복rejoin 동시","메모리/큐 상한, 경제1batch한도, pending명령 임의성공없음, resync후같은durable상태.",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R01,CROSS_RULE,CRITICAL,6인 단계별 직접 전선 목표를 계산,"M1 11, M2 32, M6 52로 총95. 전체기본합계에 배율을 한 번 곱한94를 사용하지 않음",PASS,docs/qa/evidence/unit-tests.txt,원본 JSON 목표를 단계별 올림: 6인 전선 11/32/52=95 직접 확인.
-R02,CROSS_RULE,CRITICAL,M1 이전 자동 가공기 없이 목표 전체를 제작,무전력 작업대와 초기 원재료로 도달. 선행 설비나 유료 자원 요구 없음,PASS,docs/qa/evidence/core-full-runs.json,"코어 완주 및 실제 브라우저 M1 완료. 고철/폐전선 직접 채집, 주괴·판·기어·전선 수동 제작, 운반·납품·혼자 조립으로 M2 진입."
-R03,CROSS_RULE,CRITICAL,2×2 기계 정상 서비스 셀에서 작업과 링크 편집,중심1.581tile이 아닌 서비스 앵커 거리로 성공. 배송 길이는 중심끼리 따로 계산,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R04,CROSS_RULE,CRITICAL,자동 수거기 MK2와 일반 가공 MK2 비교,"수거는속도전력2배,가공은1.5배. 같은인스턴스2회강화거부",NOT_RUN,,수거기 MK2 중복 강화 거부와 작업 결과 확인. 일반 가공기 MK2 실제 비교 전체 시나리오 미실행.
-R05,CROSS_RULE,CRITICAL,수거기 강화 후 전력망 부족과 장기 진행,"전력 비례감속, 원료1배/2배중복적용없음, 출력20예약상한유지",NOT_RUN,,수거기 출력20 포화 확인. 전력 부족과 장시간 조합 미실행.
-R06,CROSS_RULE,CRITICAL,6인 전 설비 MK2 및 태양광12개,"피크수요105.5/공급102에서 ratioFp9668, 반올림차이로정지하거나재료증식없음",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R07,CROSS_RULE,CRITICAL,M5의 체크리스트 버튼에서 실제 점검 명령,"미리보기만허용, 실제검사는M6조립후, 발사제안은세검사완료후에만가능",PASS,docs/qa/evidence/unit-tests.txt,"코어 fixture: M5 실제 점검 거부, M6 뒤 각각 39tick 미완료/40tick 완료, 세 점검 이후 발사 제안 성공."
-R08,CROSS_RULE,CRITICAL,M6 추진팩 납품 후 발사 취소와 재시도,"정확한M6납품량만소비, 투표나카운트다운취소는추가차감/환급없음",PASS,docs/qa/evidence/unit-tests.txt,"코어 fixture로 투표/99tick 뒤 카운트다운 취소 및 재시도, 연료 보존과 발사 후 정지 확인. 실제 M6 납품량은 core-full-runs로 별도 확인."
-R09,CROSS_RULE,CRITICAL,한 플레이어가 네 종류 WORK_HOLD 동시 송신,activeWork하나만유효. 채집0/제작보존/조립보존/미완료점검0 규칙준수,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R10,CROSS_RULE,CRITICAL,희소 source를 A/B가 경쟁하고 무관한 C링크도 항상 성공,C가A/B의cursor를되돌리지않음. 동일대기조건에서A/B가교대로기회얻음,NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R11,CROSS_RULE,CRITICAL,여러 source가 마지막 목적지1칸에 proposal,"도착그룹capacitygrant한개, 출발미승인분미차감, reservation과cargo합계일치",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R12,CROSS_RULE,CRITICAL,1대원료가공기output30과MK2output45를link하나로송신,"링크최대30유지, 남는출력은버퍼대기, 설명없는삭제나자동속도상향없음",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R13,CROSS_RULE,CRITICAL,후반 참조 지도 데이터로 새 방 생성,"starter만생성, 25개공장과9개수거기예시를무료지급하지않음",PASS,docs/qa/evidence/unit-tests.txt,새 world에 예시 자동공장/수거기/무료 재고 없음. starter 기반 초기화 확인.
-R14,CROSS_RULE,CRITICAL,동일room중balance또는map버전이변경된서버로재접속,"기존버전복구또는명시된마이그레이션, 조용한목표/재고재계산금지",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R15,CROSS_RULE,CRITICAL,복구키없는일반방코드로소유자권한명령,"참가만가능, owner복구/삭제/코드회전권한거부",PASS,docs/qa/evidence/live-integration.json#R15-code-does-not-grant-ownership,"실제 일반 게스트의 코드 회전/복구키 회전/삭제 3명령 거절, 일반 초대코드로 owner 복구 거절."
-R16,CROSS_RULE,CRITICAL,MANUAL과NO_CONNECTED_PLAYERS정지중재접속,"NO_CONNECTED만해제,MANUAL유지. 재개버튼이STORAGE_PENDING해제못함",PASS,docs/qa/evidence/unit-tests.txt,코어 fixture: MANUAL+NO_CONNECTED에서 재접속 시 MANUAL 유지; 재개 명령으로 STORAGE_PENDING 제거 안 됨.
-R17,CROSS_RULE,CRITICAL,"LAUNCH_VOTE/COUNTDOWN중자동화와취소,결과재접속","미발사단계자동흐름유지,COUNTDOWN수동차단,서버순서상취소성공만RUNNING,LAUNCHED후정지",NOT_RUN,,전체 시나리오 미실행. 구현 또는 부분 시험만으로 PASS 처리하지 않음.
-R18,CROSS_RULE,CRITICAL,철거현장상자를만든후그셀에건설시도,"비어있지않은회수상자덮기거부, 비우면삭제후설치가능",NOT_RUN,,현장 상자 footprint 덮기 거부 및 수거 후 삭제 확인. 실제 철거부터 이어지는 조합 미실행.
-R19,CROSS_RULE,CRITICAL,owner교체와삭제명령실행,"합의한offer에만교체,기존복구키폐기.다른연결자있으면삭제거부,단순나가기는삭제안함",NOT_RUN,,코어 소유권 합의와 다른 접속자 있는 삭제 거부 확인. 이전 복구 키 폐기 포함 전체 시나리오 미실행.
-R20,CROSS_RULE,CRITICAL,공용창고재고만두고먼곳기계설치,개인휴대비용부족으로거부.가격ledger와현장환급위치로원격자재이동불가,NOT_RUN,,코어 개인 비용 부족 및 보호구역 배치 거부 확인. 실제 원거리 UI 조합 미실행.
-R21,CROSS_RULE,CRITICAL,M1전 가방고철80·창고고철200·작업대입력고철20·출력주괴20으로 포화,"창고앞 STASH_OVERFLOW로 휴대품 임시보관 후 작업대 비우기와 제조법변경 가능. 자원총량유지, 자동포트없음, 재접속불필요",PASS,docs/qa/evidence/unit-tests.txt,"고철80/창고200/입력20/출력주괴20 포화 fixture에서 현장 임시 보관→작업대 입출력 회수→제조법 교체, 총량 보존."
+UX01,UX,CRITICAL,1인 계획으로 방 생성 후 끝까지 진행,"다른 플레이어 도움 없이 모든 제작, 조립, 점검과 발사가 가능",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX02,UX,CRITICAL,6인 계획으로 6명이 입장,"플레이어 목록, 스폰, 이름, 준비 상태가 모두 표시되고 7번째는 명확히 거부",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX03,UX,HIGH,계획 인원 6 방에 2명만 접속,확정된 건설비가 감소하거나 다시 계산되지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX04,UX,HIGH,플레이 중 6번째 사용자가 합류,현재 단계와 자원이 동일하게 보이고 진행비가 바뀌지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX05,UX,HIGH,같은 소스에서 6명이 동시에 채집,"각각 독립 작업 가능, 자동 추출기 3대와도 상호 차단 없음",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX06,UX,HIGH,공용 수동 작업대에서 6명 제작,6개 채널이 구분되고 다른 사람의 작업을 잘못 수거 또는 취소하지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX07,UX,HIGH,캐릭터 6명이 좁은 통로에 모임,서로의 이동을 막지 않으며 선택한 상호작용 대상이 보임,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX08,UX,HIGH,채집 중 인벤토리 공간이 없어짐,"결과물 손실 없이 대기, 가방 가득 참 안내, 공간 확보 후 규칙대로 재개",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX09,UX,HIGH,4슬롯에 같은 자원이 나뉘어 있음,픽업은 기존 스택부터 채우고 수량 합계가 유지됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX10,UX,HIGH,다른 사람에게 수량을 전달,양쪽 인벤토리 변화가 일치하고 부족 공간으로 넘친 수량이 사라지지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX11,UX,HIGH,공용 보관함만 재료가 있는 상태,플레이어가 들고 있는 재료와 공용 재고가 시각적으로 구분됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX12,UX,HIGH,가방 없이 먼 기계를 클릭,상태 열람은 가능하나 원격 자원 투입과 수거는 거부됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX13,UX,HIGH,여러 상호작용 대상이 겹침,강조된 하나만 실행되며 한 번의 키로 두 작업이 시작되지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX14,UX,HIGH,채집 유지 중 다른 대상 위로 포인터 이동,기존 대상이 유지되고 새 대상에서 생산하지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX15,UX,HIGH,이동키를 누른 채 브라우저 탭 전환,입력이 해제되고 복귀 후 새 입력 전까지 계속 이동하지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX16,UX,HIGH,채팅 또는 코드 입력창에서 WASD 입력,글자가 입력되고 캐릭터는 움직이지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX17,UX,HIGH,건설 고스트를 회전,"footprint, 서비스 포트, 방향 표시와 실제 설치 결과가 일치",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX18,UX,HIGH,보호 통행로에 설치 시도,자원 차감 없이 보호 구역 이유와 실패 위치를 표시,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX19,UX,HIGH,기계로 유일한 길을 막는 배치 시도,BFS 검사로 거부하고 막히는 접근점이 표시됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX20,UX,HIGH,두 사용자가 같은 칸에 동시에 배치,하나만 성공하며 실패 사용자의 재료는 보존됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX21,UX,HIGH,캐릭터가 있는 칸에 기계를 배치,겹침 설치가 거부되고 캐릭터가 기계 안에 갇히지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX22,UX,HIGH,생산 중 기계 무료 재배치 시도,"EMPTY_IDLE가 될 때까지 사유와 함께 거부되며 직접 재고 수거 후 비용 없이 이동, 원가 원장 보존",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX23,UX,HIGH,비행 배송이 있는 기계를 철거 시도,"새 송신 정지와 대기 이유가 보이고 배송 도착 및 직접 수거 후에만 철거, 내용 재고 순간이동 없음",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX24,UX,HIGH,철거 환급을 담을 가방과 창고가 가득 참,"건설비가 철거 현장 회수상자에 남고 소실되거나 두 번 지급되지 않음, 중앙 순간이동 없음",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX25,UX,HIGH,입력이 없고 출력도 가득 찬 기계 검사,정해진 상태 우선순위와 세부 원인을 읽을 수 있음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX26,UX,HIGH,전력 부족 발생,"부족 설비와 발전량, 공급 부족 원인이 구분되어 표시됨",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX27,UX,HIGH,배송 링크 24 tile 경계 전후 연결,설정된 거리 판정과 UI 미리보기가 동일하고 초과 연결은 거부,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX28,UX,HIGH,링크 선을 여러 번 교차,드론이 충돌하거나 캐릭터 보행을 막지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX29,UX,HIGH,목적지 출력 공간이 가득 참,배송이 대기하며 자원은 출발 또는 기존 inTransit에 정확히 남음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX30,UX,HIGH,동시에 여러 링크가 같은 입력 버퍼를 사용,예약 공간 때문에 상한을 초과하지 않고 남은 공간 표시가 맞음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX31,UX,HIGH,비행 중 허브 전력이 끊김,확정된 전력 규칙대로 기존 배송이 처리되고 UI가 같은 규칙을 설명,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX32,UX,HIGH,링크 필터나 목적지를 변경,기존 비행 재고 정리 전 다른 아이템이 잘못된 버퍼에 들어가지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX33,UX,HIGH,자동화가 시작됨,플레이어가 이동하지 않아도 설정된 생산과 배송이 보이며 다음 건설 목표가 남음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX34,UX,CRITICAL,6명이 동시에 로켓 마지막 자재를 투입,필요한 수량만 받아 단계가 정확히 한 번 완료되고 초과분은 각 출발지에 남음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX35,UX,HIGH,최종 점검을 혼자 수행,각 점검을 순서대로 완료할 수 있고 동시 키 조작 요구가 없음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX36,UX,HIGH,발사 준비 중 이탈과 재접속 발생,"서버 프로토콜과 동일한 준비 상태, 안내, 취소 또는 재개가 나타남",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX37,UX,HIGH,발사 연출을 일부 사용자만 건너뜀,다른 사용자의 연출과 서버 완성 기록은 영향을 받지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX38,UX,HIGH,완성 결과로 다시 진입,기록이 중복 생성되지 않고 결과와 작업장 상태가 일관됨,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX39,UX,CRITICAL,게임 중 연결 차단 후 복귀,조작이 잠기고 동기화 완료 후 동일 인벤토리와 진행으로 복구,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX40,UX,CRITICAL,모든 사용자가 나갔다가 장시간 후 복귀,오프라인 생산이 추가되지 않고 멈춘 상태에서 재개,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX41,UX,HIGH,1366×768에서 전체 핵심 흐름,페이지 외부 스크롤 없이 핵심 HUD와 주요 버튼이 보임,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX42,UX,HIGH,3840×2160에서 전체 핵심 흐름,월드가 과도하게 작지 않고 UI가 읽히며 팝업이 화면 밖으로 벗어나지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX43,UX,CRITICAL,800×360 모바일 가로에서 전체 핵심 흐름,"이동, 채집, 제작, 배치, 링크, 점검, 발사를 터치만으로 완료",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX44,UX,HIGH,360×800 세로로 회전했다가 복귀,"입력 중지, 회전 안내, 진행 유지, 가로 복귀 후 입력 새 시작",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX45,UX,HIGH,패널을 열고 닫으며 스크롤과 줌 조작,월드와 패널의 스크롤이 서로 전달되지 않고 카메라가 튀지 않음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX46,UX,HIGH,로켓 뒤에 캐릭터가 위치,가림 처리와 윤곽으로 캐릭터 위치와 목표를 파악 가능,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX47,UX,HIGH,색 구별이 어렵거나 음향을 끈 상태,"전력, 가득 참, 재료 부족, 준비 상태를 텍스트와 아이콘으로 판별 가능",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+UX48,UX,HIGH,저사양 모드 전환 후 같은 상태 재생,"그래픽만 바뀌고 자원량, 배송, 생산시간, 조작 판정은 동일",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T01,SERVER,CRITICAL,6명이 동일한 마지막 아이템 1개를 동시에 집음,"1명만 획득. source 0, 총량 불변, 나머지 일관된 오류.",PASS,docs/qa/evidence/live-integration.json,"6개 소켓 최종 자원 경쟁. fixture 1개, 1회 획득/5회 거절."
+T02,SERVER,CRITICAL,6명이 같은 건설 footprint에 동시에 설치,건물 1개/비용 1회. 실패자의 비용·타일 점유 변화 없음.,PASS,docs/qa/evidence/live-integration.json,6개 소켓 같은 footprint 경쟁. 1기 설치/1회 비용/5회 거절.
+T03,SERVER,CRITICAL,"같은 commandId를 100회 재전송, reconnect 후 다시 전송","효과 1회, 동일 receipt. 새 connection이어도 key 범위 유지.",PASS,docs/qa/evidence/live-integration.json,동일 명령 100회 재전송과 재접속 뒤 재전송. 총 효과 1회.
+T04,SERVER,CRITICAL,같은 commandId로 quantity/target을 바꾸어 재사용,"`IDEMPOTENCY_KEY_REUSED`, 원래 효과만 유지.",PASS,docs/qa/evidence/live-integration.json,동일 commandId의 수량 변경 거부.
+T05,SERVER,CRITICAL,DB COMMIT 이전 process kill,미ACK working만 취소. 마지막 durable 경제 상태 복구. 음수/분실 없음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T06,SERVER,CRITICAL,DB COMMIT 후 ACK 전 kill 또는 socket drop,"재접속 시 변화 존재, status receipt 존재, 재실행으로 중복 없음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T07,SERVER,CRITICAL,COMMIT 응답만 유실시키고 즉시 retry,room row lock으로 불명확 commit 종료 확인 후 판정. 성공한 batch 두 번 적용되지 않음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T08,SERVER,CRITICAL,version V ACK 직후 새 replica로 읽기/명령,V 이상 snapshot 제공 또는 재동기화 대기. V 미만 상태에서 종속 명령 실행 금지.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T09,SERVER,CRITICAL,"구 writer network partition 후 lease 만료, 새 writer 획득, 구 writer 복귀","구 epoch COMMIT 거부, 데이터 덮어쓰기/이중 ACK 없음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T10,SERVER,CRITICAL,"최신 snapshot 손상, 이전 snapshot + delta 복구 / event 한 개 누락","정상 사슬은 같은 hash. 사슬 누락은 보존된 오류 상태, 빈 세계 덮어쓰기 없음.",PASS,docs/qa/evidence/live-integration.json,손상 snapshot 대체 재생; delta 누락 시 SAVE_CORRUPT와 원본 head 보존.
+T11,SERVER,CRITICAL,이벤트 압축 후 수시간 전 commandId 재전송,영수증이 남아 원래 결과. 자원 중복 없음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T12,SERVER,CRITICAL,출력 마지막 공간 경합 및 수동6채널 동시 제작/가방full,"예약 포함 capacity 초과 없음. 개인 output 혼선 없이 완료, 다른 멤버 조회/수거 불가.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T13,SERVER,CRITICAL,WIP 완료 tick에 취소·이동·서버 crash 경합,정의된 tick 순서에 따라 완료 또는 취소 하나. 입력과 출력 동시 지급 없음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T14,SERVER,CRITICAL,WIP 취소 시 입력 buffer full,"취소 거절, job/escrow/예약 그대로. 중앙 vault 우회 없음.",PASS,docs/qa/evidence/v11-checks.txt,코어 fixture: WIP 취소 공간 부족 거부와 escrow 보존.
+T15,SERVER,CRITICAL,"수동 작업 hold 유실/숨김/끊김, 채널120초만료/새멤버재배정","최대500ms 후 정지. 만료 회수는 bench옆에1회, 원buffer/WIP와 중복 없음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T16,SERVER,CRITICAL,"무한소스6명채집, 한명가방full/공간확보/hold취소","WAITING_CAPACITY에서미생성, 공간확보후전량1회. 취소는진척0/미지급,중복슬롯불가.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T17,SERVER,CRITICAL,"cargo dispatch 및 arrival 직전/직후 kill, 동일 도착 이벤트 재시도",source/cargo/destination 중 정확히 한 곳에 존재. 예약/token 누수 없음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T18,SERVER,CRITICAL,24tile/4flight/full/저전력 + A·B 희소자원경쟁·C항상성공,"두단계중재로A/B기아없음,패자미차감,48round상한,복구cursor유지.출발cargo도착.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T19,SERVER,CRITICAL,링크 변경·삭제와 기계 이동/철거 동시 요청,drain/EMPTY_IDLE 조건 적용. in-flight cargo가 새 목적지로 워프하지 않음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T20,SERVER,CRITICAL,"EMPTY_IDLE 이동의원거리/새거리/BFS경계, 반복철거","원service1.5+새center3+BFS동시통과,entity/원장보존.철거현장환급1회,중앙운송불가.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T21,SERVER,CRITICAL,부분전력·수요변동·정상COMMIT지연40ms를 장시간 반복,"기본6U 보호/manual독립, 전력비율일관. 정상tick부채catch-up으로 매COMMIT마다40ms씩영구느려지지않음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T22,SERVER,CRITICAL,"로비계획변경/START경합, 로켓마지막납품6명+예약화물+조립","START전ready리셋/후계획고정. 예약포함목표준수, 납품만으로단계해금불가,조립완료1회.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T23,SERVER,CRITICAL,"leader/owner 이탈, owner 복귀, 복구 키 교체",leader 자동 위임과 owner 권한 분리. 이전 복구 키/이전 제어 epoch 불가.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T24,SERVER,CRITICAL,"6자리 중1명 끊김,7번째입장과 원래멤버재접속 동시","유예 내 reserved seat 보호, 활성+예약≤6. 인벤/멤버 복제 없음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T25,SERVER,CRITICAL,"같은 guest 두 탭, 이전 탭의 지연된 건설 명령",신규 controller만 유효. 이전 탭 명령으로 자원 변경 불가.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T26,SERVER,CRITICAL,"이탈 유예만료와 재접속 경합, 회수상자 생성 직후 crash",원인벤과 현장상자 중 한 곳에만 존재. 글로벌 vault 순간이동 없음.,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T27,SERVER,CRITICAL,모든 사람이 나감/기기수면/서버재시작/브라우저시계+1일,"0연결 이후 시계정지, 재시작 offline생산0. hidden이지만 연결유지1명이면 자동화는 진행.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T28,SERVER,CRITICAL,점검3×40tick/참가자취소/최종COMMIT취소경합/재시작,"자동생산·cargo는COUNTDOWN까지진행,수동차단.취소/발사하나만확정,추가연료0.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T29,SERVER,CRITICAL,악성 Origin·expired/reused ticket·위조 role·음수/NaN 수량·8KiB 초과·flood,"거절/제한, 비인가 상태유출 없음, 정상 다른5명 진행을 장시간 막지 않음.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+T30,SERVER,CRITICAL,"6인×3방, 느린client/DB2초지연/1MiB송신적체/반복rejoin 동시","메모리/큐 상한, 경제1batch한도, pending명령 임의성공없음, resync후같은durable상태.",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+CAM01,CAMERA,HIGH,6명 동시 이동·기계 생산·배송,카메라 yaw/elevation/roll이 고정되고 로컬 지면 앵커만 추적,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM02,CAMERA,HIGH,W/D/S/A 및 대각선 입력,"화면 방향과 이동 방향 일치, 대각선 속도 증가 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM03,CAMERA,HIGH,dead zone 안에서 채집·제작,자원 획득과 애니메이션 때문에 카메라가 움직이지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM04,CAMERA,HIGH,최대 이동 속도로 맵 끝까지 왕복,위치가 프레임마다 튀거나 추적이 뒤집히지 않고 정상적으로 따라감,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM05,CAMERA,HIGH,UI 패널 열기·닫기·스크롤,"canvas 크기·span·각도 유지, world 휠 전달 없음, 이동 입력 종료",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM06,CAMERA,HIGH,STATIC_MANUAL에서 화면 밖으로 이동,"자동 이동 없음, 방향·내 위치 버튼, F 후 원래 자동 추적 설정 유지",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM07,CAMERA,HIGH,수동 카메라 이동 후 대기,관성·자동 복귀·edge scrolling 없음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM08,CAMERA,HIGH,"1366×768,3840×2160,800×360에서 세 줌 단계","기본/최소 모델 가독성과 44px 선택 영역, HUD와 핵심 프롬프트 확인",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM09,CAMERA,HIGH,창 크기·브라우저 배율·화면 회전 변경,"실제 CSS 크기 기준 투영 한 번 갱신, 프로필의 단계 이름 유지",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM10,CAMERA,HIGH,높이 8 로켓 뒤에 로컬 캐릭터와 서비스 앵커,"윤곽·가림 opacity·선택 proxy 정상, 투명화로 서버 거리 제한 우회 불가",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM11,CAMERA,HIGH,같은 기계 여러 대 중 하나가 가림,"그 개체만 fade, 다른 인스턴스의 공유 재질은 불변",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM12,CAMERA,HIGH,OS reduce와 명시한 사용자 설정 충돌,"최초 기본값에만 OS 반영, 이후 사용자 선택 우선, WebGL에도 적용",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM13,CAMERA,HIGH,전체 보기와 이전 화면 반복,"지면·모델 bounds 수용, 수동 입력 종료, 경제 지속, 원래 카메라 복구",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM14,CAMERA,HIGH,발사 현재 화면/고정 발사대/건너뛰기 조합,"강제 회전·추적·줌 없음, 서버 발사 결과 동일",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM15,CAMERA,HIGH,탭 비활성 30초·재접속·큰 서버 보정,"누적 dt 한 프레임 이동 없음, 로딩 뒤 새 상태 확정, 새 입력 전 이동 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM16,CAMERA,HIGH,낮은 그래픽 품질·DPR cap 변경,"내부 픽셀과 효과만 변경, 화면에 보이는 월드 범위·자원·판정 불변",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+CAM17,CAMERA,HIGH,15분 실제 플레이 후 사용자 관찰,기본/수동 카메라 모드의 불편·가독성·피로를 기록. 개인 결과를 전체 사용자 보장으로 일반화하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V01,VISUAL_INTEGRATION,HIGH,기본 설정으로 시작·채집·달리기·단계 완료,"카메라 회전, 머리 흔들림, 모션 블러, 임의 자동 줌이 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V02,VISUAL_INTEGRATION,HIGH,캐릭터의 걷기·채집·조립 clip 재생,카메라 목표의 y나 지면 기준점이 bone 흔들림에 따라 변하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V03,VISUAL_INTEGRATION,HIGH,같은 이동을 30/60fps와 저사양 모드에서 수행,"서버 이동량·제작량 동일, 카메라 보간만 프레임에 맞게 처리",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V04,VISUAL_INTEGRATION,HIGH,휠·핀치를 HUD와 월드 양쪽에서 조작,"입력 소유권 일치, 패널 스크롤로 월드 줌이 변하지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V05,VISUAL_INTEGRATION,HIGH,수동 팬·전체보기·F 복귀·재접속,"확정한 이동/복귀 방식, 이전 설정 복원, 불필요한 회전과 강제 줌 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V06,VISUAL_INTEGRATION,HIGH,2×2 기계를 q=0/1/2/3으로 배치,"시각 앞면, 서비스 면, 로컬 포트 장식이 지도 방향과 일치",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V07,VISUAL_INTEGRATION,HIGH,GLB의 크기·축·피벗이 잘못된 입력,"정규화 검수에서 실패, 서버 footprint를 모델에 맞춰 변경하지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V08,VISUAL_INTEGRATION,HIGH,LOD·모델 교체·가림 투명화 반복,같은 entityId·거리·BFS·배송 중심·선택 대상 유지,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V09,VISUAL_INTEGRATION,HIGH,로켓 뒤 정상 접근점과 실제 막힌 접근점,시각 가림과 서버 clear-segment를 구분하여 올바르게 허용·거부,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V10,VISUAL_INTEGRATION,HIGH,공유 재질 기계 중 한 개만 가림 처리,다른 기계의 투명도·선택 색·상태 표시가 바뀌지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V11,VISUAL_INTEGRATION,HIGH,6명에게 서로 다른 작업 clip 적용,"스켈레톤·진행 시간 독립, 다른 참가자의 동작에 간섭 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V12,VISUAL_INTEGRATION,HIGH,root motion이 포함된 걷기 clip 투입,"이중 이동 차단, 서버 위치·속도와 시각 루트 정합",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V13,VISUAL_INTEGRATION,HIGH,6명이 같은 위치에 겹치고 색 구분을 제거,내 캐릭터·번호·이름·선택 대상을 여전히 식별 가능,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V14,VISUAL_INTEGRATION,HIGH,M1~M6 및 중간 납품 진척 복구,"승인된 모듈 조합, 접합부·스케일 일치, 모델 완료가 경제 전이를 실행하지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V15,VISUAL_INTEGRATION,HIGH,최대 높이 로켓과 모바일 가로 화면,"작업자·서비스 표시 접근 가능, 자동 줌으로 가림을 해결하지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V16,VISUAL_INTEGRATION,HIGH,발사 연출 생략·탭 숨김·저사양·재접속,서버 발사 결과·연료·다른 참가자 상태 불변,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V17,VISUAL_INTEGRATION,HIGH,3840×2160 CSS와 높은 devicePixelRatio,"내부 픽셀 상한 준수, HUD 선명도·월드 시야 범위 유지",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V18,VISUAL_INTEGRATION,HIGH,800×360 주소창·safe-area 변경·패널 열기,"스틱·핵심 버튼·선택 ray 정합, 카메라 반복 재중앙화 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V19,VISUAL_INTEGRATION,HIGH,실제 최대 설비·비행192화물·손포드6개·6명 등장,"전체 drawcall·삼각형·메모리·프레임 시간 기록, 목표 미달을 숨기지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V20,VISUAL_INTEGRATION,HIGH,필수 GLB 404·손상·디코더 누락,"오류와 재시도 경로 제공, 무한 로딩·게임 재고 초기화 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V21,VISUAL_INTEGRATION,HIGH,구버전 모델 캐시와 신버전 매니페스트,"버전·해시 불일치 판별, 이전 파일을 검수 완료 신자산으로 취급하지 않음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V22,VISUAL_INTEGRATION,HIGH,모델 로드 도중 나가기·재접속·방 변경,오래된 비동기 로드가 새 방의 개체를 덮어쓰지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V23,VISUAL_INTEGRATION,HIGH,입장 전 모델 로딩이 ticket TTL을 넘김,"만료 ticket 재사용 없음, 재발급과 UI 제한의 흐름이 명확함",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V24,VISUAL_INTEGRATION,HIGH,동일 메시 여러 삼각형·자식 노드 선택,하나의 entityId와 한 번의 경제 명령으로 정리,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V25,VISUAL_INTEGRATION,HIGH,구 1.0 snapshot을 신 1.1 클라이언트로 복구,"목표·재고·balanceHash·기존 journal 체인 유지, 호환 adapter로 시각 메타데이터를 붙이고 파일 불일치를 경제 오류와 구분",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V26,VISUAL_INTEGRATION,HIGH,모델 파일 없이 대체 도형만 존재,"프로토타입으로 표시, 실제 Meshy 자산 적용 완료 게이트 실패",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V27,VISUAL_INTEGRATION,HIGH,클라이언트 파일·요청·소스맵 점검,Meshy API key와 생성 권한이 포함되지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+V28,VISUAL_INTEGRATION,HIGH,승인되지 않은 추가 생성·재시도 요청,비용 조건을 확인하며 알 수 없는 제출 상태에서 중복 과금 생성하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A01,ASSET,HIGH,26종 manifest,실제 파일·해시·측정값이 있고 NOT_GENERATED를 완료로 표시하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A02,ASSET,HIGH,3개 초기 자산,게임의 기본 카메라에서 작업자·가공기·로켓 형상이 식별됨,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A03,ASSET,HIGH,네 방향 설치,"q0 북, q1 동, q2 남, q3 서와 화면의 정면 일치",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A04,ASSET,HIGH,모델 크기,일반 2×2 footprint와 서비스 접근을 시각 모델이 가리지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A05,ASSET,HIGH,리깅 방향,+Z 리깅 입력과 -Z 게임 정면이 한 번만 보정되고 발 접지 유지,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A06,ASSET,HIGH,6명 동작,다른 사람의 스켈레톤·색·클립 상태가 서로 섞이지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A07,ASSET,HIGH,실제 애니메이션,idle·이동·작업·운반·축하가 실제 리그로 동작하며 정적 슬라이딩 아님,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A08,ASSET,HIGH,로켓 6단계,각 단계 새 부품이 보이고 재접속해도 같은 모델 구성 복원,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A09,ASSET,HIGH,발사 분리,"발사대와 갠트리는 지상, 나머지 모듈은 FlightRoot로 함께 이동",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A10,ASSET,HIGH,원료 구역,"새 충돌 없이 낮은 트레이 표시, 6개 채집점·수거 패드 접근 유지",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A11,ASSET,HIGH,최대 수량,64설비·6명·비행192화물·손포드6개·32상자 조건의 도형·draw call·프레임 시간을 측정,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A12,ASSET,HIGH,텍스처 예산,"배포 해상도와 공유를 측정, Meshy 원본 2K 전량 선로딩 없음",NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A13,ASSET,HIGH,잘못된 GLB,파일 실패·해시 불일치·지원하지 않는 압축을 무한 로딩으로 숨기지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A14,ASSET,HIGH,기능과 그림 분리,자산 재로드·LOD 변경·가림 처리로 재고와 명령 결과가 변하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A15,ASSET,HIGH,리소스 수명,여러 인스턴스 중 하나를 제거해도 나머지 모델·텍스처 정상,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+A16,ASSET,HIGH,실제 품질 기록,폴리곤 목표만으로 성능과 시각적 편안함의 검증을 대신하지 않음,NOT_RUN,docs/qa/evidence/browser-v11.json,첫 세 모델 GPU 검수 BLOCKED. 수학/GLB 파일 검사만으로 화면·26개 모델·성능 시나리오를 PASS 처리하지 않음.
+R01,CROSS_RULE,CRITICAL,6인 단계별 직접 전선 목표를 계산,"M1 11, M2 32, M6 52로 총95. 전체기본합계에 배율을 한 번 곱한94를 사용하지 않음",PASS,docs/qa/evidence/v11-checks.txt,원본 목표와 인원 배율의 단계별 올림 검증.
+R02,CROSS_RULE,CRITICAL,M1 이전 자동 가공기 없이 목표 전체를 제작,무전력 작업대와 초기 원재료로 도달. 선행 설비나 유료 자원 요구 없음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R03,CROSS_RULE,CRITICAL,2×2 기계 정상 서비스 셀에서 작업과 링크 편집,중심1.581tile이 아닌 서비스 앵커 거리로 성공. 배송 길이는 중심끼리 따로 계산,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R04,CROSS_RULE,CRITICAL,자동 수거기 MK2와 일반 가공 MK2 비교,"수거는속도전력2배,가공은1.5배. 같은인스턴스2회강화거부",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R05,CROSS_RULE,CRITICAL,수거기 강화 후 전력망 부족과 장기 진행,"전력 비례감속, 원료1배/2배중복적용없음, 출력20예약상한유지",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R06,CROSS_RULE,CRITICAL,6인 전 설비 MK2 및 태양광12개,"피크수요105.5/공급102에서 ratioFp9668, 반올림차이로정지하거나재료증식없음",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R07,CROSS_RULE,CRITICAL,M5의 체크리스트 버튼에서 실제 점검 명령,"미리보기만허용, 실제검사는M6조립후, 발사제안은세검사완료후에만가능",PASS,docs/qa/evidence/v11-checks.txt,M6 이후 세 점검 필요; 각각 40tick 완료.
+R08,CROSS_RULE,CRITICAL,M6 추진팩 납품 후 발사 취소와 재시도,"정확한M6납품량만소비, 투표나카운트다운취소는추가차감/환급없음",PASS,docs/qa/evidence/v11-checks.txt,투표/취소/재시도 연료 보존과 발사 후 정지.
+R09,CROSS_RULE,CRITICAL,한 플레이어가 네 종류 WORK_HOLD 동시 송신,activeWork하나만유효. 채집0/제작보존/조립보존/미완료점검0 규칙준수,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R10,CROSS_RULE,CRITICAL,희소 source를 A/B가 경쟁하고 무관한 C링크도 항상 성공,C가A/B의cursor를되돌리지않음. 동일대기조건에서A/B가교대로기회얻음,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R11,CROSS_RULE,CRITICAL,여러 source가 마지막 목적지1칸에 proposal,"도착그룹capacitygrant한개, 출발미승인분미차감, reservation과cargo합계일치",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R12,CROSS_RULE,CRITICAL,1대원료가공기output30과MK2output45를link하나로송신,"링크최대30유지, 남는출력은버퍼대기, 설명없는삭제나자동속도상향없음",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R13,CROSS_RULE,CRITICAL,후반 참조 지도 데이터로 새 방 생성,"starter만생성, 25개공장과9개수거기예시를무료지급하지않음",PASS,docs/qa/evidence/v11-checks.txt,새 방에 무료 예시 공장/재고 없음.
+R14,CROSS_RULE,CRITICAL,동일room중balance또는map버전이변경된서버로재접속,"기존버전복구또는명시된마이그레이션, 조용한목표/재고재계산금지",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R15,CROSS_RULE,CRITICAL,복구키없는일반방코드로소유자권한명령,"참가만가능, owner복구/삭제/코드회전권한거부",PASS,docs/qa/evidence/live-integration.json,초대코드는 소유권을 부여하지 않음. 일반 게스트의 관리 작업 거부.
+R16,CROSS_RULE,CRITICAL,MANUAL과NO_CONNECTED_PLAYERS정지중재접속,"NO_CONNECTED만해제,MANUAL유지. 재개버튼이STORAGE_PENDING해제못함",PASS,docs/qa/evidence/v11-checks.txt,무접속 재입장 뒤 수동 일시정지 유지.
+R17,CROSS_RULE,CRITICAL,"LAUNCH_VOTE/COUNTDOWN중자동화와취소,결과재접속","미발사단계자동흐름유지,COUNTDOWN수동차단,서버순서상취소성공만RUNNING,LAUNCHED후정지",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R18,CROSS_RULE,CRITICAL,철거현장상자를만든후그셀에건설시도,"비어있지않은회수상자덮기거부, 비우면삭제후설치가능",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R19,CROSS_RULE,CRITICAL,owner교체와삭제명령실행,"합의한offer에만교체,기존복구키폐기.다른연결자있으면삭제거부,단순나가기는삭제안함",NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R20,CROSS_RULE,CRITICAL,공용창고재고만두고먼곳기계설치,개인휴대비용부족으로거부.가격ledger와현장환급위치로원격자재이동불가,NOT_RUN,,전체 인수 시나리오 미실행. 부분 코어/소켓 검증은 V1_1_REPORT.md 참고. 이전 브라우저 증거는 새 렌더러 검증에 재사용하지 않음.
+R21,CROSS_RULE,CRITICAL,M1전 가방고철80·창고고철200·작업대입력고철20·출력주괴20으로 포화,"창고앞 STASH_OVERFLOW로 휴대품 임시보관 후 작업대 비우기와 제조법변경 가능. 자원총량유지, 자동포트없음, 재접속불필요",PASS,docs/qa/evidence/v11-checks.txt,"가방·창고·채널 포화에서 현장 임시 보관과 수거로 복구, 총량 보존."

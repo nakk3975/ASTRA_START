@@ -1,4 +1,6 @@
 import { Room, type Client } from "@colyseus/core";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { R } from "../../../packages/content/src/index.ts";
 import { join, leave, visible } from "../../../packages/game-core/src/index.ts";
 import {
@@ -9,6 +11,16 @@ import {
 } from "../../../packages/protocol/src/index.ts";
 import { Actor } from "./actor.ts";
 import { GameState, publishSchema, StateView } from "./schema.ts";
+const assetManifestHash = createHash("sha256")
+  .update(
+    readFileSync(
+      new URL(
+        "../../web/public/assets/visuals/1.1.0/manifest.json",
+        import.meta.url,
+      ),
+    ),
+  )
+  .digest("hex");
 export type Ticket = {
   guest: string;
   name: string;
@@ -214,6 +226,7 @@ export class OrbitRoom extends Room<{ state: GameState }> {
       assetCatalogVersion: R.asset_catalog_version,
       rendererCompatibilityVersion: R.renderer_compatibility_version,
       appearanceSetVersion: R.appearance_set_version,
+      assetManifestHash,
       writerEpoch: this.actor.epoch,
       durableVersion: this.actor.world.version,
       simTick: this.actor.world.tick,

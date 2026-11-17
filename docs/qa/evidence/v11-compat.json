@@ -1,0 +1,9 @@
+{
+  "executedAt": "2026-11-17T01:21:11.189Z",
+  "status": "PASS",
+  "oldRuntime": "1.0.0-design",
+  "newRuntime": "1.1.0-design",
+  "originalHashVerified": true,
+  "migrationJournalled": true,
+  "unknownRuntimeRejected": true
+}

@@ -1,0 +1,25 @@
+{
+  "executedAt": "2026-11-17T01:17:42.905Z",
+  "status": "PASS",
+  "mode": "REAL_POSTGRESQL_CLIENT_BOUNDARY_ERROR_INJECTION",
+  "fixture": "One metal scrap moved between two buffers to check atomic conservation; not a gameplay run",
+  "limitations": "No OS process kill, packet proxy, WebSocket ACK loss or network partition in this test",
+  "results": [
+    {
+      "boundary": "BEFORE_COMMIT",
+      "status": "PASS",
+      "durableVersion": "0",
+      "journalBatches": 0,
+      "totalItems": 1,
+      "hashMatches": true
+    },
+    {
+      "boundary": "AFTER_COMMIT_RESPONSE_LOST",
+      "status": "PASS",
+      "durableVersion": "1",
+      "journalBatches": 1,
+      "totalItems": 1,
+      "hashMatches": true
+    }
+  ]
+}

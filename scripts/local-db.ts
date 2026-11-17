@@ -1,15 +1,17 @@
 import EmbeddedPostgres from "embedded-postgres";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-export async function localDatabase() {
-  const databaseDir = fileURLToPath(
-    new URL("../.local/postgres", import.meta.url),
-  );
+export async function localDatabase(
+  options: { directory?: string; port?: number } = {},
+) {
+  const databaseDir =
+    options.directory ??
+    fileURLToPath(new URL("../.local/postgres", import.meta.url));
   const db = new EmbeddedPostgres({
     databaseDir,
     user: "orbit",
     password: "local-orbit-only",
-    port: 55432,
+    port: options.port ?? 55432,
     persistent: true,
     postgresFlags: ["-h", "127.0.0.1", "-k", ""],
     onLog: (m) => console.log(String(m)),
@@ -48,7 +50,7 @@ export async function localDatabase() {
     beforeStop(fn: () => Promise<void>) {
       beforeStop = fn;
     },
-    url: "postgres://orbit:local-orbit-only@127.0.0.1:55432/orbit",
+    url: `postgres://orbit:local-orbit-only@127.0.0.1:${options.port ?? 55432}/orbit`,
   };
 }
 if (process.argv[1]?.endsWith("local-db.ts")) {

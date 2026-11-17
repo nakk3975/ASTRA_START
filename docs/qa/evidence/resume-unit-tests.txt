@@ -1,0 +1,59 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ the shipped manifest and all six LOD files pass the production cache path (141.267804ms)
+✔ a partial GLB 404 disposes staged models and a retry publishes the complete set (16.620513ms)
+✔ a stalled request is aborted and the next request can recover (13.497906ms)
+✔ a late decoder cannot replace the result of a successful retry (10.700198ms)
+✔ corrupt bytes and expired or external manifest paths are rejected before decode (4.289557ms)
+✔ pilot GLB bytes, texture/triangle caps, skeleton and clip data are real (192.690741ms)
+✔ all five shipped worker clips move the actual rig and releasing one clone preserves another (510.783227ms)
+✔ six worker clones have independent bones and mixers (CPU, not GPU rendering) (36.248266ms)
+✔ screen direction is orthonormal and diagonal normalized (1.420812ms)
+✔ camera rests inside central deadzone, F preserves preference, manual pan stays detached (1.528294ms)
+✔ camera full visible dt, capped speed and acceleration, held/long frame reset (1.017076ms)
+✔ frustum uses CSS height and quality pixel caps are enforced at 4K (0.340746ms)
+✔ diagonal reversal never carries either ground axis away from its deadzone target (0.200041ms)
+✔ camera records applied velocity at bounds and rejects invalid frame intervals (0.334171ms)
+✔ socket join is not connection success until a compatible WELCOME and full state arrive (10.374144ms)
+✔ missing initial state times out, closes the socket, and ignores a late snapshot (26.598461ms)
+✔ a changed visual manifest rejects entry without STATE_READY (0.986878ms)
+✔ leaving during model decode cancels entry before a join ticket is requested (1.559817ms)
+✔ a socket that arrives after cancellation is closed without applying state (1.273628ms)
+✔ leaving cancels the pending reconnect delay without opening another socket (0.98944ms)
+✔ a manual connection cancels a stale reconnect even if its session request finishes late (1005.786642ms)
+✔ the reconnect deadline includes a stalled session request (1101.134046ms)
+✔ P0 content contracts and milestone rounding (1.410276ms)
+✔ P0 new world has no example factory or free inventory (0.560797ms)
+✔ gather requires service range, full capacity waits without creating output (32.636961ms)
+✔ six channels craft concurrently, output stays private and input escrow is conserved (87.905761ms)
+✔ last rocket units clamp, assembly is required and planned costs stay fixed (3.688318ms)
+✔ full bag, warehouse and bench recover through local overflow stash (1.862424ms)
+✔ WIP cancel full input rejects atomically; stopped work preserves job (5.095092ms)
+✔ service distance is separate from delivery center (1.142348ms)
+✔ offline clock is frozen and runtime input expiry stops gather (0.743415ms)
+✔ source cursor alternates scarce cargo and destination reservations conserve stock (8.669277ms)
+✔ inbound reservation excludes the final capacity and cargo is not instantly delivered (14.417374ms)
+✔ automatic extractor generates raw material at configured cycle, output pauses at cap (385.614104ms)
+✔ T01 six actors compete for final shared item: one gain, five rejections (10.959616ms)
+✔ T02 simultaneous footprint claims pay once and rollback losing costs (6.312345ms)
+✔ R04 R05 extractor MK2 has 2x work/power, ordinary MK2 1.5x, duplicate denied (109.672756ms)
+✔ R07 actual inspections forbidden until M6 assembly and launch requires all three (10.589388ms)
+✔ R08 R17 vote/cancel/countdown never consumes more fuel and launched freezes (20.472344ms)
+✔ R15 R19 owner consent and deletion rights are distinct from leader (1.473605ms)
+✔ R16 manual pause survives last disconnect and rejoin (2.485609ms)
+✔ T24 reserved seat rejects newcomer but permits same guest; expired inventory recovers once (3.057319ms)
+✔ T15 work channel reclaim returns WIP to local bench crate once (1.664037ms)
+✔ R20 costs must come from carrier inventory; protected routes and crates block construction (2.972678ms)
+✔ T25 stale controller and future durable version rejected before economic changes (0.537798ms)
+✔ T29 strict input rejects role forgery, negative/nonfinite/fraction quantity and prototype keys (3.953653ms)
+ℹ tests 46
+ℹ suites 0
+ℹ pass 46
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3127.892625

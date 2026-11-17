@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "status": "PILOT_IN_PROGRESS",
+  "status": "PILOT_GPU_REVIEW_BLOCKED",
   "assets": [
     {
       "id": "processor",
@@ -8,7 +8,7 @@
       "sourceImageTaskId": "01a1e4f1-b081-774a-99f5-af1aec19f808",
       "geometryModel": "meshy-t2",
       "textureModel": "meshy-n1",
-      "license": "PENDING_PROVIDER_CONFIRMATION",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
       "review": "PENDING_GAME_REVIEW",
       "boundsMax": {
         "x": 1.8,
@@ -51,7 +51,10 @@
             }
           ]
         }
-      ]
+      ],
+      "sourceCreditCost": 24,
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
     },
     {
       "id": "rocket_lower_hull",
@@ -59,7 +62,7 @@
       "sourceImageTaskId": "01a1e4f7-8b34-7618-8a54-39c8a5380708",
       "geometryModel": "meshy-t2.5",
       "textureModel": "meshy-n1",
-      "license": "PENDING_PROVIDER_CONFIRMATION",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
       "review": "PENDING_GAME_REVIEW",
       "boundsMax": {
         "x": 2,
@@ -102,7 +105,81 @@
             }
           ]
         }
-      ]
+      ],
+      "sourceCreditCost": 24,
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "worker",
+      "sourceTaskId": "01a1e4fa-41f7-7481-a851-d72d9a55bd88",
+      "sourceImageTaskId": "01a1e4f7-e200-7264-9d34-a0ee0857a2ae",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.4,
+        "y": 1.8,
+        "z": 0.9
+      },
+      "clips": [
+        "locomotion",
+        "idle",
+        "work_loop",
+        "carry_locomotion",
+        "celebrate"
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/worker-lod0.1fd0e9dd3178.glb",
+          "sha256": "1fd0e9dd3178e7ea6303785e43c99a44dbb3b61f37acc5199615bd9da6af666a",
+          "bytes": 706316,
+          "triangles": 5410,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/worker-lod1.6fc4851e1a0d.glb",
+          "sha256": "6fc4851e1a0d1b23c5ae41e4e9b38e68bb34e259cb75311776f724a62a129443",
+          "bytes": 608196,
+          "triangles": 2819,
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                1024,
+                1024
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "rigTaskId": "01a1e4fe-b6ef-745a-bae4-6335fc55a4b3",
+      "animationTaskId": "01a1e501-9a9d-74e7-9f79-b28476d181c5",
+      "animationActionIds": {
+        "idle": 0,
+        "work_loop": 128,
+        "carry_locomotion": 551,
+        "celebrate": 59
+      },
+      "locomotionSource": "rigging included walking",
+      "sourceCreditCost": 41,
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
     }
-  ]
+  ],
+  "totalSourceCredits": 89,
+  "remainingAssets": 23
 }

@@ -7,6 +7,12 @@
 - 현재 QA 브라우저는 WebGL이 비활성화되어 실제 3D 화면 검수가 **BLOCKED**입니다. 미제작 시설은 명시적인 제작 대기 표식으로 표시됩니다.
 - 현재 변경분의 검증/미검증 범위는 [v1.1 작업 보고서](docs/qa/V1_1_REPORT.md)를 확인하세요. 이전 스크린샷·보고서는 v1.0 이력이며 새 렌더러의 증거가 아닙니다.
 
+## 첫 세 모델 확인
+
+[비공개 모델 검수 화면](https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site)에서 작업자·가공기·로켓 하부 선체를 확인할 수 있습니다. 전체 게임 서버가 아닌 검수 전용 화면입니다. 세 화면 크기, 두 품질, 작업자 5동작/6명, 시설 방향을 바꿔 확인하고 JSON 기록을 내려받을 수 있습니다.
+
+`npm run build:review`로 같은 검수 화면을 `dist/review/`에 빌드할 수 있습니다.
+
 ## 빠른 실행
 
 Node.js **24.22.1 이상, 25 미만**이 필요합니다. Node 버전은 `.nvmrc`, 정확한 npm 의존성은 `package-lock.json`에 고정되어 있습니다.
@@ -77,12 +83,12 @@ PORT=2567
 - PostgreSQL 변경 기록·스냅샷·멱등 영수증, writer lease/epoch 차단, COMMIT 이후 ACK
 - 재접속, 같은 게스트 제어권 교체, 무접속 시 시간 정지, 수동 일시정지 유지
 - 발사 준비 투표·점검·취소·결과 보존
-- React UI, 코드로 만든 Three.js 월드, WebGL 불가 시 같은 상태를 그리는 Canvas 2D 호환 화면
+- React UI, 실제 Meshy GLB를 사용하는 Three.js 월드, WebGL 불가 시 오류 안내와 재시도 화면 (2D를 3D 검수 대체물로 사용하지 않음)
 - 한국어 안내, 가로 터치 조작, 그래픽 품질 전환, 음향 토글, 단계 도움말
 
 ## 실행한 시험과 남은 검수
 
-상세 결과는 [QA 보고서](docs/qa/REPORT.md), 원본 99행에 대응하는 결과는 [acceptance_tests.csv](docs/qa/acceptance_tests.csv)에 있습니다.
+상세 결과는 [QA 보고서](docs/qa/REPORT.md), v1.1 원본 160행에 대응하는 결과는 [acceptance_tests.csv](docs/qa/acceptance_tests.csv)에 있습니다.
 
 ```bash
 npm run check       # 원본 설계 검산 + 코어 시험 + TypeScript + 웹 빌드
