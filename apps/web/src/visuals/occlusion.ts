@@ -129,3 +129,23 @@ export function createSilhouette(root: T.Object3D, color: string) {
     },
   };
 }
+
+/** Name sprites and UI markers must never participate in scene occlusion. */
+export function occlusionMaterials(ray: T.Raycaster, roots: T.Object3D[]) {
+  const meshes: T.Mesh[] = [];
+  for (const root of roots) {
+    root.updateWorldMatrix(true, true);
+    root.traverseVisible((o) => {
+      if (o instanceof T.Mesh) meshes.push(o);
+    });
+  }
+  const materials = new Set<T.Material>();
+  for (const hit of ray.intersectObjects(meshes, false)) {
+    const mesh = hit.object as T.Mesh;
+    for (const material of Array.isArray(mesh.material)
+      ? mesh.material
+      : [mesh.material])
+      materials.add(material);
+  }
+  return materials;
+}

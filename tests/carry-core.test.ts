@@ -516,6 +516,7 @@ test("automated mining→belt→machine→crane→installer conserves actual ite
 test("purchased-equipment layout fixture: ore→ingot→plate→ramp→installation runs hands-free with legal equipment placements", () => {
   const w = world("campaign"),
     p = w.players.p;
+  w.machines = {}; // Explicit automation layout fixture.
   Object.assign(
     w.machines,
     createCarryWorld("fixture", "FIXTURE", 1, "lab").machines,

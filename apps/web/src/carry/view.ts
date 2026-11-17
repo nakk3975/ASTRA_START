@@ -9,7 +9,12 @@ import {
   type Visual,
 } from "../visuals/assets";
 import { ROCKET_PARTS } from "../visuals/rocket";
-import { OcclusionFade, createSilhouette } from "../visuals/occlusion";
+import {
+  OcclusionFade,
+  createSilhouette,
+  occlusionRay,
+  occlusionMaterials,
+} from "../visuals/occlusion";
 import {
   ITEM,
   MACHINE_CATALOG,
@@ -22,6 +27,7 @@ import {
   COLORS,
   MAP,
   SOURCES,
+  veinUnlocked,
   machinePort,
   floorHeight,
   currentStage,
@@ -245,15 +251,6 @@ export class CarryView {
     this.environment = quarryEnvironment();
     this.scene.add(this.environment.root);
     this.label(this.scene, "판매소 · E 판매", MARKET.x, 3.05, MARKET.z, 3.5);
-    for (const src of SOURCES)
-      this.label(
-        this.scene,
-        ITEM[src.kind].name + " 채굴",
-        src.x,
-        1.65,
-        src.z - 1.1,
-        2.4,
-      );
     this.label(this.scene, "01  채굴장", -16, 0.8, -11.5, 4);
     this.label(this.scene, "02  작은 공방", -2, 0.8, -11.5, 4.5);
     this.label(this.scene, "03  우주선 건설", 17, 2, -7, 4);
@@ -475,10 +472,22 @@ export class CarryView {
   }
   private animate = (now: number) => {
     if (this.disposed) return;
+    try {
+      this.drawFrame(now);
+      if (!this.disposed && !this.error)
+        this.frame = requestAnimationFrame(this.animate);
+    } catch (error) {
+      this.ready = false;
+      this.fail(
+        "SCENE_UPDATE_FAILED",
+        error instanceof Error ? error.message : String(error),
+      );
+    }
+  };
+  private drawFrame(now: number) {
     const rawDt = (now - this.last) / 1000 || 0.016,
       dt = Math.min(0.05, rawDt);
     this.last = now;
-    this.frame = requestAnimationFrame(this.animate);
     const w = this.world,
       p = w?.players[this.member];
     if (w && this.loaded) {
@@ -491,6 +500,10 @@ export class CarryView {
       }
       for (const src of SOURCES) {
         const key = `vein:${src.kind}`;
+        if (!veinUnlocked(w, src.kind)) {
+          this.remove(key);
+          continue;
+        }
         if (!this.instances.has(key)) {
           const asset = {
               metal_scrap: "source_metal",
@@ -499,6 +512,14 @@ export class CarryView {
               energy_shard: "source_energy",
             }[src.kind],
             e = this.addModel(key, asset, { x: src.x, y: 0, z: src.z });
+          this.label(
+            e.group,
+            ITEM[src.kind].name + " 채굴",
+            0,
+            1.65,
+            -1.1,
+            2.4,
+          );
           // Bounds are authored to match the authoritative ore footprint.
         }
       }
@@ -916,14 +937,8 @@ export class CarryView {
         );
         this.camera.lookAt(this.anchor);
         this.camera.updateMatrixWorld();
-        const worker = this.instances.get(`player:${p.id}`),
-          hit = new Set<T.Material>();
-        const ray = new T.Raycaster(
-          this.camera.position,
-          target.clone().sub(this.camera.position).normalize(),
-          0,
-          this.camera.position.distanceTo(target) - 0.5,
-        );
+        const worker = this.instances.get(`player:${p.id}`);
+        const ray = occlusionRay(this.camera, target);
         const blockers = [
           ...Object.keys(w.machines),
           ...Object.keys(w.devices).map((id) => `device:${id}`),
@@ -933,16 +948,7 @@ export class CarryView {
             return instance?.visual?.root ?? instance?.group;
           })
           .filter(Boolean) as T.Object3D[];
-        for (const entry of ray.intersectObjects(
-          [...blockers, this.rocket],
-          true,
-        )) {
-          if (entry.object instanceof T.Mesh)
-            for (const m of Array.isArray(entry.object.material)
-              ? entry.object.material
-              : [entry.object.material])
-              hit.add(m);
-        }
+        const hit = occlusionMaterials(ray, [...blockers, this.rocket]);
         this.fades.update(hit, now, dt, false);
         worker?.silhouette?.setVisible(hit.size > 0);
       }
@@ -980,7 +986,7 @@ export class CarryView {
       this.host.dataset.metrics = JSON.stringify(m);
       this.onMetrics(m);
     }
-  };
+  }
   dispose() {
     this.disposed = true;
     this.fades.clear();

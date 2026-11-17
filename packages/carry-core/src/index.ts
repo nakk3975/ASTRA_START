@@ -10,6 +10,8 @@ import {
   machineCanRecipe,
   researchCost,
   validAvatar,
+  veinUnlocked,
+  recipeAvailable,
 } from "./progression.ts";
 import { marketAction, payInstalled, MARKET } from "./market.ts";
 import { movePosition } from "./motion.ts";
@@ -68,6 +70,12 @@ export function deviceUnlocked(w: World, type: DeviceKind) {
   return w.profile === "lab" || !key || w.economy.upgrades.includes(key);
 }
 export function migrateCarry(w: World) {
+  const legacy = [
+    "carry-2.0.0",
+    "mining-2.1.0",
+    "workshop-3.0.0",
+    "quarry-3.1.0",
+  ].includes(w.rules);
   if (w.rules === "carry-2.0.0" || w.rules === "mining-2.1.0") {
     w.economy ??= { coins: 0, xp: 0, earned: 0, spent: 0, upgrades: [] };
     w.economy.upgrades = w.economy.upgrades.map((k) =>
@@ -105,6 +113,14 @@ export function migrateCarry(w: World) {
   if (w.rules === "workshop-3.0.0") {
     w.rules = RULES;
     event(w, "광물 채굴장과 이동 동기화 개선 적용 · 기존 진행 보존");
+  }
+  if (legacy) {
+    for (const s of SOURCES) {
+      w.veins[s.kind] ??= { level: 0, extracted: 0 };
+      w.veins[s.kind]!.unlocked = true;
+    }
+    w.rules = RULES;
+    event(w, "3.2 적용 · 기존 광맥과 자금·설비·진행을 보존했습니다.");
   }
   return w;
 }
@@ -168,7 +184,14 @@ export function createCarryWorld(
     refill: 0,
     events: [],
     veins: Object.fromEntries(
-      SOURCES.map((s) => [s.kind, { level: 0, extracted: 0 }]),
+      SOURCES.map((s) => [
+        s.kind,
+        {
+          level: 0,
+          extracted: 0,
+          unlocked: profile === "lab" || s.kind === "metal_scrap",
+        },
+      ]),
     ),
     stageBonuses: [],
     economy: {
@@ -205,6 +228,20 @@ export function createCarryWorld(
       output: [],
       job: null,
     };
+  if (profile === "campaign") {
+    w.machines["starter-bench"] = {
+      id: "starter-bench",
+      type: "bench",
+      tier: 0,
+      rotation: 0,
+      investment: 0,
+      pos: { x: -10, y: 0, z: -7 },
+      recipe: "smelt_ingot",
+      input: [],
+      output: [],
+      job: null,
+    };
+  }
   for (const [stage, s] of PROFILES[profile].stages.entries()) {
     let n = 0;
     for (const [kind, count] of Object.entries(s.required))
@@ -335,7 +372,7 @@ export function targets(w: World, p: Player) {
           ))
       )
         t.push({ id: i.id, pos: i.pos, label: `E ${ITEM[i.kind].name} 들기` });
-    for (const src of SOURCES)
+    for (const src of SOURCES.filter((s) => veinUnlocked(w, s.kind)))
       t.push({
         id: `vein:${src.kind}`,
         pos: veinPort(src),
@@ -479,9 +516,11 @@ export function placementReason(
     return "설치 소켓 위는 비워 주세요.";
   if (
     type === "miner" &&
-    !SOURCES.some((s) => Math.hypot(s.x - x, s.z - z) < 2.3)
+    !SOURCES.some(
+      (s) => veinUnlocked(w, s.kind) && Math.hypot(s.x - x, s.z - z) < 2.3,
+    )
   )
-    return "자동 채굴기는 광맥 가까이에 설치하세요.";
+    return "자동 채굴기는 해금한 광맥 가까이에 설치하세요.";
   if (Math.abs(z) > 10.4 || Math.abs(x) > 20.5)
     return "바깥 우회 통로는 비워 주세요.";
   if (Object.values(w.devices).length >= CFG.deviceLimit)
@@ -610,6 +649,8 @@ function action(w: World, p: Player, c: Command) {
       r = recipe(w, c.recipe ?? "");
     if (!m || !r || !machineCanRecipe(m, c.recipe!))
       throw Error("이 기계에서는 만들 수 없습니다.");
+    if (!recipeAvailable(w, c.recipe!))
+      throw Error("필요한 광맥을 먼저 해금하세요.");
     if (
       r.output.startsWith("kit_") &&
       !deviceUnlocked(w, r.output.slice(4) as DeviceKind)
@@ -642,7 +683,7 @@ function action(w: World, p: Player, c: Command) {
       progress: 0,
       source:
         type === "miner"
-          ? [...SOURCES].sort(
+          ? SOURCES.filter((s) => veinUnlocked(w, s.kind)).sort(
               (a, b) =>
                 Math.hypot(a.x - c.x!, a.z - c.z!) -
                 Math.hypot(b.x - c.x!, b.z - c.z!),
@@ -868,7 +909,7 @@ function automationTick(w: World, dt: number) {
         d.progress += dt / miningSeconds(w, d.source ?? "metal_scrap", true);
         if (d.progress >= 1) {
           const src = SOURCES.find((s) => s.kind === d.source);
-          if (src) {
+          if (src && veinUnlocked(w, src.kind)) {
             const i = spawn(
               w,
               src.kind,
@@ -1046,6 +1087,7 @@ export function tickCarry(w: World, dt: number) {
       const src = SOURCES.find((s) => s.kind === p.mining!.kind);
       if (
         !src ||
+        !veinUnlocked(w, src.kind) ||
         !reachable(w, p.pos, veinPort(src)) ||
         hands(p).length >= carryCapacity(w)
       ) {

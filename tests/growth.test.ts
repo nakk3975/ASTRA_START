@@ -54,37 +54,35 @@ const rich = (w: World) => {
 const steps = (w: World, seconds: number) => {
   for (let n = 0; n < seconds * 20; n++) tickCarry(w, 0.05);
 };
-test("empty campaign starts with finite team funds; buy a real cheap crate and manually place rotated equipment", () => {
+test("campaign starts with zero funds and one movable basic bench", () => {
   const w = make(),
     p = w.players.p;
-  assert.equal(w.economy.coins, 80);
-  assert.equal(Object.keys(w.machines).length, 0);
-  assert.equal(cmd(w, "BUY_MACHINE", { machine: "bench" }).ok, true);
-  assert.equal(w.economy.coins, 40);
+  assert.equal(w.economy.coins, 0);
+  assert.equal(Object.keys(w.machines).length, 1);
+  assert.equal(cmd(w, "BUY_MACHINE", { machine: "bench" }).ok, false);
+  const m = w.machines["starter-bench"];
+  assert.equal(m.tier, 0);
+  assert.equal(m.recipe, "smelt_ingot");
+  p.pos = machinePort(m);
+  assert.equal(cmd(w, "PACK_MACHINE", { target: m.id }).ok, true);
   const item = p.hand!;
-  assert.equal(
-    cmd(w, "PLACE_MACHINE", { machine: "bench", x: 15, z: 0, rotation: 0 }).ok,
-    false,
-  );
-  assert.equal(p.hand, item);
-  assert.equal(w.items[item].state, "hand");
+  assert.equal(w.economy.coins, 0);
   p.pos = { x: -10, y: 0, z: -4.5 };
   assert.equal(
     cmd(w, "PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 1 })
       .ok,
     true,
   );
-  const m = Object.values(w.machines)[0];
-  assert.equal(m.tier, 0);
-  assert.deepEqual(machinePort(m), { x: -10, y: 0, z: -8.6 });
+  const placed = Object.values(w.machines)[0];
+  assert.deepEqual(machinePort(placed), { x: -10, y: 0, z: -8.6 });
   assert.equal(w.items[item].state, "consumed");
-  assert.equal(m.recipe, "smelt_ingot");
   assertCarry(w);
 });
 test("tier upgrades cost once, unlock recipes gradually, and survive packing without duplication", () => {
   const w = make(),
     p = w.players.p;
   rich(w);
+  w.machines = {}; // Isolated purchased-equipment fixture.
   cmd(w, "BUY_MACHINE", { machine: "bench" });
   p.pos = { x: -10, y: 0, z: -4.5 };
   cmd(w, "PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 0 });
@@ -140,6 +138,7 @@ test("processing gives XP, one-time sale or installation gives money; quality pr
   const w = make(),
     p = w.players.p;
   rich(w);
+  w.machines = {}; // Isolated purchased-equipment fixture.
   cmd(w, "BUY_MACHINE", { machine: "bench" });
   p.pos = { x: -10, y: 0, z: -4.5 };
   cmd(w, "PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 0 });
@@ -217,19 +216,20 @@ test("per-player avatar persists and unknown avatar IDs are rejected server-side
   const restored = await svc.resume(a.roomId, a.member, a.token);
   assert.equal(restored.world.players[a.member].avatar, "worker-engineer");
 });
-test("1/2/4/6-player opening funds and research costs scale sublinearly with shared upgrades", () => {
+test("1/2/4/6-player zero-fund starts keep one basic bench and shared research scaling", () => {
   const rows = [1, 2, 4, 6].map((n) => {
     const w = createCarryWorld("scale", "SCALE", n);
     assert.equal(w.economy.coins, startingFunds(n));
     assert.equal(w.economy.coins, w.economy.earned);
-    assert.ok(w.economy.coins >= 40);
+    assert.equal(w.economy.coins, 0);
+    assert.equal(Object.keys(w.machines).length, 1);
     return [n, w.economy.coins, researchCost(w, 100)];
   });
   assert.deepEqual(rows, [
-    [1, 80, 100],
-    [2, 104, 115],
-    [4, 152, 145],
-    [6, 200, 175],
+    [1, 0, 100],
+    [2, 0, 115],
+    [4, 0, 145],
+    [6, 0, 175],
   ]);
 });
 test("ramp seam tolerates floating point noise, prediction respects walls, reverses and stops during outages", () => {

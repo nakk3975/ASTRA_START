@@ -106,7 +106,9 @@ export type World = {
   pings: { id: string; player: string; pos: V3; until: number }[];
   refill: number;
   events: { time: number; text: string; item?: string }[];
-  veins: Partial<Record<Kind, { level: number; extracted: number }>>;
+  veins: Partial<
+    Record<Kind, { level: number; extracted: number; unlocked?: boolean }>
+  >;
   stageBonuses: number[];
   economy: {
     coins: number;
@@ -135,6 +137,7 @@ export type Command = {
     | "PACK_MACHINE"
     | "BUY_DEVICE"
     | "UPGRADE_VEIN"
+    | "UNLOCK_VEIN"
     | "SELL"
     | "AVATAR";
   machine?: MachineKind;

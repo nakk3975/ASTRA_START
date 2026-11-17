@@ -1,0 +1,62 @@
+{
+  "version": "3.2.0",
+  "rules": "quarry-3.2.0",
+  "date": "2026-11-17",
+  "checks": {
+    "design": "pass",
+    "unit_and_integration": {
+      "passed": 119,
+      "failed": 0
+    },
+    "typescript": "pass",
+    "vite_build": "pass",
+    "three_scene_installation": "old Sprite.raycast exception reproduced; all six basic machine types pass mesh-only occlusion"
+  },
+  "campaign": {
+    "planned_players": [
+      1,
+      2,
+      4,
+      6
+    ],
+    "completed_launch": true,
+    "initial_coins": 0,
+    "initial_benches": 1,
+    "initial_ores": [
+      "metal_scrap"
+    ],
+    "includes_extra_bench_purchase_pack_reinstall": true,
+    "method": "one deterministic walking actor fulfilling each party-size target; no seeded funds, supplied items or teleportation"
+  },
+  "network": {
+    "clients": 6,
+    "transport": "Colyseus WebSocket",
+    "storage": "PostgreSQL",
+    "pass": true,
+    "checks": [
+      "seventh guest rejected",
+      "pickup race",
+      "movement and key release",
+      "action sequencing",
+      "duplicate command receipts",
+      "disconnect recovery",
+      "SQL process restart"
+    ]
+  },
+  "worker_sqlite": {
+    "pass": true,
+    "checks": [
+      "zero-coin campaign creation",
+      "paid unlock idempotency",
+      "resume retains unlocked and locked ores",
+      "bench pack/reinstallation persists"
+    ]
+  },
+  "browser": {
+    "lobby_version": "3.2.0",
+    "new_start_copy_verified": true,
+    "webgl2_available": false,
+    "gpu_fps_and_visual_movement_verified": false,
+    "human_multiplayer_playtest": false
+  }
+}

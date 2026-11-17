@@ -6,6 +6,8 @@ import {
   VEIN_UPGRADE_XP,
   DEVICE_PRICE,
   STAGE_BONUS,
+  VEIN_UNLOCKS,
+  type OreKind,
   ITEM,
   type Kind,
   type MachineKind,
@@ -18,6 +20,8 @@ import {
   itemValue,
   validAvatar,
   machineKind,
+  veinUnlocked,
+  veinUnlockReason,
 } from "./progression.ts";
 import {
   MAP,
@@ -223,10 +227,35 @@ export function marketAction(
     delete w.machines[m.id];
     return "기계를 상자로 회수했습니다. 다시 설치할 수 있습니다.";
   }
+  if (c.type === "UNLOCK_VEIN") {
+    const kind = c.target as Kind;
+    const why = veinUnlockReason(w, kind);
+    if (why) throw Error(why);
+    const spec = VEIN_UNLOCKS[kind as OreKind];
+    const src = SOURCES.find((s) => s.kind === kind)!;
+    const rect = { x: src.x, z: src.z, w: 1.8, d: 1.8 };
+    if (
+      Object.values(w.players).some(
+        (q) => q.connected && rectHit(q.pos.x, q.pos.z, rect, 0.36),
+      ) ||
+      Object.values(w.items).some(
+        (i) =>
+          ["ground", "air"].includes(i.state) &&
+          rectHit(i.pos.x, i.pos.z, rect, 0.4),
+      ) ||
+      Object.values(w.devices).some((d) => rectHit(d.pos.x, d.pos.z, rect, 0.8))
+    )
+      throw Error("새 광맥 위치의 작업자·물건·설비를 먼저 옮겨 주세요.");
+    spend(w, researchCost(w, spec.cost), spec.xp);
+    w.veins[kind]!.unlocked = true;
+    event(w, `${ITEM[kind].name} 광맥 해금 · 새 재료 가공 가능`);
+    return `${ITEM[kind].name} 광맥 해금`;
+  }
   if (c.type === "UPGRADE_VEIN") {
     const kind = c.target as Kind;
     const src = SOURCES.find((s) => s.kind === kind);
     if (!src) throw Error("알 수 없는 광맥");
+    if (!veinUnlocked(w, kind)) throw Error("광맥을 먼저 해금하세요.");
     const v = w.veins[kind]!;
     if (v.level >= 4) throw Error("최고 등급 광맥입니다.");
     spend(

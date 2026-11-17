@@ -19,6 +19,10 @@ import {
   researchCost,
   MARKET,
   startingFunds,
+  VEIN_UNLOCKS,
+  veinUnlocked,
+  UPGRADES,
+  type OreKind,
   validFloor,
   reachable,
   floorHeight,
@@ -155,6 +159,7 @@ function make(kind: Kind): string {
   if (!r) {
     const src = SOURCES.find((s) => s.kind === kind);
     assert.ok(src, "ore source");
+    unlock(kind as OreKind);
     go(veinPort(src));
     command("INTERACT", { target: `vein:${kind}` });
     while (p.mining) step();
@@ -198,15 +203,38 @@ function make(kind: Kind): string {
   pick(id);
   return id;
 }
-// Buy and place the cheapest equipment with actual opening funds.
-assert.equal(Object.keys(w.machines).length, 0);
+// Real fresh start: no granted money, items or extra machinery.
+assert.equal(Object.keys(w.machines).length, 1);
+assert.equal(w.economy.coins, 0);
 assert.equal(w.economy.coins, startingFunds(planned));
-command("BUY_MACHINE", { machine: "bench" });
-go({ x: -10, y: 0, z: -4.5 });
-command("PLACE_MACHINE", { machine: "bench", x: -10, z: -7, rotation: 0 });
-const bench = Object.values(w.machines)[0];
+assert.deepEqual(
+  SOURCES.filter((s) => veinUnlocked(w, s.kind)).map((s) => s.kind),
+  ["metal_scrap"],
+);
+const bench = w.machines["starter-bench"];
 const starterAt = w.time;
 let extraSales = 0;
+const unlockTimes: { kind: string; seconds: number; cost: number }[] = [];
+function earn(coins: number, xp = 0) {
+  while (w.economy.coins < coins || w.economy.xp < xp) {
+    make("plate");
+    go(MARKET);
+    command("SELL");
+    assert.ok(
+      ++extraSales < 120,
+      "progression must remain reachable with iron income",
+    );
+  }
+}
+function unlock(kind: OreKind) {
+  if (veinUnlocked(w, kind)) return;
+  const spec = VEIN_UNLOCKS[kind];
+  if (spec.requires) unlock(spec.requires);
+  const cost = researchCost(w, spec.cost);
+  earn(cost, spec.xp);
+  command("UNLOCK_VEIN", { target: kind });
+  unlockTimes.push({ kind, seconds: Math.round(w.time), cost });
+}
 function improve(tier: number) {
   while (bench.tier < tier) {
     const cost = researchCost(w, MACHINE_UPGRADE_COST[bench.tier]),
@@ -239,10 +267,21 @@ while (currentStage(w) !== -1) {
     stageTimes.push(w.time);
     if (stage === 0) {
       improve(1);
+      earn(researchCost(w, UPGRADES.belts.cost), UPGRADES.belts.xp);
       command("UPGRADE", { upgrade: "belts" });
+      earn(9);
       command("BUY_DEVICE", { device: "straight" });
       kitAt = w.time;
       stash();
+      earn(40);
+      command("BUY_MACHINE", { machine: "bench" });
+      go({ x: -6, y: 0, z: -2.5 });
+      command("PLACE_MACHINE", { machine: "bench", x: -6, z: 0, rotation: 0 });
+      const bought = Object.values(w.machines).find((m) => m.id !== bench.id)!;
+      go(machinePort(bought));
+      command("PACK_MACHINE", { target: bought.id });
+      go({ x: -6, y: 0, z: -2.5 });
+      command("PLACE_MACHINE", { machine: "bench", x: -6, z: 0, rotation: 0 });
     }
   }
 }
@@ -256,6 +295,10 @@ const report = {
     "single deterministic walking actor; no spawning, teleporting or inventory shortcuts",
   actors: 1,
   planned,
+  initialCoins: 0,
+  initialBasicMachines: 1,
+  unlockTimes,
+  purchasePackReinstall: true,
   starterAtSeconds: Math.round(starterAt),
   extraSales,
   coinsAtLaunch: w.economy.coins,
@@ -269,7 +312,7 @@ const report = {
   installed: w.sockets.filter((s) => s.item).length,
 };
 writeFileSync(
-  `docs/carry/evidence/growth-campaign-${planned}.json`,
+  `docs/carry/evidence/progression-3.2-campaign-${planned}.json`,
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report);

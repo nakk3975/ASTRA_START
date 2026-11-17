@@ -1,4 +1,4 @@
-export const RULES = "quarry-3.1.0";
+export const RULES = "quarry-3.2.0";
 export const CFG = {
   speed: 3.5,
   radius: 0.36,
@@ -539,3 +539,12 @@ export const plannedQuantity = (
   planned: number,
   profile: "campaign" | "lab",
 ) => (profile === "lab" ? base : Math.ceil(base * (1 + 0.35 * (planned - 1))));
+
+/** One prerequisite chain; XP is a threshold, coins are spent once. */
+export const VEIN_UNLOCKS = {
+  metal_scrap: { cost: 0, xp: 0, requires: null },
+  cable_scrap: { cost: 20, xp: 12, requires: "metal_scrap" },
+  plastic_scrap: { cost: 45, xp: 30, requires: "cable_scrap" },
+  energy_shard: { cost: 70, xp: 65, requires: "plastic_scrap" },
+} as const;
+export type OreKind = keyof typeof VEIN_UNLOCKS;

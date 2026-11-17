@@ -12,6 +12,11 @@ import {
   itemValue,
   level,
   startingFunds,
+  SOURCES,
+  VEIN_UNLOCKS,
+  veinUnlocked,
+  recipeAvailable,
+  researchCost,
   MARKET,
   SALE_VALUE,
   type MachineKind,
@@ -407,7 +412,8 @@ export default function CarryApp() {
           </h1>
           <p>
             한 사람의 손에서, 모두의 로켓으로.
-            <br />빈 공방에서 시작해, 내 손으로 우주까지.
+            <br />
+            낡은 작업대 하나에서, 내 손으로 우주까지.
           </p>
           <form
             onSubmit={(e) => {
@@ -426,7 +432,8 @@ export default function CarryApp() {
             </label>
             <CharacterPicker value={avatar} onSelect={setAvatar} />
             <small>
-              캐릭터 능력은 동일합니다 · 시작 자금 {startingFunds(planned)} 코인
+              캐릭터 능력은 동일합니다 · 시작 {startingFunds(planned)} 코인 ·
+              낡은 작업대 1대 · 철광석부터
             </small>
             <div className="carry-form-row">
               <label>
@@ -763,8 +770,19 @@ export default function CarryApp() {
                   {machine.recipe === "lab_plate" && (
                     <option value="lab_plate">개발용 철광석 → 철판</option>
                   )}
+                  {machine.recipe !== "lab_plate" &&
+                    !recipeAvailable(hud, machine.recipe) && (
+                      <option value={machine.recipe} disabled>
+                        {RECIPES[machine.recipe]?.name ?? "가공"} · 필요한 광맥
+                        해금 후 사용
+                      </option>
+                    )}
                   {Object.entries(RECIPES)
-                    .filter(([id]) => machineCanRecipe(machine, id))
+                    .filter(
+                      ([id]) =>
+                        machineCanRecipe(machine, id) &&
+                        recipeAvailable(hud, id),
+                    )
                     .map(([id, r]) => (
                       <option
                         key={id}
@@ -813,15 +831,35 @@ export default function CarryApp() {
               발사대에서 최종 발사
             </button>
           )}
-          {Object.keys(hud.machines).length === 0 && (
+          {hud.profile === "campaign" && !veinUnlocked(hud, "cable_scrap") && (
             <div className="first-steps hud-panel">
-              <b>첫 공방 만들기</b>
-              <span>① 설비 구매에서 40코인 작업대 구매</span>
-              <span>② 상자를 들고 E → 가까운 바닥 클릭</span>
-              <span>③ 광맥 E 채굴 → 가공 → 판매소 E 판매</span>
-              <button onClick={() => openModal("shop")}>작업대 구매하기</button>
+              <b>철에서 시작하는 공방</b>
+              <span>① 철광석에서 E 채굴</span>
+              <span>
+                ② 작업대 금색 받침대에 투입 → 청록 받침대에서 주괴 들기
+              </span>
+              <span>③ 판매소 E 판매 · 철판 가공으로 더 많은 수입</span>
+              <button onClick={() => openModal("veins")}>
+                구리 해금 · {researchCost(hud, VEIN_UNLOCKS.cable_scrap.cost)}{" "}
+                코인 · {VEIN_UNLOCKS.cable_scrap.xp} XP
+              </button>
             </div>
           )}
+          {hud.profile === "campaign" &&
+            veinUnlocked(hud, "cable_scrap") &&
+            SOURCES.some((s) => !veinUnlocked(hud, s.kind)) && (
+              <button
+                className="first-steps hud-panel"
+                onClick={() => openModal("veins")}
+              >
+                다음 광맥:{" "}
+                {
+                  ITEM[SOURCES.find((s) => !veinUnlocked(hud, s.kind))!.kind]
+                    .name
+                }{" "}
+                · 해금 조건 보기
+              </button>
+            )}
           <div className="carry-toast" role="status">
             {status !== "연결됨" ? status : ""}
           </div>
@@ -837,11 +875,17 @@ export default function CarryApp() {
       )}
       {graphics && (
         <div className="carry-graphics hud-panel" role="alert">
-          <strong>3D 화면을 시작하지 못했습니다</strong>
+          <strong>
+            {graphics.startsWith("SCENE_UPDATE_FAILED")
+              ? "화면 갱신 중 오류가 발생했습니다"
+              : "3D 화면을 시작하지 못했습니다"}
+          </strong>
           <p>
-            {graphics.startsWith("MODEL_LOAD")
-              ? "모델 파일을 불러오지 못했습니다."
-              : "브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다."}
+            {graphics.startsWith("SCENE_UPDATE_FAILED")
+              ? "저장된 작업장은 유지됩니다. 3D 다시 시작으로 화면을 복구하세요."
+              : graphics.startsWith("MODEL_LOAD")
+                ? "모델 파일을 불러오지 못했습니다."
+                : "브라우저에서 WebGL 2를 제공하지 않습니다. 실제 3D 화면과 이동을 표시할 수 없습니다."}
           </p>
           <details>
             <summary>오류 상세</summary>
@@ -868,9 +912,13 @@ export default function CarryApp() {
                 ? "조작 도움말"
                 : modal === "settings"
                   ? "설정"
-                  : ["upgrades", "shop", "machines", "characters"].includes(
-                        modal,
-                      )
+                  : [
+                        "upgrades",
+                        "shop",
+                        "machines",
+                        "veins",
+                        "characters",
+                      ].includes(modal)
                     ? "공방 성장"
                     : "메뉴"
             }
@@ -883,9 +931,13 @@ export default function CarryApp() {
                 ? "손에서 손으로, 우주까지"
                 : modal === "settings"
                   ? "작업 환경"
-                  : ["upgrades", "shop", "machines", "characters"].includes(
-                        modal,
-                      )
+                  : [
+                        "upgrades",
+                        "shop",
+                        "machines",
+                        "veins",
+                        "characters",
+                      ].includes(modal)
                     ? "내 손으로 키우는 공방"
                     : "작업장 메뉴"}
             </h2>
@@ -893,10 +945,12 @@ export default function CarryApp() {
             {modal === "help" ? (
               <>
                 <p>
-                  광맥에서 E로 쉽게 채굴한 뒤 가공기 입력 받침대 → 출력 부품 →
-                  발사대 소켓 순서로 옮깁니다. 단계가 높은 부품을 만들수록 가공
-                  XP와 판매·납품 대금을 더 받습니다. 기계 가까이에서 레시피를
-                  바꿀 수 있습니다.
+                  새 작업장은 0코인·낡은 작업대 1대·철광석으로 시작합니다. 광맥
+                  개발에서 구리·규석·석탄을 순서대로 해금하세요. 광맥에서 E로
+                  쉽게 채굴한 뒤 가공기 입력 받침대 → 출력 부품 → 발사대 소켓
+                  순서로 옮깁니다. 단계가 높은 부품을 만들수록 가공 XP와
+                  판매·납품 대금을 더 받습니다. 기계 가까이에서 레시피를 바꿀 수
+                  있습니다.
                 </p>
                 <dl>
                   {[
@@ -924,9 +978,13 @@ export default function CarryApp() {
                   동료와는 통과하며 기계·벽에는 막힙니다.
                 </p>
               </>
-            ) : ["upgrades", "shop", "machines", "characters"].includes(
-                modal,
-              ) &&
+            ) : [
+                "upgrades",
+                "shop",
+                "machines",
+                "veins",
+                "characters",
+              ].includes(modal) &&
               hud &&
               me ? (
               <WorkshopPanel

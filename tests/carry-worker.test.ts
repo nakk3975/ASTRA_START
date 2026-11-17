@@ -4,7 +4,11 @@ import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import worker, { D1CarryStore } from "../apps/sites-worker/index.ts";
 import { CarryService } from "../packages/carry-core/src/service.ts";
-import { spawn, assertCarry } from "../packages/carry-core/src/index.ts";
+import {
+  spawn,
+  assertCarry,
+  machinePort,
+} from "../packages/carry-core/src/index.ts";
 test("hosted HTTP adapter persists CAS commands in real SQLite using generated migration", async () => {
   const db = new DatabaseSync(":memory:");
   db.exec(readFileSync("drizzle/0000_abandoned_wolf_cub.sql", "utf8"));
@@ -122,6 +126,68 @@ test("hosted HTTP adapter persists CAS commands in real SQLite using generated m
       Object.values(saved!.world.players).filter((p) => p.hand === item).length,
       1,
     );
+    // Same hosted adapter, now exercising the zero-fund campaign and durable unlocks.
+    const campaign = (
+      await call("create", { name: "새 공방", planned: 1, profile: "campaign" })
+    ).data;
+    assert.equal(campaign.world.economy.coins, 0);
+    assert.equal(Object.keys(campaign.world.machines).length, 1);
+    assert.equal(campaign.world.veins.cable_scrap.unlocked, false);
+    await service.update(campaign.roomId, (row) => {
+      row.world.economy.coins = row.world.economy.earned = 100;
+      row.world.economy.xp = 100;
+      row.world.players[campaign.member].pos = machinePort(
+        row.world.machines["starter-bench"],
+      );
+    });
+    const unlock = {
+      id: crypto.randomUUID(),
+      seq: 1,
+      type: "UNLOCK_VEIN",
+      target: "cable_scrap",
+    };
+    for (let n = 0; n < 2; n++) {
+      const r = await call("sync", {
+        ...auth(campaign),
+        input: { x: 0, z: 0, epoch: 1, control: 0, frames: [] },
+        command: unlock,
+      });
+      assert.equal(r.status, 200, r.data.error);
+      assert.equal(r.data.result.ok, true);
+      assert.equal(r.data.world.economy.coins, 80);
+    }
+    const reopened = (await call("resume", auth(campaign))).data;
+    assert.equal(reopened.world.veins.cable_scrap.unlocked, true);
+    assert.equal(reopened.world.veins.plastic_scrap.unlocked, false);
+    for (const command of [
+      {
+        id: crypto.randomUUID(),
+        seq: 2,
+        type: "PACK_MACHINE",
+        target: "starter-bench",
+      },
+      {
+        id: crypto.randomUUID(),
+        seq: 3,
+        type: "PLACE_MACHINE",
+        machine: "bench",
+        x: -10,
+        z: -7,
+        rotation: 0,
+      },
+    ]) {
+      const r = await call("sync", {
+        ...auth(campaign),
+        input: { x: 0, z: 0, epoch: reopened.result, control: 0, frames: [] },
+        command,
+      });
+      assert.equal(r.status, 200, r.data.error);
+      assert.equal(r.data.result.ok, true, r.data.result.message);
+    }
+    const reload = await new D1CarryStore(binding).get(campaign.roomId);
+    assert.equal(Object.keys(reload!.world.machines).length, 1);
+    assert.equal(reload!.world.economy.coins, 80);
+    assertCarry(reload!.world);
   } finally {
     db.close();
   }

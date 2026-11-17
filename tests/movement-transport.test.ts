@@ -26,6 +26,7 @@ test("previous workshop saves retain progress and acknowledged movers can still 
   });
   const old = (await svc.store.get(s.roomId))!.world;
   old.rules = "workshop-3.0.0";
+  for (const v of Object.values(old.veins)) v.unlocked = true;
   const before = structuredClone(old);
   migrateCarry(old);
   migrateCarry(old);

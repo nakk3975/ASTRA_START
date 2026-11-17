@@ -1,3 +1,4 @@
+import { veinUnlocked } from "./progression.ts";
 import { CFG } from "./config.ts";
 import type { V3, World, Rect } from "./types.ts";
 export const MAP = {
@@ -40,7 +41,12 @@ export const machinePort = (
 };
 export function walls(w: World): Rect[] {
   return [
-    ...SOURCES.map((s) => ({ x: s.x, z: s.z, w: 1.8, d: 1.8 })),
+    ...SOURCES.filter((s) => veinUnlocked(w, s.kind)).map((s) => ({
+      x: s.x,
+      z: s.z,
+      w: 1.8,
+      d: 1.8,
+    })),
     ...Object.values(w.machines).map((m) => ({
       x: m.pos.x,
       z: m.pos.z,

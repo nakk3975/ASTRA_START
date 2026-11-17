@@ -7,6 +7,9 @@ import {
   MACHINE_UPGRADE_XP,
   MACHINE_TIER_SPEED,
   VEIN_UPGRADE_COST,
+  VEIN_UNLOCKS,
+  veinUnlocked,
+  veinUnlockReason,
   VEIN_UPGRADE_XP,
   DEVICE_PRICE,
   UPGRADES,
@@ -93,7 +96,7 @@ export function WorkshopPanel({
             상자를 구매한 뒤 직접 들고 <b>설치 모드 → 바닥 클릭</b>으로
             놓으세요. R로 방향을 바꿉니다.{" "}
             {Object.keys(w.machines).length === 0
-              ? "첫 설비는 40코인 낡은 작업대를 추천합니다."
+              ? "기본 작업대를 회수했다면 손의 상자를 다시 설치하세요."
               : ""}
           </p>
           {!space && (
@@ -320,15 +323,45 @@ export function WorkshopPanel({
       {tab === "veins" && (
         <>
           <p className="panel-intro">
-            각 광맥을 별도로 개발합니다. 수량은 1개로 유지하고{" "}
-            <b>품질과 채굴 속도</b>를 올립니다. 혼합 부품은 가장 낮은 재료
-            품질을 이어받으므로 한 광맥만 올려도 모든 부품 값이 오르지는
-            않습니다.
+            철 → 구리 → 규석 → 석탄 순서로 해금합니다. XP는 소비하지 않습니다.
+            해금한 광맥은 수량을 1개로 유지하고 <b>품질과 채굴 속도</b>를
+            올립니다. 혼합 부품은 가장 낮은 재료 품질을 이어받으므로 한 광맥만
+            올려도 모든 부품 값이 오르지는 않습니다.
           </p>
           <div className="shop-grid">
             {SOURCES.map((s) => {
               const v = w.veins[s.kind]!,
                 cost = researchCost(w, VEIN_UPGRADE_COST[v.level] ?? 0);
+              if (!veinUnlocked(w, s.kind)) {
+                const unlock = VEIN_UNLOCKS[s.kind],
+                  reason = veinUnlockReason(w, s.kind);
+                return (
+                  <article key={s.kind} className="locked-vein">
+                    <div className="shop-card-top">
+                      <span>미개방 광맥</span>
+                      <b>해금 필요</b>
+                    </div>
+                    <h3>{ITEM[s.kind].name}</h3>
+                    <p>
+                      {unlock.requires
+                        ? `${ITEM[unlock.requires].name} 해금 후 개방`
+                        : "첫 광맥"}
+                    </p>
+                    <small>
+                      {researchCost(w, unlock.cost)} 코인 · {unlock.xp} XP 필요
+                    </small>
+                    <p>
+                      팀 자금 {money} 코인 · 경험치 {xp} XP
+                    </p>
+                    <button
+                      disabled={!!reason}
+                      onClick={() => send("UNLOCK_VEIN", { target: s.kind })}
+                    >
+                      {reason || `${ITEM[s.kind].name} 광맥 해금`}
+                    </button>
+                  </article>
+                );
+              }
               return (
                 <article key={s.kind}>
                   <div className="shop-card-top">

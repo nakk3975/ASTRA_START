@@ -74,6 +74,10 @@ test("an action waits for movement split across packets without consuming its co
   let now = 0;
   const svc = new CarryService(new MemoryCarryStore(), () => now);
   const s = await svc.create("split", 1);
+  // These transport tests exercise a funded purchase, independently of new-game funds.
+  await svc.update(s.roomId, (row) => {
+    row.world.economy.coins = row.world.economy.earned = 80;
+  });
   const frames: MoveFrame[] = Array.from({ length: 50 }, (_, i) => ({
     seq: i + 1,
     dt: 0.02,
@@ -130,6 +134,10 @@ test("server time budget delays the action until its final frame and still rejec
   let now = 0;
   const svc = new CarryService(new MemoryCarryStore(), () => now),
     s = await svc.create("budget", 1);
+  // These transport tests exercise a funded purchase, independently of new-game funds.
+  await svc.update(s.roomId, (row) => {
+    row.world.economy.coins = row.world.economy.earned = 80;
+  });
   const cmd = command("BUY_MACHINE", { machine: "bench" });
   const input = {
     x: 0,
@@ -207,6 +215,10 @@ test("E/placement commands get an expedited request even while a regular HTTP sy
 test("resuming clears old movement barriers while keeping command identity for deduplicated recovery", async () => {
   const svc = new CarryService(new MemoryCarryStore()),
     s = await svc.create("resume", 1);
+  // These transport tests exercise a funded purchase, independently of new-game funds.
+  await svc.update(s.roomId, (row) => {
+    row.world.economy.coins = row.world.economy.earned = 80;
+  });
   const net = new CarryConnection();
   net.session = {
     roomId: s.roomId,

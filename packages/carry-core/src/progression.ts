@@ -7,6 +7,8 @@ import {
   MACHINE_TIER_SPEED,
   SALE_VALUE,
   CHARACTERS,
+  VEIN_UNLOCKS,
+  type OreKind,
   type Kind,
   type MachineKind,
 } from "./config.ts";
@@ -32,7 +34,7 @@ export const movementSpeed = (w: World, p: Player) =>
     : 1);
 export const researchCost = (w: World, base: number) =>
   Math.ceil(base * (1 + 0.15 * (w.planned - 1)));
-export const startingFunds = (planned: number) => 80 + 24 * (planned - 1);
+export const startingFunds = (_planned: number) => 0;
 export const machineCapacity = (m: Machine) => 2 + (m.tier ?? 0);
 export const machineSpeed = (w: World, m: Machine) =>
   MACHINE_TIER_SPEED[m.tier ?? 0] *
@@ -71,3 +73,37 @@ export const machineKind = (v: unknown): v is MachineKind =>
   typeof v === "string" && Object.hasOwn(MACHINE_CATALOG, v);
 export const nextResearch = (w: World, key: string) =>
   Object.hasOwn(UPGRADES, key) && !w.economy.upgrades.includes(key);
+
+export const veinUnlocked = (w: World, kind: Kind) =>
+  w.veins[kind]?.unlocked === true;
+export function veinUnlockReason(w: World, kind: Kind) {
+  if (!Object.hasOwn(VEIN_UNLOCKS, kind)) return "알 수 없는 광맥입니다.";
+  if (veinUnlocked(w, kind)) return "이미 열린 광맥입니다.";
+  const spec = VEIN_UNLOCKS[kind as OreKind];
+  if (spec.requires && !veinUnlocked(w, spec.requires))
+    return `${ITEM[spec.requires].name}부터 해금하세요.`;
+  if (w.economy.xp < spec.xp) return `${spec.xp} XP가 필요합니다.`;
+  const cost = researchCost(w, spec.cost);
+  if (w.economy.coins < cost) return `${cost} 코인이 필요합니다.`;
+  return "";
+}
+/** Hide recipes whose raw materials have not yet been discovered. */
+export function recipeAvailable(w: World, id: string): boolean {
+  if (id === "lab_plate") return w.profile === "lab";
+  const recipe = RECIPES[id];
+  if (!recipe) return false;
+  const available = (kind: Kind, seen: Set<Kind>): boolean => {
+    if (Object.hasOwn(VEIN_UNLOCKS, kind)) return veinUnlocked(w, kind);
+    if (seen.has(kind)) return false;
+    const producer = Object.values(RECIPES).find((r) => r.output === kind);
+    return (
+      !!producer &&
+      Object.keys(producer.input).every((k) =>
+        available(k as Kind, new Set([...seen, kind])),
+      )
+    );
+  };
+  return Object.keys(recipe.input).every((k) =>
+    available(k as Kind, new Set()),
+  );
+}

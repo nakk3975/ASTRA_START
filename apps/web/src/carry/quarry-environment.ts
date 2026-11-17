@@ -1,6 +1,6 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { MARKET, SOURCES } from "../../../../packages/carry-core/src/index.ts";
+import { MARKET } from "../../../../packages/carry-core/src/index.ts";
 
 /** Original outdoor quarry scenery. Decorations stay outside the walkable boundary.
  * Static meshes share a material batch, keeping the scenery cheap on small GPUs. */
@@ -166,21 +166,6 @@ export function quarryEnvironment() {
   );
   ramp.computeVertexNormals();
   add(ramp, "#c5b08b", 0, 0, 0);
-  // Rubble belongs to each ore footprint; no metal bins or scattered scrap.
-  for (const src of SOURCES)
-    for (let i = 0; i < 5; i++) {
-      const a = i * 2.4;
-      rock(
-        src.x + Math.cos(a) * 0.75,
-        0.1,
-        src.z + Math.sin(a) * 0.75,
-        0.2,
-        0.13,
-        0.17,
-        "#b5a17d",
-        a,
-      );
-    }
   for (const [color, parts] of batches) {
     const merged = mergeGeometries(parts, false)!;
     parts.forEach((g) => g.dispose());
