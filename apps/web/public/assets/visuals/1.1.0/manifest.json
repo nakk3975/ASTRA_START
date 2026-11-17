@@ -1,7 +1,292 @@
 {
   "version": "1.1.0",
-  "status": "PILOT_GPU_REVIEW_BLOCKED",
+  "status": "ALL_MODELS_GENERATED_GPU_REVIEW_PENDING",
   "assets": [
+    {
+      "id": "assembler",
+      "sourceTaskId": "01a1e753-ec1e-76f8-b119-9f96ad44c75b",
+      "sourceImageTaskId": "01a1e74b-21e8-73ac-a687-a0dac80006a6",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.9,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/assembler-lod0.9cf27f3decd3.glb",
+          "sha256": "9cf27f3decd3fb6e580ba10ce5db12e7447b050de7b096ec16bf688cdc7f1c6c",
+          "bytes": 180972,
+          "triangles": 2951,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/assembler-lod1.25a703f1ff08.glb",
+          "sha256": "25a703f1ff08089234895d2215e37eff454da5c6710bc175d9ba098fe3fe0a6a",
+          "bytes": 112444,
+          "triangles": 844,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/assembler.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "cargo_pod",
+      "sourceTaskId": "01a1e754-6707-7636-b0af-7a5b5861ca1e",
+      "sourceImageTaskId": "01a1e74d-5392-7080-b1e5-e8b97c96612c",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.32,
+        "y": 0.24,
+        "z": 0.42
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/cargo_pod-lod0.eabd8b11177f.glb",
+          "sha256": "eabd8b11177f65557f8ea994e27669b7e17173b0ad9e76f966f816e92cb759e9",
+          "bytes": 30912,
+          "triangles": 176,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                256,
+                256
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/cargo_pod-lod1.68e56e8f801e.glb",
+          "sha256": "68e56e8f801e8f74394561e3603c84d60e2f08c21e0d7d4bfc85fd03afbd6f35",
+          "bytes": 23740,
+          "triangles": 90,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                256,
+                256
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/cargo_pod.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "extractor",
+      "sourceTaskId": "01a1e754-0bb3-7792-8332-0ece8adc9bf2",
+      "sourceImageTaskId": "01a1e74b-3c1d-761f-b505-fe07a7238d79",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 2.4,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/extractor-lod0.325251e35966.glb",
+          "sha256": "325251e35966f0f8549f253c29d34d9bf0660f33e34881a2ad2ad5dca29f1726",
+          "bytes": 155540,
+          "triangles": 2116,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/extractor-lod1.07a95853419f.glb",
+          "sha256": "07a95853419fdad9164e82b95c605b9cef853f02b7d4987d4d494fd68db0a3f9",
+          "bytes": 107128,
+          "triangles": 751,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/extractor.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "fabricator",
+      "sourceTaskId": "01a1e74f-096d-7024-a756-59b92976d922",
+      "sourceImageTaskId": "01a1e74a-a6ec-771d-b05b-2992481e4f4d",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/fabricator-lod0.76fc0bf252f9.glb",
+          "sha256": "76fc0bf252f99d0b481ce5c7858bffb244b1aaed5898b20c8c909f663b4f4824",
+          "bytes": 156104,
+          "triangles": 2473,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/fabricator-lod1.e9345e779a7a.glb",
+          "sha256": "e9345e779a7a1f4e7eb4ded7394f8e9d5a6e6e82256d8c20d33f77e538fe0a72",
+          "bytes": 105080,
+          "triangles": 889,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/fabricator.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "logistics_hub",
+      "sourceTaskId": "01a1e754-4982-72e6-bb1c-f121a2f7bffe",
+      "sourceImageTaskId": "01a1e74b-6ed4-7764-a2c5-995175f6412c",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/logistics_hub-lod0.867a3a5f3a87.glb",
+          "sha256": "867a3a5f3a872e3b19a71bfa17c6449fc45a90af4145020b83f9e999c70354b4",
+          "bytes": 136180,
+          "triangles": 1767,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/logistics_hub-lod1.b58e6331a677.glb",
+          "sha256": "b58e6331a677cb27ce78fec0ad49950ccb76bd0c5dfe9018fae33d9cb2126fa1",
+          "bytes": 96016,
+          "triangles": 640,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/logistics_hub.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
     {
       "id": "processor",
       "sourceTaskId": "01a1e4f3-5f0f-7449-8820-adbd7112b595",
@@ -53,6 +338,349 @@
         }
       ],
       "sourceCreditCost": 24,
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED",
+      "previewImage": "/assets/visuals/1.1.0/previews/processor.webp"
+    },
+    {
+      "id": "recovery_crate",
+      "sourceTaskId": "01a1e754-bb44-707f-b3f7-8adbe82ec91f",
+      "sourceImageTaskId": "01a1e74d-6936-7091-acda-bac6a8192535",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.55,
+        "y": 0.4,
+        "z": 0.55
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/recovery_crate-lod0.5bcfb9ef23cc.glb",
+          "sha256": "5bcfb9ef23cc1e24aab9f33b5f7295c2ce0078f7efa67bb3109becfced71d361",
+          "bytes": 34848,
+          "triangles": 224,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                256,
+                256
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/recovery_crate-lod1.51982539a794.glb",
+          "sha256": "51982539a794af53a632e92c8c42a0eba3029476889bdc1b95c255501aef3fdf",
+          "bytes": 25392,
+          "triangles": 112,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                256,
+                256
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/recovery_crate.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "recovery_vault",
+      "sourceTaskId": "01a1e74e-d110-774c-a94d-26878ad359ea",
+      "sourceImageTaskId": "01a1e74a-7778-7370-87ba-aa776a00eeb8",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.3,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/recovery_vault-lod0.09021ce7a554.glb",
+          "sha256": "09021ce7a554fa32cec408f8b5dbe642515e9418625adc9c4a9b1fc05ff4b3a6",
+          "bytes": 104624,
+          "triangles": 1192,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/recovery_vault-lod1.fb5b4d5bf2d3.glb",
+          "sha256": "fb5b4d5bf2d38945b81f1976dd24bb777feb675a6b64e1c344f21667e3cdb572",
+          "bytes": 80460,
+          "triangles": 480,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/recovery_vault.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "refinery",
+      "sourceTaskId": "01a1e753-ceef-762d-85cf-a8c92144087c",
+      "sourceImageTaskId": "01a1e74b-0aee-700e-86c8-16fd5cb32f42",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 2,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/refinery-lod0.932c17cee3b9.glb",
+          "sha256": "932c17cee3b9de96f828831c724ecd6dcf35fbe8831f9f7f3a9e8698d44a3808",
+          "bytes": 170044,
+          "triangles": 2596,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/refinery-lod1.1831ad134ffe.glb",
+          "sha256": "1831ad134ffe337eb45619c473a996dfbca6f56f5baf0a06e6ad86f87242ea03",
+          "bytes": 109804,
+          "triangles": 843,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/refinery.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_engine",
+      "sourceTaskId": "01a1e756-4c71-7760-b18b-dc0061c084d0",
+      "sourceImageTaskId": "01a1e74e-3aa9-7055-afc6-d0c1590962f6",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_engine-lod0.2b9871da3c02.glb",
+          "sha256": "2b9871da3c0272d55e35c496b38aa32c9537135c0308614ebdb0ccceb978a169",
+          "bytes": 146188,
+          "triangles": 2349,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_engine-lod1.0c8cd5b6426c.glb",
+          "sha256": "0c8cd5b6426cae696926d78c725b48f0a75db2da843b227ff38a5aac040b2b72",
+          "bytes": 111896,
+          "triangles": 1221,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_engine.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_fin",
+      "sourceTaskId": "01a1e756-8980-72f2-be56-c07ae2d9376b",
+      "sourceImageTaskId": "01a1e74f-3f7b-7422-9105-2206c614cd52",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.7,
+        "y": 1.2,
+        "z": 0.18
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_fin-lod0.7ac7fcf88bd7.glb",
+          "sha256": "7ac7fcf88bd75f0e112ba5392e651fa9be23cff3cba5949239d7000b6883882c",
+          "bytes": 69528,
+          "triangles": 562,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_fin-lod1.a19e71113116.glb",
+          "sha256": "a19e711131160806438a216f388902423f9d81ebf3f2e673797e571c870b5fa0",
+          "bytes": 54264,
+          "triangles": 280,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_fin.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_gantry",
+      "sourceTaskId": "01a1e756-1205-7349-a81f-ce77b8f7d0f4",
+      "sourceImageTaskId": "01a1e74e-0cbd-76a2-bbb0-c235cfdf176b",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 4.2,
+        "y": 6,
+        "z": 3.6
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_gantry-lod0.d8d19e3b3ac7.glb",
+          "sha256": "d8d19e3b3ac76103b0cb98ec0c9f4956f9f5c0cc4ba8432e4df9bf6c98ea760a",
+          "bytes": 222944,
+          "triangles": 3838,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_gantry-lod1.fef98b7bad20.glb",
+          "sha256": "fef98b7bad2051d2e99302533b10ff9e139ade525e83debc31e355c19f95c300",
+          "bytes": 168472,
+          "triangles": 1879,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_gantry.webp",
       "fileValidation": "PASS",
       "gpuValidation": "BLOCKED_WEBGL_DISABLED"
     },
@@ -107,6 +735,691 @@
         }
       ],
       "sourceCreditCost": 24,
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED",
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_lower_hull.webp"
+    },
+    {
+      "id": "rocket_nose",
+      "sourceTaskId": "01a1e756-692f-7004-b6b4-26a464740460",
+      "sourceImageTaskId": "01a1e74f-2872-724a-82d0-0d6b6aef165c",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 2,
+        "y": 1.6,
+        "z": 2
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_nose-lod0.e16e141e534b.glb",
+          "sha256": "e16e141e534b2f9bca507a033c79fc8741a94c69acee794f5ca50e55871d1544",
+          "bytes": 114692,
+          "triangles": 1878,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_nose-lod1.8e9141f07fec.glb",
+          "sha256": "8e9141f07fec0ca8cfcf53fd692a6628f279e2eb40f7c00d6e9cb61ad9477f49",
+          "bytes": 84172,
+          "triangles": 845,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_nose.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_pad",
+      "sourceTaskId": "01a1e755-4ed5-7706-8733-b3cc16eb8c05",
+      "sourceImageTaskId": "01a1e74d-f70b-71ee-aec6-dbd230366051",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 4.6,
+        "y": 0.25,
+        "z": 5.6
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_pad-lod0.f3b9f3ec8c9f.glb",
+          "sha256": "f3b9f3ec8c9f54ae46891d30d7bc41dbd8991ca846453927dbd4808e2e88d11e",
+          "bytes": 131192,
+          "triangles": 1878,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_pad-lod1.0d1af574b11a.glb",
+          "sha256": "0d1af574b11a2dc25c9e6dd60ebf7332e732bcd0fb4cde1eae079773d1e44c2a",
+          "bytes": 102456,
+          "triangles": 939,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_pad.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_panel",
+      "sourceTaskId": "01a1e756-a61a-764a-9115-7ccc9121f333",
+      "sourceImageTaskId": "01a1e74f-55f9-77b7-a33a-b5ef4b15df8e",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.55,
+        "y": 0.65,
+        "z": 0.12
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_panel-lod0.fd450cef0957.glb",
+          "sha256": "fd450cef09575c2221ef1909070267d2648cf28499f41291f0360eb6b2a22e9b",
+          "bytes": 60952,
+          "triangles": 376,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_panel-lod1.a3fa0b46c9f6.glb",
+          "sha256": "a3fa0b46c9f6088b35942a5f1d0163e4841bbbe8a1c73874ba1b5996817753db",
+          "bytes": 49984,
+          "triangles": 186,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_panel.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "rocket_upper_hull",
+      "sourceTaskId": "01a1e756-2f6b-73e7-835b-d7fdbee34a8d",
+      "sourceImageTaskId": "01a1e74e-24a3-74e7-9e26-d424c656d7d0",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/rocket_upper_hull-lod0.51b5d45e5c1f.glb",
+          "sha256": "51b5d45e5c1fb4a8a3ecf29b571467c7e0c0d42ee933f64a3b9ef86064aea766",
+          "bytes": 146784,
+          "triangles": 2819,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/rocket_upper_hull-lod1.c50541f47ca5.glb",
+          "sha256": "c50541f47ca5f94297cd13123ac99cd36e32ca8a824f73481f2c815c6bf8241e",
+          "bytes": 114720,
+          "triangles": 1598,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/rocket_upper_hull.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "solar_array",
+      "sourceTaskId": "01a1e754-2a28-7778-864f-3d3bf140c802",
+      "sourceImageTaskId": "01a1e74b-54eb-7226-9ecf-9090c2235691",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 0.8,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/solar_array-lod0.2c68177e36df.glb",
+          "sha256": "2c68177e36df43545f92349d9ff4650f0f8f834ee99073915b6df8f1ddd84e9d",
+          "bytes": 94656,
+          "triangles": 894,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/solar_array-lod1.5a667843539f.glb",
+          "sha256": "5a667843539f741696001e4e2047d086b43edf15c551e2a1cf0bb358d392559f",
+          "bytes": 73940,
+          "triangles": 423,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/solar_array.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "source_cable",
+      "sourceTaskId": "01a1e754-f637-77a3-98d1-ffe2485a163e",
+      "sourceImageTaskId": "01a1e74d-95da-774e-adcc-def119809bee",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_cable-lod0.a55642255dac.glb",
+          "sha256": "a55642255dac1b0f6980e8509e602e5e25b7fd1061084666bbcb550fb401bcd0",
+          "bytes": 84208,
+          "triangles": 563,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_cable-lod1.6791b208a1b8.glb",
+          "sha256": "6791b208a1b8df6837cb7972a6425f239d3f9cd6fe8715923662902605a60bf9",
+          "bytes": 63988,
+          "triangles": 280,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_cable.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "source_energy",
+      "sourceTaskId": "01a1e755-30dd-747e-8a94-1625664f14c0",
+      "sourceImageTaskId": "01a1e74d-e0b1-76d8-b298-0cda9b27669b",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_energy-lod0.8cf5296831a0.glb",
+          "sha256": "8cf5296831a06a72d789d41c88e429aa0a13afca147f958d1e1ce958ed68a6c4",
+          "bytes": 87940,
+          "triangles": 787,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_energy-lod1.6d4ababa412d.glb",
+          "sha256": "6d4ababa412d396fdee62f8c6cfc8bdbf0a9bc84e7186356e523dbcf88fdc26f",
+          "bytes": 65560,
+          "triangles": 282,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_energy.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "source_metal",
+      "sourceTaskId": "01a1e754-d9ae-74bd-a2c2-fe59739c9b2d",
+      "sourceImageTaskId": "01a1e74d-7f6a-73df-bdfb-715fbe0e6019",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_metal-lod0.4734c52f6053.glb",
+          "sha256": "4734c52f6053641b9e266639bc02bc12a9cf86662160526b648d4ae772ce6d25",
+          "bytes": 82312,
+          "triangles": 752,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_metal-lod1.fc5208d5b78a.glb",
+          "sha256": "fc5208d5b78a48dd2a93c9d750aa6e03de0b1ba09b1972c04fa4c6b665dcb6ad",
+          "bytes": 54256,
+          "triangles": 280,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_metal.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "source_plastic",
+      "sourceTaskId": "01a1e755-1384-7517-8bad-7d7eddb04486",
+      "sourceImageTaskId": "01a1e74d-ab7a-7620-a9bf-92ac6435fdd7",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 0.7,
+        "y": 0.15,
+        "z": 0.7
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/source_plastic-lod0.66757f9818db.glb",
+          "sha256": "66757f9818db4e6903fa7e6b1b045f5ac4c56b0bdf23571ecfe7d8a6321bb2d1",
+          "bytes": 89372,
+          "triangles": 751,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/source_plastic-lod1.92dfeb2edf48.glb",
+          "sha256": "92dfeb2edf48e09e5a8e0c68adf74c248f2c8bfb9b8d65ab6060da89f8939266",
+          "bytes": 62544,
+          "triangles": 281,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/source_plastic.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "starter_generator",
+      "sourceTaskId": "01a1e74e-ed2b-7323-a7ea-3271a5cc3295",
+      "sourceImageTaskId": "01a1e74a-8f16-71b4-a3b7-940971057709",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.4,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/starter_generator-lod0.53248247c72c.glb",
+          "sha256": "53248247c72cba739db7f32cac59d99d7d18156ee4ab40536d4c0179ca36fd09",
+          "bytes": 135152,
+          "triangles": 1503,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/starter_generator-lod1.169b9769312e.glb",
+          "sha256": "169b9769312e9cd1256ccbc14eb3ae36394b672efd700e17098308368e576653",
+          "bytes": 91592,
+          "triangles": 563,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/starter_generator.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "warehouse",
+      "sourceTaskId": "01a1e74e-b63d-7562-8011-a8629665906c",
+      "sourceImageTaskId": "01a1e74a-5f69-75db-b453-8bd5139a73d6",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.6,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/warehouse-lod0.d5af45ae4d76.glb",
+          "sha256": "d5af45ae4d769e32df7b60ec552c94c48906ebc8b6400ecafb2e0819fdc89724",
+          "bytes": 140864,
+          "triangles": 1879,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/warehouse-lod1.3505a50fc14e.glb",
+          "sha256": "3505a50fc14e81183c4a5a64b3e70297dee22ebc03aab84fe83d21c38f423080",
+          "bytes": 90984,
+          "triangles": 657,
+          "simplification": "permissive-seam-collapse; visual-review-pending",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/warehouse.webp",
+      "fileValidation": "PASS",
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+    },
+    {
+      "id": "workbench",
+      "sourceTaskId": "01a1e74e-92f9-7599-b44b-7452768589a5",
+      "sourceImageTaskId": "01a1e74a-464a-7619-a489-6c5d991790da",
+      "geometryModel": "meshy-t2",
+      "textureModel": "meshy-n1",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "review": "PENDING_GAME_REVIEW",
+      "boundsMax": {
+        "x": 1.8,
+        "y": 1.2,
+        "z": 1.8
+      },
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "url": "/assets/visuals/1.1.0/workbench-lod0.63311ebaf182.glb",
+          "sha256": "63311ebaf182a5661f5a422b282ca7284472df2a9e827029da1604c7ee3e33f3",
+          "bytes": 182828,
+          "triangles": 2901,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "url": "/assets/visuals/1.1.0/workbench-lod1.93a0376998f8.glb",
+          "sha256": "93a0376998f8104adad4f53692393d45c57a8c560ff5238bba62eeb90dfeaf53",
+          "bytes": 113608,
+          "triangles": 845,
+          "simplification": "standard",
+          "materials": 1,
+          "textures": [
+            {
+              "size": [
+                512,
+                512
+              ],
+              "mime": "image/webp"
+            }
+          ]
+        }
+      ],
+      "sourceCreditCost": 24,
+      "previewImage": "/assets/visuals/1.1.0/previews/workbench.webp",
       "fileValidation": "PASS",
       "gpuValidation": "BLOCKED_WEBGL_DISABLED"
     },
@@ -177,9 +1490,10 @@
       "locomotionSource": "rigging included walking",
       "sourceCreditCost": 41,
       "fileValidation": "PASS",
-      "gpuValidation": "BLOCKED_WEBGL_DISABLED"
+      "gpuValidation": "BLOCKED_WEBGL_DISABLED",
+      "previewImage": "/assets/visuals/1.1.0/previews/worker.webp"
     }
   ],
-  "totalSourceCredits": 89,
-  "remainingAssets": 23
+  "totalSourceCredits": 641,
+  "remainingAssets": 0
 }

@@ -12,12 +12,15 @@ const dir = "apps/web/public",
   manifest = JSON.parse(
     await fs.readFile(dir + "/assets/visuals/1.1.0/manifest.json", "utf8"),
   );
-test("pilot GLB bytes, texture/triangle caps, skeleton and clip data are real", async () => {
-  assert.deepEqual(manifest.assets.map((a: any) => a.id).sort(), [
-    "processor",
-    "rocket_lower_hull",
-    "worker",
-  ]);
+test("all 26 catalog models have real GLBs within both LOD budgets", async () => {
+  const catalog = JSON.parse(
+    await fs.readFile("design/asset_catalog_v1_1.json", "utf8"),
+  );
+  assert.equal(manifest.assets.length, 26);
+  assert.deepEqual(
+    manifest.assets.map((a: any) => a.id).sort(),
+    catalog.assets.map((a: any) => a.id).sort(),
+  );
   const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
   for (const a of manifest.assets)
     for (const l of a.lods) {
@@ -35,6 +38,11 @@ test("pilot GLB bytes, texture/triangle caps, skeleton and clip data are real", 
             (p.getIndices()?.getCount() ??
               p.getAttribute("POSITION")!.getCount()) / 3;
       assert.equal(tris, l.triangles);
+      const spec = catalog.assets.find((s: any) => s.id === a.id);
+      assert.ok(
+        tris <= spec[l.level === 0 ? "lod0_triangle_cap" : "lod1_triangle_cap"],
+        `${a.id} LOD${l.level} triangle budget`,
+      );
       assert.equal(d.getRoot().listMaterials().length, 1);
       for (const t of d.getRoot().listTextures())
         assert.ok(

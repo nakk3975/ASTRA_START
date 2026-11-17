@@ -19,6 +19,7 @@ import {
   createSilhouette,
 } from "./visuals/occlusion";
 import { rocketPresentation } from "./visuals/rocket";
+import { moveInPlayground } from "./visuals/playground";
 import {
   assetInstance,
   preloadAssets,
@@ -61,7 +62,13 @@ type Props = {
   onGround: (p: Point) => void;
   onError: (s: string) => void;
   pilot?: boolean;
-  review?: { clip: string; count: number; rotation: number };
+  review?: {
+    clip: string;
+    count: number;
+    rotation: number;
+    assetId?: string;
+    interactive?: boolean;
+  };
 };
 type Entity = {
   node: T.Group;
@@ -101,17 +108,25 @@ export function WorldView(props: Props) {
       element.append(card);
     };
     let renderer: T.WebGLRenderer;
+    const canvas = document.createElement("canvas");
+    let contextReason = "";
+    canvas.addEventListener("webglcontextcreationerror", (event) => {
+      contextReason = (event as WebGLContextEvent).statusMessage;
+    });
     try {
       renderer = new T.WebGLRenderer({
+        canvas,
         antialias: false,
         alpha: false,
-        powerPreference: "high-performance",
+        powerPreference: "default",
+        failIfMajorPerformanceCaveat: false,
       });
     } catch (e) {
       element.dataset.metrics = JSON.stringify({
         webgl: false,
         loaded: false,
         reason: "WEBGL_UNAVAILABLE",
+        detail: contextReason || (e instanceof Error ? e.message : String(e)),
       });
       recovery(
         "3D 화면을 시작할 수 없습니다. 브라우저의 그래픽 가속을 확인한 뒤 다시 시도해 주세요. 저장된 작업장은 유지됩니다.",
@@ -122,6 +137,7 @@ export function WorldView(props: Props) {
     renderer.setClearColor("#dce4da");
     renderer.outputColorSpace = T.SRGBColorSpace;
     renderer.domElement.setAttribute("aria-label", "고철로 우주까지 3D 작업장");
+    renderer.domElement.tabIndex = 0;
     element.append(renderer.domElement);
     const scene = new T.Scene(),
       camera = new T.OrthographicCamera(-22, 22, 11, -11, 0.1, 200),
@@ -391,6 +407,9 @@ export function WorldView(props: Props) {
       ghost: Entity | null = null,
       ghostKey = "",
       initialized = false;
+    let pilotPosition = { x: 22, z: 20 };
+    let oldPilotReset = viewControl.pilotReset;
+    let pilotMoving = false;
     let contextLost = false;
     const status = document.createElement("div");
     status.className = "world-status";
@@ -418,6 +437,8 @@ export function WorldView(props: Props) {
       pointer = new T.Vector2();
     function pointerdown(e: PointerEvent) {
       if (contextLost) return;
+      if (latest.current.pilot)
+        renderer.domElement.focus({ preventScroll: true });
       drag = { x: e.clientX, y: e.clientY, pan: e.button === 1 };
       if (drag.pan) {
         e.preventDefault();
@@ -476,6 +497,7 @@ export function WorldView(props: Props) {
     function hidden() {
       controller.vx = controller.vz = 0;
       viewControl.input = { x: 0, z: 0 };
+      viewControl.pilotInput = { x: 0, z: 0 };
       viewControl.resync = true;
       previous = performance.now();
     }
@@ -542,11 +564,44 @@ export function WorldView(props: Props) {
       }
       if (loaded) {
         if (p.pilot) {
+          if (oldPilotReset !== viewControl.pilotReset) {
+            oldPilotReset = viewControl.pilotReset;
+            pilotPosition = { x: 22, z: 20 };
+            controller.recenter(pilotPosition);
+          }
+          const beforePilot = pilotPosition;
+          if (p.review?.interactive)
+            pilotPosition = moveInPlayground(
+              pilotPosition,
+              viewControl.pilotInput,
+              dt,
+              catalog.assets.find(
+                (a) => a.id === (p.review?.assetId ?? "processor"),
+              )?.bounds_max_tiles,
+            );
+          pilotMoving =
+            Math.hypot(
+              pilotPosition.x - beforePilot.x,
+              pilotPosition.z - beforePilot.z,
+            ) > 0.00001;
+          const selectedAsset = p.review?.assetId ?? "processor";
+          for (const [key, old] of entities) {
+            if (
+              key.startsWith("pilot:asset:") &&
+              key !== `pilot:asset:${selectedAsset}`
+            ) {
+              old.dispose();
+              entities.delete(key);
+            }
+          }
           for (const [id, x, z] of [
-            ["processor", 23, 16],
+            [selectedAsset, 23, 16],
             ["rocket_lower_hull", 27, 16],
           ] as const) {
-            const key = `pilot:${id}`;
+            const key =
+              id === selectedAsset && x === 23
+                ? `pilot:asset:${id}`
+                : `pilot:${id}`;
             const rotation = p.review?.rotation ?? 0;
             const old = entities.get(key);
             if (old && old.node.userData.reviewRotation !== rotation) {
@@ -590,10 +645,24 @@ export function WorldView(props: Props) {
                 "carry_locomotion",
                 "celebrate",
               ];
-              const clip =
+              let clip =
                 p.review?.clip === "independent"
                   ? names[i % names.length]
                   : (p.review?.clip ?? "idle");
+              if (i === 0 && p.review?.interactive) {
+                e.node.position.set(pilotPosition.x, 0, pilotPosition.z);
+                e.visual.root.rotation.y = Math.PI;
+                if (pilotMoving) {
+                  e.node.rotation.y = Math.atan2(
+                    -(pilotPosition.x - beforePilot.x),
+                    -(pilotPosition.z - beforePilot.z),
+                  );
+                  clip =
+                    p.review.clip === "carry_locomotion"
+                      ? "carry_locomotion"
+                      : "locomotion";
+                }
+              }
               playClip(e.visual, clip);
               e.visual.mixer?.update(dt);
             }
@@ -787,7 +856,6 @@ export function WorldView(props: Props) {
             let e = cargo.get(c.id);
             if (!e) {
               e = entity("cargo:" + c.id, "cargo_pod", 0, 0);
-              e.node.scale.setScalar(0.3);
               cargo.set(c.id, e);
             }
             const a = geometry(w, c.from).delivery_distance_anchor,
@@ -865,7 +933,9 @@ export function WorldView(props: Props) {
         anchor = player
           ? { x: player.position.x, z: player.position.z }
           : p.pilot
-            ? { x: 24, z: 18 }
+            ? p.review?.interactive
+              ? pilotPosition
+              : { x: 24, z: 18 }
             : { x: 24, z: 16 };
       if (!initialized && loaded) {
         controller.recenter(anchor);
@@ -1064,7 +1134,22 @@ export function WorldView(props: Props) {
         drawCalls: renderer.info.render.calls,
         camera: { elevation: 55, azimuth: 45, span, target: [tx, ty, tz] },
         pilot: p.pilot ?? false,
-        review: p.review,
+        review: p.review
+          ? {
+              ...p.review,
+              clip: pilotMoving
+                ? p.review.clip === "carry_locomotion"
+                  ? "carry_locomotion"
+                  : "locomotion"
+                : p.review.clip,
+            }
+          : undefined,
+        pilotPosition: p.pilot ? pilotPosition : undefined,
+        context: {
+          version: renderer
+            .getContext()
+            .getParameter(renderer.getContext().VERSION),
+        },
       };
       element.dataset.metrics = JSON.stringify(metrics);
     }

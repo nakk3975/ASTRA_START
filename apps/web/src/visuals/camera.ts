@@ -128,6 +128,8 @@ export class FixedCamera {
   }
 }
 export const viewControl = {
+  pilotInput: { x: 0, z: 0 },
+  pilotReset: 0,
   graphicsReady: false,
   input: { x: 0, z: 0 },
   inputAt: 0,

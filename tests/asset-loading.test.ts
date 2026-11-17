@@ -28,7 +28,7 @@ const manifest: Manifest = {
     },
   ],
 };
-test("the shipped manifest and all six LOD files pass the production cache path", async () => {
+test("the shipped manifest and all 52 LOD files pass the production cache path", async () => {
   const root = new URL("../apps/web/public/", import.meta.url);
   const cache = new AssetCache(
     async (data) => data.byteLength,
@@ -39,12 +39,17 @@ test("the shipped manifest and all six LOD files pass the production cache path"
     },
   );
   const loaded = await cache.load();
-  assert.deepEqual(loaded.assets.map((a) => a.id).sort(), [
-    "processor",
-    "rocket_lower_hull",
-    "worker",
-  ]);
-  assert.equal(cache.values.size, 6);
+  const catalog = JSON.parse(
+    await readFile(
+      new URL("../design/asset_catalog_v1_1.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    loaded.assets.map((a) => a.id).sort(),
+    catalog.assets.map((a: { id: string }) => a.id).sort(),
+  );
+  assert.equal(cache.values.size, 52);
   assert.ok(cache.values.get("rocket_lower_hull:0"));
 });
 function source(m = manifest): typeof fetch {

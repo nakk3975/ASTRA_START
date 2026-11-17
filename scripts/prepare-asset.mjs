@@ -71,6 +71,7 @@ for (const [level, cap] of [
   [0, spec.lod0_triangle_cap],
   [1, spec.lod1_triangle_cap],
 ]) {
+  let simplification = "standard";
   let n = triangles(doc);
   if (n > cap)
     await doc.transform(
@@ -81,6 +82,38 @@ for (const [level, cap] of [
       }),
     );
   n = triangles(doc);
+  if (n > cap) {
+    // A first pass can stop at its error threshold before reaching the LOD budget.
+    await doc.transform(
+      simplify({
+        simplifier: MeshoptSimplifier,
+        ratio: (cap / n) * 0.9,
+        error: 1,
+      }),
+    );
+    n = triangles(doc);
+  }
+  if (n > cap) {
+    // UV/normal seams can be a hard topology floor. Allow local seam collapses
+    // for the budgeted LOD; original vertex attributes and source files remain.
+    const seamSimplifier = {
+      ...MeshoptSimplifier,
+      simplify: (indices, positions, stride, target, error, flags) =>
+        MeshoptSimplifier.simplify(indices, positions, stride, target, error, [
+          ...flags,
+          "Permissive",
+        ]),
+    };
+    await doc.transform(
+      simplify({
+        simplifier: seamSimplifier,
+        ratio: (cap / n) * 0.94,
+        error: 0.15,
+      }),
+    );
+    n = triangles(doc);
+    simplification = "permissive-seam-collapse; visual-review-pending";
+  }
   if (n > cap)
     throw Error(`Triangle budget exceeded ${id} LOD${level}: ${n}>${cap}`);
   const data = await io.writeBinary(doc),
@@ -95,6 +128,7 @@ for (const [level, cap] of [
     sha256: sha,
     bytes: data.length,
     triangles: n,
+    simplification,
     materials: doc.getRoot().listMaterials().length,
     textures: doc
       .getRoot()

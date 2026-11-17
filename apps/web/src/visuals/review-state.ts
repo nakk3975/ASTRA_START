@@ -4,13 +4,19 @@ export type ReviewSettings = {
   clip: string;
   count: number;
   rotation: number;
+  assetId?: string;
 };
 export type ReviewMetrics = {
   webgl?: boolean;
   loaded?: boolean;
   css?: number[];
   quality?: string;
-  review?: { clip?: string; count?: number; rotation?: number };
+  review?: {
+    clip?: string;
+    count?: number;
+    rotation?: number;
+    assetId?: string;
+  };
   triangles?: number;
   drawCalls?: number;
 };
@@ -23,6 +29,7 @@ export type ReviewRecord = {
   clip: string;
   count: number;
   rotation: number;
+  assetId?: string;
   measurements: ReviewMetrics;
   manifestHash: string;
 };
@@ -39,7 +46,9 @@ export function reviewReady(
     metrics.quality === (settings.low ? "low" : "standard") &&
     metrics.review?.clip === settings.clip &&
     metrics.review.count === settings.count &&
-    metrics.review.rotation === settings.rotation
+    metrics.review.rotation === settings.rotation &&
+    (metrics.review.assetId ?? "processor") ===
+      (settings.assetId ?? "processor")
   );
 }
 export function restoreReview(raw: string | null): {
@@ -71,6 +80,7 @@ export function restoreReview(raw: string | null): {
           clip: r.clip,
           count: r.count,
           rotation: r.rotation,
+          assetId: r.assetId,
         }),
     );
     return {
