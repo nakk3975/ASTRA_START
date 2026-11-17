@@ -369,6 +369,11 @@ body,
   color: #b5c0c4;
   margin-top: 5px;
 }
+.carry-version {
+  color: #b5c0c4;
+  font-size: 14px;
+  margin: -8px 0 18px;
+}
 .carry-lobby h1 {
   font-size: clamp(32px, 4vw, 59px);
   line-height: 1.07;

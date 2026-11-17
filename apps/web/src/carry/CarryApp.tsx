@@ -1,4 +1,5 @@
 import { WorkshopPanel, CharacterPicker } from "./WorkshopPanel";
+import { APP_VERSION } from "../../../../packages/carry-core/src/version.ts";
 import React, { useEffect, useRef, useState } from "react";
 import { CarryConnection } from "./network";
 import { CarryView, type Mode, type Settings } from "./view";
@@ -367,7 +368,9 @@ export default function CarryApp() {
     }
   }
   const member = net.current.session?.member ?? "",
-    me = hud?.players[member] ? net.current.movement.player(hud, member) : undefined,
+    me = hud?.players[member]
+      ? net.current.movement.player(hud, member)
+      : undefined,
     held = me?.hand ? hud?.items[me.hand] : null,
     stage = hud ? currentStage(hud) : -1,
     stageData = hud ? PROFILES[hud.profile].stages[stage] : null,
@@ -394,7 +397,8 @@ export default function CarryApp() {
       {!hud && (
         <div className="carry-lobby">
           <div className="carry-brand">
-            FROM SCRAP TO SPACE <span>CO-OP WORKSHOP / 01—06</span>
+            FROM SCRAP TO SPACE{" "}
+            <span>CO-OP WORKSHOP / 01—06 · v{APP_VERSION}</span>
           </div>
           <h1>
             고철에서
@@ -885,6 +889,7 @@ export default function CarryApp() {
                     ? "내 손으로 키우는 공방"
                     : "작업장 메뉴"}
             </h2>
+            <p className="carry-version">현재 버전 {APP_VERSION}</p>
             {modal === "help" ? (
               <>
                 <p>

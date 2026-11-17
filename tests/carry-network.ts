@@ -197,10 +197,19 @@ try {
     assert.deepEqual(stoppedPlayer.pos, stoppedAt);
     assert.equal(stoppedPlayer.input.x, 0);
     // A real socket action must wait for the remainder of its movement packet.
-    const action = { id: crypto.randomUUID(), seq: 1, type: "AVATAR", avatar: "worker-engineer" };
+    const action = {
+      id: crypto.randomUUID(),
+      seq: 1,
+      type: "AVATAR",
+      avatar: "worker-engineer",
+    };
     const beforeAction = {
-      x: 0, z: 0, epoch: movingEpoch, control: 3, actionAfter: 8,
-      frames: [5, 6].map(seq => ({ seq, dt: 0.05, x: 1, z: 0 })),
+      x: 0,
+      z: 0,
+      epoch: movingEpoch,
+      control: 3,
+      actionAfter: 8,
+      frames: [5, 6].map((seq) => ({ seq, dt: 0.05, x: 1, z: 0 })),
     };
     rooms[2].send("INPUT", beforeAction);
     rooms[2].send("COMMAND", action);
@@ -209,17 +218,25 @@ try {
       "partial action movement",
     );
     await delay(100);
-    assert.equal((await store.get(first.roomId))!.world.players[moving.member].lastSeq, 0);
+    assert.equal(
+      (await store.get(first.roomId))!.world.players[moving.member].lastSeq,
+      0,
+    );
     rooms[2].send("INPUT", {
       ...beforeAction,
-      frames: [7, 8].map(seq => ({ seq, dt: 0.05, x: 1, z: 0 })),
+      frames: [7, 8].map((seq) => ({ seq, dt: 0.05, x: 1, z: 0 })),
     });
     rooms[2].send("COMMAND", action);
     await until(
-      () => worlds.get(2)?.world.players[moving.member].avatar === "worker-engineer",
+      () =>
+        worlds.get(2)?.world.players[moving.member].avatar ===
+        "worker-engineer",
       "action after final movement frame",
     );
-    assert.equal((await store.get(first.roomId))!.world.players[moving.member].motion?.ack, 8);
+    assert.equal(
+      (await store.get(first.roomId))!.world.players[moving.member].motion?.ack,
+      8,
+    );
     await rooms[winner].leave();
     await until(
       () => worlds.get(5)?.world.items[item.id].state === "ground",

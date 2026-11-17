@@ -1,24 +1,38 @@
 {
-  "build": "3.1.2",
+  "version": "3.1.2",
   "dateKST": "2026-11-17",
-  "testedBeforeEnvironmentLoss": {
-    "unitTests": {
-      "passed": 103,
-      "failed": 0
-    },
-    "typecheck": "PASS",
-    "webBuild": "PASS",
-    "designValidation": "PASS",
-    "websocketClients": 6,
-    "postgresRestart": "PASS",
-    "actionAfterMovement": "PASS"
+  "unitTests": {
+    "total": 107,
+    "pass": 107,
+    "fail": 0
   },
-  "recoveredCommitRetested": false,
-  "siteDeployment": "NOT_COMPLETED_ENVIRONMENT_UNAVAILABLE",
-  "liveSiteVersion": 8,
-  "liveSiteBuild": "3.1.1",
-  "gpuValidation": "BLOCKED_WEBGL2_UNAVAILABLE",
-  "assetsChanged": false,
-  "balanceChanged": false,
-  "saveSchemaChanged": false
+  "designCheck": true,
+  "typescriptAndWebBuild": true,
+  "network": {
+    "pass": true,
+    "realClients": 6,
+    "transport": "Colyseus WebSocket",
+    "storage": "PostgreSQL",
+    "processRestart": true,
+    "movementActionBoundary": true
+  },
+  "collision": {
+    "renderHz": [
+      60,
+      144,
+      240,
+      360
+    ],
+    "scenarios": [
+      "ore corner",
+      "ramp ascent",
+      "ramp descent"
+    ],
+    "responseDelayMs": 300,
+    "releaseDriftAndConvergenceTolerance": 1e-07,
+    "pass": true
+  },
+  "gpuValidated": false,
+  "humanPlayFeelValidated": false,
+  "saveRule": "quarry-3.1.0"
 }

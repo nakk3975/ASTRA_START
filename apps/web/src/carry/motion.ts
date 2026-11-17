@@ -23,6 +23,7 @@ export class MotionSmoother {
   private sequence = 0;
   private sentSequence = 0;
   private pending: MoveFrame[] = [];
+  private tailOrigin: V3 | null = null;
   private sampledAt = 0;
   private lastReceived = 0;
   private frames: { at: number; time: number; players: Record<string, V3> }[] =
@@ -40,6 +41,7 @@ export class MotionSmoother {
       this.member = member;
       this.epoch = p.epoch;
       this.pending = [];
+      this.tailOrigin = null;
       this.sequence = p.motion?.ack ?? 0;
       this.sentSequence = this.sequence;
       this.position = { ...p.pos };
@@ -58,8 +60,11 @@ export class MotionSmoother {
       const ack = p.motion?.ack ?? 0;
       this.pending = this.pending.filter((f) => f.seq > ack);
       let predicted = { ...p.pos };
-      for (const frame of this.pending)
+      this.tailOrigin = null;
+      for (const frame of this.pending) {
+        this.tailOrigin = { ...predicted };
         predicted = movePosition(w, p, predicted, frame, frame.dt);
+      }
       this.position = predicted;
       this.offset = {
         x: displayed.x - predicted.x,
@@ -88,13 +93,17 @@ export class MotionSmoother {
     this.capture(now);
     this.input = { ...input };
     const length = Math.hypot(input.x, input.z);
-    if (length > 0)
-      this.facing = { x: input.x / length, z: input.z / length };
+    if (length > 0) this.facing = { x: input.x / length, z: input.z / length };
   }
   /** Display-only player for prompts/placement. Never send its position to authority. */
   player(w: World, member: string): Player {
     const p = w.players[member];
-    if (!this.position || this.room !== w.id || this.member !== member || this.epoch !== p.epoch)
+    if (
+      !this.position ||
+      this.room !== w.id ||
+      this.member !== member ||
+      this.epoch !== p.epoch
+    )
       return p;
     return {
       ...p,
@@ -140,15 +149,25 @@ export class MotionSmoother {
         tail.dt < 0.05 - 1e-6;
       if (!append && this.pending.length >= 90) break;
       const part = Math.min(append ? 0.05 - tail.dt : 0.05, dt);
-      if (append) tail.dt += part;
-      else this.pending.push({ seq: ++this.sequence, dt: part, ...this.input });
-      this.position = movePosition(w, p, this.position, this.input, part);
+      if (append && this.tailOrigin) {
+        tail.dt += part;
+        // Re-integrate the complete unsent interval, exactly as authority will.
+        // Integrating each render sample separately gives different wall slides.
+        this.position = movePosition(w, p, this.tailOrigin, tail, tail.dt);
+      } else {
+        this.tailOrigin = { ...this.position };
+        this.pending.push({ seq: ++this.sequence, dt: part, ...this.input });
+        this.position = movePosition(w, p, this.position, this.input, part);
+      }
       dt -= part;
     }
   }
   packet(now: number, through = Infinity) {
     this.capture(now);
-    const frames = this.pending.filter((f) => f.seq <= through).slice(0, 40).map((f) => ({ ...f }));
+    const frames = this.pending
+      .filter((f) => f.seq <= through)
+      .slice(0, 40)
+      .map((f) => ({ ...f }));
     this.sentSequence = Math.max(this.sentSequence, frames.at(-1)?.seq ?? 0);
     return frames;
   }

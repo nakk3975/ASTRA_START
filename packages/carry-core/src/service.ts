@@ -171,8 +171,12 @@ export class CarryService {
       if (command && !input)
         throw Error("행동에는 현재 접속 세대가 필요합니다.");
       if (input) {
-        if (input.actionAfter !== undefined &&
-            (!Number.isSafeInteger(input.actionAfter) || input.actionAfter < 0 || !input.frames))
+        if (
+          input.actionAfter !== undefined &&
+          (!Number.isSafeInteger(input.actionAfter) ||
+            input.actionAfter < 0 ||
+            !input.frames)
+        )
           throw Error("잘못된 행동 이동 순번");
         if (
           !Number.isFinite(input.x) ||
@@ -213,7 +217,11 @@ export class CarryService {
           for (const frame of input.frames) {
             if (frame.seq <= m.ack) continue;
             if (frame.seq !== m.ack + 1 || frame.dt > m.budget + 1e-8) break;
-            if (input.actionAfter !== undefined && frame.seq > input.actionAfter) break;
+            if (
+              input.actionAfter !== undefined &&
+              frame.seq > input.actionAfter
+            )
+              break;
             if (s.world.phase !== "LAUNCHED")
               p.pos = movePosition(s.world, p, p.pos, frame, frame.dt);
             // Released input may arrive first. Preserve the facing of the last
@@ -232,9 +240,12 @@ export class CarryService {
         } else if (!p.motion) setInput(s.world, member, input.x, input.z);
       }
       p.lastSeen = this.now();
-      if (command && input?.actionAfter !== undefined &&
-          (p.motion?.ack ?? 0) < input.actionAfter &&
-          !s.world.receipts[member]?.some((r) => r.id === command.id))
+      if (
+        command &&
+        input?.actionAfter !== undefined &&
+        (p.motion?.ack ?? 0) < input.actionAfter &&
+        !s.world.receipts[member]?.some((r) => r.id === command.id)
+      )
         return null;
       return command ? commandCarry(s.world, member, command) : null;
     });

@@ -3,6 +3,7 @@ import {
   type CarryStore,
   type Save,
 } from "../../packages/carry-core/src/service.ts";
+import { APP_VERSION } from "../../packages/carry-core/src/version.ts";
 type Statement = {
   bind(...args: unknown[]): Statement;
   first<T>(): Promise<T | null>;
@@ -70,7 +71,7 @@ export default {
       return json({
         ok: true,
         rules: "quarry-3.1.0",
-        build: "3.1.2",
+        build: APP_VERSION,
         transport: "http",
         storage: "D1",
       });

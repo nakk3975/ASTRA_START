@@ -438,7 +438,8 @@ export class CarryView {
   }
   recenter() {
     const p = this.world?.players[this.member]
-      ? this.motion.player(this.world, this.member) : null;
+      ? this.motion.player(this.world, this.member)
+      : null;
     if (p) this.anchor.set(p.pos.x, p.pos.y, p.pos.z);
   }
   private resize() {
@@ -884,7 +885,14 @@ export class CarryView {
         const reason =
           this.mode.kind === "machine"
             ? machinePlacementReason(w, local, x, z, this.mode.rotation)
-            : placementReason(w, local, this.mode.device, x, z, this.mode.rotation);
+            : placementReason(
+                w,
+                local,
+                this.mode.device,
+                x,
+                z,
+                this.mode.rotation,
+              );
         (
           (this.ghost.children[0] as T.Mesh).material as T.MeshStandardMaterial
         ).color.set(reason ? "#f47272" : "#06b6d4");

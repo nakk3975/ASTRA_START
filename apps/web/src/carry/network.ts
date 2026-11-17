@@ -40,7 +40,10 @@ export class CarryConnection {
   onAck = (r: Receipt) => {};
   timer?: ReturnType<typeof setInterval>;
   pending = new Map<string, Command>();
-  private actionBarriers = new Map<string, { seq: number; input: { x: number; z: number } }>();
+  private actionBarriers = new Map<
+    string,
+    { seq: number; input: { x: number; z: number } }
+  >();
   busy = false;
   stopped = true;
   generation = 0;

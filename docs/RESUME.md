@@ -1,12 +1,14 @@
-# 최신 개발 변경 — 3.1.2 / 배포 대기 (2026-11-17 KST)
+# 최신 변경 — 3.1.2 (2026-11-17 KST)
 
-GitHub 기존 개발 브랜치 `codex/resume-meshy-pilot-20261117`와 draft PR#1을 이어서 작업했다. 기존 사이트는 **v8 / 3.1.1**이며 이번 변경은 아직 배포하지 못했다. 실행 환경이 103개 단위시험·타입검사·빌드와 6개 실제 WS/PG 검증 후 배포 준비 도중 연결 해제됐다. 연결 가능한 GitHub 도구로 검증한 패치를 기존 8344ce756e22b3caf7678150feb3614ccb705a37 베이스에 재적용해 저장했다. 복구 커밋 자체는 재실행하지 못했으므로 다음 작업에서 반드시 npm run check, npm run test:carry:network 후 게시한다.
+이동 직후 E 대상·HUD·기계 패널·설치 고스트·C 재중앙은 MotionSmoother.player의 표시 위치/방향을 사용한다. 서버 좌표는 클라이언트 값으로 덮어쓰지 않는다. checkpoint로 행동 직전 이동을 봉인하고 actionBarriers/actionAfter로 해당 이동을 서버가 적용한 뒤 명령을 한 번 처리한다. 미적용 시 영수증·소비 없이 재시도하며 재접속 세대가 바뀌면 이전 barrier만 해제하고 명령 ID는 유지한다. 걷기 동작은 실제 표시 변위로 판정한다.
 
-변경: MotionSmoother.player로 E 대상/HUD/기계패널/설치 고스트/C 재중앙에 동일한 표시 위치와 방향을 사용. checkpoint로 행동 직전 이동 구간을 봉인. CarryConnection.actionBarriers와 MovePacket.actionAfter로 행동 이전 이동이 모두 적용된 뒤 명령을 한 번 처리하고, 행동 이후 이동은 ACK 뒤 전송. 일반 HTTP 요청 중에도 행동을 우선 전송. 재접속 시 이전 이동 barrier만 해제하고 동일한 명령 ID를 보존. 마지막 적용 이동 방향과 실제 표시 변위 기반 걷기 보정. 신규 회귀시험 6개, 실제 WS 시험의 분할 이동 후 행동 대기 추가.
+미전송 구간을 합칠 때 tailOrigin에서 전체 구간을 다시 적분해 서버와 같은 벽 충돌·미끄러짐 결과를 얻는다. 기존 벽 모서리 0.6~1.1cm 오차 사례와 경사로 상·하행을 60/144/240/360Hz + 300ms 응답 지연으로 검증: 정지 후 변위 및 최종 서버 오차 1e-7 미만. 모든 지형·통신 상황에 대한 보장은 아니다.
 
-docs/carry/INTERACTION_3_1_2.md가 이번 변경·검증·중단 상태의 기준이다. 저장 규칙 quarry-3.1.0, 자금/재료/레시피/광맥/모델은 유지. 신규 모델 생성 없음. 원격 브라우저 WebGL2 미지원으로 GPU 외관/FPS/사람의 체감은 미검증. 벽 주변 분할 적분에 약 0.6~1.1cm 잔여 표시 오차도 관측되어 모든 지형의 정확성을 완료했다고 말하지 않는다.
+package.json 버전 3.1.2를 공통 APP_VERSION으로 로비·메뉴·게시 서버 health에 반영. 저장 규칙 quarry-3.1.0 및 기존 자금/재료/레시피/광맥/모델 유지. 신규 모델 생성 없음.
 
-다음: GitHub 이 브랜치의 최신 코드를 기준으로 재검증하고, Sites v8 소스 위에 이번 변경만 병합한 뒤 helper로 push/package/deploy. Sites ID와 소유자 전용 범위 유지. main 미병합. 환경 중단 전 로컬 README wrapper 갱신은 GitHub 게임 루트 README와 다르므로 게시 체크아웃의 루트 README도 실제 Worker/D1 게임 설명으로 고친다.
+검증: npm run check(설계 검사·107개 테스트·TypeScript/Vite), npm run test:carry:network(6개 실제 WS 클라이언트·PostgreSQL, 분할 이동 뒤 행동·중복 제거·프로세스 재시작) 통과. 검증 보고 docs/carry/INTERACTION_3_1_2.md 및 evidence/interaction-verification.json. 원격 QA 브라우저 WebGL2 미지원으로 GPU 외관/FPS/사람의 체감은 미검증.
+
+배포 대상: 기존 소유자 전용 Site appgprj_6afbab1bae9c8191a78a6b95da2ba905 (https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site). 기존 GitHub draft PR #1에 소스 동기화; main 미병합. 실행 환경 단절은 복구되었다. 다음 작업자는 Site의 live 버전과 PR head를 조회해 이 소스의 게시 상태를 확인할 것. 화면 v3.1.2 및 /api/health의 build가 적용 버전을 표시한다.
 
 # 최신 변경 — 3.1.1 (2026-11-17 KST)
 
