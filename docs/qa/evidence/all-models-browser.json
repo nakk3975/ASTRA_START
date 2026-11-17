@@ -1,0 +1,9 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "observed": "26 selector options, rocket_engine preview complete=true naturalWidth=512, previous note preserved, retry button returns same error; movement and visual pass buttons disabled",
+  "webgl": false,
+  "reason": "WEBGL_UNAVAILABLE",
+  "detail": "Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Disabled, GL_RENDERER = Disabled, Sandboxed = yes, Optimus = no, AMD switchable = no, Reset notification strategy = 0x0000, ErrorMessage = BindToCurrentSequence failed: .",
+  "actual3DMovement": "BLOCKED",
+  "screenshot": "all-models-browser.jpg"
+}

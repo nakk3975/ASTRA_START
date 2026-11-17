@@ -1,0 +1,38 @@
+{
+  "version": "3.1.2",
+  "dateKST": "2026-11-17",
+  "unitTests": {
+    "total": 107,
+    "pass": 107,
+    "fail": 0
+  },
+  "designCheck": true,
+  "typescriptAndWebBuild": true,
+  "network": {
+    "pass": true,
+    "realClients": 6,
+    "transport": "Colyseus WebSocket",
+    "storage": "PostgreSQL",
+    "processRestart": true,
+    "movementActionBoundary": true
+  },
+  "collision": {
+    "renderHz": [
+      60,
+      144,
+      240,
+      360
+    ],
+    "scenarios": [
+      "ore corner",
+      "ramp ascent",
+      "ramp descent"
+    ],
+    "responseDelayMs": 300,
+    "releaseDriftAndConvergenceTolerance": 1e-07,
+    "pass": true
+  },
+  "gpuValidated": false,
+  "humanPlayFeelValidated": false,
+  "saveRule": "quarry-3.1.0"
+}

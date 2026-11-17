@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-17",
+  "url": "https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site",
+  "checks": [
+    "live Worker health",
+    "SPA assets served",
+    "29 models and four character choices served",
+    "D1 empty workshop, six-player 200 funds, selected human avatar and fixed goals",
+    "starter crate purchase, duplicate charge protection and physical placement",
+    "individual avatar change and skipped-upgrade rejection",
+    "six authenticated clients and authoritative movement",
+    "seventh player rejected",
+    "persisted session resumed"
+  ],
+  "pass": true,
+  "health": {
+    "ok": true,
+    "rules": "workshop-3.0.0",
+    "transport": "http",
+    "storage": "D1"
+  }
+}

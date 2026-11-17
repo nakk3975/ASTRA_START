@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-17",
+  "rules": "workshop-3.0.0",
+  "unitTests": 89,
+  "design": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "network": {
+    "pass": true,
+    "clients": 6,
+    "transport": "Colyseus WebSocket",
+    "storage": "PostgreSQL",
+    "checks": [
+      "movement",
+      "item race",
+      "seventh rejection",
+      "disconnect safe drop",
+      "restart preserves job and receipts"
+    ]
+  },
+  "ui": {
+    "viewport": [
+      1363,
+      936
+    ],
+    "checks": [
+      "4 avatar choices in lobby",
+      "fresh workshop 80 coins and no equipment",
+      "buy bench costs 40, gives one carried crate",
+      "full hands prevent repeat purchase",
+      "carry 2 through 8 and five speed research levels shown",
+      "independent four-vein research",
+      "player character change acknowledged and selected state updated"
+    ]
+  },
+  "limits": [
+    "Remote browser WebGL2 unavailable; no GPU render, FPS, skin deformation or real-time human multiplayer playtest verified.",
+    "Campaign evidence is one deterministic walking actor for each configured party size, not measured multiplayer completion time."
+  ]
+}

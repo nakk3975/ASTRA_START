@@ -1,0 +1,15 @@
+{
+  "method": "locally authored skeletal skin with anatomical region weights; not Meshy auto-rigging",
+  "source": "01a1e815-086f-759c-a2bd-1af4c0dc9057",
+  "height": 1.8,
+  "poseStyle": "relaxed",
+  "bones": 18,
+  "clips": [
+    "idle",
+    "locomotion",
+    "carry_locomotion",
+    "work_loop",
+    "celebrate"
+  ],
+  "visualReview": "SOURCE_THUMBNAIL_INSPECTED; ANIMATION_GPU_REVIEW_BLOCKED"
+}

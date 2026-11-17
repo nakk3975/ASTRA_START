@@ -1,0 +1,796 @@
+{
+  "status": "COMPLETE_FILES_VERIFIED_GAME_GPU_REVIEW_PENDING",
+  "generatedOn": "2026-11-17",
+  "purpose": "Replace four industrial-looking source bins with natural mineral outcrops; preserve the other 25 assets.",
+  "balanceBefore": 2399,
+  "expectedCredits": 60,
+  "geometryModel": "meshy-t2",
+  "textureModel": "meshy-7",
+  "textureResolution": "2k",
+  "enablePbr": true,
+  "noPaidReruns": true,
+  "assets": [
+    {
+      "id": "source_metal",
+      "deposit": "iron_deposit",
+      "nameKo": "철광석 광맥",
+      "targetPolycount": 800,
+      "prompt": "A natural iron ore deposit for a friendly low-poly outdoor mining game. One broad squat asymmetric rocky outcrop with a low sloping left shoulder and a taller rounded right boulder, a few small loose rocks at its foot. Simple chunky polygonal rock planes, soft beveled edges and deep natural cracks. Gray brown bedrock with broad rusty reddish iron veins exposed across the broken face. Organic irregular silhouette, directly resting on earth, about 1.8 meters wide and 1.2 meters high. Cozy miniature game art with readable broad surfaces. ONLY natural rock and ore. Absolutely no machinery, container, bin, tray, rim, frame, hopper, rails, pipes, workbench, ground tile, plinth, text, logo or character. Isolated complete asset.",
+      "texturePrompt": "Natural iron ore rock: warm gray and brown stone with broad rusty red iron oxide seams and scattered metallic dark iron flecks. Friendly low-poly casual game. Matte faceted rock, subtle cracks, simple broad readable color patches. No painted symbols, no manufactured surfaces, no containers, no metal frame.",
+      "previewRequestId": "8946bcbc-88a3-419b-878f-13476032b8c4",
+      "previewTaskId": "01a1e844-f839-737a-a7c8-153de9698626",
+      "refineRequestId": "632b3ca1-d99a-46c0-af98-11ef3a3be204",
+      "refineTaskId": "01a1e848-e100-73db-9735-816b2107211b",
+      "geometryReview": "PASS: distinct natural rock silhouette; no industrial container or machinery present.",
+      "status": "SUCCEEDED",
+      "costCredits": 15,
+      "texturedPreviewReview": "PASS: broad gray irregular rock cluster with visible red-orange seams. Seams are brighter than a realistic oxidized iron deposit, but distinct and readable. GLB emissive factor is [0,0,0].",
+      "previewImage": "docs/carry/quarry-iron_deposit-preview.png",
+      "sourceFile": "assets/source/quarries/iron_deposit/textured.glb",
+      "sourceSha256": "6e8aa0ff744e7c24715e109e9adb6ac8403ee38a87cf407c03032d98d7f9ab0f",
+      "sourceBytes": 7696416,
+      "shipping": {
+        "id": "source_metal",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_metal-lod0.09309ef3614e.glb",
+            "sha256": "09309ef3614ee70c5bcedf8b3079f35dfd0121ffdf906c7388c950abffa670b8",
+            "bytes": 70884,
+            "triangles": 752,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.6823099851608276,
+              0.9475370049476624
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_metal-lod1.7bb8aa768d99.glb",
+            "sha256": "7bb8aa768d996424b3983bcf2ee7cab1d1bd42d425a627db3b6355bfda9fc65a",
+            "bytes": 54588,
+            "triangles": 298,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9888729751110077,
+              0.6097509860992432,
+              0.8707549870014191
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "source_cable",
+      "deposit": "copper_deposit",
+      "nameKo": "구리 광맥",
+      "targetPolycount": 600,
+      "prompt": "A natural copper ore deposit for a friendly low-poly outdoor mining game. One narrow upright forked rocky crag, two unequal rounded rock teeth with a natural V-shaped split, several small chipped copper-bearing stones nestled at the foot. Simple chunky polygonal planes and soft bevels. Warm brown bedrock with large turquoise green mineral veins and a few exposed copper-orange patches. Clearly organic irregular silhouette, directly resting on earth, roughly 1.5 meters wide and 1.25 meters high. Cozy miniature quarry game style, broad readable surfaces. ONLY rock and mineral. No machinery, container, bin, tray, border, frame, hopper, rails, pipes, metal platform, workbench, ground tile, plinth, text, logo or character. Single complete asset.",
+      "texturePrompt": "Natural copper ore crag: earthy warm gray-brown stone with broad turquoise and malachite green mineral seams, warm orange copper flecks exposed in split faces. Friendly low-poly casual game, matte rock and restrained metallic glints, strong readable broad color patches. No paint, no machine parts, no containers.",
+      "previewRequestId": "91a391e9-1295-4cbd-9a76-481b6f328461",
+      "previewTaskId": "01a1e845-1d88-7214-a39e-4fdc31b3413e",
+      "refineRequestId": "c02f0fe7-f624-41c6-84bd-aa82688695c4",
+      "refineTaskId": "01a1e849-02c3-727f-be55-37cdca35d1d1",
+      "geometryReview": "PASS: distinct natural rock silhouette; no industrial container or machinery present.",
+      "status": "SUCCEEDED",
+      "costCredits": 15,
+      "texturedPreviewReview": "PASS: tall split brown crag with turquoise mineral seams. No tray, rim, machine or enclosing structure.",
+      "previewImage": "docs/carry/quarry-copper_deposit-preview.png",
+      "sourceFile": "assets/source/quarries/copper_deposit/textured.glb",
+      "sourceSha256": "d2ec1e5652f34ee98b56e4e172c9020c2a6a1240e6049677b708b80371a555c7",
+      "sourceBytes": 6970292,
+      "shipping": {
+        "id": "source_cable",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_cable-lod0.ba52f26fa4eb.glb",
+            "sha256": "ba52f26fa4eb4f194240baf16c9ae0bc83d9e418f8b3613d3e185bf8b7307671",
+            "bytes": 53708,
+            "triangles": 562,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.9643830060958862,
+              0.9879219830036163
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_cable-lod1.29b838b0ecdc.glb",
+            "sha256": "29b838b0ecdcab45075444b1b00759854734d45e19e2d876f2e1dd3fbd3b4b94",
+            "bytes": 41704,
+            "triangles": 282,
+            "simplification": "permissive-seam-collapse; visual-review-pending",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9618630111217499,
+              0.9441959857940674,
+              0.9746119976043701
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "source_plastic",
+      "deposit": "quartz_deposit",
+      "nameKo": "규석 광맥",
+      "targetPolycount": 800,
+      "prompt": "A natural quartz deposit for a friendly low-poly outdoor mining game. A low rounded beige bedrock mound with three large milky white quartz crystals emerging at different angles, one central short thick hexagonal crystal and two smaller tilted crystals. Broken creamy mineral faces and a few scattered pale chips form an irregular natural foot. Chunky low-poly geometry, softly beveled edges, opaque milky crystals, no glowing magic. Wider-than-tall readable silhouette, about 1.8 meters wide and 1.2 meters tall. Cozy warm outdoor miniature quarry art. ONLY natural rocks and crystals. No machinery, container, bin, tray, rim, frame, hopper, rail, pipe, workbench, tiled base, plinth, text, logo or character. Isolated single complete asset.",
+      "texturePrompt": "Natural quartz outcrop: warm beige and sand-colored rock enclosing chunky opaque milky-white quartz crystals, softly cool pale-gray crystal facets, slight warm highlights. Friendly simple low-poly casual game, broad clean color areas, natural mineral appearance. No transparent glass, no machinery, no containers, no brickwork.",
+      "previewRequestId": "d330f407-ae19-44d9-9298-61e6d3bfed01",
+      "previewTaskId": "01a1e845-4504-766b-9657-f6b23909d01c",
+      "refineRequestId": "77b331f6-d570-49d0-b5b6-90d1f6236b98",
+      "refineTaskId": "01a1e849-2cd3-75ef-98b0-c51c32e46def",
+      "geometryReview": "PASS: distinct natural rock silhouette; no industrial container or machinery present.",
+      "status": "SUCCEEDED",
+      "costCredits": 15,
+      "texturedPreviewReview": "PASS: pale beige bedrock and large opaque milky-white polygonal crystals. No box/container structure.",
+      "previewImage": "docs/carry/quarry-quartz_deposit-preview.png",
+      "sourceFile": "assets/source/quarries/quartz_deposit/textured.glb",
+      "sourceSha256": "ca759126bffa47932f48f32a23896890748964a2b23334fba9e46ee9949e34f9",
+      "sourceBytes": 5758028,
+      "shipping": {
+        "id": "source_plastic",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_plastic-lod0.cd2955f5683f.glb",
+            "sha256": "cd2955f5683fedba35e73e9f54280e023a61e2c6ddfaaa1c5b675695e121624a",
+            "bytes": 74080,
+            "triangles": 752,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.6577710211277008,
+              0.9916029870510101
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_plastic-lod1.7e1f20c9a734.glb",
+            "sha256": "7e1f20c9a734a9eb386d5283e31ec0c4d494c4a70aea40a49371be039b08c243",
+            "bytes": 55516,
+            "triangles": 278,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9263449907302856,
+              0.6487070024013519,
+              0.9559170007705688
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "source_energy",
+      "deposit": "coal_deposit",
+      "nameKo": "석탄 광맥",
+      "targetPolycount": 800,
+      "prompt": "A natural coal seam outcrop for a friendly low-poly outdoor mining game. A long low irregular pile of five chunky black coal blocks jutting from dark charcoal sedimentary rock. Broad angular broken faces, a layered sloping back and a shallow natural notch on the front. A few small coal chips at its foot, no enclosing structure. Matte charcoal and warm brown mineral surfaces with restrained dark gray highlights. Distinct low triangular mound silhouette, about 1.8 meters wide and 1 meter high. Simple cozy miniature quarry game art with large readable shapes and slightly rounded edges. ONLY natural rock and coal. No machine, container, bin, tray, rim, frame, hopper, rail, pipes, workbench, slab, plinth, text, logo or character. One complete asset.",
+      "texturePrompt": "Natural coal deposit: chunky charcoal black coal, distinct cool slate-gray fractured faces and dark-brown sedimentary stone at the low base. Friendly low-poly casual mining game, broad matte facets with subtle dull satin coal highlights, readable cracks. No metal, no machines, no crates, no manufactured platform.",
+      "previewRequestId": "e9222b30-3570-4c6e-bbc0-3d46afb93fc2",
+      "previewTaskId": "01a1e845-6a03-74bf-9884-f2b03fe44df9",
+      "refineRequestId": "9b05930c-b2e4-4db3-8a12-daf6a7111ca1",
+      "refineTaskId": "01a1e849-5048-77f7-9249-e6ed038ea060",
+      "geometryReview": "PASS: distinct natural rock silhouette; no industrial container or machinery present.",
+      "status": "SUCCEEDED",
+      "costCredits": 15,
+      "texturedPreviewReview": "PASS: low wide angular charcoal-black coal mound with scattered broken stone. No industrial base or bin.",
+      "previewImage": "docs/carry/quarry-coal_deposit-preview.png",
+      "sourceFile": "assets/source/quarries/coal_deposit/textured.glb",
+      "sourceSha256": "dc293294b01e927fdd9300475a13b1c08d237b793996fce3ee64c87850fa0b11",
+      "sourceBytes": 3694864,
+      "shipping": {
+        "id": "source_energy",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_energy-lod0.5523e9416ea8.glb",
+            "sha256": "5523e9416ea8b6a24b4054d384b571889c1f8fa951a1772b6703bcdaeddff079",
+            "bytes": 56544,
+            "triangles": 626,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.5872969925403595,
+              1
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_energy-lod1.d0ae4d67f7f3.glb",
+            "sha256": "d0ae4d67f7f3f6b9b6c8e9b873f8c7c0e260d620e926c850d59670f48530099f",
+            "bytes": 34548,
+            "triangles": 278,
+            "simplification": "permissive-seam-collapse; visual-review-pending",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.5870029926300049,
+              1
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      }
+    }
+  ],
+  "balanceAfter": 2339,
+  "actualCredits": 60,
+  "validationCommand": "node --import tsx --test tests/assets.test.ts tests/asset-loading.test.ts",
+  "validationResult": "8 passed, 0 failed; all 29 records and 58 active GLBs load and fit triangle/texture budgets.",
+  "gpuValidation": "Pending parent game review; these source previews are provider renders, not proof of shipped LOD appearance in WebGL.",
+  "fileValidation": {
+    "passed": true,
+    "manifestAssetCount": 29,
+    "unchangedOtherAssets": 25,
+    "results": [
+      {
+        "id": "source_metal",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_metal-lod0.09309ef3614e.glb",
+            "sha256": "09309ef3614ee70c5bcedf8b3079f35dfd0121ffdf906c7388c950abffa670b8",
+            "bytes": 70884,
+            "triangles": 752,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.6823099851608276,
+              0.9475370049476624
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_metal-lod1.7bb8aa768d99.glb",
+            "sha256": "7bb8aa768d996424b3983bcf2ee7cab1d1bd42d425a627db3b6355bfda9fc65a",
+            "bytes": 54588,
+            "triangles": 298,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9888729751110077,
+              0.6097509860992432,
+              0.8707549870014191
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      },
+      {
+        "id": "source_cable",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_cable-lod0.ba52f26fa4eb.glb",
+            "sha256": "ba52f26fa4eb4f194240baf16c9ae0bc83d9e418f8b3613d3e185bf8b7307671",
+            "bytes": 53708,
+            "triangles": 562,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.9643830060958862,
+              0.9879219830036163
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_cable-lod1.29b838b0ecdc.glb",
+            "sha256": "29b838b0ecdcab45075444b1b00759854734d45e19e2d876f2e1dd3fbd3b4b94",
+            "bytes": 41704,
+            "triangles": 282,
+            "simplification": "permissive-seam-collapse; visual-review-pending",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9618630111217499,
+              0.9441959857940674,
+              0.9746119976043701
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      },
+      {
+        "id": "source_plastic",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_plastic-lod0.cd2955f5683f.glb",
+            "sha256": "cd2955f5683fedba35e73e9f54280e023a61e2c6ddfaaa1c5b675695e121624a",
+            "bytes": 74080,
+            "triangles": 752,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.6577710211277008,
+              0.9916029870510101
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_plastic-lod1.7e1f20c9a734.glb",
+            "sha256": "7e1f20c9a734a9eb386d5283e31ec0c4d494c4a70aea40a49371be039b08c243",
+            "bytes": 55516,
+            "triangles": 278,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              0.9263449907302856,
+              0.6487070024013519,
+              0.9559170007705688
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      },
+      {
+        "id": "source_energy",
+        "lods": [
+          {
+            "level": 0,
+            "url": "/assets/visuals/1.1.0/source_energy-lod0.5523e9416ea8.glb",
+            "sha256": "5523e9416ea8b6a24b4054d384b571889c1f8fa951a1772b6703bcdaeddff079",
+            "bytes": 56544,
+            "triangles": 626,
+            "simplification": "standard",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.5872969925403595,
+              1
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          },
+          {
+            "level": 1,
+            "url": "/assets/visuals/1.1.0/source_energy-lod1.d0ae4d67f7f3.glb",
+            "sha256": "d0ae4d67f7f3f6b9b6c8e9b873f8c7c0e260d620e926c850d59670f48530099f",
+            "bytes": 34548,
+            "triangles": 278,
+            "simplification": "permissive-seam-collapse; visual-review-pending",
+            "materials": 1,
+            "textures": [
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              },
+              {
+                "size": [
+                  512,
+                  512
+                ],
+                "mime": "image/webp"
+              }
+            ],
+            "localMeshExtents": [
+              1,
+              0.5870029926300049,
+              1
+            ],
+            "animations": 0,
+            "skins": 0,
+            "finitePositions": true
+          }
+        ]
+      }
+    ],
+    "removedSupersededFiles": [
+      "/assets/visuals/1.1.0/source_cable-lod0.a55642255dac.glb",
+      "/assets/visuals/1.1.0/source_cable-lod1.6791b208a1b8.glb",
+      "/assets/visuals/1.1.0/source_energy-lod0.8cf5296831a0.glb",
+      "/assets/visuals/1.1.0/source_energy-lod1.6d4ababa412d.glb",
+      "/assets/visuals/1.1.0/source_metal-lod0.4734c52f6053.glb",
+      "/assets/visuals/1.1.0/source_metal-lod1.fc5208d5b78a.glb",
+      "/assets/visuals/1.1.0/source_plastic-lod0.66757f9818db.glb",
+      "/assets/visuals/1.1.0/source_plastic-lod1.92dfeb2edf48.glb"
+    ]
+  }
+}

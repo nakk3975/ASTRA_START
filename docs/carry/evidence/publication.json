@@ -1,0 +1,19 @@
+{
+  "id": "appgdep_6afbe4755d4c8191ae3300ab9f29e1be",
+  "project_id": "appgprj_6afbab1bae9c8191a78a6b95da2ba905",
+  "title": "고철로 우주까지 · 26종 모델과 이동 연습",
+  "version_id": "appgprj_6afbab1bae9c8191a78a6b95da2ba905~appgver_1239877e9f008191b9206c0a015c0fc7",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "release---6afbaba24a7481919ba29ab7bbdd61df",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-11-17T05:22:12.139970+00:00",
+  "source_commit": "73f711e0822d4591efc87b870451d2a025ad795e",
+  "access": "owner-only",
+  "productionSmoke": "PASS: D1/HTTP create, six players, movement, seventh rejected, resume; UI sign-in wall in cloud browser",
+  "gpuVisualReview": "BLOCKED"
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-17",
+  "version": 6,
+  "id": "appgdep_6afbf364496081919fc6f5cff6ea0e99",
+  "project_id": "appgprj_6afbab1bae9c8191a78a6b95da2ba905",
+  "title": "고철에서 우주까지 · 채굴과 협동 자동화",
+  "version_id": "appgprj_6afbab1bae9c8191a78a6b95da2ba905~appgver_c912d8e5d8508191a95f372956f7f540",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "release---6afbaba24a7481919ba29ab7bbdd61df",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-11-17T06:25:53.881677+00:00",
+  "source_commit": "f22f8c3e63e5dd947bf3100099bdb265ca5bccfa",
+  "checks": "See growth-production-smoke.json",
+  "audience": "owner-only preserved"
+}

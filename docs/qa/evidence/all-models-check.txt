@@ -1,0 +1,219 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 check
+> npm run verify:design && npm test && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 verify:design
+> cd design && python3 verify_design.py
+
+
+RUN validate_balance.py
+PASS C01_COUNTS 14 items, 10 recipes, 6 sequential milestones
+PASS C02_PARTY All party limits and manual concurrency support 1 through 6
+PASS C03_SCALING_SCOPE Only construction targets scale and the selected scale locks at game start
+PASS C04_PRODUCERS Every manufactured item has one producer and every other item has a source
+PASS C05_RECIPE_SCHEMA Valid recipe IDs, positive integer quantities and times: []
+PASS C06_ACYCLIC The full item graph is a DAG: []
+PASS C07_MILESTONE_REACHABLE Every milestone is manually reachable before its own unlock
+PASS C08_INVESTMENT_REACHABLE All machine and upgrade costs are reachable at unlock: []
+PASS C09_BOOTSTRAP Free protected manual workbench, initial power and unlimited deterministic raw sources
+PASS C10_RECIPE_RATES All displayed full-power output rates recompute exactly
+PASS C11_BATCH_CAPACITY Every recipe input and result batch fits the declared per-item buffers
+PASS C12_TRANSPORT_CAPACITY Max route takes 120 ticks; at least 3 flight slots needed, 4 provided
+PASS C13_INDEPENDENT_BOM Integer batch expansion matches independently recorded six-player-count BOM and rational lower costs
+PASS C14_MONOTONIC_COST Increasing planned player count never reduces a construction target total
+PASS C15_REFERENCE_POWER Each reference layout has enough supply for every eligible MK1 machine
+PASS C16_REFERENCE_SOURCE_PADS Reference source pads and processor assignments match machine counts
+PASS C17_REFERENCE_ENTITY_CAPS All reference layouts fit entity, solar and delivery link count caps
+PASS C18_ASSEMBLY Assembly duration and participant multipliers cover all six stages and counts
+PASS C19_FIXED_POINT 20 Hz integer work accumulation covers zero demand and partial-power boundaries
+PASS C20_REFUND_POLICY Empty-only exact-cost refund, local manual overflow enabled, no automated recovery logistics
+PASS C21_ROUNDING_REGRESSION 6-player direct wire goals round per milestone: 11+32+52=95, not ceil(36*2.6)=94
+RESULT True GROUPS 21 SHA256 c019a2ce37b4b1025395452972d0beb936a25d4570bcc9a25b39666a424d81b6
+
+RUN analyze_balance.py
+CHECKS {'recipe_DAG_acyclic': True, 'unique_item_producer': True, 'all_milestones_manual_reachable': True, 'all_machine_costs_reachable_at_unlock': True, 'all_reference_peak_power_sufficient': True, 'all_source_pad_caps_valid': True, 'all_six_scalings_positive_integer': True, 'all_recipe_ticks_integer_and_manual_ratio_exact': True}
+Bootstrap {'raw': {'metal_scrap': 48, 'cable_scrap': 4, 'plastic_scrap': 0, 'energy_shard': 0}, 'manual_craft_seconds': 354.0, 'baseline_gather_seconds_including_haul': 108.5, 'construct_and_transfer_allowance_seconds': 60, 'total_illustrative_seconds': 522.5}
+1 rocket {'metal_scrap': 980, 'cable_scrap': 106, 'plastic_scrap': 520, 'energy_shard': 200} with factory {'metal_scrap': 1600, 'cable_scrap': 189, 'plastic_scrap': 544, 'energy_shard': 200} power 37.0 38.0 production LB 40.0 adverse LB 66.67 gather team 80.07 95.53
+2 rocket {'metal_scrap': 1454, 'cable_scrap': 159, 'plastic_scrap': 766, 'energy_shard': 290} with factory {'metal_scrap': 2170, 'cable_scrap': 254, 'plastic_scrap': 790, 'energy_shard': 290} power 41.0 46.0 production LB 39.5 adverse LB 65.83 gather team 55.61 66.18
+3 rocket {'metal_scrap': 1792, 'cable_scrap': 196, 'plastic_scrap': 948, 'energy_shard': 360} with factory {'metal_scrap': 2624, 'cable_scrap': 304, 'plastic_scrap': 972, 'energy_shard': 360} power 48.0 54.0 production LB 43.73 adverse LB 72.89 gather team 45.04 53.68
+4 rocket {'metal_scrap': 2094, 'cable_scrap': 228, 'plastic_scrap': 1104, 'energy_shard': 420} with factory {'metal_scrap': 3046, 'cable_scrap': 354, 'plastic_scrap': 1136, 'energy_shard': 420} power 56.0 62.0 production LB 38.08 adverse LB 63.46 gather team 39.33 46.79
+5 rocket {'metal_scrap': 2340, 'cable_scrap': 254, 'plastic_scrap': 1234, 'energy_shard': 470} with factory {'metal_scrap': 3436, 'cable_scrap': 397, 'plastic_scrap': 1278, 'energy_shard': 470} power 65.0 70.0 production LB 42.95 adverse LB 71.58 gather team 35.36 42.12
+6 rocket {'metal_scrap': 2584, 'cable_scrap': 281, 'plastic_scrap': 1364, 'energy_shard': 520} with factory {'metal_scrap': 3688, 'cable_scrap': 426, 'plastic_scrap': 1408, 'energy_shard': 520} power 65.0 70.0 production LB 46.1 adverse LB 76.83 gather team 31.97 38.07
+
+RUN simulate_factory_schedule.py
+1 schedule 40.37 cap200 40.37 topup {'metal_scrap': 16.0, 'cable_scrap': 7.5, 'plastic_scrap': 8.0, 'energy_shard': 4.5} player_equiv 1.218 1.435
+2 schedule 40.53 cap200 40.53 topup {'metal_scrap': 36.0, 'cable_scrap': 7.5, 'plastic_scrap': 0, 'energy_shard': 4.5} player_equiv 1.565 1.855
+3 schedule 45.57 cap200 45.57 topup {'metal_scrap': 24.0, 'cable_scrap': 7.5, 'plastic_scrap': 16.0, 'energy_shard': 4.5} player_equiv 1.681 1.995
+4 schedule 42.57 cap200 42.57 topup {'metal_scrap': 44.0, 'cable_scrap': 7.5, 'plastic_scrap': 16.0, 'energy_shard': 9.0} player_equiv 2.503 2.965
+5 schedule 43.37 cap200 43.37 topup {'metal_scrap': 44.0, 'cable_scrap': 7.5, 'plastic_scrap': 4.0, 'energy_shard': 9.0} player_equiv 2.155 2.545
+6 schedule 46.47 cap200 46.47 topup {'metal_scrap': 44.0, 'cable_scrap': 7.5, 'plastic_scrap': 4.0, 'energy_shard': 9.0} player_equiv 2.155 2.545
+
+RUN analyze_automation.py
+1 upgrades 5 extra solar 2 power 47.0 54.0 cost {'metal_scrap': 224, 'cable_scrap': 18, 'plastic_scrap': 20, 'energy_shard': 0} lower 5.6 equiv ROI 6.54 selective 5 {'metal_scrap': 224, 'cable_scrap': 18, 'plastic_scrap': 20, 'energy_shard': 0}
+2 upgrades 6 extra solar 1 power 53.0 54.0 cost {'metal_scrap': 224, 'cable_scrap': 16, 'plastic_scrap': 24, 'energy_shard': 0} lower 3.73 equiv ROI 6.57 selective 4 {'metal_scrap': 160, 'cable_scrap': 12, 'plastic_scrap': 16, 'energy_shard': 0}
+3 upgrades 7 extra solar 1 power 62.0 62.0 cost {'metal_scrap': 256, 'cable_scrap': 18, 'plastic_scrap': 28, 'energy_shard': 0} lower 4.27 equiv ROI 5.43 selective 6 {'metal_scrap': 224, 'cable_scrap': 16, 'plastic_scrap': 24, 'energy_shard': 0}
+4 upgrades 8 extra solar 2 power 72.0 78.0 cost {'metal_scrap': 320, 'cable_scrap': 24, 'plastic_scrap': 32, 'energy_shard': 0} lower 4.0 equiv ROI 4.92 selective 8 {'metal_scrap': 320, 'cable_scrap': 24, 'plastic_scrap': 32, 'energy_shard': 0}
+5 upgrades 9 extra solar 2 power 83.0 86.0 cost {'metal_scrap': 352, 'cable_scrap': 26, 'plastic_scrap': 36, 'energy_shard': 0} lower 4.4 equiv ROI 6.4 selective 7 {'metal_scrap': 288, 'cable_scrap': 22, 'plastic_scrap': 28, 'energy_shard': 0}
+6 upgrades 9 extra solar 2 power 83.0 86.0 cost {'metal_scrap': 352, 'cable_scrap': 26, 'plastic_scrap': 36, 'energy_shard': 0} lower 4.4 equiv ROI 6.4 selective 7 {'metal_scrap': 288, 'cable_scrap': 22, 'plastic_scrap': 28, 'energy_shard': 0}
+
+RUN validate_map_v1.py
+{
+  "passed": true,
+  "checks": 446,
+  "failed": 0,
+  "scenarios": [
+    {
+      "scenario": "starting_world",
+      "solid_entities": 5,
+      "solid_cells": 46,
+      "walkable_cells": 1334,
+      "reachable_cells": 1334,
+      "required_service_targets": 46,
+      "unreachable_targets": []
+    },
+    {
+      "scenario": "six_player_reference",
+      "solid_entities": 39,
+      "solid_cells": 182,
+      "walkable_cells": 1198,
+      "reachable_cells": 1198,
+      "required_service_targets": 80,
+      "unreachable_targets": []
+    },
+    {
+      "scenario": "all_32_slots_and_all_12_extractors_geometry",
+      "solid_entities": 49,
+      "solid_cells": 222,
+      "walkable_cells": 1158,
+      "reachable_cells": 1158,
+      "required_service_targets": 90,
+      "unreachable_targets": []
+    }
+  ],
+  "errors": []
+}
+
+RUN validate_presentation.py
+PASS P01_ECONOMY_PRESERVED Economy canonical SHA-256 remains the accepted 1.0 design; presentation does not alter recipes or prices.
+PASS P02_VERSION_LINKS Protocol 2 and presentation/catalog references agree while economic content and map retain their versions.
+PASS P03_SINGLE_RENDERING_SOURCE Runtime names the presentation/catalog files and does not duplicate their DPR/FPS settings.
+PASS P04_FIXED_ORTHOGRAPHIC_CAMERA Orthographic orientation is fixed; CSS dimensions own framing, independent of DPR and panels.
+PASS P05_FRAMING_AND_CHARACTER_SIZE Three CSS reference viewports preserve at least 24px worker vertical height at the widest normal-play zoom.
+PASS P06_OVERVIEW_IS_EXPLICIT Full-map projection is intentionally too small for default interaction and is an explicit read-only view.
+PASS P07_SCREEN_MOVEMENT_BASIS Eight input directions retain their screen axes and never increase normalized movement speed.
+PASS P08_CANONICAL_FRONT_AND_QUARTER_TURNS Canonical -Z front with negative Y yaw matches north/east/south/west quarter turns.
+PASS P09_NEAR_FAR_WORLD_ENVELOPE Ground/world-height corners at permitted camera targets fit strictly inside the near/far planes.
+PASS P10_FOLLOW_AND_REDUCED_MOTION 15/30/60fps visible-frame time is fully integrated in bounded substeps; manual mode and explicit launch view are present. Comfort remains untested.
+PASS P11_EFFECTS_AND_OCCLUSION_SCOPE Camera/post effects are disabled and instance-local occlusion cannot change gameplay collision or interaction proxies.
+PASS P12_ASSET_IDENTITIES All 26 asset families have unique IDs and the pilot/model counts resolve.
+PASS P13_MODEL_BINDINGS Every machine/starter kind and source item resolves to a model with a compatible unlock.
+PASS P14_REQUIRED_CHARACTER_CLIPS Five semantic clips and required node aliases are specified; actual clip files and rig quality remain untested.
+PASS P15_NO_FABRICATED_GENERATION_OR_MEASUREMENTS All model tasks, release URLs, charges and measured fields remain absent; no asset or performance PASS is fabricated.
+PASS P16_LOD_MATERIAL_AND_TEXTURE_CAPS Triangle LOD targets, material slot caps and texture dimensions are explicit; actual GLB compliance is NOT_RUN.
+PASS P17_VISUAL_BOUNDS_AND_FLAT_SOURCES Model bounds agree across catalog and camera; shallow sources retain the existing walkable map policy.
+PASS P18_ROCKET_STAGE_REUSE Rocket reveal is cumulative: four fins/eight panels, with ground and flight roots separated.
+PASS P19_CONSERVATIVE_GEOMETRY_BOUND Independent cap arithmetic includes 192 airborne plus 6 carried pods: 339520 standard / 132248 low triangles. These are conditional bounds, not measured scenes.
+PASS P20_QUALITY_BUDGET_LINKS Catalog and presentation quality caps agree; draw calls/FPS/download/texture memory are targets, not measured results.
+PASS P21_DPR_PIXEL_CAP DPR cap formula bounds every reference viewport; 4K renders internally at 2560x1440 standard or 1365x768 low without changing CSS framing.
+PASS P22_SOURCE_TRAY_PLACEMENT All 24 declared shallow trays sit on exact manual anchors, stay within their service cells, and overlap no extractor pad; no new solid decoration is introduced.
+PRESENTATION DESIGN CHECKS PASSED GROUPS 22
+Actual models, performance, comfort and game acceptance remain NOT_RUN.
+
+DESIGN CHECKS PASSED. Runtime, multiplayer and playtest acceptance remains pending.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ the shipped manifest and all 52 LOD files pass the production cache path (540.016217ms)
+✔ a partial GLB 404 disposes staged models and a retry publishes the complete set (41.407839ms)
+✔ a stalled request is aborted and the next request can recover (13.594748ms)
+✔ a late decoder cannot replace the result of a successful retry (11.458639ms)
+✔ corrupt bytes and expired or external manifest paths are rejected before decode (10.545096ms)
+✔ all 26 catalog models have real GLBs within both LOD budgets (462.702288ms)
+✔ all five shipped worker clips move the actual rig and releasing one clone preserves another (288.656944ms)
+✔ six worker clones have independent bones and mixers (CPU, not GPU rendering) (90.35817ms)
+✔ screen direction is orthonormal and diagonal normalized (2.988535ms)
+✔ camera rests inside central deadzone, F preserves preference, manual pan stays detached (2.060861ms)
+✔ camera full visible dt, capped speed and acceleration, held/long frame reset (0.508475ms)
+✔ frustum uses CSS height and quality pixel caps are enforced at 4K (0.365148ms)
+✔ diagonal reversal never carries either ground axis away from its deadzone target (0.224108ms)
+✔ camera records applied velocity at bounds and rejects invalid frame intervals (0.421109ms)
+✔ socket join is not connection success until a compatible WELCOME and full state arrive (13.529215ms)
+✔ missing initial state times out, closes the socket, and ignores a late snapshot (25.751794ms)
+✔ a changed visual manifest rejects entry without STATE_READY (1.259719ms)
+✔ leaving during model decode cancels entry before a join ticket is requested (1.698583ms)
+✔ a socket that arrives after cancellation is closed without applying state (1.044308ms)
+✔ leaving cancels the pending reconnect delay without opening another socket (0.886512ms)
+✔ a manual connection cancels a stale reconnect even if its session request finishes late (1013.913873ms)
+✔ the reconnect deadline includes a stalled session request (1100.526507ms)
+✔ P0 content contracts and milestone rounding (3.728419ms)
+✔ P0 new world has no example factory or free inventory (0.825098ms)
+✔ gather requires service range, full capacity waits without creating output (46.132323ms)
+✔ six channels craft concurrently, output stays private and input escrow is conserved (116.919186ms)
+✔ last rocket units clamp, assembly is required and planned costs stay fixed (7.997ms)
+✔ full bag, warehouse and bench recover through local overflow stash (4.430504ms)
+✔ WIP cancel full input rejects atomically; stopped work preserves job (16.548913ms)
+✔ service distance is separate from delivery center (0.737959ms)
+✔ offline clock is frozen and runtime input expiry stops gather (0.725451ms)
+✔ source cursor alternates scarce cargo and destination reservations conserve stock (30.387404ms)
+✔ inbound reservation excludes the final capacity and cargo is not instantly delivered (53.841802ms)
+✔ automatic extractor generates raw material at configured cycle, output pauses at cap (1341.596874ms)
+✔ preview walking maps screen directions and keeps diagonal speed normalized (2.540527ms)
+✔ preview stops at the boundary and selected large model, without jumping after a hidden tab (0.358675ms)
+✔ changing the selected model cannot record stale review measurements (0.341849ms)
+✔ brief separated obstructions never inherit the previous entry timer (3.144346ms)
+✔ occlusion respects hold times, reduced motion and an instance's original transparency (1.677278ms)
+✔ fade is monotonic and disposing an occluded instance restores its material (0.518004ms)
+✔ off-center orthographic occlusion rays hit the screen-aligned blocker (8.248856ms)
+✔ silhouette uses the animated skeleton without stealing geometry ownership or ray hits (2.193596ms)
+✔ rocket delivery quarters restore deterministically without completing a stage or mutating economy (0.998086ms)
+✔ completed rocket has unique modules, exactly four fins and eight panels, with ground parts separated (0.448462ms)
+✔ review cannot record a stale frame after animation, count, orientation or quality changes (0.245751ms)
+✔ saved review restores records and notes while rejecting corrupt or unsupported records (0.585039ms)
+✔ T01 six actors compete for final shared item: one gain, five rejections (28.945158ms)
+✔ T02 simultaneous footprint claims pay once and rollback losing costs (17.255285ms)
+✔ R04 R05 extractor MK2 has 2x work/power, ordinary MK2 1.5x, duplicate denied (193.801554ms)
+✔ R07 actual inspections forbidden until M6 assembly and launch requires all three (15.813444ms)
+✔ R08 R17 vote/cancel/countdown never consumes more fuel and launched freezes (21.16631ms)
+✔ R15 R19 owner consent and deletion rights are distinct from leader (1.239516ms)
+✔ R16 manual pause survives last disconnect and rejoin (2.042982ms)
+✔ T24 reserved seat rejects newcomer but permits same guest; expired inventory recovers once (3.64746ms)
+✔ T15 work channel reclaim returns WIP to local bench crate once (2.343229ms)
+✔ R20 costs must come from carrier inventory; protected routes and crates block construction (4.650214ms)
+✔ T25 stale controller and future durable version rejected before economic changes (1.030693ms)
+✔ T29 strict input rejects role forgery, negative/nonfinite/fraction quantity and prototype keys (4.890625ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 58
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3812.731685
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> scrap-to-orbit@0.1.0 build
+> tsc --noEmit && vite build --config apps/web/vite.config.ts
+
+vite v8.3.8 building client environment for production...
+transforming...
+✓ 91 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/web/index.html                   0.43 kB │ gzip:   0.31 kB
+dist/web/assets/style-BJFtDTD_.css   27.15 kB │ gzip:   6.94 kB
+dist/web/assets/Pilot-WIg7iuTp.js     9.54 kB │ gzip:   4.20 kB
+dist/web/assets/index-DFqyEoqC.js   222.20 kB │ gzip:  69.80 kB
+dist/web/assets/App-OwHHi_NW.js     228.89 kB │ gzip:  71.79 kB
+dist/web/assets/style-dhDljsBK.js   766.61 kB │ gzip: 190.95 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 549ms

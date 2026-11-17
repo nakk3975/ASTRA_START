@@ -1,0 +1,52 @@
+{
+  "status": "SUCCEEDED",
+  "balanceBefore": 2444,
+  "balanceAfter": 2399,
+  "actualCredits": 45,
+  "rigMethod": "local-anatomical-skin-v1; locally authored 18 bones, five clips; no paid provider rig",
+  "visualReview": "All three provider source thumbnails inspected; actual GPU animation appearance remains pending",
+  "characters": [
+    {
+      "id": "worker-engineer",
+      "prompt": "One friendly adult human woman engineer for a cozy stylized cooperative workshop game. Warm East Asian facial features, gentle smile, short dark bob hair under a white construction hardhat, teal work overalls over cream long sleeves, tan sturdy boots, slim practical tool belt with no handheld objects. Chunky rounded proportions, slightly oversized head, normal healthy human skin and expressive eyes. Full body relaxed symmetric A pose: arms clearly separated 25 degrees from torso, straight legs slightly apart, empty open hands. Matte painted style, broad readable surfaces, one complete character, no scenery, no ground base, no text, no logo. Clean game-ready low-poly topology, character height 1.8 meters.",
+      "previewRequestId": "a1952b78-29f6-44f5-bb3a-a4a1ee949cbf",
+      "previewTaskId": "01a1e813-ba55-76f0-a1f2-88c89c19a047",
+      "textureRequestId": "19bafdb0-4392-40ee-bcb0-ca4b5cf81cc1",
+      "textureTaskId": "01a1e814-e5b3-7107-9b1e-ce30b4bdcab5",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "credits": 15,
+      "sourcePreview": "docs/carry/worker-engineer-preview.png",
+      "shippingPreview": "/assets/visuals/1.1.0/previews/worker-engineer.webp",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT"
+    },
+    {
+      "id": "worker-mechanic",
+      "prompt": "One friendly adult human man mechanic for a cozy stylized cooperative workshop game. Dark brown skin, rounded expressive face, clean shaven with short curly hair under an orange hardhat, broad stocky build, cobalt blue work overalls over a light gray shirt, yellow work gloves and dark brown boots. Normal healthy human appearance and gentle confident smile. Full body relaxed symmetric A pose: arms clearly separated 25 degrees from torso, straight legs slightly apart, empty hands. Chunky rounded proportions, slightly oversized head, matte surfaces, clear simple seams, no handheld tools, no scenery, no ground base, no text or logo. Clean game-ready low-poly topology, height 1.8 meters.",
+      "previewRequestId": "986ed44d-09cf-48f1-8c09-647138477fa4",
+      "previewTaskId": "01a1e813-dc43-71cc-9c4c-4cbeb182e7a1",
+      "textureRequestId": "663f3bd5-eaa9-4e8e-9fe0-1cda0e960cc0",
+      "textureTaskId": "01a1e815-086f-759c-a2bd-1af4c0dc9057",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "credits": 15,
+      "sourcePreview": "docs/carry/worker-mechanic-preview.png",
+      "shippingPreview": "/assets/visuals/1.1.0/previews/worker-mechanic.webp",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT"
+    },
+    {
+      "id": "worker-pilot",
+      "prompt": "One friendly adult human woman pilot and robotics specialist for a cozy stylized workshop space game. Warm tan skin, cheerful face, auburn hair tied in a short ponytail, cream aviation cap with goggles resting above the forehead, violet purple mechanic jumpsuit with cream shoulder panels and orange zipper details, dark plum boots, no helmet visor hiding face. Full body relaxed symmetric A pose with empty hands and arms clearly separated 25 degrees from torso, straight legs apart. Chunky rounded proportions, slightly oversized head, matte readable surfaces, healthy human skin, no zombie traits, no tools, no weapon, no scenery, no ground slab, no text, no logo. Low-poly game character, height 1.8 meters.",
+      "previewRequestId": "21436560-cad7-48bf-a134-d3c4a4db242a",
+      "previewTaskId": "01a1e813-feb3-7223-916e-692975b51252",
+      "textureRequestId": "46a9df6a-8734-46e6-8b96-10164c6f1301",
+      "textureTaskId": "01a1e815-2999-7100-a9c5-22b348b36e42",
+      "geometryModel": "meshy-t2.5",
+      "textureModel": "meshy-7",
+      "credits": 15,
+      "sourcePreview": "docs/carry/worker-pilot-preview.png",
+      "shippingPreview": "/assets/visuals/1.1.0/previews/worker-pilot.webp",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT"
+    }
+  ]
+}

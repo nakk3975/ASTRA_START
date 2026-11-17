@@ -1,0 +1,44 @@
+{
+  "pass": true,
+  "method": "single deterministic walking actor; no spawning, teleporting or inventory shortcuts",
+  "actors": 1,
+  "planned": 4,
+  "initialCoins": 0,
+  "initialBasicMachines": 1,
+  "unlockTimes": [
+    {
+      "kind": "cable_scrap",
+      "seconds": 1289,
+      "cost": 29
+    },
+    {
+      "kind": "plastic_scrap",
+      "seconds": 1716,
+      "cost": 66
+    },
+    {
+      "kind": "energy_shard",
+      "seconds": 3857,
+      "cost": 102
+    }
+  ],
+  "purchasePackReinstall": true,
+  "starterAtSeconds": 0,
+  "extraSales": 12,
+  "coinsAtLaunch": 2180,
+  "xpAtLaunch": 832,
+  "firstInstallSeconds": 75,
+  "firstAutomationKitSeconds": 772,
+  "completionSeconds": 6682,
+  "walkingSeconds": 5748,
+  "stageCompletionSeconds": [
+    763,
+    2390,
+    3857,
+    4281,
+    5571,
+    6681
+  ],
+  "commands": 1173,
+  "installed": 39
+}

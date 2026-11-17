@@ -1,0 +1,8 @@
+{
+  "method": "60Hz deterministic CPU movement with 100–230ms one-way jitter; no GPU FPS claim",
+  "oldStepVariation": 0.6952647487280869,
+  "newStepVariation": 0.016272591731752786,
+  "maxPredictedStep": 0.060195169996172915,
+  "minPredictedStep": 0.05651184859555336,
+  "frames": 180
+}

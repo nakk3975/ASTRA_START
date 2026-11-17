@@ -1,0 +1,5 @@
+2026-11-17 KST
+npm run check: PASS; design verification, 78 tests, TypeScript, Vite production build
+npm run test:carry:network: PASS; six real WebSocket clients + PostgreSQL restart
+npm run test:carry:campaign: PASS; deterministic walking actor, 2420 simulated seconds
+GPU render / actual animation appearance / FPS: BLOCKED; cloud GL_VENDOR=Disabled, GL_RENDERER=Disabled

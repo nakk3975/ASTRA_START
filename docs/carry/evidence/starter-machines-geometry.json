@@ -1,0 +1,66 @@
+{
+  "pass": true,
+  "liveWebGL": false,
+  "models": [
+    {
+      "kind": "bench",
+      "size": [
+        2.0999999046325684,
+        1.4300000727176667,
+        1.4199999570846558
+      ],
+      "materialBatches": 3,
+      "triangles": 236
+    },
+    {
+      "kind": "processor",
+      "size": [
+        1.9950000643730164,
+        2.06500005453825,
+        1.475000023841858
+      ],
+      "materialBatches": 6,
+      "triangles": 228
+    },
+    {
+      "kind": "fabricator",
+      "size": [
+        2.0999999046325684,
+        2.0150000929832457,
+        1.4199999570846558
+      ],
+      "materialBatches": 4,
+      "triangles": 516
+    },
+    {
+      "kind": "refinery",
+      "size": [
+        1.4600000381469727,
+        1.9199999570846558,
+        1.4399999976158142
+      ],
+      "materialBatches": 4,
+      "triangles": 372
+    },
+    {
+      "kind": "assembler",
+      "size": [
+        2.0999999046325684,
+        1.3150000715255734,
+        1.6699999570846558
+      ],
+      "materialBatches": 4,
+      "triangles": 516
+    },
+    {
+      "kind": "workbench",
+      "size": [
+        2.0999999046325684,
+        1.7999999582767487,
+        1.4199999570846558
+      ],
+      "materialBatches": 3,
+      "triangles": 288
+    }
+  ]
+}

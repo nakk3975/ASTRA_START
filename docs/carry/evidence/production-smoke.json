@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-17",
+  "url": "https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site",
+  "checks": [
+    "live Worker health",
+    "SPA assets served",
+    "shipping model manifest served",
+    "D1 create and fixed six-player goals",
+    "six authenticated clients and authoritative movement",
+    "seventh player rejected",
+    "persisted session resumed"
+  ],
+  "pass": true,
+  "health": {
+    "ok": true,
+    "rules": "mining-2.1.0",
+    "transport": "http",
+    "storage": "D1"
+  }
+}

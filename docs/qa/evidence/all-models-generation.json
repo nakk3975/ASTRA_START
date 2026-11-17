@@ -1,0 +1,212 @@
+{
+  "dateKst": "2026-11-17",
+  "authorization": "Explicit current user request to generate the remaining models",
+  "status": "23_SUCCEEDED_26_INTEGRATED_GPU_REVIEW_BLOCKED",
+  "balanceBefore": 3011,
+  "balanceAfter": 2459,
+  "newCreditsSpent": 552,
+  "totalCreditsIncludingPilot": 641,
+  "modelCount": 26,
+  "lodFileCount": 52,
+  "lodBytes": 6680432,
+  "models": [
+    {
+      "id": "workbench",
+      "taskId": "01a1e74e-92f9-7599-b44b-7452768589a5",
+      "imageTaskId": "01a1e74a-464a-7619-a489-6c5d991790da",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "warehouse",
+      "taskId": "01a1e74e-b63d-7562-8011-a8629665906c",
+      "imageTaskId": "01a1e74a-5f69-75db-b453-8bd5139a73d6",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "recovery_vault",
+      "taskId": "01a1e74e-d110-774c-a94d-26878ad359ea",
+      "imageTaskId": "01a1e74a-7778-7370-87ba-aa776a00eeb8",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "starter_generator",
+      "taskId": "01a1e74e-ed2b-7323-a7ea-3271a5cc3295",
+      "imageTaskId": "01a1e74a-8f16-71b4-a3b7-940971057709",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "fabricator",
+      "taskId": "01a1e74f-096d-7024-a756-59b92976d922",
+      "imageTaskId": "01a1e74a-a6ec-771d-b05b-2992481e4f4d",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "refinery",
+      "taskId": "01a1e753-ceef-762d-85cf-a8c92144087c",
+      "imageTaskId": "01a1e74b-0aee-700e-86c8-16fd5cb32f42",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "assembler",
+      "taskId": "01a1e753-ec1e-76f8-b119-9f96ad44c75b",
+      "imageTaskId": "01a1e74b-21e8-73ac-a687-a0dac80006a6",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "extractor",
+      "taskId": "01a1e754-0bb3-7792-8332-0ece8adc9bf2",
+      "imageTaskId": "01a1e74b-3c1d-761f-b505-fe07a7238d79",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "solar_array",
+      "taskId": "01a1e754-2a28-7778-864f-3d3bf140c802",
+      "imageTaskId": "01a1e74b-54eb-7226-9ecf-9090c2235691",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "logistics_hub",
+      "taskId": "01a1e754-4982-72e6-bb1c-f121a2f7bffe",
+      "imageTaskId": "01a1e74b-6ed4-7764-a2c5-995175f6412c",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "cargo_pod",
+      "taskId": "01a1e754-6707-7636-b0af-7a5b5861ca1e",
+      "imageTaskId": "01a1e74d-5392-7080-b1e5-e8b97c96612c",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "recovery_crate",
+      "taskId": "01a1e754-bb44-707f-b3f7-8adbe82ec91f",
+      "imageTaskId": "01a1e74d-6936-7091-acda-bac6a8192535",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "source_metal",
+      "taskId": "01a1e754-d9ae-74bd-a2c2-fe59739c9b2d",
+      "imageTaskId": "01a1e74d-7f6a-73df-bdfb-715fbe0e6019",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "source_cable",
+      "taskId": "01a1e754-f637-77a3-98d1-ffe2485a163e",
+      "imageTaskId": "01a1e74d-95da-774e-adcc-def119809bee",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "source_plastic",
+      "taskId": "01a1e755-1384-7517-8bad-7d7eddb04486",
+      "imageTaskId": "01a1e74d-ab7a-7620-a9bf-92ac6435fdd7",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "source_energy",
+      "taskId": "01a1e755-30dd-747e-8a94-1625664f14c0",
+      "imageTaskId": "01a1e74d-e0b1-76d8-b298-0cda9b27669b",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_pad",
+      "taskId": "01a1e755-4ed5-7706-8733-b3cc16eb8c05",
+      "imageTaskId": "01a1e74d-f70b-71ee-aec6-dbd230366051",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_gantry",
+      "taskId": "01a1e756-1205-7349-a81f-ce77b8f7d0f4",
+      "imageTaskId": "01a1e74e-0cbd-76a2-bbb0-c235cfdf176b",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_upper_hull",
+      "taskId": "01a1e756-2f6b-73e7-835b-d7fdbee34a8d",
+      "imageTaskId": "01a1e74e-24a3-74e7-9e26-d424c656d7d0",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_engine",
+      "taskId": "01a1e756-4c71-7760-b18b-dc0061c084d0",
+      "imageTaskId": "01a1e74e-3aa9-7055-afc6-d0c1590962f6",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_nose",
+      "taskId": "01a1e756-692f-7004-b6b4-26a464740460",
+      "imageTaskId": "01a1e74f-2872-724a-82d0-0d6b6aef165c",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_fin",
+      "taskId": "01a1e756-8980-72f2-be56-c07ae2d9376b",
+      "imageTaskId": "01a1e74f-3f7b-7422-9105-2206c614cd52",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    },
+    {
+      "id": "rocket_panel",
+      "taskId": "01a1e756-a61a-764a-9115-7ccc9121f333",
+      "imageTaskId": "01a1e74f-55f9-77b7-a33a-b5ef4b15df8e",
+      "license": "UNVERIFIED_PROVIDER_FIELD_ABSENT",
+      "geometry": "meshy-t2.5",
+      "sourceCreditCost": 24
+    }
+  ],
+  "visualReview": "NOT_RUN: remote GL_VENDOR/GL_RENDERER Disabled",
+  "localSeamSimplification": [
+    "cargo_pod",
+    "recovery_crate",
+    "rocket_fin",
+    "rocket_panel",
+    "solar_array",
+    "source_cable",
+    "source_energy",
+    "source_metal",
+    "source_plastic",
+    "starter_generator",
+    "warehouse"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "executedAt": "2026-11-16T15:33:18Z",
+  "status": "BLOCKED",
+  "browser": "managed cloud Chrome",
+  "url": "http://127.0.0.1:4173/",
+  "error": "THREE.WebGLRenderer: Error creating WebGL context; GL_VENDOR=Disabled; GL_RENDERER=Disabled",
+  "actualGpuScreenshots": 0,
+  "pilotGatePassed": false,
+  "remainingModelsGenerated": false,
+  "requiredViewportCssSizes": [
+    [
+      1366,
+      768
+    ],
+    [
+      3840,
+      2160
+    ],
+    [
+      800,
+      360
+    ]
+  ],
+  "offlineRender": "pilot-offline-render.png is Blender CPU asset inspection, not an in-game screenshot."
+}

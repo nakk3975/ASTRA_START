@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "method": "single deterministic walking actor; no spawning, teleporting or inventory shortcuts",
+  "actors": 1,
+  "planned": 1,
+  "starterAtSeconds": 1,
+  "extraSales": 2,
+  "coinsAtLaunch": 997,
+  "xpAtLaunch": 327,
+  "firstInstallSeconds": 78,
+  "firstAutomationKitSeconds": 422,
+  "completionSeconds": 2586,
+  "walkingSeconds": 2279,
+  "stageCompletionSeconds": [
+    332,
+    728,
+    1460,
+    1628,
+    2138,
+    2585
+  ],
+  "commands": 476,
+  "installed": 16
+}

@@ -1,0 +1,54 @@
+{
+  "version": "3.4.0",
+  "date": "2026-11-18 KST",
+  "unitTests": 135,
+  "typecheck": "PASS",
+  "webBuild": "PASS",
+  "design": "PASS",
+  "rocketCleanupCycles": 80,
+  "actualRigVariants": 4,
+  "rigLods": 2,
+  "networkClients": 6,
+  "networkStorage": "PostgreSQL",
+  "campaigns": [
+    {
+      "planned": 1,
+      "pass": true,
+      "manualRecipeCommands": 0,
+      "installed": 16,
+      "sales": 0,
+      "coinsAtLaunch": 49
+    },
+    {
+      "planned": 2,
+      "pass": true,
+      "manualRecipeCommands": 0,
+      "installed": 24,
+      "sales": 0,
+      "coinsAtLaunch": 76
+    },
+    {
+      "planned": 4,
+      "pass": true,
+      "manualRecipeCommands": 0,
+      "installed": 39,
+      "sales": 0,
+      "coinsAtLaunch": 131
+    },
+    {
+      "planned": 6,
+      "pass": true,
+      "manualRecipeCommands": 0,
+      "installed": 47,
+      "sales": 0,
+      "coinsAtLaunch": 158
+    }
+  ],
+  "browser": {
+    "version": "3.4.0",
+    "newRoom": "PASS",
+    "restartKeepsHUD": "PASS",
+    "gpu": "UNVERIFIED: WebGL2 unavailable"
+  },
+  "scope": "Automated CPU/authority/network checks; no claim of GPU FPS or human motion quality"
+}

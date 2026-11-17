@@ -1,0 +1,9 @@
+{
+  "pass": true,
+  "method": "full CarryService HTTP replay with 70–190ms request and 60–180ms response jitter, out-of-order messages, three start/stop periods and reversal",
+  "frames": 301,
+  "maxReleaseDrift": 0,
+  "maxFrameStep": 0.05833333333333535,
+  "finalPositionError": 3.1086244689504383e-15,
+  "gpu": false
+}

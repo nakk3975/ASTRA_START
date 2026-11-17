@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-17",
+  "unitTests": {
+    "passed": 46,
+    "failed": 0,
+    "scope": "CPU and mocked I/O regression; shipped six GLB bytes and production manifest path"
+  },
+  "build": {
+    "game": "PASS",
+    "standaloneReview": "PASS"
+  },
+  "commitRecovery": "PASS_REAL_POSTGRESQL_CLIENT_ERROR_INJECTION",
+  "browser": {
+    "webgl": false,
+    "renderStatus": "BLOCKED",
+    "retry": "Same WebGL context error after explicit retry",
+    "entry": "Created dev room and reached lobby after actual GLTF loading, WELCOME and initial state",
+    "visualAcceptance": "NOT_RUN",
+    "start": "Reached RUNNING M1 after ready/start",
+    "reconnect": "Reloaded, selected recent room, returned to same M1 room with durable version advancing",
+    "deployedReview": "Site deployment succeeded; cloud browser reached private ChatGPT login gate, authenticated production rendering not inspected"
+  },
+  "priorSixClientRun": {
+    "evidence": "network-full-runs.json",
+    "status": "PASS",
+    "completedAt": "2026-11-16T16:37:01.060Z",
+    "rerunThisTurn": false
+  },
+  "remainingModels": 23,
+  "additionalMeshyGenerationCredits": 0,
+  "reviewURL": "https://scrap-to-orbit-model-review.dsfs3975.chatgpt.site"
+}
